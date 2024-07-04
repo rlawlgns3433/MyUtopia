@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
+using DG.Tweening;
 
 public class AnimalController : MonoBehaviour
 {
-    public AnimalStat animalStat;
-    //public Animator animator;
+    public Animal animalStat;
+    private AnimalClick animalClick;
     private NavMeshAgent agent;
-    public Transform[] waypoints;
-    private Transform targetWaypoint;
     private Node behaviorTreeRoot;
     private bool destinationSet;
+    public float range = 10.0f;
 
     public bool DestinationSet
     {
@@ -45,8 +45,11 @@ public class AnimalController : MonoBehaviour
 
     private void Awake()
     {
+        animalClick = GetComponent<AnimalClick>();
         agent = GetComponent<NavMeshAgent>();
         InitializeBehaviorTree();
+        animalClick.clickEvent += Bump;
+        Debug.Log($"{animalStat} : {gameObject.name}");
     }
 
     private void InitializeBehaviorTree()
@@ -64,27 +67,23 @@ public class AnimalController : MonoBehaviour
         behaviorTreeRoot.Execute();
     }
 
-    public void SetDestination(Transform destination)
+
+
+    public void SetDestination(Vector3 destination)
     {
         if (transform == null)
             return;
-        targetWaypoint = destination;
+
         agent.isStopped = false;
-        agent.destination = targetWaypoint.position;
+        agent.destination = destination;
     }
 
-    public void SetDestination(int index)
-    {
-        if (waypoints[index] == null)
-            return;
-
-        SetDestination(waypoints[index]);
-    }
 
     public void RandomDestination()
     {
         DestinationSet = true;
-        SetDestination(Random.Range(0, waypoints.Length));
+        SetDestination(range, out var result);
+        SetDestination(result);
     }
 
     public void Idle()
@@ -104,4 +103,52 @@ public class AnimalController : MonoBehaviour
         agent.isStopped = false;
         agent.speed = animalStat.runSpeed;
     }
+
+    private void Bump()
+    {
+        transform.DOScale(new Vector3(2f, 2f, 2f), 0.3f).OnComplete(() =>
+        {
+            transform.DOScale(new Vector3(1f, 1f, 1f), 0.3f);
+        });
+    }
+
+    bool SetDestination(float range, out Vector3 result)
+    {
+        for (int i = 0; i < 30; i++)
+        {
+            Vector3 randomPoint = transform.position + Random.insideUnitSphere * range;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 4.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
+        }
+        result = Vector3.zero;
+        return false;
+    }
+
+    //public void SetDestination(Transform destination)
+    //{
+    //    if (transform == null)
+    //        return;
+    //    targetWaypoint = destination;
+    //    agent.isStopped = false;
+    //    agent.destination = targetWaypoint.position;
+    //}
+
+    //public void SetDestination(int index)
+    //{
+    //    if (waypoints[index] == null)
+    //        return;
+
+    //    SetDestination(waypoints[index]);
+    //}
+
+    //public void RandomDestination()
+    //{
+    //    DestinationSet = true;
+    //    SetDestination(Random.Range(0, waypoints.Length));
+    //}
+
 }
