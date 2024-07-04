@@ -382,6 +382,37 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: -0.00051536574, z: 0.0049812323}
     m_Extent: {x: 0.0056987535, y: 0.0071087843, z: 0.0049722395}
   m_DirtyAABB: 0
+--- !u!1 &4812051702049171915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7337086888929450118}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7337086888929450118
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4812051702049171915}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.077, z: -2.985}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 637208260208652171}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7114477780301602097
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,6 +739,8 @@ GameObject:
   - component: {fileID: 8073476868729617362}
   - component: {fileID: 7187183124994428919}
   - component: {fileID: 6883064836063760565}
+  - component: {fileID: 1446972816066996658}
+  - component: {fileID: 529648861877455676}
   m_Layer: 0
   m_Name: Hamster
   m_TagString: Untagged
@@ -733,6 +766,7 @@ Transform:
   - {fileID: 6336593757609881741}
   - {fileID: 8380090088466247294}
   - {fileID: 8966451274470607078}
+  - {fileID: 7337086888929450118}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!205 &1751794952228506275
@@ -801,7 +835,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -821,9 +855,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d05e2e8fdd307748b9b8f12cefc2bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animalStat: {fileID: 11400000, guid: 694366931190bf34c88bcfc5ac68b248, type: 2}
+  animalStat: {fileID: 11400000, guid: 607e63bc90398fb45b8da62e734ef997, type: 2}
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!135 &1446972816066996658
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198391562701645775}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.4
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &529648861877455676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198391562701645775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2202eab06883c6442be4f7a21b528565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFocused: 0
