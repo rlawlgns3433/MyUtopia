@@ -7,14 +7,29 @@ public static class DataTableMgr
     static DataTableMgr()
     {
 
-        DataTable table = new StringTable();
-        table.Load(DataTableIds.String[(int)Vars.currentLang]);
-        tables.Add(DataTableIds.String[(int)Vars.currentLang], table);
+        DataTable stringTable = new StringTable();
+        stringTable.Load(DataTableIds.String[(int)Vars.currentLang]);
+        tables.Add(DataTableIds.String[(int)Vars.currentLang], stringTable);
+
+        // 테이블 완료 시 주석 해제
+        //DataTable floorTable = new FloorTable();
+        //floorTable.Load(DataTableIds.Floor);
+        //tables.Add(DataTableIds.Floor, floorTable);
+
+        // 테이블 완료 시 주석 해제
+        //DataTable animalTable = new AnimalTable();
+        //animalTable.Load(DataTableIds.Animal);
+        //tables.Add(DataTableIds.Animal, animalTable);
     }
 
     public static StringTable GetStringTable()
     {
         return Get<StringTable>(DataTableIds.String[(int)Vars.currentLang]);
+    }
+
+    public static AnimalTable GetAnimalTable()
+    {
+        return Get<AnimalTable>(DataTableIds.Animal);
     }
 
     public static T Get<T>(string id) where T : DataTable

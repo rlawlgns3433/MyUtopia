@@ -7,6 +7,9 @@ public static class DataTableIds
         "StringTableJp"
     };
 
+    public static readonly string Floor = "FloorTable";
+    public static readonly string Animal = "AnimalTable";
+
     public static string CurrString
     {
         get
@@ -43,7 +46,8 @@ public static class Layers
 
 public enum AnimalType
 {
-
+    OnFoot,
+    Wing
 }
 
 public enum Languages

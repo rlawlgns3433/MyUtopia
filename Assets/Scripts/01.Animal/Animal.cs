@@ -31,21 +31,6 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
     [SerializeField]
     private AnimalType type;
     public AnimalType Type { get => type; set => type = value; }
-    //[SerializeField]
-    //private bool isFocused = false;
-    //public bool IsFocused
-    //{
-    //    get
-    //    {
-    //        clickEvent?.Invoke();
-    //        return isFocused;
-    //    }
-
-    //    set
-    //    {
-    //        isFocused = value;
-    //    }
-    //}
 
     [SerializeField]
     private string coinForSale;
@@ -124,6 +109,21 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
     {
         return $"current level : {CurrentLevel}\nmax level : {MaxLevel}\ncoin for sale : {CoinForSale}\nStamina : {Stamina}\nAutoHarvesting : {AutoHarvesting}";
     }
+    //[SerializeField]
+    //private bool isClicked = false;
+    //public bool IsClicked
+    //{
+    //    get
+    //    {
+    //        clickEvent?.Invoke();
+    //        return isClicked;
+    //    }
+
+    //    set
+    //    {
+    //        isClicked = value;
+    //    }
+    //}
 
     //public void OnPointerClick(PointerEventData eventData)
     //{
