@@ -2,7 +2,7 @@ using System.Numerics;
 
 public interface ISaleable
 {
-    public BigInteger coinForSale { get; set; }
+    public BigInteger CoinForSale { get; set; }
 
     public void Sale();
 }

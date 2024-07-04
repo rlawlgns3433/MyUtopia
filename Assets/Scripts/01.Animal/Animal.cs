@@ -1,34 +1,107 @@
 using System;
 using System.Numerics;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
-public abstract class Animal : IGrowable, IMergable, IClickable, ISaleable, IConductable
+[CreateAssetMenu(fileName = "Animal", menuName = "Animal/Animal")]
+public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
 {
-    public int CurrentLevel { get; set; }
-    public int MaxLevel { get; set; }
-    public BigInteger CostForLevelUp { get; set; }
-    public int Grade { get; set; }
-
-    public AnimalType Type { get; set; }
-    private bool isFocused = false;
-    public bool IsFocused
+    [SerializeField]
+    private int currentLevel;
+    public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
+    [SerializeField]
+    private int maxLevel;
+    public int MaxLevel { get => maxLevel; set => maxLevel = value; }
+    [SerializeField]
+    private string costForLevelUp;
+    public BigInteger CostForLevelUp
     {
         get
         {
-            clickEvent?.Invoke();
-            return isFocused;
+            return costForLevelUp.ToBigInteger();
         }
-
         set
         {
-            isFocused = value;
+            costForLevelUp = value.FormatBigInteger();
         }
     }
+    [SerializeField]
+    private int grade;
+    public int Grade { get => grade; set => grade = value; }
+    [SerializeField]
+    private AnimalType type;
+    public AnimalType Type { get => type; set => type = value; }
+    //[SerializeField]
+    //private bool isFocused = false;
+    //public bool IsFocused
+    //{
+    //    get
+    //    {
+    //        clickEvent?.Invoke();
+    //        return isFocused;
+    //    }
 
-    public BigInteger coinForSale { get; set; }
-    public int Stamina { get; set; }
-    public BigInteger AutoHarvesting { get; set; }
-    public BigInteger AutoProcessing { get; set; }
-    public BigInteger AutoCreating { get; set; }
+    //    set
+    //    {
+    //        isFocused = value;
+    //    }
+    //}
+
+    [SerializeField]
+    private string coinForSale;
+    public BigInteger CoinForSale
+    {
+        get
+        {
+            return coinForSale.ToBigInteger();
+        }
+        set
+        {
+            coinForSale = value.FormatBigInteger();
+        }
+    }
+    [SerializeField]
+    private int stamina;
+    public int Stamina { get => stamina; set => stamina = value; }
+    [SerializeField]
+    private string autoHarvesting;
+    public BigInteger AutoHarvesting 
+    { 
+        get
+        {
+            return autoHarvesting.ToBigInteger();
+        }
+        set
+        {
+            autoHarvesting = value.FormatBigInteger();
+        }
+    }
+    [SerializeField]
+    private string autoProcessing;
+    public BigInteger AutoProcessing
+    {
+        get
+        {
+            return autoProcessing.ToBigInteger();
+        }
+        set
+        {
+            autoProcessing = value.FormatBigInteger();
+        }
+    }
+    [SerializeField]
+    private string autoCreating;
+    public BigInteger AutoCreating
+    {
+        get
+        {
+            return autoCreating.ToBigInteger();
+        }
+        set
+        {
+            autoCreating = value.FormatBigInteger();
+        }
+    }
 
     public event Action clickEvent;
 
@@ -46,4 +119,14 @@ public abstract class Animal : IGrowable, IMergable, IClickable, ISaleable, ICon
     {
 
     }
+
+    public override string ToString()
+    {
+        return $"current level : {CurrentLevel}\nmax level : {MaxLevel}\ncoin for sale : {CoinForSale}\nStamina : {Stamina}\nAutoHarvesting : {AutoHarvesting}";
+    }
+
+    //public void OnPointerClick(PointerEventData eventData)
+    //{
+    //    clickEvent?.Invoke();
+    //}
 }
