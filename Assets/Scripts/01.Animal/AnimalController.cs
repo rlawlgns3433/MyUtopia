@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
-using DG.Tweening;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class AnimalController : MonoBehaviour
 {
     public Animal animalStat;
-    private AnimalClick animalClick;
     private NavMeshAgent agent;
     private Node behaviorTreeRoot;
+    private CancellationTokenSource cts = new CancellationTokenSource();
     private bool destinationSet;
     public float range = 10.0f;
 
@@ -45,11 +46,15 @@ public class AnimalController : MonoBehaviour
 
     private void Awake()
     {
-        animalClick = GetComponent<AnimalClick>();
         agent = GetComponent<NavMeshAgent>();
         InitializeBehaviorTree();
-        animalClick.clickEvent += Bump;
+
         Debug.Log($"{animalStat} : {gameObject.name}");
+    }
+
+    private async void Start()
+    {
+        await AutoHarvesting();
     }
 
     private void InitializeBehaviorTree()
@@ -65,9 +70,9 @@ public class AnimalController : MonoBehaviour
     private void Update()
     {
         behaviorTreeRoot.Execute();
+
+
     }
-
-
 
     public void SetDestination(Vector3 destination)
     {
@@ -104,14 +109,6 @@ public class AnimalController : MonoBehaviour
         agent.speed = animalStat.runSpeed;
     }
 
-    private void Bump()
-    {
-        transform.DOScale(new Vector3(2f, 2f, 2f), 0.3f).OnComplete(() =>
-        {
-            transform.DOScale(new Vector3(1f, 1f, 1f), 0.3f);
-        });
-    }
-
     bool SetDestination(float range, out Vector3 result)
     {
         for (int i = 0; i < 30; i++)
@@ -127,6 +124,15 @@ public class AnimalController : MonoBehaviour
         result = Vector3.zero;
         return false;
     }
+
+    public async UniTask AutoHarvesting()
+    {
+        while(true)
+        {
+            await UniTask.Delay(1000);
+        }
+    }
+
 
     //public void SetDestination(Transform destination)
     //{

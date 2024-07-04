@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 
 public interface IClickable : IPointerClickHandler
 {
-    public bool IsFocused { get; set; }
+    public bool IsClicked { get; set; }
     public event Action clickEvent;
+    public void RegisterClickable();
 }
