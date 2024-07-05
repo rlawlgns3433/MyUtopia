@@ -5,7 +5,7 @@ public static class BigIntegerExtensions
     private static readonly char[] Suffixes = { ' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
     private static readonly BigInteger thousand = thousand = new BigInteger(1000);
 
-    public static string FormatBigInteger(this BigInteger value)
+    public static string ToString(this BigInteger value)
     {
         if (value < 1000)
         {

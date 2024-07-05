@@ -9,6 +9,6 @@ public class VeinTest : Observer
     public override void Notify(Subject subject)
     {
         big += BigInteger.Parse("999");
-        coin.text = string.Format(format, big.FormatBigInteger());
+        coin.text = string.Format(format, BigIntegerExtensions.ToString(big));
     }
 }
