@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BillboardCamera : MonoBehaviour
+public class CameraLookAt : MonoBehaviour
 {
     private Camera mainCamera;
     private void Awake()
@@ -9,6 +9,6 @@ public class BillboardCamera : MonoBehaviour
     }
     void LateUpdate()
     {
-        transform.LookAt(mainCamera.transform);
+        transform.rotation = Quaternion.LookRotation(-mainCamera.transform.forward);
     }
 }
