@@ -6,15 +6,24 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class StringTable : DataTable
+public struct MergeData
 {
-    private class Data
-    {
-        public string STRING_ID { get; set; }
-        public string STRING { get; set; }
-    }
+    public int ID { get; set; }
+    public string Name { get; set; }
+    public int Animal1_ID { get; set; }
+    public int Animal2_ID { get; set; }
+    public int Result_Animal { get; set; }
 
-    private Dictionary<string, string> table = new Dictionary<string, string>();
+    public string GetName()
+    {
+        return DataTableMgr.GetStringTable().Get(Name);
+    }
+}
+
+public class MergeTable : DataTable
+{
+    public static readonly MergeData defaultData = new MergeData();
+    private Dictionary<int, MergeData> table = new Dictionary<int, MergeData>();
 
     public override void Load(string path)
     {
@@ -22,7 +31,7 @@ public class StringTable : DataTable
 
         table.Clear();
 
-        Addressables.LoadAssetAsync<TextAsset>(DataTableIds.CurrString).Completed += (AsyncOperationHandle<TextAsset> handle) =>
+        Addressables.LoadAssetAsync<TextAsset>(DataTableIds.MergeTable).Completed += (AsyncOperationHandle<TextAsset> handle) =>
         {
             using (var reader = new StringReader(handle.Result.text))
             using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
@@ -31,21 +40,19 @@ public class StringTable : DataTable
                 csvReader.ReadHeader();
                 csvReader.Read();
 
-                var records = csvReader.GetRecords<Data>();
+                var records = csvReader.GetRecords<MergeData>();
                 foreach (var record in records)
                 {
-                    table.Add(record.STRING_ID, record.STRING);
-                    Debug.Log(record.STRING);
+                    table.Add(record.ID, record);
                 }
             }
         };
     }
 
-    public string Get(string id)
+    public MergeData Get(int id)
     {
         if (!table.ContainsKey(id))
-            return string.Empty;
+            return defaultData;
         return table[id];
     }
-
 }

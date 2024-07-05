@@ -9,6 +9,9 @@ public static class DataTableIds
 
     public static readonly string Floor = "FloorTable";
     public static readonly string Animal = "AnimalTable";
+    public static readonly string Building = "BuildingTable";
+    public static readonly string Facility = "FacilityTable";
+    public static readonly string MergeTable = "MergeTable";
 
     public static string CurrString
     {

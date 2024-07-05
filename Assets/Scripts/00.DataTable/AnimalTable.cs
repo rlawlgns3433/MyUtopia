@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public struct AnimalData
 {
@@ -32,21 +34,44 @@ public class AnimalTable : DataTable
 
         table.Clear();
 
-        var textAsset = Resources.Load<TextAsset>(path);
-
-        using (var reader = new StringReader(textAsset.text))
-        using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
+        Addressables.LoadAssetAsync<TextAsset>(DataTableIds.Animal).Completed += (AsyncOperationHandle<TextAsset> handle) => 
         {
-            csvReader.Read();
-            csvReader.ReadHeader();
-            csvReader.Read();
-
-            var records = csvReader.GetRecords<AnimalData>();
-            foreach (var record in records)
+            if(handle.Result == null)
             {
-                table.Add(record.ID, record);
+                Debug.LogError("Failed to load table");
+                return;
             }
-        }
+
+            using (var reader = new StringReader(handle.Result.text))
+            using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                csvReader.Read();
+                csvReader.ReadHeader();
+                csvReader.Read();
+
+                var records = csvReader.GetRecords<AnimalData>();
+                foreach (var record in records)
+                {
+                    table.Add(record.ID, record);
+                }
+            }
+        };
+
+        //var textAsset = Resources.Load<TextAsset>(path);
+
+        //using (var reader = new StringReader(textAsset.text))
+        //using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
+        //{
+        //    csvReader.Read();
+        //    csvReader.ReadHeader();
+        //    csvReader.Read();
+
+        //    var records = csvReader.GetRecords<AnimalData>();
+        //    foreach (var record in records)
+        //    {
+        //        table.Add(record.ID, record);
+        //    }
+        //}
     }
 
     public AnimalData Get(int id)

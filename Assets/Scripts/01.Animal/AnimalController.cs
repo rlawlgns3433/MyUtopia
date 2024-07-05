@@ -48,8 +48,6 @@ public class AnimalController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         InitializeBehaviorTree();
-
-        Debug.Log($"{animalStat} : {gameObject.name}");
     }
 
     private async void Start()

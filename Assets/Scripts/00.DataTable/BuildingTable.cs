@@ -6,21 +6,18 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-// 데이터 테이블 변경에 따른 수정 필요
-
-public struct FloorData
+public struct BuildingData
 {
     public int ID { get; set; }
-    public int World_Type { get; set; }
-    public int Floor_Num { get; set; }
-    public int Type { get; set; }
+    public int Floor_Type { get; set; }
     public string Name { get; set; }
-    public int Grade { get; set; }
-    public int Grade_Max { get; set; }
-    public int Unlock_Facility { get; set; }
-    public int Unlock_Content { get; set; }
-    public int Max_Population { get; set; } 
-    public string Level_Up_Coin { get; set; } // string(991c) -> BigInteger
+    public int Level { get; set; }
+    public int Level_Max { get; set; }
+    public float Work_Require { get; set; }
+    public int Recipe_Reward { get; set; } // 레시피 테이블 ID
+    public int Resource_Type { get; set; } // 생산 재화 타입
+    public int Touch_Produce { get; set; }
+    public string Level_Up_Coin { get; set; }
     public int Level_Up_Resource_1 { get; set; }
     public string Resource_1_Value { get; set; }
     public int Level_Up_Resource_2 { get; set; }
@@ -28,24 +25,24 @@ public struct FloorData
     public int Level_Up_Resource_3 { get; set; }
     public string Resource_3_Value { get; set; }
 
-
-    public string GetFloorName()
+    public string GetName()
     {
         return DataTableMgr.GetStringTable().Get(Name);
     }
 }
 
-public class FloorTable : DataTable
+public class BuildingTable : DataTable
 {
-    private static readonly FloorData defaultData = new FloorData();
-    private Dictionary<int, FloorData> table = new Dictionary<int, FloorData>();
+    private static readonly BuildingData defaultData = new BuildingData();
+    private Dictionary<int, BuildingData> table = new Dictionary<int, BuildingData>();
+
     public override void Load(string path)
     {
         path = string.Format(FormatPath, path);
 
         table.Clear();
 
-        Addressables.LoadAssetAsync<TextAsset>(DataTableIds.Floor).Completed += (AsyncOperationHandle<TextAsset> handle) =>
+        Addressables.LoadAssetAsync<TextAsset>(DataTableIds.Building).Completed += (AsyncOperationHandle<TextAsset> handle) =>
         {
             using (var reader = new StringReader(handle.Result.text))
             using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
@@ -54,7 +51,7 @@ public class FloorTable : DataTable
                 csvReader.ReadHeader();
                 csvReader.Read();
 
-                var records = csvReader.GetRecords<FloorData>();
+                var records = csvReader.GetRecords<BuildingData>();
                 foreach (var record in records)
                 {
                     table.Add(record.ID, record);
@@ -63,7 +60,7 @@ public class FloorTable : DataTable
         };
     }
 
-    public FloorData Get(int id)
+    public BuildingData Get(int id)
     {
         if (!table.ContainsKey(id))
             return defaultData;

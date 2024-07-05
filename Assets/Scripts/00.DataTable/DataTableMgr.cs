@@ -20,6 +20,21 @@ public static class DataTableMgr
         //DataTable animalTable = new AnimalTable();
         //animalTable.Load(DataTableIds.Animal);
         //tables.Add(DataTableIds.Animal, animalTable);
+
+        // 테이블 완료 시 주석 해제
+        //DataTable buildingTable = new BuildingTable();
+        //buildingTable.Load(DataTableIds.Building);
+        //tables.Add(DataTableIds.Building, buildingTable);
+
+        // 테이블 완료 시 주석 해제
+        //DataTable facilityTable = new FacilityTable();
+        //facilityTable.Load(DataTableIds.Facility);
+        //tables.Add(DataTableIds.Facility, facilityTable);
+
+        // 테이블 완료 시 주석 해제
+        //DataTable mergeTable = new MergeTable();
+        //mergeTable.Load(DataTableIds.MergeTable);
+        //tables.Add(DataTableIds.MergeTable, mergeTable);
     }
 
     public static StringTable GetStringTable()
@@ -30,6 +45,11 @@ public static class DataTableMgr
     public static AnimalTable GetAnimalTable()
     {
         return Get<AnimalTable>(DataTableIds.Animal);
+    }
+
+    public static MergeTable GetMergeTable()
+    {
+        return Get<MergeTable>(DataTableIds.MergeTable);
     }
 
     public static T Get<T>(string id) where T : DataTable
