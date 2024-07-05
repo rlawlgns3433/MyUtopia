@@ -10,14 +10,14 @@ public class IdleNode : Node
     public IdleNode(AnimalController animalController)
     {
         this.animalController = animalController;
-        delayTime = animalController.animalStat.idleTime;
+        delayTime = animalController.animalWork.animal.idleTime;
         timer = 0f;
     }
 
     public IdleNode(AnimalController animalController, params Action[] actions)
     {
         this.animalController = animalController;
-        delayTime = animalController.animalStat.idleTime;
+        delayTime = animalController.animalWork.animal.idleTime;
         timer = 0f;
 
         foreach (var action in actions)

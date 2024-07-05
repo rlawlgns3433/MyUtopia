@@ -1,17 +1,37 @@
 using System;
 using System.Numerics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-[CreateAssetMenu(fileName = "Animal", menuName = "Animal/Animal")]
+[CreateAssetMenu(fileName = "Animal", menuName = "Animal/AnimalName")]
 public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
 {
+    public Animal() { }
+    public Animal(Animal other)
+    {
+        this.currentLevel = other.currentLevel;
+        this.maxLevel = other.maxLevel;
+        this.costForLevelUp = other.costForLevelUp;
+        this.grade = other.grade;
+        this.type = other.type;
+        this.coinForSale = other.coinForSale;
+        this.stamina = other.stamina;
+        this.autoHarvesting = other.autoHarvesting;
+        this.autoProcessing = other.autoProcessing;
+        this.autoCreating = other.autoCreating;
+
+        this.clickEvent = other.clickEvent;
+        this.levelUpEvent = other.levelUpEvent;
+    }
+
+
     [SerializeField]
     private int currentLevel;
     public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
     [SerializeField]
     private int maxLevel;
-    public int MaxLevel { get => maxLevel; set => maxLevel = value; }
+    public int MaxLevel { get => maxLevel;}
     [SerializeField]
     private string costForLevelUp;
     public BigInteger CostForLevelUp
@@ -22,7 +42,7 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
         }
         set
         {
-            costForLevelUp = value.FormatBigInteger();
+            costForLevelUp = BigIntegerExtensions.ToString(value);
         }
     }
     [SerializeField]
@@ -42,7 +62,7 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
         }
         set
         {
-            coinForSale = value.FormatBigInteger();
+            coinForSale = BigIntegerExtensions.ToString(value);
         }
     }
     [SerializeField]
@@ -58,7 +78,7 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
         }
         set
         {
-            autoHarvesting = value.FormatBigInteger();
+            autoHarvesting = BigIntegerExtensions.ToString(value);
         }
     }
     [SerializeField]
@@ -71,7 +91,7 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
         }
         set
         {
-            autoProcessing = value.FormatBigInteger();
+            autoProcessing = BigIntegerExtensions.ToString(value);
         }
     }
     [SerializeField]
@@ -84,14 +104,17 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
         }
         set
         {
-            autoCreating = value.FormatBigInteger();
+            autoCreating = BigIntegerExtensions.ToString(value);
         }
     }
 
     public event Action clickEvent;
+    public event Action levelUpEvent;
 
     public bool LevelUp()
     {
+        // 조건에 의해 레벨업
+        levelUpEvent?.Invoke();
         return false;
     }
 

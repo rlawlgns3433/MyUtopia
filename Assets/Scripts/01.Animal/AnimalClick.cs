@@ -25,8 +25,34 @@ public class AnimalClick : MonoBehaviour, IClickable
             }
         }
     }
+
+    [SerializeField]
+    private float duration = 0f;
+    [SerializeField]
+    private Vector3 initialScale;
+    [SerializeField]
+    private Vector3 clickedScale;
+    [SerializeField]
+    private Vector3 followOffset;
+
+
+
     public event Action clickEvent;
-    public CinemachineVirtualCamera vc;
+
+    private CinemachineVirtualCamera virtualCamera;
+
+    public CinemachineVirtualCamera VirtualCamera
+    {
+        get
+        {
+            if(virtualCamera == null)
+            {
+                virtualCamera = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
+            }
+
+            return virtualCamera;
+        }
+    }
 
     private void Awake()
     {
@@ -42,20 +68,24 @@ public class AnimalClick : MonoBehaviour, IClickable
 
     public void Follow()
     {
-        vc.Follow = transform;
-        vc.LookAt = transform;
-        var transposer = vc.GetCinemachineComponent<CinemachineTransposer>();
+        VirtualCamera.Follow = transform;
+        VirtualCamera.LookAt = transform;
+    }
+
+    public void FocusIn()
+    {
+        var transposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         if (transposer != null)
         {
-            transposer.m_FollowOffset = new Vector3(0,2,-2);
+            transposer.m_FollowOffset = new Vector3(0, 2, -2);
         }
     }
 
     private void Bump()
     {
-        transform.DOScale(new Vector3(2f, 2f, 2f), 0.3f).OnComplete(() =>
+        transform.DOScale(clickedScale, duration).OnComplete(() =>
         {
-            transform.DOScale(new Vector3(1f, 1f, 1f), 0.3f);
+            transform.DOScale(initialScale, duration);
         });
     }
 

@@ -3,10 +3,12 @@ using UnityEngine.AI;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using Unity.VisualScripting;
+using TMPro;
 
 public class AnimalController : MonoBehaviour
 {
-    public Animal animalStat;
+    public AnimalWork animalWork;
     private NavMeshAgent agent;
     private Node behaviorTreeRoot;
     private CancellationTokenSource cts = new CancellationTokenSource();
@@ -46,6 +48,7 @@ public class AnimalController : MonoBehaviour
 
     private void Awake()
     {
+        animalWork = GetComponent<AnimalWork>();
         agent = GetComponent<NavMeshAgent>();
         InitializeBehaviorTree();
     }
@@ -98,13 +101,13 @@ public class AnimalController : MonoBehaviour
     public void Walk()
     {
         agent.isStopped = false;
-        agent.speed = animalStat.walkSpeed;
+        agent.speed = animalWork.animal.walkSpeed;
     }
 
     public void Run()
     {
         agent.isStopped = false;
-        agent.speed = animalStat.runSpeed;
+        agent.speed = animalWork.animal.walkSpeed;
     }
 
     bool SetDestination(float range, out Vector3 result)
