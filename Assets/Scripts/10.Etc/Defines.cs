@@ -34,12 +34,14 @@ public static class Vars
 
 public static class Tags
 {
-    public static readonly string Enemy = "Enemy";
+    public static readonly string VirtualCamera = "VirtualCamera";
 }
 
 public static class SortingLayers
 {
     public static readonly string Default = "Default";
+    public static readonly string UI = "UI";
+
 }
 
 public static class Layers
@@ -63,7 +65,7 @@ public enum Languages
 public enum TableIdentifier
 {
     Animal = 1, // Identifier(1) + Type(D2) + Grade(D2) + CurrentLevel(D3)
-    Layer = 2,
+    Floor = 2,
 }
 
 public enum SceneIds
