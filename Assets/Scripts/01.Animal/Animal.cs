@@ -2,8 +2,8 @@ using System;
 using System.Numerics;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
+// Scriptable을 일반 클래스로 대체 예정
 [CreateAssetMenu(fileName = "Animal", menuName = "Animal/AnimalName")]
 public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
 {
@@ -17,10 +17,7 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
         this.type = other.type;
         this.coinForSale = other.coinForSale;
         this.stamina = other.stamina;
-        this.autoHarvesting = other.autoHarvesting;
-        this.autoProcessing = other.autoProcessing;
-        this.autoCreating = other.autoCreating;
-
+        this.workload = other.workload;
         this.clickEvent = other.clickEvent;
         this.levelUpEvent = other.levelUpEvent;
     }
@@ -69,45 +66,18 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
     private int stamina;
     public int Stamina { get => stamina; set => stamina = value; }
     [SerializeField]
-    private string autoHarvesting;
-    public BigInteger AutoHarvesting 
+    private string workload;
+    public BigInteger Workload 
     { 
         get
         {
-            return autoHarvesting.ToBigInteger();
+            return workload.ToBigInteger();
         }
         set
         {
-            autoHarvesting = BigIntegerExtensions.ToString(value);
+            workload = BigIntegerExtensions.ToString(value);
         }
     }
-    [SerializeField]
-    private string autoProcessing;
-    public BigInteger AutoProcessing
-    {
-        get
-        {
-            return autoProcessing.ToBigInteger();
-        }
-        set
-        {
-            autoProcessing = BigIntegerExtensions.ToString(value);
-        }
-    }
-    [SerializeField]
-    private string autoCreating;
-    public BigInteger AutoCreating
-    {
-        get
-        {
-            return autoCreating.ToBigInteger();
-        }
-        set
-        {
-            autoCreating = BigIntegerExtensions.ToString(value);
-        }
-    }
-
     public event Action clickEvent;
     public event Action levelUpEvent;
 
@@ -130,7 +100,7 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
 
     public override string ToString()
     {
-        return $"current level : {CurrentLevel}\nmax level : {MaxLevel}\ncoin for sale : {CoinForSale}\nStamina : {Stamina}\nAutoHarvesting : {AutoHarvesting}";
+        return $"current level : {CurrentLevel}\nmax level : {MaxLevel}\ncoin for sale : {CoinForSale}\nStamina : {Stamina}\nAutoHarvesting : {Workload}";
     }
     //[SerializeField]
     //private bool isClicked = false;

@@ -13,10 +13,10 @@ public struct BuildingData
     public string Name { get; set; }
     public int Level { get; set; }
     public int Level_Max { get; set; }
-    public float Work_Require { get; set; }
+    public int Work_Require { get; set; }
     public int Recipe_Reward { get; set; } // 레시피 테이블 ID
     public int Resource_Type { get; set; } // 생산 재화 타입
-    public int Touch_Produce { get; set; }
+    public string Touch_Produce { get; set; }
     public string Level_Up_Coin { get; set; }
     public int Level_Up_Resource_1 { get; set; }
     public string Resource_1_Value { get; set; }
