@@ -3,7 +3,6 @@ using UnityEngine.AI;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System.Threading;
-using Unity.VisualScripting;
 using TMPro;
 
 public class AnimalController : MonoBehaviour
@@ -11,7 +10,6 @@ public class AnimalController : MonoBehaviour
     public AnimalWork animalWork;
     private NavMeshAgent agent;
     private Node behaviorTreeRoot;
-    private CancellationTokenSource cts = new CancellationTokenSource();
     private bool destinationSet;
     public float range = 10.0f;
 

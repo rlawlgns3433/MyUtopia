@@ -1,11 +1,18 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEngine.UIElements;
 
 public static class ClickableManager
 {
     private static LinkedList<IClickable> clickables = new LinkedList<IClickable>();
+    private static IClickable currentClicked;
+    public static IClickable CurrentClicked
+    {
+        get
+        {
+            return currentClicked;
+        }
+    }
 
     public static void AddClickable(IClickable clickable)
     {
@@ -38,7 +45,10 @@ public static class ClickableManager
         foreach(var c in clickables)
         {
             if (c.Equals(clickable))
+            {
+                currentClicked = clickable;
                 continue;
+            }
             else
                 c.IsClicked = false;
         }

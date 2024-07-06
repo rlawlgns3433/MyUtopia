@@ -8,17 +8,17 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour, IGrowable
 {
-    public LinkedList<Animal> animals = new LinkedList<Animal>();
-
+    public List<Animal> animals = new List<Animal>();
     public TextMeshProUGUI textWorkloadPerSec;
     private FloorData currentFloorData;
     private FloorData nextFloorData;
     private CancellationTokenSource cts = new CancellationTokenSource();
-    public BigInteger autoWorkload = 0;
-    public string workloadPerSec;
+    private BigInteger autoWorkload = 0;
+    private string workloadPerSec;
+    public string floorName;
 
     private int currentFloorId = 21501;
-    private int CurrentFloorId
+    public int CurrentFloorId
     {
         get
         {
@@ -74,9 +74,10 @@ public class Floor : MonoBehaviour, IGrowable
         //nextFloorData = DataTableMgr.Get<FloorTable>(DataTableIds.Floor).Get(++CurrentFloorId);
     }
 
-    private async void Start()
+    private void Start()
     {
         UniAutoWork(cts.Token).Forget();
+        FloorManager.AddFloor(floorName, this);
     }
 
     public bool LevelUp()
@@ -97,7 +98,7 @@ public class Floor : MonoBehaviour, IGrowable
 
             foreach(var animal in animals)
             {
-                autoWorkload += animal.AutoHarvesting;
+                autoWorkload += animal.Workload;
             }
 
             await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: cts);
@@ -105,6 +106,10 @@ public class Floor : MonoBehaviour, IGrowable
             {
                 workloadPerSec = BigIntegerExtensions.ToString(autoWorkload);
                 textWorkloadPerSec.text = workloadPerSec;
+            }
+            else
+            {
+                textWorkloadPerSec.text = "0";
             }
         }
     }

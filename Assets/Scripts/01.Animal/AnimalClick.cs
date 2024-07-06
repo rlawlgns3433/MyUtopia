@@ -7,6 +7,21 @@ using UnityEngine.EventSystems;
 public class AnimalClick : MonoBehaviour, IClickable
 {
     [SerializeField]
+    private AnimalWork animalWork;
+    public AnimalWork AnimalWork
+    {
+        get
+        {
+            if(animalWork == null)
+            {
+                animalWork = GetComponent<AnimalWork>();
+            }
+
+            return animalWork;
+        }
+    }
+
+    [SerializeField]
     private bool isClicked = false;
     public bool IsClicked
     {
@@ -21,7 +36,7 @@ public class AnimalClick : MonoBehaviour, IClickable
             if (isClicked)
             {
                 clickEvent?.Invoke();
-                ClickableManager.AddClickable(this);
+                ClickableManager.OnClicked(this);
             }
         }
     }
@@ -34,8 +49,6 @@ public class AnimalClick : MonoBehaviour, IClickable
     private Vector3 clickedScale;
     [SerializeField]
     private Vector3 followOffset;
-
-
 
     public event Action clickEvent;
 
@@ -92,5 +105,13 @@ public class AnimalClick : MonoBehaviour, IClickable
     public void RegisterClickable()
     {
         ClickableManager.AddClickable(this);
+    }
+
+    public void MoveAnimal(string toFloor)
+    {
+        FloorManager.MoveAnimal(animalWork.currentFloor, toFloor, animalWork.myAnimalData);
+        gameObject.SetActive(false);
+        gameObject.transform.position = FloorManager.GetFloor(toFloor).transform.position;
+        gameObject.SetActive(true); 
     }
 }
