@@ -13,7 +13,7 @@ public class TimeData
 
 public class UtilityTime : MonoBehaviour
 {
-    public TextMeshProUGUI timeText;
+    public TextMeshPro timeText;
     private string filePath;
 
     private void Start()
@@ -37,7 +37,7 @@ public class UtilityTime : MonoBehaviour
             if (!string.IsNullOrEmpty(serverTime))
             {
                 var localizedTime = ToLocalize(serverTime);
-                UpdateTimeText(localizedTime);
+                //UpdateTimeText(localizedTime);
             }
         }
         return op.downloadHandler.text;
@@ -71,10 +71,10 @@ public class UtilityTime : MonoBehaviour
 
     private void UpdateTimeText(DateTime localizedTime)
     {
-        if (timeText != null)
-        {
-            timeText.text = localizedTime.ToString("yyyy-MM-dd HH:mm:ss");
-        }
+        //if (timeText != null)
+        //{
+        //    timeText.text = localizedTime.ToString("yyyy-MM-dd HH:mm:ss");
+        //}
     }
 
     public void GetWaitWebRequest()
@@ -100,8 +100,21 @@ public class UtilityTime : MonoBehaviour
             DateTime currentTime = DateTime.Now;
 
             TimeSpan compareTime = currentTime - quitTime;
+            var seconds = (int)compareTime.TotalSeconds * 100;
+            BigNum bigNumSeconds = new BigNum(seconds.ToString());
+
             Debug.Log(filePath);
-            Debug.Log($"Seconds since last quit: {compareTime.TotalSeconds}");
+            Debug.Log($"Seconds since last quit: {seconds}");
+            Debug.Log($"BigNum format: {bigNumSeconds}");
+
+            if (timeText != null)
+            {
+                timeText.text = bigNumSeconds.ToString();
+            }
+        }
+        else
+        {
+            Debug.Log("No quit time found.");
         }
     }
 }
