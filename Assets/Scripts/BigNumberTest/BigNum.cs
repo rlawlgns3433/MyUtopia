@@ -9,10 +9,11 @@ using UnityEngine;
 public struct BigNum
 {
     static readonly string[] CurrencyUnits = new string[]
-       {"", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V"};
+       {"", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
     private List<int> bigNumber;
     private int factor;
     private bool isNegative;
+
     public BigNum(string number)
     {
         factor = 0;
@@ -51,10 +52,37 @@ public struct BigNum
                 result.Append(bigNumber[index - 1].ToString("D3").Substring(0, 1));
             }
         }
-        result.Append(CurrencyUnits[index]);
+        if (index < CurrencyUnits.Length)
+        {
+            result.Append(CurrencyUnits[index]);
+        }
+        else
+        {
+            result.Append(GetCurrencyUnit(index));
+        }
 
         return result.ToString();
     }
+
+    private static string GetCurrencyUnit(int index)
+    {
+        index -= CurrencyUnits.Length;
+        var sb = new StringBuilder();
+        while (index >= 0)
+        {
+            int charIndex = index % CurrencyUnits.Length;
+            sb.Insert(0, CurrencyUnits[charIndex]);
+            index = (index / CurrencyUnits.Length) - 1;
+        }
+        var returnUnit = new StringBuilder();
+        for (int i = 0; i < sb.Length; i++)
+        {
+            returnUnit.Append(sb[i]);
+            returnUnit.Append(sb[i]);
+        }
+        return returnUnit.ToString();
+    }
+
     public static BigNum operator +(BigNum a, BigNum b)
     {
         if (a.isNegative == b.isNegative)
@@ -88,6 +116,12 @@ public struct BigNum
     public static BigNum operator *(BigNum a, BigNum b)
     {
         var result = Multiply(a.bigNumber, b.bigNumber);
+        return new BigNum { bigNumber = result, isNegative = a.isNegative != b.isNegative };
+    }
+
+    public static BigNum operator /(BigNum a, BigNum b)
+    {
+        var result = Divide(a.bigNumber, b.bigNumber);
         return new BigNum { bigNumber = result, isNegative = a.isNegative != b.isNegative };
     }
 
@@ -174,6 +208,35 @@ public struct BigNum
         return result;
     }
 
+    private static List<int> Divide(List<int> a, List<int> b)
+    {
+        var result = new List<int>();
+        var dividend = new List<int>(a);
+        var divisor = new List<int>(b);
+        var temp = new List<int>();
+
+        for (int i = dividend.Count - 1; i >= 0; i--)
+        {
+            temp.Insert(0, dividend[i]);
+            int count = 0;
+
+            while (CompareAbsoluteValues(temp, divisor) >= 0)
+            {
+                temp = Subtract(temp, divisor);
+                count++;
+            }
+
+            result.Insert(0, count);
+        }
+
+        while (result.Count > 1 && result[result.Count - 1] == 0)
+        {
+            result.RemoveAt(result.Count - 1);
+        }
+
+        return result;
+    }
+
     private static int CompareAbsoluteValues(List<int> a, List<int> b)
     {
         if (a.Count != b.Count)
@@ -194,6 +257,24 @@ public struct BigNum
     public BigNum Plus(BigNum a)
     {
         var result = Add(bigNumber, a.bigNumber);
-        return new BigNum { bigNumber = result, isNegative = a.isNegative };
+        return new BigNum { bigNumber = result, isNegative = this.isNegative };
+    }
+
+    public BigNum Minus(BigNum a)
+    {
+        a.isNegative = !a.isNegative;
+        return this + a;
+    }
+
+    public BigNum Multiply(BigNum a)
+    {
+        var result = Multiply(bigNumber, a.bigNumber);
+        return new BigNum { bigNumber = result, isNegative = this.isNegative != a.isNegative };
+    }
+
+    public BigNum Divide(BigNum a)
+    {
+        var result = Divide(bigNumber, a.bigNumber);
+        return new BigNum { bigNumber = result, isNegative = this.isNegative != a.isNegative };
     }
 }
