@@ -21,12 +21,26 @@ public struct AnimalData
     public string Sale_Coin { get; set; }
     public string Level_Up_Coin { get; set; }
     // 데이터 테이블에 따른 추가 필요
+
+    public override string ToString()
+    {
+        return string.Format("ID: {0}, Type: {1}, Grade: {2}, Name: {3}, Level: {4}, Level_Max: {5}, Workload: {6}, Stamina: {7}, Rate: {8}, Merge_ID: {9}, Sale_Coin: {10}, Level_Up_Coin: {11}",
+                       ID, Type, Grade, Name, Level, Level_Max, Workload, Stamina, Rate, Merge_ID, Sale_Coin, Level_Up_Coin);
+    }
 }
 
 public class AnimalTable : DataTable
 {
     private static readonly AnimalData defaultData = new AnimalData();
     private Dictionary<int, AnimalData> table = new Dictionary<int, AnimalData>();
+
+    public Dictionary<int, AnimalData> GetKeyValuePairs
+    {
+        get
+        {
+            return table;
+        }
+    }
 
     public override void Load(string path)
     {

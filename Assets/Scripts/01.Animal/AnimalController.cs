@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using System.Threading;
-using TMPro;
 
 public class AnimalController : MonoBehaviour
 {
@@ -99,13 +97,13 @@ public class AnimalController : MonoBehaviour
     public void Walk()
     {
         agent.isStopped = false;
-        agent.speed = animalWork.animal.walkSpeed;
+        agent.speed = animalWork.Animal.WalkSpeed;
     }
 
     public void Run()
     {
         agent.isStopped = false;
-        agent.speed = animalWork.animal.walkSpeed;
+        agent.speed = animalWork.Animal.WalkSpeed;
     }
 
     bool SetDestination(float range, out Vector3 result)
@@ -131,29 +129,4 @@ public class AnimalController : MonoBehaviour
             await UniTask.Delay(1000);
         }
     }
-
-
-    //public void SetDestination(Transform destination)
-    //{
-    //    if (transform == null)
-    //        return;
-    //    targetWaypoint = destination;
-    //    agent.isStopped = false;
-    //    agent.destination = targetWaypoint.position;
-    //}
-
-    //public void SetDestination(int index)
-    //{
-    //    if (waypoints[index] == null)
-    //        return;
-
-    //    SetDestination(waypoints[index]);
-    //}
-
-    //public void RandomDestination()
-    //{
-    //    DestinationSet = true;
-    //    SetDestination(Random.Range(0, waypoints.Length));
-    //}
-
 }

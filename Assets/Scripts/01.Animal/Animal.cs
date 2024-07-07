@@ -1,12 +1,10 @@
 using System;
 using System.Numerics;
-using TMPro;
 using UnityEngine;
 
-// Scriptable을 일반 클래스로 대체 예정
-[CreateAssetMenu(fileName = "Animal", menuName = "Animal/AnimalName")]
-public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
+public class Animal : IGrowable, IMergable, ISaleable, IConductable, IMovable
 {
+    private AnimalData animalData;
     public Animal() { }
     public Animal(Animal other)
     {
@@ -18,10 +16,27 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
         this.coinForSale = other.coinForSale;
         this.stamina = other.stamina;
         this.workload = other.workload;
-        this.clickEvent = other.clickEvent;
-        this.levelUpEvent = other.levelUpEvent;
+        this.walkSpeed = other.walkSpeed;
+        this.runSpeed = other.runSpeed;
+        this.idleTime = other.idleTime;
+        this.mergeId = other.mergeId;
     }
 
+    public Animal(int animalId)
+    {
+        animalData = DataTableMgr.GetAnimalTable().Get(animalId);
+
+        this.type = (AnimalType)animalData.Type;
+        this.grade = animalData.Grade;
+        this.currentLevel = animalData.Level;
+        this.maxLevel = animalData.Level_Max; 
+        this.coinForSale = animalData.Sale_Coin;
+        this.workload = ((BigInteger)animalData.Workload).ToString();
+        this.stamina = (int)animalData.Stamina;
+        this.mergeId = animalData.Merge_ID;
+        this.coinForSale = animalData.Sale_Coin;
+        this.costForLevelUp = animalData.Level_Up_Coin;
+    }
 
     [SerializeField]
     private int currentLevel;
@@ -78,6 +93,21 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
             workload = BigIntegerExtensions.ToString(value);
         }
     }
+
+    [SerializeField]
+    private float walkSpeed;
+    public float WalkSpeed { get => walkSpeed; set => walkSpeed = value; }
+    [SerializeField]
+    private float runSpeed;
+    public float RunSpeed { get => runSpeed; set => runSpeed = value; }
+    [SerializeField]
+    private float idleTime;
+    public float IdleTime { get => idleTime; set => idleTime = value; }
+
+    [SerializeField]
+    private int mergeId;
+    public int MergeId { get => mergeId; set => mergeId = value; }
+
     public event Action clickEvent;
     public event Action levelUpEvent;
 
@@ -90,6 +120,7 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
 
     public Animal Merge(IMergable animal)
     {
+        // 조건에 의해 머지
         return default;
     }
 
@@ -98,28 +129,16 @@ public class Animal : AnimalStat, IGrowable, IMergable, ISaleable, IConductable
 
     }
 
+    public void SetAnimal()
+    {
+        walkSpeed = 3f;
+        runSpeed = 5f;
+        idleTime = 2f;
+    }
+
+
     public override string ToString()
     {
         return $"current level : {CurrentLevel}\nmax level : {MaxLevel}\ncoin for sale : {CoinForSale}\nStamina : {Stamina}\nAutoHarvesting : {Workload}";
     }
-    //[SerializeField]
-    //private bool isClicked = false;
-    //public bool IsClicked
-    //{
-    //    get
-    //    {
-    //        clickEvent?.Invoke();
-    //        return isClicked;
-    //    }
-
-    //    set
-    //    {
-    //        isClicked = value;
-    //    }
-    //}
-
-    //public void OnPointerClick(PointerEventData eventData)
-    //{
-    //    clickEvent?.Invoke();
-    //}
 }

@@ -49,6 +49,17 @@ public static class Layers
     public static readonly string UI = "UI";
 }
 
+public enum BuildingType
+{
+    Coin,
+    CopperStone,
+    SilverStone,
+    GoldStone,    
+    CopperIngot,
+    SilverIngot,
+    GoldIngot,
+}
+
 public enum AnimalType
 {
     OnFoot,

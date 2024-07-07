@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5493346692409919922}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: leg.F.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3995458342724047826}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4399218871212326438}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,6 +101,37 @@ Transform:
   - {fileID: 4565972080912145265}
   m_Father: {fileID: 8599840963446584944}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2246799181624651381
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7386992602581448928}
+  m_Layer: 0
+  m_Name: Follow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7386992602581448928
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2246799181624651381}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.194, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 637208260208652171}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2397421550773605252
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4955796937400601174}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +179,7 @@ GameObject:
   - component: {fileID: 8889614540803293430}
   - component: {fileID: 2156599962366250443}
   - component: {fileID: 6785669751312665708}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +256,7 @@ GameObject:
   - component: {fileID: 1921722409841390289}
   - component: {fileID: 7845774915884998940}
   - component: {fileID: 793430948583405544}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +367,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5902062809491244342}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: leg.B.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8966451274470607078}
   - component: {fileID: 5439010682441187104}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hamster_LOD3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +492,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4316182216392773263}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,7 +523,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8043587222387608757}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: leg.B.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -524,7 +555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6336593757609881741}
   - component: {fileID: 9138130912514406088}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hamster_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -619,7 +650,7 @@ GameObject:
   - component: {fileID: 3249930083701949502}
   - component: {fileID: 6648306727746394892}
   - component: {fileID: 6656283424806463939}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -693,7 +724,7 @@ GameObject:
   m_Component:
   - component: {fileID: 791621665880318088}
   - component: {fileID: 4672178720791172148}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hamster_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -786,7 +817,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7077022569118322488}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ear.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -817,7 +848,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4565972080912145265}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: tail.01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -849,7 +880,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8380090088466247294}
   - component: {fileID: 495991622541533892}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hamster_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -942,7 +973,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 995341729094293142}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: leg.F.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -973,7 +1004,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8599840963446584944}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1006,7 +1037,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1328300821989401553}
   - component: {fileID: 5710608296360925073}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1097,11 +1128,11 @@ GameObject:
   - component: {fileID: 1751794952228506275}
   - component: {fileID: 8073476868729617362}
   - component: {fileID: 7187183124994428919}
-  - component: {fileID: 6883064836063760565}
   - component: {fileID: 1446972816066996658}
+  - component: {fileID: 6883064836063760565}
   - component: {fileID: 529648861877455676}
   - component: {fileID: 6872584064989248763}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hamster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1127,6 +1158,7 @@ Transform:
   - {fileID: 8380090088466247294}
   - {fileID: 8966451274470607078}
   - {fileID: 4727383289727590354}
+  - {fileID: 7386992602581448928}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!205 &1751794952228506275
@@ -1203,20 +1235,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6883064836063760565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9198391562701645775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d05e2e8fdd307748b9b8f12cefc2bc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animalWork: {fileID: 6872584064989248763}
-  range: 10
 --- !u!135 &1446972816066996658
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1238,6 +1256,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6883064836063760565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198391562701645775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d05e2e8fdd307748b9b8f12cefc2bc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animalWork: {fileID: 6872584064989248763}
+  range: 10
 --- !u!114 &529648861877455676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1268,7 +1300,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7943c5177782204d86e431a3bc94071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animal: {fileID: 11400000, guid: 607e63bc90398fb45b8da62e734ef997, type: 2}
-  myAnimalData: {fileID: 0}
   staminaSlider: {fileID: 5710608296360925073}
   currentFloor: 

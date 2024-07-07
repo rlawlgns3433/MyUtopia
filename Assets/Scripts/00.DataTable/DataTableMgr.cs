@@ -17,9 +17,9 @@ public static class DataTableMgr
         //tables.Add(DataTableIds.Floor, floorTable);
 
         // 테이블 완료 시 주석 해제
-        //DataTable animalTable = new AnimalTable();
-        //animalTable.Load(DataTableIds.Animal);
-        //tables.Add(DataTableIds.Animal, animalTable);
+        DataTable animalTable = new AnimalTable();
+        animalTable.Load(DataTableIds.Animal);
+        tables.Add(DataTableIds.Animal, animalTable);
 
         // 테이블 완료 시 주석 해제
         //DataTable buildingTable = new BuildingTable();

@@ -109,7 +109,7 @@ public class AnimalClick : MonoBehaviour, IClickable
 
     public void MoveAnimal(string toFloor)
     {
-        FloorManager.MoveAnimal(animalWork.currentFloor, toFloor, animalWork.myAnimalData);
+        FloorManager.MoveAnimal(animalWork.currentFloor, toFloor, animalWork.Animal);
         gameObject.SetActive(false);
         gameObject.transform.position = FloorManager.GetFloor(toFloor).transform.position;
         gameObject.SetActive(true); 

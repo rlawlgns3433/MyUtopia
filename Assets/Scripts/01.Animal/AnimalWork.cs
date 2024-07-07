@@ -1,31 +1,43 @@
 using Cysharp.Threading.Tasks;
-using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AnimalWork : MonoBehaviour
 {
-    public Animal animal;
-    public Animal myAnimalData;
+    private Animal animal;
+    public Animal Animal
+    {
+        get
+        {
+            if(animal == null)
+            {
+                animal = new Animal(10105001);
+            }
+            return animal;
+        }
+        set
+        {
+            animal = value;
+        }
+    }
     public Slider staminaSlider;
     public string currentFloor;
 
     private void Awake()
     {
-        myAnimalData = new Animal(animal);
+        Animal = new Animal(10105001);
     }
 
     private void Start()
     {
-        staminaSlider.maxValue = myAnimalData.Stamina;
+        staminaSlider.maxValue = Animal.Stamina;
         staminaSlider.minValue = 0f;
-        staminaSlider.value = myAnimalData.Stamina;
+        staminaSlider.value = Animal.Stamina;
 
         staminaSlider.onValueChanged.AddListener(
         (float value) =>
         {
-            myAnimalData.Stamina = (int)value;
+            Animal.Stamina = (int)value;
         });
 
         UniConsumeStamina().Forget();
@@ -34,12 +46,12 @@ public class AnimalWork : MonoBehaviour
 
     private async UniTaskVoid UniConsumeStamina()
     {
-        while (myAnimalData.Stamina > 0)
+        while (Animal.Stamina > 0)
         {
-            myAnimalData.Stamina -= 100;
-            staminaSlider.value = myAnimalData.Stamina;
+            Animal.Stamina -= 100;
+            staminaSlider.value = Animal.Stamina;
 
-            await UniTask.Delay(TimeSpan.FromSeconds(1f));
+            await UniTask.Delay(3000);
         }
     }
 }

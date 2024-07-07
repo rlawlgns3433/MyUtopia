@@ -9,9 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7836b9e79ab4cc042b4276166dfc1c56, type: 3}
-  m_Name: AnimalStat
+  m_Script: {fileID: 11500000, guid: cba7dfb583654f345ad1fe7a3b1bf974, type: 3}
+  m_Name: Hamster
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  runSpeed: 4
-  idleTime: 3
+  currentLevel: 1
+  maxLevel: 5
+  costForLevelUp: 999
+  grade: 1
+  type: 0
+  coinForSale: 200
+  stamina: 3600
+  workload: 100
+  walkSpeed: 3
+  runSpeed: 6
+  idleTime: 2

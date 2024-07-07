@@ -5,6 +5,7 @@ public class VeinTest : Observer
 {
     public TextMeshProUGUI coin;
     public string format;
+    public BuildingType buildingType;
     BigInteger big = new BigInteger();
     public override void Notify(Subject subject)
     {

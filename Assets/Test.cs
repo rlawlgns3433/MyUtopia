@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks.Triggers;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -5,30 +6,16 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class Test : MonoBehaviour
 {
     public LayerMask floorLayer;
-    public AssetReferenceGameObject hamsterPrefabReference; // Addressable Asset Reference
-    private GameObject hamsterPrefab;
+    public AssetReference hamsterPrefabReference; // Addressable Asset Reference
 
     void Start()
     {
         DataTableMgr.GetStringTable();
-
-        // Load the prefab and store the reference
-        hamsterPrefabReference.LoadAssetAsync<GameObject>().Completed += (AsyncOperationHandle<GameObject> handle) =>
-        {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                hamsterPrefab = handle.Result;
-            }
-            else
-            {
-                Debug.LogError("Failed to load Hamster prefab.");
-            }
-        };
     }
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -52,11 +39,10 @@ public class Test : MonoBehaviour
             {
                 var animalWork = handle.Result.GetComponent<AnimalWork>();
                 animalWork.currentFloor = floor.floorName;
-                floor.animals.Add(animalWork.myAnimalData);
-            }
-            else
-            {
-                Debug.LogError("Failed to instantiate Hamster prefab.");
+                animalWork.Animal = new Animal(10105001);
+                animalWork.Animal.SetAnimal();
+                floor.animals.Add(animalWork.Animal);
+                Debug.Log(DataTableMgr.GetAnimalTable().Get(10105001));
             }
         };
     }
