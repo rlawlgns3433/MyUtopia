@@ -20,17 +20,17 @@ public class BigNumberTest : MonoBehaviour
         //Debug.Log($"{num1} - {num3} = {num1 - num3}");
 
         //Debug.Log($"{num1} * {num3} = {num1 * num3}");
-        Debug.Log($"{num1} + {num2} = {sum}");
-        Debug.Log($"{num1.Plus(num2)}");
-        Debug.Log($"{num1} - {num2} = {num1 - num2}");
-        Debug.Log($"{num1.Minus(num2)}");
-        Debug.Log($"{num1} * {num2} = {num1 * num2}");
-        Debug.Log($"{num1.Multiply(num2)}");
-        Debug.Log($"{num1} / {num2} = {num1 / num2}");
-        Debug.Log($"{num1.Divide(num2)}");
+        //Debug.Log($"{num1} + {num2} = {sum}");
+        //Debug.Log($"{num1.Plus(num2)}");
+        //Debug.Log($"{num1} - {num2} = {num1 - num2}");
+        //Debug.Log($"{num1.Minus(num2)}");
+        //Debug.Log($"{num1} * {num2} = {num1 * num2}");
+        //Debug.Log($"{num1.Multiply(num2)}");
+        //Debug.Log($"{num1} / {num2} = {num1 / num2}");
+        //Debug.Log($"{num1.Divide(num2)}");
 
 
-        Debug.Log($"{num3} - {num4} = {num3 - num4}");
-        Debug.Log($"{num3.Minus(num4)}");
+        //Debug.Log($"{num3} - {num4} = {num3 - num4}");
+        //Debug.Log($"{num3.Minus(num4)}");
     }
 }
