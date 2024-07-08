@@ -49,7 +49,7 @@ public static class Layers
     public static readonly string UI = "UI";
 }
 
-public enum BuildingType
+public enum CurrencyType
 {
     Coin,
     CopperStone,

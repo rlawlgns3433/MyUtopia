@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Vein : Subject, IClickable, IPointerClickHandler
+public class Building : Subject, IClickable, IPointerClickHandler
 {
     [SerializeField]
     private float duration = 0f;
@@ -11,6 +11,7 @@ public class Vein : Subject, IClickable, IPointerClickHandler
 
     public Vector3 initialScale;
     public Vector3 clickedScale;
+    public CurrencyType buildingType;
 
     public event Action clickEvent;
 
@@ -38,6 +39,7 @@ public class Vein : Subject, IClickable, IPointerClickHandler
     {
         Attach(test);
         RegisterClickable();
+        clickEvent += OnClickBuilding;
     }
 
     private void Start()
@@ -60,5 +62,33 @@ public class Vein : Subject, IClickable, IPointerClickHandler
     public void RegisterClickable()
     {
         ClickableManager.AddClickable(this);
+    }
+
+    private void OnClickBuilding()
+    {
+        // 재화 저장 스크립트 필요
+        // 각 재화를 얻는 로직을 작성
+
+        switch (buildingType)
+        {
+            case CurrencyType.Coin:
+                //CurrencyManager.currency[(int)CurrencyType.Coin] = 클릭당 획득 코인;
+                break;
+            case CurrencyType.CopperStone:
+                //CurrencyManager.currency[(int)CurrencyType.CopperStone] = 클릭당 획득 코인;
+                break;
+            case CurrencyType.SilverStone:
+                break;
+            case CurrencyType.GoldStone:
+                break;
+            case CurrencyType.CopperIngot:
+                break;
+            case CurrencyType.SilverIngot:
+                break;
+            case CurrencyType.GoldIngot:
+                break;
+            default:
+                break;
+        }
     }
 }
