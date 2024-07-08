@@ -63,7 +63,25 @@ public struct BigNum
 
         return result.ToString();
     }
+    public string ToSimpleString()
+    {
+        if (bigNumber.Count == 0)
+            return "0";
 
+        var result = new StringBuilder(isNegative ? "-" : "");
+        for (int i = bigNumber.Count - 1; i >= 0; i--)
+        {
+            if (i == bigNumber.Count - 1)
+            {
+                result.Append(bigNumber[i].ToString());
+            }
+            else
+            {
+                result.Append(bigNumber[i].ToString("D3"));
+            }
+        }
+        return result.ToString().TrimStart('0');
+    }
     private static string GetCurrencyUnit(int index)
     {
         index -= CurrencyUnits.Length;

@@ -1,9 +1,11 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening.Plugins.Core.PathCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,57 +13,99 @@ using UnityEngine.Networking;
 [Serializable]
 public class TimeData
 {
-    public string quitTime { get; set; }
+    private string quitTime;
+    public string QuitTime
+    {
+        get
+        {
+            return this.quitTime;
+        }
+        set
+        {
+            this.quitTime = value;
+        }
+    }
+    private string enterTime;
+
+    public string EnterTime
+    {
+        get
+        {
+            return this.enterTime;
+        }
+        set
+        {
+            this .enterTime = value;
+        }
+    }
 }
 
 public class UtilityTime : MonoBehaviour
 {
     public TextMeshPro timeText;
+    public TextMeshProUGUI enterTime;
+    public TextMeshProUGUI exitTime;
     private string filePath;
+    private int seconds;
+    public int Seconds { get { return seconds; } set { this.seconds = value; } }
 
-    private void Start()
+    private async void Start()
     {
-        filePath = System.IO.Path.Combine(Application.persistentDataPath, "quitTime.json");
-        CompareStoredAndCurrentTime();
-        GetWaitWebRequest();
+        switch (Application.internetReachability)
+        {
+            case NetworkReachability.NotReachable:
+                Debug.Log("¿Œ≈Õ≥› ø¨∞· x");
+                break;
+            case NetworkReachability.ReachableViaCarrierDataNetwork:
+                filePath = System.IO.Path.Combine(Application.persistentDataPath, "Time.json");
+                await SaveEnterTime();
+                CompareStoredAndCurrentTime();
+                break;
+            case NetworkReachability.ReachableViaLocalAreaNetwork:
+                filePath = System.IO.Path.Combine(Application.persistentDataPath, "Time.json");
+                await SaveEnterTime();
+                CompareStoredAndCurrentTime();
+                break;
+        }
     }
 
     private void OnApplicationQuit()
     {
-        SaveQuitTime();
+        switch (Application.internetReachability)
+        {
+            case NetworkReachability.NotReachable:
+                SaveQuitTimeOffLine();
+                break;
+            case NetworkReachability.ReachableViaCarrierDataNetwork:
+                SaveQuitTimeOnLine().Forget();
+                break;
+            case NetworkReachability.ReachableViaLocalAreaNetwork:
+                SaveQuitTimeOnLine().Forget();
+                break;
+        }
     }
 
-    async UniTask<string> GetTextAsync(UnityWebRequest req)
+    private async UniTask<string> GetServerTimeAsync()
     {
-        var op = await req.SendWebRequest();
-        if (op.result == UnityWebRequest.Result.Success)
+        using (UnityWebRequest req = UnityWebRequest.Get("http://google.com"))
         {
-            string serverTime = op.GetResponseHeader("Date");
-            if (!string.IsNullOrEmpty(serverTime))
+            var op = await req.SendWebRequest();
+            if (op.result == UnityWebRequest.Result.Success)
             {
-                var localizedTime = ToLocalize(serverTime);
+                string serverTime = req.GetResponseHeader("Date");
+                if (!string.IsNullOrEmpty(serverTime))
+                {
+                    var localizedTime = ToLocalize(serverTime);
+                    return localizedTime.ToString("o");
+                }
             }
         }
-        return op.downloadHandler.text;
-    }
-
-    async UniTaskVoid WaitWebRequestAsync()
-    {
-        try
-        {
-            var req = GetTextAsync(UnityWebRequest.Get("http://google.com"));
-            string result = await req;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Error fetching text: {e.Message}");
-        }
+        return DateTime.Now.ToString("o");
     }
 
     private DateTime ToLocalize(string serverTime)
     {
-        DateTime serverDateTime;
-        if (DateTime.TryParse(serverTime, out serverDateTime))
+        if (DateTime.TryParse(serverTime, out DateTime serverDateTime))
         {
             return serverDateTime.ToLocalTime();
         }
@@ -70,17 +114,77 @@ public class UtilityTime : MonoBehaviour
             return DateTime.Now;
         }
     }
-    public void GetWaitWebRequest()
+
+    private async UniTask SaveEnterTime()
     {
-        WaitWebRequestAsync().Forget();
+        string enterTimeString = await GetServerTimeAsync();
+        TimeData timeData = LoadTimeData();
+        timeData.EnterTime = enterTimeString;
+        SaveTimeData(timeData);
+        enterTime.text = enterTimeString;
     }
 
-    private void SaveQuitTime()
+    private async UniTask SaveQuitTimeOnLine()
     {
-        DateTime quitTime = DateTime.Now;
-        TimeData timeData = new TimeData { quitTime = quitTime.ToString("o") };
-        //string json = JsonUtility.ToJson(timeData);
-        //File.WriteAllText(filePath, json);
+        string quitTimeString = await GetServerTimeAsync();
+        TimeData timeData = LoadTimeData();
+        timeData.QuitTime = quitTimeString;
+        SaveTimeData(timeData);
+    }
+
+    private void SaveQuitTimeOffLine()
+    {
+        string quitTimeString = DateTime.Now.ToString("o") + "a";
+        TimeData timeData = LoadTimeData();
+        timeData.QuitTime = quitTimeString;
+        SaveTimeData(timeData);
+    }
+
+    private void CompareStoredAndCurrentTime()
+    {
+        if (File.Exists(filePath))
+        {
+            TimeData data = LoadTimeData();
+
+            if (!string.IsNullOrEmpty(data.QuitTime) && !string.IsNullOrEmpty(data.EnterTime))
+            {
+                DateTime quitTime = DateTime.Parse(data.QuitTime);
+                DateTime enterTime = DateTime.Parse(data.EnterTime);
+                TimeSpan compareTime = enterTime - quitTime;
+                Seconds = (int)compareTime.TotalSeconds; // test(Ω√∞£∫∞ »πµÊ¿Á»≠)
+                //BigNum bigNumSeconds = new BigNum(seconds.ToString());
+                //BigNumSeconds = new BigNum(seconds.ToString());
+                Debug.Log($"Seconds since last quit: {Seconds}");
+                //Debug.Log($"BigNum format: {bigNumSeconds}");
+
+                //if (timeText != null)
+                //{
+                //    timeText.text = bigNumSeconds.ToString();
+                //}
+            }
+        }
+        else
+        {
+            Debug.Log("No quit time found.");
+        }
+    }
+
+    private TimeData LoadTimeData()
+    {
+        if (File.Exists(filePath))
+        {
+            using (var jr = new JsonTextReader(new StreamReader(filePath)))
+            {
+                var deserializer = new JsonSerializer();
+                deserializer.TypeNameHandling = TypeNameHandling.All;
+                return deserializer.Deserialize<TimeData>(jr);
+            }
+        }
+        return new TimeData();
+    }
+
+    private void SaveTimeData(TimeData timeData)
+    {
         var QuitTimeConverter = new QuitTimeConverter();
         using (var jw = new JsonTextWriter(new StreamWriter(filePath)))
         {
@@ -89,42 +193,6 @@ public class UtilityTime : MonoBehaviour
             serializer.Formatting = Formatting.Indented;
             serializer.TypeNameHandling = TypeNameHandling.All;
             serializer.Serialize(jw, timeData);
-        }
-    }
-
-    private void CompareStoredAndCurrentTime()
-    {
-        if (File.Exists(filePath))
-        {
-            //string json = File.ReadAllText(filePath);
-            //TimeData timeData = JsonUtility.FromJson<TimeData>(json);
-            //DateTime quitTime = DateTime.Parse(timeData.quitTime);
-            DateTime currentTime = DateTime.Now;
-
-            TimeData data = null;
-            using (var jr = new JsonTextReader(new StreamReader(filePath)))
-            {
-                var deserializer = new JsonSerializer();
-                deserializer.TypeNameHandling = TypeNameHandling.All;
-                data = deserializer.Deserialize<TimeData>(jr);
-            }
-            DateTime quitTime = DateTime.Parse(data.quitTime);
-            TimeSpan compareTime = currentTime - quitTime;
-            var seconds = (int)compareTime.TotalSeconds * 100; // test(Ω√∞£∫∞ »πµÊ¿Á»≠)
-            BigNum bigNumSeconds = new BigNum(seconds.ToString());
-
-            Debug.Log(filePath);
-            Debug.Log($"Seconds since last quit: {seconds}");
-            Debug.Log($"BigNum format: {bigNumSeconds}");
-
-            if (timeText != null)
-            {
-                timeText.text = bigNumSeconds.ToString();
-            }
-        }
-        else
-        {
-            Debug.Log("No quit time found.");
         }
     }
 }
