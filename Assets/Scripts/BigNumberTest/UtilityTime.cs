@@ -1,5 +1,8 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening.Plugins.Core.PathCore;
+using Newtonsoft.Json;
 using System;
+using System.Drawing;
 using System.IO;
 using TMPro;
 using UnityEngine;
@@ -8,7 +11,7 @@ using UnityEngine.Networking;
 [Serializable]
 public class TimeData
 {
-    public string quitTime;
+    public string quitTime { get; set; }
 }
 
 public class UtilityTime : MonoBehaviour
@@ -18,7 +21,7 @@ public class UtilityTime : MonoBehaviour
 
     private void Start()
     {
-        filePath = Path.Combine(Application.persistentDataPath, "quitTime.json");
+        filePath = System.IO.Path.Combine(Application.persistentDataPath, "quitTime.json");
         CompareStoredAndCurrentTime();
         GetWaitWebRequest();
     }
@@ -37,7 +40,6 @@ public class UtilityTime : MonoBehaviour
             if (!string.IsNullOrEmpty(serverTime))
             {
                 var localizedTime = ToLocalize(serverTime);
-                //UpdateTimeText(localizedTime);
             }
         }
         return op.downloadHandler.text;
@@ -68,15 +70,6 @@ public class UtilityTime : MonoBehaviour
             return DateTime.Now;
         }
     }
-
-    private void UpdateTimeText(DateTime localizedTime)
-    {
-        //if (timeText != null)
-        //{
-        //    timeText.text = localizedTime.ToString("yyyy-MM-dd HH:mm:ss");
-        //}
-    }
-
     public void GetWaitWebRequest()
     {
         WaitWebRequestAsync().Forget();
@@ -86,21 +79,38 @@ public class UtilityTime : MonoBehaviour
     {
         DateTime quitTime = DateTime.Now;
         TimeData timeData = new TimeData { quitTime = quitTime.ToString("o") };
-        string json = JsonUtility.ToJson(timeData);
-        File.WriteAllText(filePath, json);
+        //string json = JsonUtility.ToJson(timeData);
+        //File.WriteAllText(filePath, json);
+        var QuitTimeConverter = new QuitTimeConverter();
+        using (var jw = new JsonTextWriter(new StreamWriter(filePath)))
+        {
+            var serializer = new JsonSerializer();
+            serializer.Converters.Add(QuitTimeConverter);
+            serializer.Formatting = Formatting.Indented;
+            serializer.TypeNameHandling = TypeNameHandling.All;
+            serializer.Serialize(jw, timeData);
+        }
     }
 
     private void CompareStoredAndCurrentTime()
     {
         if (File.Exists(filePath))
         {
-            string json = File.ReadAllText(filePath);
-            TimeData timeData = JsonUtility.FromJson<TimeData>(json);
-            DateTime quitTime = DateTime.Parse(timeData.quitTime);
+            //string json = File.ReadAllText(filePath);
+            //TimeData timeData = JsonUtility.FromJson<TimeData>(json);
+            //DateTime quitTime = DateTime.Parse(timeData.quitTime);
             DateTime currentTime = DateTime.Now;
 
+            TimeData data = null;
+            using (var jr = new JsonTextReader(new StreamReader(filePath)))
+            {
+                var deserializer = new JsonSerializer();
+                deserializer.TypeNameHandling = TypeNameHandling.All;
+                data = deserializer.Deserialize<TimeData>(jr);
+            }
+            DateTime quitTime = DateTime.Parse(data.quitTime);
             TimeSpan compareTime = currentTime - quitTime;
-            var seconds = (int)compareTime.TotalSeconds * 100;
+            var seconds = (int)compareTime.TotalSeconds * 100; // test(Ω√∞£∫∞ »πµÊ¿Á»≠)
             BigNum bigNumSeconds = new BigNum(seconds.ToString());
 
             Debug.Log(filePath);
