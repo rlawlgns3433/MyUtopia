@@ -58,6 +58,7 @@ public enum CurrencyType
     CopperIngot,
     SilverIngot,
     GoldIngot,
+    Craft,
 }
 
 public enum AnimalType
@@ -77,6 +78,7 @@ public enum TableIdentifier
 {
     Animal = 1, // Identifier(1) + Type(D2) + Grade(D2) + CurrentLevel(D3)
     Floor = 2,
+    Building = 3,
 }
 
 public enum SceneIds

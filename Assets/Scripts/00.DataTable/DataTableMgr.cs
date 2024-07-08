@@ -22,9 +22,9 @@ public static class DataTableMgr
         tables.Add(DataTableIds.Animal, animalTable);
 
         // 테이블 완료 시 주석 해제
-        //DataTable buildingTable = new BuildingTable();
-        //buildingTable.Load(DataTableIds.Building);
-        //tables.Add(DataTableIds.Building, buildingTable);
+        DataTable buildingTable = new BuildingTable();
+        buildingTable.Load(DataTableIds.Building);
+        tables.Add(DataTableIds.Building, buildingTable);
 
         // 테이블 완료 시 주석 해제
         //DataTable facilityTable = new FacilityTable();

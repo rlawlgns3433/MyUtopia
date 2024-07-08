@@ -49,11 +49,6 @@ public class AnimalController : MonoBehaviour
         InitializeBehaviorTree();
     }
 
-    private async void Start()
-    {
-        await AutoHarvesting();
-    }
-
     private void InitializeBehaviorTree()
     {
         behaviorTreeRoot = new RandomSelector(new List<Node>
@@ -120,13 +115,5 @@ public class AnimalController : MonoBehaviour
         }
         result = Vector3.zero;
         return false;
-    }
-
-    public async UniTask AutoHarvesting()
-    {
-        while(true)
-        {
-            await UniTask.Delay(1000);
-        }
     }
 }

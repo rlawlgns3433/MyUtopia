@@ -1,6 +1,6 @@
 public static class CurrencyManager
 {
-    private static readonly int currencyCount = 7;
+    private static readonly int currencyCount = 8;
     public static System.Numerics.BigInteger[] currency = new System.Numerics.BigInteger[currencyCount];
 
     public static void Init()

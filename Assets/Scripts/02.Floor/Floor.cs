@@ -6,11 +6,13 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 
-public class Floor : MonoBehaviour, IGrowable
+public class Floor : Subject, IGrowable
 {
     public List<Animal> animals = new List<Animal>();
+    public List<Building> buildings = new List<Building>();
+    public List<UiCurrency> uiCurrencies = new List<UiCurrency>();
     public TextMeshProUGUI textWorkloadPerSec;
-    private FloorData currentFloorData;
+    private FloorData currentFloorData; // FloorData에 따라서 건물이 달라짐 프로퍼티로 구성 필요
     private FloorData nextFloorData;
     private CancellationTokenSource cts = new CancellationTokenSource();
     private BigInteger autoWorkload = 0;
@@ -76,6 +78,10 @@ public class Floor : MonoBehaviour, IGrowable
 
     private void Start()
     {
+        foreach(var c in uiCurrencies)
+        {
+            Attach(c);
+        }
         UniAutoWork(cts.Token).Forget();
         FloorManager.AddFloor(floorName, this);
     }
@@ -101,16 +107,25 @@ public class Floor : MonoBehaviour, IGrowable
                 autoWorkload += animal.Workload;
             }
 
-            await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: cts);
+            await UniTask.Delay(1000, cancellationToken: cts);
             if(!autoWorkload.IsZero)
             {
                 workloadPerSec = BigIntegerExtensions.ToString(autoWorkload);
                 textWorkloadPerSec.text = workloadPerSec;
+
+                foreach(var b in buildings)
+                {
+                    if (b.BuildingData.Level == 0)
+                        continue;
+                    CurrencyManager.currency[(int)b.buildingType] += autoWorkload / b.BuildingData.Work_Require;
+                }
             }
             else
             {
                 textWorkloadPerSec.text = "0";
             }
+
+            NotifyObservers();
         }
     }
 }

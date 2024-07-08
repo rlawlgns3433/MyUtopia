@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,11 +8,24 @@ public class Building : Subject, IClickable, IPointerClickHandler
 {
     [SerializeField]
     private float duration = 0f;
-    public VeinTest test;
 
     public Vector3 initialScale;
     public Vector3 clickedScale;
     public CurrencyType buildingType;
+    private BuildingData buildingData;
+    public BuildingData BuildingData
+    {
+        get
+        {
+            if(buildingData.ID == 0)
+                buildingData = DataTableMgr.Get<BuildingTable>(DataTableIds.Building).Get(3);
+            return buildingData;
+        }
+        set
+        {
+            buildingData = value;
+        }
+    }
 
     public event Action clickEvent;
 
@@ -37,9 +51,8 @@ public class Building : Subject, IClickable, IPointerClickHandler
 
     private void OnEnable()
     {
-        Attach(test);
         RegisterClickable();
-        clickEvent += OnClickBuilding;
+        clickEvent += RefreshCurrency;
     }
 
     private void Start()
@@ -56,7 +69,6 @@ public class Building : Subject, IClickable, IPointerClickHandler
             transform.DOScale(initialScale, duration);
         });
 
-        NotifyObservers();
     }
 
     public void RegisterClickable()
@@ -64,30 +76,45 @@ public class Building : Subject, IClickable, IPointerClickHandler
         ClickableManager.AddClickable(this);
     }
 
-    private void OnClickBuilding()
+    private void RefreshCurrency()
     {
-        // 재화 저장 스크립트 필요
-        // 각 재화를 얻는 로직을 작성
-
         switch (buildingType)
         {
             case CurrencyType.Coin:
-                //CurrencyManager.currency[(int)CurrencyType.Coin] = 클릭당 획득 코인;
-                break;
             case CurrencyType.CopperStone:
-                //CurrencyManager.currency[(int)CurrencyType.CopperStone] = 클릭당 획득 코인;
-                break;
             case CurrencyType.SilverStone:
-                break;
             case CurrencyType.GoldStone:
+                CurrencyManager.currency[(int)buildingType] += BuildingData.Touch_Produce.ToBigInteger();
                 break;
             case CurrencyType.CopperIngot:
+
+                if(CurrencyManager.currency[(int)CurrencyType.CopperStone] >= 1000) // 임시 비율
+                {
+                    CurrencyManager.currency[(int)CurrencyType.CopperIngot] += 1;
+                    CurrencyManager.currency[(int)CurrencyType.CopperStone] -= 1000;
+                }
                 break;
             case CurrencyType.SilverIngot:
+                if (CurrencyManager.currency[(int)CurrencyType.SilverStone] >= 1000) // 임시 비율
+                {
+                    CurrencyManager.currency[(int)CurrencyType.SilverIngot] += 1;
+                    CurrencyManager.currency[(int)CurrencyType.SilverStone] -= 1000;
+                }
                 break;
             case CurrencyType.GoldIngot:
+                if (CurrencyManager.currency[(int)CurrencyType.GoldStone] >= 1000) // 임시 비율
+                {
+                    CurrencyManager.currency[(int)CurrencyType.GoldIngot] += 1;
+                    CurrencyManager.currency[(int)CurrencyType.GoldStone] -= 1000;
+                }
                 break;
-            default:
+            case CurrencyType.Craft:
+                if(CurrencyManager.currency[(int)CurrencyType.Coin] > 10 && CurrencyManager.currency[(int)CurrencyType.CopperIngot] > 10)
+                {
+                    CurrencyManager.currency[(int)CurrencyType.Coin] -= 10;
+                    CurrencyManager.currency[(int)CurrencyType.CopperIngot] -= 10;
+                    CurrencyManager.currency[(int)CurrencyType.Craft] += 1;
+                }
                 break;
         }
     }
