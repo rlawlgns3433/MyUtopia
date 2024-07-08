@@ -1,36 +1,117 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Numerics;
 using UnityEngine;
 
 public class BigNumberTest : MonoBehaviour
 {
     void Start()
     {
-        BigNum num1 = new BigNum("12321321321421321311231231323132332313123213213123123131241242112324235346346456435532234324321123");
-        BigNum num2 = new BigNum("13213214325325355343432312312321332312332314327463376123213231232131321313213121231231231231221321");
-        BigNum num3 = new BigNum("5323232312");
-        BigNum num4 = new BigNum("4323232312");
-        Debug.Log($"test : {num1.ToString()}");
-        var sum = num1 + num2;
+        BigInteger bigIntNum1 = BigInteger.Parse("123456789012345678901234567890");
+        BigInteger bigIntNum2 = BigInteger.Parse("987654321098765432109876543210");
+        BigNum myBigNum1 = new BigNum("123456789012345678901234567890");
+        BigNum myBigNum2 = new BigNum("987654321098765432109876543210");
 
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+        for (int i = 0; i < 100000; i++)
+        {
+            var sum = bigIntNum1 + bigIntNum2;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigInteger µ¡¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
 
-        Debug.Log($"{num2} - {num1} = {num2 - num1}");
+        sw.Restart();
+        for (int i = 0; i < 100000; i++)
+        {
+            var sum = myBigNum1 + myBigNum2;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigNum µ¡¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
 
-        Debug.Log($"{num1} - {num3} = {num1 - num3}");
+        sw.Restart();
+        for (int i = 0; i < 100000; i++)
+        {
+            var diff = bigIntNum2 - bigIntNum1;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigInteger »¬¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
 
-        Debug.Log($"{num1} * {num3} = {num1 * num3}");
-        Debug.Log($"{num1} + {num2} = {sum}");
-        Debug.Log($"{num1.Plus(num2)}");
-        Debug.Log($"{num1} - {num2} = {num1 - num2}");
-        Debug.Log($"{num1.Minus(num2)}");
-        Debug.Log($"{num1} * {num2} = {num1 * num2}");
-        Debug.Log($"{num1.Multiply(num2)}");
-        Debug.Log($"{num1} / {num2} = {num1 / num2}");
-        Debug.Log($"{num1.Divide(num2)}");
+        sw.Restart();
+        for (int i = 0; i < 100000; i++)
+        {
+            var diff = myBigNum2 - myBigNum1;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigNum »¬¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
 
+        BigInteger bigIntNum3 = BigInteger.Parse("123456789012345678901234567890");
+        BigNum myBigNum3 = new BigNum("123456789012345678901234567890");
+        int smallNum = 12345;
+        sw.Start();
+        for (int i = 0; i < 100000; i++)
+        {
+            var sum = bigIntNum3 + smallNum;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigInteger + int µ¡¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
 
-        //Debug.Log($"{num3} - {num4} = {num3 - num4}");
-        //Debug.Log($"{num3.Minus(num4)}");
+        sw.Restart();
+        for (int i = 0; i < 100000; i++)
+        {
+            var sum = myBigNum3 + smallNum;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigNum + int µ¡¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
+
+        sw.Restart();
+        for (int i = 0; i < 100000; i++)
+        {
+            var diff = bigIntNum3 - smallNum;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigInteger - int »¬¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
+
+        sw.Restart();
+        for (int i = 0; i < 100000; i++)
+        {
+            var diff = myBigNum3 - smallNum;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigNum - int »¬¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
+
+        sw.Restart();
+        for (int i = 0; i < 100000; i++)
+        {
+            var prod = bigIntNum3 * smallNum;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigInteger * int °ö¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
+
+        sw.Restart();
+        for (int i = 0; i < 100000; i++)
+        {
+            var prod = myBigNum3 * smallNum;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigNum * int °ö¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
+
+        sw.Restart();
+        for (int i = 0; i < 100000; i++)
+        {
+            var quot = bigIntNum3 / smallNum;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigInteger / int ³ª´°¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
+
+        sw.Restart();
+        for (int i = 0; i < 100000; i++)
+        {
+            var quot = myBigNum3 / smallNum;
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log($"BigNum / int ³ª´°¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
     }
 }
