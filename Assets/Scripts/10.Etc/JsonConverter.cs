@@ -8,7 +8,8 @@ public class QuitTimeConverter : JsonConverter<TimeData>
     {
         TimeData timeData = new TimeData();
         JObject jObj = JObject.Load(reader);
-        timeData.quitTime = jObj["quitTime"].ToString();
+        timeData.QuitTime = jObj["quitTime"]?.ToString();
+        timeData.EnterTime = jObj["enterTime"]?.ToString();
 
         return timeData;
     }
@@ -17,7 +18,9 @@ public class QuitTimeConverter : JsonConverter<TimeData>
     {
         writer.WriteStartObject();
         writer.WritePropertyName("quitTime");
-        writer.WriteValue(value.quitTime);
+        writer.WriteValue(value.QuitTime);
+        writer.WritePropertyName("enterTime");
+        writer.WriteValue(value.EnterTime);
         writer.WriteEndObject();
     }
 }
