@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Triggers;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -104,7 +105,10 @@ public class Floor : Subject, IGrowable
 
             foreach(var animal in animals)
             {
-                autoWorkload += animal.Workload;
+                if (animal.Stamina <= 0)
+                    autoWorkload += animal.Workload / 2;
+                else 
+                    autoWorkload += animal.Workload;
             }
 
             await UniTask.Delay(1000, cancellationToken: cts);
@@ -117,7 +121,64 @@ public class Floor : Subject, IGrowable
                 {
                     if (b.BuildingData.Level == 0)
                         continue;
-                    CurrencyManager.currency[(int)b.buildingType] += autoWorkload / b.BuildingData.Work_Require;
+
+                    b.accumWorkLoad += autoWorkload;
+
+                    switch ((int)b.buildingType)
+                    {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                            if(b.accumWorkLoad > b.BuildingData.Work_Require)
+                            {
+                                CurrencyManager.currency[(int)b.buildingType] += b.accumWorkLoad / b.BuildingData.Work_Require;
+                                b.accumWorkLoad = b.accumWorkLoad % b.BuildingData.Work_Require;
+                            }
+                            else
+                                b.accumWorkLoad += autoWorkload;
+
+                            break;
+                        case 4:
+                        case 5:
+                        case 6:
+                            if (b.accumWorkLoad > b.BuildingData.Work_Require)
+                            {
+                                if (CurrencyManager.currency[b.BuildingData.Materials_Type] < b.BuildingData.Conversion_rate)
+                                {
+                                    b.accumWorkLoad = BigInteger.Zero;
+                                    break;
+                                }
+
+                                BigInteger c = b.accumWorkLoad / b.BuildingData.Work_Require;
+                                CurrencyManager.currency[(int)b.buildingType] += c;
+                                CurrencyManager.currency[(int)b.buildingType - 3] -= c * b.BuildingData.Conversion_rate;
+                                b.accumWorkLoad -= c * b.BuildingData.Work_Require;
+                            }
+                            else
+                            {
+                                b.accumWorkLoad += autoWorkload;
+                            }
+                            break;
+                        case 7:
+                            if(b.accumWorkLoad > b.BuildingData.Work_Require)
+                            {
+                                // 레시피 정보 불러오기
+                                if (CurrencyManager.currency[(int)CurrencyType.Coin] > 10 && CurrencyManager.currency[(int)CurrencyType.CopperStone] > 10)
+                                {
+                                    CurrencyManager.currency[(int)CurrencyType.Coin] -= 10;
+                                    CurrencyManager.currency[(int)CurrencyType.CopperStone] -= 10;
+                                    CurrencyManager.currency[(int)CurrencyType.Craft] += 1;
+
+                                    b.accumWorkLoad -= b.BuildingData.Work_Require;
+                                }
+                            }
+                            else
+                            {
+                                b.accumWorkLoad += autoWorkload;
+                            }
+                            break;
+                    }
                 }
             }
             else

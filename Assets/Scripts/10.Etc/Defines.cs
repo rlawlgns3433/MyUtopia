@@ -59,6 +59,11 @@ public enum CurrencyType
     SilverIngot,
     GoldIngot,
     Craft,
+    /*
+    건물 테이블
+	생산 재화타입이 7(특산물)인 경우
+	레시피 테이블 [해금레벨] <= [건물 레벨] 레시피를 모두 가져와 선택할 수 있게 함
+     */
 }
 
 public enum AnimalType

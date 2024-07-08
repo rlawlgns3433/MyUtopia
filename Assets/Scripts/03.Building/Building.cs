@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,17 +7,19 @@ public class Building : Subject, IClickable, IPointerClickHandler
 {
     [SerializeField]
     private float duration = 0f;
-
+    public System.Numerics.BigInteger accumWorkLoad;
     public Vector3 initialScale;
     public Vector3 clickedScale;
     public CurrencyType buildingType;
+    public int buildingId;
+
     private BuildingData buildingData;
     public BuildingData BuildingData
     {
         get
         {
             if(buildingData.ID == 0)
-                buildingData = DataTableMgr.Get<BuildingTable>(DataTableIds.Building).Get(3);
+                buildingData = DataTableMgr.Get<BuildingTable>(DataTableIds.Building).Get(buildingId);
             return buildingData;
         }
         set
@@ -109,12 +110,8 @@ public class Building : Subject, IClickable, IPointerClickHandler
                 }
                 break;
             case CurrencyType.Craft:
-                if(CurrencyManager.currency[(int)CurrencyType.Coin] > 10 && CurrencyManager.currency[(int)CurrencyType.CopperIngot] > 10)
-                {
-                    CurrencyManager.currency[(int)CurrencyType.Coin] -= 10;
-                    CurrencyManager.currency[(int)CurrencyType.CopperIngot] -= 10;
-                    CurrencyManager.currency[(int)CurrencyType.Craft] += 1;
-                }
+                accumWorkLoad += BuildingData.Touch_Produce.ToBigInteger();
+                Debug.Log(accumWorkLoad);
                 break;
         }
     }
