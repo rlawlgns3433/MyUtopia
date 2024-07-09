@@ -16,7 +16,6 @@ public struct AnimalData
     public int Level_Max { get; set; }
     public int Workload { get; set; }
     public float Stamina { get; set; }
-    public float Rate { get; set; }
     public int Merge_ID { get; set; }
     public string Sale_Coin { get; set; }
     public string Level_Up_Coin { get; set; }
@@ -24,8 +23,8 @@ public struct AnimalData
 
     public override string ToString()
     {
-        return string.Format("ID: {0}, Type: {1}, Grade: {2}, Name: {3}, Level: {4}, Level_Max: {5}, Workload: {6}, Stamina: {7}, Rate: {8}, Merge_ID: {9}, Sale_Coin: {10}, Level_Up_Coin: {11}",
-                       ID, Type, Grade, Name, Level, Level_Max, Workload, Stamina, Rate, Merge_ID, Sale_Coin, Level_Up_Coin);
+        return string.Format("ID: {0}, Type: {1}, Grade: {2}, Name: {3}, Level: {4}, Level_Max: {5}, Workload: {6}, Stamina: {7}, Merge_ID: {9}, Sale_Coin: {10}, Level_Up_Coin: {11}",
+                       ID, Type, Grade, Name, Level, Level_Max, Workload, Stamina, Merge_ID, Sale_Coin, Level_Up_Coin);
     }
 }
 
