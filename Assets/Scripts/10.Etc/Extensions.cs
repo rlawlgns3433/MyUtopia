@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System;
 using System.Numerics;
+using Unity.VisualScripting;
 
 public static class BigIntegerExtensions
 {
@@ -50,5 +53,11 @@ public static class StringExtensions
 
         return significant * BigInteger.Pow(thousand, exp);
     }
+    public static BigNumber ToBigNumber(this string value)
+    {
+        return new BigNumber(value);
+    }
 }
+
+
 

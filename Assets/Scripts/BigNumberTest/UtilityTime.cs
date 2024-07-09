@@ -42,9 +42,6 @@ public class TimeData
 
 public class UtilityTime : MonoBehaviour
 {
-    public TextMeshPro timeText;
-    public TextMeshProUGUI enterTime;
-    public TextMeshProUGUI exitTime;
     private string filePath;
     private int seconds;
     public int Seconds { get { return seconds; } set { this.seconds = value; } }
@@ -121,7 +118,6 @@ public class UtilityTime : MonoBehaviour
         TimeData timeData = LoadTimeData();
         timeData.EnterTime = enterTimeString;
         SaveTimeData(timeData);
-        enterTime.text = enterTimeString;
     }
 
     private async UniTask SaveQuitTimeOnLine()

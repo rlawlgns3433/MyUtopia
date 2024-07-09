@@ -118,7 +118,32 @@ public struct BigNumber
         }
         return result.ToString().TrimStart('0');
     }
+    public BigNumber ParseBigNumber(string number)
+    {
+        var tempBigNumber = new List<int>((number.Length + 2) / 3);
+        isZero = false;
 
+        if (string.IsNullOrEmpty(number) || number == "0")
+        {
+            return Zero;
+        }
+
+        if (number.Contains("."))
+        {
+            var parts = number.Split('.');
+            number = parts[0] + parts[1];
+        }
+
+        for (int i = number.Length; i > 0; i -= 3)
+        {
+            int startIndex = Math.Max(i - 3, 0);
+            int length = i - startIndex;
+            string chunk = number.Substring(startIndex, length);
+            bigNumber.Add(int.Parse(chunk));
+        }
+
+        return new BigNumber { bigNumber = tempBigNumber };
+    }
     private static string GetCurrencyUnit(int index)
     {
         index -= CurrencyUnits.Length;

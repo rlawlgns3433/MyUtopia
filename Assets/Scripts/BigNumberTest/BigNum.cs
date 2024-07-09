@@ -81,6 +81,25 @@ public struct BigNum
         return result.ToString().TrimStart('0');
     }
 
+    public BigNum ParseBigNumber(string number)
+    {
+        var tempBigNumber = new List<int>((number.Length + 2) / 3);
+        if (number.Contains("."))
+        {
+            var parts = number.Split('.');
+            number = parts[0] + parts[1];
+        }
+
+        for (int i = number.Length; i > 0; i -= 3)
+        {
+            int startIndex = Math.Max(i - 3, 0);
+            int length = i - startIndex;
+            string chunk = number.Substring(startIndex, length);
+            tempBigNumber.Add(int.Parse(chunk));
+        }
+        return new BigNum { bigNumber = tempBigNumber };
+    }
+
     private static string GetCurrencyUnit(int index)
     {
         index -= CurrencyUnits.Length;

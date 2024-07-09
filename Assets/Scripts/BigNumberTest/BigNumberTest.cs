@@ -9,6 +9,11 @@ public class BigNumberTest : MonoBehaviour
 {
     void Start()
     {
+        var test = StringExtensions.ToBigNumber("11111111111111111111111111111111111111111");
+        UnityEngine.Debug.Log("ToBigNumberTest" + test);
+        UnityEngine.Debug.Log("ToBigNumberTest" + test.ToSimpleString());
+
+
         BigInteger bigIntNum1 = BigInteger.Parse("123456789012345678901234567890");
         BigInteger bigIntNum2 = BigInteger.Parse("987654321098765432109876543210");
         BigNum myBigNum1 = new BigNum("123456789012345678901234567890");
@@ -16,7 +21,6 @@ public class BigNumberTest : MonoBehaviour
 
         BigNumber bigNum = new BigNumber(0);
         UnityEngine.Debug.Log(bigNum.IsZero);
-
 
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
