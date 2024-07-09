@@ -2,8 +2,10 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AnimalWork : MonoBehaviour
+public class AnimalWork : MonoBehaviour, IMergable
 {
+    private AnimalManager animalManager;
+    public int animalId;
     private Animal animal;
     public Animal Animal
     {
@@ -11,7 +13,7 @@ public class AnimalWork : MonoBehaviour
         {
             if(animal == null)
             {
-                animal = new Animal(10105001);
+                animal = new Animal(animalId);
             }
             return animal;
         }
@@ -20,12 +22,23 @@ public class AnimalWork : MonoBehaviour
             animal = value;
         }
     }
+
+    [SerializeField]
+    private int grade;
+    public int Grade { get => grade; set => grade = value; }
+    [SerializeField]
+    private AnimalType type;
+    public AnimalType Type { get => type; set => type = value; }
+    [SerializeField]
+    private int mergeId;
+    public int MergeId { get => mergeId; set => mergeId = value; }
+
     public Slider staminaSlider;
     public string currentFloor;
 
     private void Awake()
     {
-        Animal = new Animal(10105001);
+        Animal = new Animal(animalId);
     }
 
     private void Start()
@@ -40,9 +53,42 @@ public class AnimalWork : MonoBehaviour
             Animal.Stamina = (int)value;
         });
 
+        animalManager = GameObject.FindWithTag("AddressableLoad").GetComponent<AnimalManager>();
+
         UniConsumeStamina().Forget();
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            foreach(var a in FloorManager.GetFloor(currentFloor).animals)
+            {
+                if (Merge(a.animalWork))
+                    break;
+            }
+        }
+    }
+
+    public bool Merge(AnimalWork animalWork)
+    {
+        if (ClickableManager.CurrentClicked as AnimalClick == null)
+            return false;
+
+        if (gameObject.Equals(animalWork.gameObject))
+            return false;
+
+        if (animalWork.animalId == animal.animalData.ID)
+        {
+            animalManager.Create(Vector3.zero, FloorManager.GetFloor("B5"), animalManager.ferretPrefabReference);
+            FloorManager.GetFloor(currentFloor).RemoveAnimal(animal);
+            FloorManager.GetFloor(currentFloor).RemoveAnimal(animalWork.animal);
+            Destroy(gameObject);
+            Destroy(animalWork.gameObject);
+            return true;
+        }
+        return false;
+    }
 
     private async UniTaskVoid UniConsumeStamina()
     {

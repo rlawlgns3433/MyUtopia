@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Triggers;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -95,6 +94,16 @@ public class Floor : Subject, IGrowable
         levelUpEvent?.Invoke();
 
         return false;
+    }
+
+    public void RemoveAnimal(Animal animal)
+    {
+        if (animal == null) 
+            return;
+        if (!animals.Contains(animal))
+            return;
+
+        animals.Remove(animal);
     }
 
     private async UniTaskVoid UniAutoWork(CancellationToken cts)
