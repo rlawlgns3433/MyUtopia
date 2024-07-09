@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class StorageTest : MonoBehaviour
+public class StorageTest : MonoBehaviour, IClickable
 {
     public TextMeshPro first;
     public TextMeshPro second;
@@ -14,6 +16,10 @@ public class StorageTest : MonoBehaviour
     public int offsetFirst = 1; // 계층별 적용예정
     public int offsetSecond = 2;
     public int offsetThird = 3;
+
+    public event Action clickEvent;
+    private bool isClicked;
+    public bool IsClicked { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
     private void Start()
     {
@@ -33,5 +39,15 @@ public class StorageTest : MonoBehaviour
             second.text = bigNumSecond.ToString();
             third.text = bigNumThird.ToSimpleString();
         }
+    }
+
+    public void RegisterClickable()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        throw new NotImplementedException();
     }
 }
