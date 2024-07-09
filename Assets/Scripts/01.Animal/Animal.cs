@@ -92,27 +92,42 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
     public void LevelUp()
     {
         var animalClick = ClickableManager.CurrentClicked as AnimalClick;
-        //Debug.Log(animalClick.gameObject.GetInstanceID());
 
         if (animalClick == null)
             return;
 
-        if (animalData.Level == animalData.Level_Max)
-            return;
+        var animals = FloorManager.GetFloor(animalWork.currentFloor).animals;
 
-        // 조건에 의해 레벨업
-        if (CurrencyManager.currency[(int)CurrencyType.Coin] < CostForLevelUp)
+        if (animalData.Level == animalData.Level_Max)
+        {
+            if (animals.Count == 1)
+                return;
+            foreach(var a in animals)
+            {
+                if (animalWork.Equals(a.animalWork))
+                    continue;
+                if(a.animalData.Level == a.animalData.Level_Max)
+                {
+                    if (!animalWork.Merge(a.animalWork))
+                        continue;
+                    else
+                        return;
+                }
+            }
+        }
+        BigNumber lvCoin = new BigNumber(animalData.Level_Up_Coin);
+        if (CurrencyManager.currency[(int)CurrencyType.Coin] < new BigNumber(animalData.Level_Up_Coin)) // 임시 코드
             return;
 
         animalData = DataTableMgr.GetAnimalTable().Get(animalData.ID + 1);
-
-        var animals = FloorManager.GetFloor(animalWork.currentFloor).animals;
 
         foreach(var a in animals)
         {
             if(a.animalWork.gameObject.GetInstanceID() == animalClick.gameObject.GetInstanceID())
             {
                 a.animalData = animalData;
+                Debug.Log($"CurrentLevel : {a.animalData.Level}");
+
                 break;
             }
         }

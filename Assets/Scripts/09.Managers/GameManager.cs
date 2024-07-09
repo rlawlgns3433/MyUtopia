@@ -27,8 +27,8 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
-        RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
-        RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
+        //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
+        //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
 
         CurrentSceneId = SceneIds.WorldLandOfHope;
     }

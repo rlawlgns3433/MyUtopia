@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -79,9 +80,10 @@ public class AnimalWork : MonoBehaviour, IMergable
         if (gameObject.Equals(animalWork.gameObject))
             return false;
 
-        if (animalWork.animalId == animal.animalData.ID)
+        if (animalWork.animal.animalData.ID== animal.animalData.ID)
         {
-            animalManager.Create(Vector3.zero, FloorManager.GetFloor("B5"), animalManager.ferretPrefabReference);
+            var floor = FloorManager.GetFloor(animalWork.currentFloor);
+            animalManager.Create(floor.gameObject.transform.position, floor, animalManager.ferretPrefabReference);
             FloorManager.GetFloor(currentFloor).RemoveAnimal(animal);
             FloorManager.GetFloor(currentFloor).RemoveAnimal(animalWork.animal);
             Destroy(gameObject);
@@ -95,7 +97,7 @@ public class AnimalWork : MonoBehaviour, IMergable
     {
         while (Animal.Stamina > 0)
         {
-            Animal.Stamina -= 100;
+            Animal.Stamina -= 1;
             staminaSlider.value = Animal.Stamina;
 
             await UniTask.Delay(3000);

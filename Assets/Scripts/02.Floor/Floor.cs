@@ -121,8 +121,6 @@ public class Floor : Subject, IGrowable
             await UniTask.Delay(1000, cancellationToken: cts);
             if(!autoWorkload.IsZero)
             {
-                Debug.Log(autoWorkload.ToSimpleString());
-
                 foreach (var b in buildings)
                 {
                     if (b.BuildingData.Level == 0)
@@ -138,8 +136,6 @@ public class Floor : Subject, IGrowable
                         case 3:
                             if(b.accumWorkLoad > b.BuildingData.Work_Require)
                             {
-                                //CurrencyManager.currency[(int)b.buildingType] += b.accumWorkLoad / b.BuildingData.Work_Require;
-                                //b.accumWorkLoad = b.accumWorkLoad % b.BuildingData.Work_Require;
                                 BigNumber c = b.accumWorkLoad / b.BuildingData.Work_Require;
                                 CurrencyManager.currency[(int)b.buildingType] += c;
                                 b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingData.Work_Require;
@@ -161,7 +157,7 @@ public class Floor : Subject, IGrowable
 
                                 BigNumber c = b.accumWorkLoad / b.BuildingData.Work_Require;
                                 CurrencyManager.currency[(int)b.buildingType] += c;
-                                CurrencyManager.currency[(int)b.buildingType - 3] -= c * b.BuildingData.Conversion_rate;
+                                CurrencyManager.currency[b.BuildingData.Materials_Type] -= c * b.BuildingData.Conversion_rate;
                                 b.accumWorkLoad -= c * b.BuildingData.Work_Require;
                             }
                             else

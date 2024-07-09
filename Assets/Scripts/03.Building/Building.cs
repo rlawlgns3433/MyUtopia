@@ -88,25 +88,12 @@ public class Building : Subject, IClickable, IPointerClickHandler
                 CurrencyManager.currency[(int)buildingType] += new BigNumber(BuildingData.Touch_Produce);
                 break;
             case CurrencyType.CopperIngot:
-
-                if(CurrencyManager.currency[(int)CurrencyType.CopperStone] >= 1000) // 임시 비율
-                {
-                    CurrencyManager.currency[(int)CurrencyType.CopperIngot] += 1;
-                    CurrencyManager.currency[(int)CurrencyType.CopperStone] -= 1000;
-                }
-                break;
             case CurrencyType.SilverIngot:
-                if (CurrencyManager.currency[(int)CurrencyType.SilverStone] >= 1000) // 임시 비율
-                {
-                    CurrencyManager.currency[(int)CurrencyType.SilverIngot] += 1;
-                    CurrencyManager.currency[(int)CurrencyType.SilverStone] -= 1000;
-                }
-                break;
             case CurrencyType.GoldIngot:
-                if (CurrencyManager.currency[(int)CurrencyType.GoldStone] >= 1000) // 임시 비율
+                if (CurrencyManager.currency[BuildingData.Materials_Type] > BuildingData.Conversion_rate)
                 {
-                    CurrencyManager.currency[(int)CurrencyType.GoldIngot] += 1;
-                    CurrencyManager.currency[(int)CurrencyType.GoldStone] -= 1000;
+                    CurrencyManager.currency[(int)buildingType] += 1;
+                    CurrencyManager.currency[BuildingData.Materials_Type] -= BuildingData.Conversion_rate;
                 }
                 break;
             case CurrencyType.Craft:
