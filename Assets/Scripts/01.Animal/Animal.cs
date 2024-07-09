@@ -28,7 +28,7 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
         this.currentLevel = animalData.Level;
         this.maxLevel = animalData.Level_Max; 
         this.coinForSale = animalData.Sale_Coin;
-        this.workload = ((BigInteger)animalData.Workload).ToString();
+        this.workload = animalData.Workload;
         this.stamina = (int)animalData.Stamina;
         this.coinForSale = animalData.Sale_Coin;
         this.costForLevelUp = animalData.Level_Up_Coin;
@@ -42,30 +42,30 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
     public int MaxLevel { get => maxLevel;}
     [SerializeField]
     private string costForLevelUp;
-    public BigInteger CostForLevelUp
+    public BigNumber CostForLevelUp
     {
         get
         {
-            return costForLevelUp.ToBigInteger();
+            return new BigNumber(costForLevelUp);
         }
         set
         {
-            costForLevelUp = BigIntegerExtensions.ToString(value);
+            costForLevelUp = value.ToString();
         }
     }
 
 
     [SerializeField]
     private string coinForSale;
-    public BigInteger CoinForSale
+    public BigNumber CoinForSale
     {
         get
         {
-            return coinForSale.ToBigInteger();
+            return new BigNumber(coinForSale);
         }
         set
         {
-            coinForSale = BigIntegerExtensions.ToString(value);
+            coinForSale = value.ToString();
         }
     }
     [SerializeField]
@@ -73,15 +73,15 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
     public int Stamina { get => stamina; set => stamina = value; }
     [SerializeField]
     private string workload;
-    public BigInteger Workload 
+    public BigNumber Workload 
     { 
         get
         {
-            return workload.ToBigInteger();
+            return new BigNumber(workload);
         }
         set
         {
-            workload = BigIntegerExtensions.ToString(value);
+            workload = value.ToString();
         }
     }
 

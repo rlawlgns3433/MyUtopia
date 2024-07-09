@@ -3,5 +3,5 @@ using System.Numerics;
 public interface IConductable
 {
     public int Stamina { get; set; }
-    public BigInteger Workload { get; set; }
+    public BigNumber Workload { get; set; }
 }

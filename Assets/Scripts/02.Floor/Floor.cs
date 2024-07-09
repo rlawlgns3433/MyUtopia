@@ -15,7 +15,7 @@ public class Floor : Subject, IGrowable
     private FloorData currentFloorData; // FloorData에 따라서 건물이 달라짐 프로퍼티로 구성 필요
     private FloorData nextFloorData;
     private CancellationTokenSource cts = new CancellationTokenSource();
-    private BigInteger autoWorkload = 0;
+    private BigNumber autoWorkload;
     private string workloadPerSec;
     public string floorName;
 
@@ -57,16 +57,16 @@ public class Floor : Subject, IGrowable
 
     public event Action levelUpEvent;
 
-    public BigInteger CostForLevelUp
+    public BigNumber CostForLevelUp
     {
         get
         {
-            return costForLevelUp.ToBigInteger();
+            return new BigNumber(costForLevelUp);
         }
 
         set
         {
-            costForLevelUp = BigIntegerExtensions.ToString(value);
+            costForLevelUp = value.ToString();
         }
     }
 
@@ -110,7 +110,7 @@ public class Floor : Subject, IGrowable
     {
         while(true)
         {
-            autoWorkload = BigInteger.Zero;
+            autoWorkload = BigNumber.Zero;
 
             foreach(var animal in animals)
             {
@@ -123,7 +123,7 @@ public class Floor : Subject, IGrowable
             await UniTask.Delay(1000, cancellationToken: cts);
             if(!autoWorkload.IsZero)
             {
-                workloadPerSec = BigIntegerExtensions.ToString(autoWorkload);
+                workloadPerSec = autoWorkload.ToString();
                 textWorkloadPerSec.text = workloadPerSec;
 
                 foreach(var b in buildings)
@@ -141,8 +141,11 @@ public class Floor : Subject, IGrowable
                         case 3:
                             if(b.accumWorkLoad > b.BuildingData.Work_Require)
                             {
-                                CurrencyManager.currency[(int)b.buildingType] += b.accumWorkLoad / b.BuildingData.Work_Require;
-                                b.accumWorkLoad = b.accumWorkLoad % b.BuildingData.Work_Require;
+                                //CurrencyManager.currency[(int)b.buildingType] += b.accumWorkLoad / b.BuildingData.Work_Require;
+                                //b.accumWorkLoad = b.accumWorkLoad % b.BuildingData.Work_Require;
+                                BigNumber c = b.accumWorkLoad / b.BuildingData.Work_Require;
+                                CurrencyManager.currency[(int)b.buildingType] += c;
+                                b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingData.Work_Require;
                             }
                             else
                                 b.accumWorkLoad += autoWorkload;
@@ -155,11 +158,11 @@ public class Floor : Subject, IGrowable
                             {
                                 if (CurrencyManager.currency[b.BuildingData.Materials_Type] < b.BuildingData.Conversion_rate)
                                 {
-                                    b.accumWorkLoad = BigInteger.Zero;
+                                    b.accumWorkLoad = new BigNumber(0);
                                     break;
                                 }
 
-                                BigInteger c = b.accumWorkLoad / b.BuildingData.Work_Require;
+                                BigNumber c = b.accumWorkLoad / b.BuildingData.Work_Require;
                                 CurrencyManager.currency[(int)b.buildingType] += c;
                                 CurrencyManager.currency[(int)b.buildingType - 3] -= c * b.BuildingData.Conversion_rate;
                                 b.accumWorkLoad -= c * b.BuildingData.Work_Require;

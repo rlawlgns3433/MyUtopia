@@ -51,3 +51,4 @@ public static class StringExtensions
         return significant * BigInteger.Pow(thousand, exp);
     }
 }
+

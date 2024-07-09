@@ -14,7 +14,7 @@ public struct AnimalData
     public string Name { get; set; }
     public int Level { get; set; }
     public int Level_Max { get; set; }
-    public int Workload { get; set; }
+    public string Workload { get; set; }
     public float Stamina { get; set; }
     public float Rate { get; set; }
     public int Merge_ID { get; set; }
