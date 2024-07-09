@@ -25,12 +25,6 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    protected override void Awake()
-    {
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
-    }
-
     void Start()
     {
         RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
