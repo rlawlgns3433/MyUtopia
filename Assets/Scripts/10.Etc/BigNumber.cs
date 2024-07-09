@@ -244,6 +244,62 @@ public struct BigNumber
         return !(a == b);
     }
 
+    public static bool operator >(BigNumber a, BigNumber b)
+    {
+        if (a.bigNumber == null)
+        {
+            return b < 0;
+        }
+
+        var aBigNumber = a.bigNumber;
+        var bBigNumber = b.bigNumber;
+        if (aBigNumber.Count > bBigNumber.Count)
+        {
+            return true;
+        }
+        else if (aBigNumber.Count == bBigNumber.Count)
+        {
+            for (int i = aBigNumber.Count - 1; i >= 0; --i)
+            {
+                if (aBigNumber[i] == bBigNumber[i])
+                    continue;
+                else if (aBigNumber[i] > bBigNumber[i])
+                    return true;
+                else
+                    return false;
+            }
+        }
+        return false;
+    }
+
+    public static bool operator <(BigNumber a, BigNumber b)
+    {
+        if (a.bigNumber == null)
+        {
+            return b < 0;
+        }
+
+        var aBigNumber = a.bigNumber;
+        var bBigNumber = b.bigNumber;
+        if (aBigNumber.Count < bBigNumber.Count)
+        {
+            return true;
+        }
+        else if (aBigNumber.Count == bBigNumber.Count)
+        {
+            for (int i = aBigNumber.Count - 1; i >= 0; --i)
+            {
+                if (aBigNumber[i] == bBigNumber[i])
+                    continue;
+                else if (aBigNumber[i] < bBigNumber[i])
+                    return true;
+                else
+                    return false;
+            }
+        }
+        return false;
+    }
+
     public static BigNumber operator +(BigNumber a, BigNumber b)
     {
         var result = Add(a.bigNumber, b.bigNumber);

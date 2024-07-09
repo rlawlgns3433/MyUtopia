@@ -117,13 +117,13 @@ public class Floor : Subject, IGrowable
                     autoWorkload += animal.animalData.Workload;
             }
 
+
             await UniTask.Delay(1000, cancellationToken: cts);
             if(!autoWorkload.IsZero)
             {
-                workloadPerSec = BigIntegerExtensions.ToString(autoWorkload);
-                workloadPerSec = autoWorkload.ToString();
+                Debug.Log(autoWorkload.ToSimpleString());
 
-                foreach(var b in buildings)
+                foreach (var b in buildings)
                 {
                     if (b.BuildingData.Level == 0)
                         continue;

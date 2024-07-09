@@ -63,16 +63,16 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
     private int stamina;
     public int Stamina { get => stamina; set => stamina = value; }
     [SerializeField]
-    private string workload;
-    public BigNumber Workload 
+    private int workload;
+    public int Workload 
     { 
         get
         {
-            return new BigNumber(workload);
+            return workload;
         }
         set
         {
-            workload = value.ToString();
+            workload = value;
         }
     }
 
