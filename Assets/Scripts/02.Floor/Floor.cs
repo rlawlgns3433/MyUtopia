@@ -10,8 +10,7 @@ public class Floor : Subject, IGrowable
 {
     public List<Animal> animals = new List<Animal>();
     public List<Building> buildings = new List<Building>();
-    public List<UiCurrency> uiCurrencies = new List<UiCurrency>();
-    public TextMeshProUGUI textWorkloadPerSec;
+    public List<Observer> uiCurrencies = new List<Observer>();
     private FloorData currentFloorData; // FloorData에 따라서 건물이 달라짐 프로퍼티로 구성 필요
     private FloorData nextFloorData;
     private CancellationTokenSource cts = new CancellationTokenSource();
@@ -86,14 +85,12 @@ public class Floor : Subject, IGrowable
         FloorManager.AddFloor(floorName, this);
     }
 
-    public bool LevelUp()
+    public void LevelUp()
     {
         // 보유 재화 조건에 의해 레벨업
 
         ++CurrentLevel;
         levelUpEvent?.Invoke();
-
-        return false;
     }
 
     public void RemoveAnimal(Animal animal)
@@ -115,16 +112,15 @@ public class Floor : Subject, IGrowable
             foreach(var animal in animals)
             {
                 if (animal.Stamina <= 0)
-                    autoWorkload += animal.Workload / 2;
+                    autoWorkload += animal.animalData.Workload / 2;
                 else 
-                    autoWorkload += animal.Workload;
+                    autoWorkload += animal.animalData.Workload;
             }
 
             await UniTask.Delay(1000, cancellationToken: cts);
             if(!autoWorkload.IsZero)
             {
                 workloadPerSec = BigIntegerExtensions.ToString(autoWorkload);
-                textWorkloadPerSec.text = workloadPerSec;
 
                 foreach(var b in buildings)
                 {
@@ -188,14 +184,9 @@ public class Floor : Subject, IGrowable
                             }
                             break;
                     }
+                    NotifyObservers();
                 }
             }
-            else
-            {
-                textWorkloadPerSec.text = "0";
-            }
-
-            NotifyObservers();
         }
     }
 }

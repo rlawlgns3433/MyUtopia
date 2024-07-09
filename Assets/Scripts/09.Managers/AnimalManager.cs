@@ -22,6 +22,16 @@ public class AnimalManager : MonoBehaviour
         animalClick.gameObject.SetActive(true);
     }
 
+    public void LevelUpAnimal()
+    {
+        var animalClick = ClickableManager.CurrentClicked as AnimalClick;
+
+        if (animalClick == null)
+            return;
+
+        animalClick.AnimalWork.Animal.LevelUp();
+    }
+
     void Start()
     {
         DataTableMgr.GetStringTable();
@@ -67,6 +77,7 @@ public class AnimalManager : MonoBehaviour
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
                 var animalWork = handle.Result.GetComponent<AnimalWork>();
+                Debug.Log(animalWork.gameObject.GetInstanceID());
                 animalWork.currentFloor = floor.floorName;
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalWork = animalWork;

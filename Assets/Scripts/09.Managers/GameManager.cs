@@ -1,11 +1,15 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
     private Dictionary<SceneIds, SceneController> sceneManagers = new Dictionary<SceneIds, SceneController>();
-    private Dictionary<SceneIds, UIManager> uiManagers = new Dictionary<SceneIds, UIManager>();
+    //private Dictionary<SceneIds, UIManager> uiManagers = new Dictionary<SceneIds, UIManager>();
+    private AnimalManager animalManager;
     private SceneIds currentSceneId;
     public SceneIds CurrentSceneId
     {
@@ -16,7 +20,7 @@ public class GameManager : Singleton<GameManager>
         set
         {
             currentSceneId = value;
-            GetUIManager(currentSceneId).InitializeUI();
+            //GetUIManager(currentSceneId).InitializeUI();
             GetSceneController(currentSceneId);
         }
     }
@@ -32,7 +36,7 @@ public class GameManager : Singleton<GameManager>
         RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
         RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
 
-        CurrentSceneId = SceneIds.WorldSelect;
+        CurrentSceneId = SceneIds.WorldLandOfHope;
     }
 
     public void RegisterSceneManager(SceneIds sceneName, SceneController sceneManager)
@@ -40,7 +44,7 @@ public class GameManager : Singleton<GameManager>
         if (!sceneManagers.ContainsKey(sceneName))
         {
             sceneManagers[sceneName] = sceneManager;
-            uiManagers[sceneName] = new UIManager();
+            //uiManagers[sceneName] = new UIManager();
         }
     }
 
@@ -53,19 +57,32 @@ public class GameManager : Singleton<GameManager>
         return null;
     }
 
-    public UIManager GetUIManager(SceneIds sceneName)
-    {
-        if (uiManagers.ContainsKey(sceneName))
-        {
-            return uiManagers[sceneName];
-        }
-        return null;
-    }
+    //public UIManager GetUIManager(SceneIds sceneName)
+    //{
+    //    if (uiManagers.ContainsKey(sceneName))
+    //    {
+    //        return uiManagers[sceneName];
+    //    }
+    //    return null;
+    //}
 
     private void LoadSceneAsync(int sceneIndex)
     {
         CurrentSceneId = (SceneIds)sceneIndex;
         SceneManager.LoadSceneAsync(sceneIndex);
+    }
+
+    public AnimalManager GetAnimalManager()
+    {
+        if(CurrentSceneId == SceneIds.WorldLandOfHope)
+        {
+            if (animalManager == null)
+            {
+                animalManager = GameObject.FindWithTag(Tags.AnimalManager).GetComponentInChildren<AnimalManager>();
+            }
+            return animalManager;
+        }
+        throw new Exception("AnimalManager is not in the current scene");
     }
 }
 
@@ -85,22 +102,6 @@ public class WorldLandOfHopeManager : SceneController
         base.Start();
     }
 }
-
-
-public class UIManager
-{
-    public void InitializeUI()
-    {
-        // UI 초기화 로직
-    }
-
-    public void UpdateUI()
-    {
-        // UI 업데이트 로직
-    }
-}
-
-
 
 public class SceneController : MonoBehaviour
 {

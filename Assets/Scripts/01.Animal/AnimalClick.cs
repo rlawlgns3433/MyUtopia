@@ -71,6 +71,7 @@ public class AnimalClick : MonoBehaviour, IClickable
     {
         clickEvent += Bump;
         clickEvent += Follow;
+        clickEvent += UiManager.Instance.ShowAnimalFocusUi;
         RegisterClickable();
     }
 

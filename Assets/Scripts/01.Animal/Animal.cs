@@ -10,8 +10,6 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
     public Animal() { }
     public Animal(Animal other)
     {
-        this.currentLevel = other.currentLevel;
-        this.maxLevel = other.maxLevel;
         this.costForLevelUp = other.costForLevelUp;
         this.coinForSale = other.coinForSale;
         this.stamina = other.stamina;
@@ -19,14 +17,13 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
         this.walkSpeed = other.walkSpeed;
         this.runSpeed = other.runSpeed;
         this.idleTime = other.idleTime;
+        levelUpEvent += LevelUp;
     }
 
     public Animal(int animalId)
     {
         animalData = DataTableMgr.GetAnimalTable().Get(animalId);
 
-        this.currentLevel = animalData.Level;
-        this.maxLevel = animalData.Level_Max; 
         this.coinForSale = animalData.Sale_Coin;
         this.workload = ((BigInteger)animalData.Workload).ToString();
         this.stamina = (int)animalData.Stamina;
@@ -34,12 +31,6 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
         this.costForLevelUp = animalData.Level_Up_Coin;
     }
 
-    [SerializeField]
-    private int currentLevel;
-    public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
-    [SerializeField]
-    private int maxLevel;
-    public int MaxLevel { get => maxLevel;}
     [SerializeField]
     private string costForLevelUp;
     public BigInteger CostForLevelUp
@@ -95,16 +86,36 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
     private float idleTime;
     public float IdleTime { get => idleTime; set => idleTime = value; }
 
-
-
     public event Action clickEvent;
     public event Action levelUpEvent;
 
-    public bool LevelUp()
+    public void LevelUp()
     {
+        var animalClick = ClickableManager.CurrentClicked as AnimalClick;
+        //Debug.Log(animalClick.gameObject.GetInstanceID());
+
+        if (animalClick == null)
+            return;
+
+        if (animalData.Level == animalData.Level_Max)
+            return;
+
         // 조건에 의해 레벨업
-        levelUpEvent?.Invoke();
-        return false;
+        if (CurrencyManager.currency[(int)CurrencyType.Coin] < CostForLevelUp)
+            return;
+
+        animalData = DataTableMgr.GetAnimalTable().Get(animalData.ID + 1);
+
+        var animals = FloorManager.GetFloor(animalWork.currentFloor).animals;
+
+        foreach(var a in animals)
+        {
+            if(a.animalWork.gameObject.GetInstanceID() == animalClick.gameObject.GetInstanceID())
+            {
+                a.animalData = animalData;
+                break;
+            }
+        }
     }
 
 
@@ -122,6 +133,6 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
 
     public override string ToString()
     {
-        return $"current level : {CurrentLevel}\nmax level : {MaxLevel}\ncoin for sale : {CoinForSale}\nStamina : {Stamina}\nAutoHarvesting : {Workload}";
+        return $"coin for sale : {CoinForSale}\nStamina : {Stamina}\nAutoHarvesting : {Workload}";
     }
 }

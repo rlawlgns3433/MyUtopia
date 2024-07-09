@@ -53,7 +53,8 @@ public class AnimalWork : MonoBehaviour, IMergable
             Animal.Stamina = (int)value;
         });
 
-        animalManager = GameObject.FindWithTag("AddressableLoad").GetComponent<AnimalManager>();
+        //animalManager = GameObject.FindWithTag("AddressableLoad").GetComponent<AnimalManager>();
+        animalManager = GameManager.Instance.GetAnimalManager();
 
         UniConsumeStamina().Forget();
     }
