@@ -7,7 +7,7 @@ public class Building : Subject, IClickable, IPointerClickHandler
 {
     [SerializeField]
     private float duration = 0f;
-    public System.Numerics.BigInteger accumWorkLoad;
+    public BigNumber accumWorkLoad;
     public Vector3 initialScale;
     public Vector3 clickedScale;
     public CurrencyType buildingType;
@@ -85,7 +85,7 @@ public class Building : Subject, IClickable, IPointerClickHandler
             case CurrencyType.CopperStone:
             case CurrencyType.SilverStone:
             case CurrencyType.GoldStone:
-                CurrencyManager.currency[(int)buildingType] += BuildingData.Touch_Produce.ToBigInteger();
+                CurrencyManager.currency[(int)buildingType] += new BigNumber(BuildingData.Touch_Produce);
                 break;
             case CurrencyType.CopperIngot:
 
@@ -110,7 +110,7 @@ public class Building : Subject, IClickable, IPointerClickHandler
                 }
                 break;
             case CurrencyType.Craft:
-                accumWorkLoad += BuildingData.Touch_Produce.ToBigInteger();
+                accumWorkLoad += new BigNumber(BuildingData.Touch_Produce);
                 Debug.Log(accumWorkLoad);
                 break;
         }

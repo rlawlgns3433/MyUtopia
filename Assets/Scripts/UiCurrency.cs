@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using System.Numerics;
+using UnityEngine;
 using TMPro;
 
 public class UiCurrency : Observer
@@ -13,6 +15,6 @@ public class UiCurrency : Observer
     }
     public override void Notify(Subject subject)
     {
-        currency.text = string.Format(format, BigIntegerExtensions.ToString(CurrencyManager.currency[(int)currencyType]));
+        currency.text = string.Format(format, CurrencyManager.currency[(int)currencyType].ToString());
     }
 }
