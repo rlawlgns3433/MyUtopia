@@ -35,8 +35,8 @@ public class AnimalClick : MonoBehaviour, IClickable
             isClicked = value;
             if (isClicked)
             {
-                clickEvent?.Invoke();
                 ClickableManager.OnClicked(this);
+                clickEvent?.Invoke();
             }
         }
     }
@@ -72,6 +72,7 @@ public class AnimalClick : MonoBehaviour, IClickable
         clickEvent += Bump;
         clickEvent += Follow;
         clickEvent += UiManager.Instance.ShowAnimalFocusUi;
+        clickEvent += UiManager.Instance.animalFocusUi.Set;
         RegisterClickable();
     }
 

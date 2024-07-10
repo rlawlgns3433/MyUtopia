@@ -19,7 +19,13 @@ public struct AnimalData
     public int Merge_ID { get; set; }
     public string Sale_Coin { get; set; }
     public string Level_Up_Coin { get; set; }
+    public string Prefab { get; set; }
     // 데이터 테이블에 따른 추가 필요
+
+    public string GetName()
+    {
+        return DataTableMgr.GetStringTable().Get(Name);
+    }
 
     public override string ToString()
     {

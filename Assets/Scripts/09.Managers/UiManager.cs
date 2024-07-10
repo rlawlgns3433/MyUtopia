@@ -3,7 +3,7 @@ using UnityEngine;
 public class UiManager : Singleton<UiManager>
 {
     public GameObject mainUi;
-    public GameObject animalFocusUi;
+    public UiAnimalFocus animalFocusUi;
 
     private void Start()
     {
@@ -12,12 +12,12 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowMainUi()
     {
-        animalFocusUi.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
         mainUi.SetActive(true);
     }
     public void ShowAnimalFocusUi()
     {
-        animalFocusUi.SetActive(true);
+        animalFocusUi.gameObject.SetActive(true);
         mainUi.SetActive(false);
     }
 }

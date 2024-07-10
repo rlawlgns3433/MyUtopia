@@ -114,6 +114,7 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
                         return;
                 }
             }
+            return;
         }
         BigNumber lvCoin = new BigNumber(animalData.Level_Up_Coin);
         if (CurrencyManager.currency[(int)CurrencyType.Coin] < new BigNumber(animalData.Level_Up_Coin)) // 임시 코드
@@ -126,8 +127,7 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
             if(a.animalWork.gameObject.GetInstanceID() == animalClick.gameObject.GetInstanceID())
             {
                 a.animalData = animalData;
-                Debug.Log($"CurrentLevel : {a.animalData.Level}");
-
+                
                 break;
             }
         }

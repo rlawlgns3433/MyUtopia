@@ -10,8 +10,8 @@ public class StringTable : DataTable
 {
     private class Data
     {
-        public string STRING_ID { get; set; }
-        public string STRING { get; set; }
+        public string StringID { get; set; }
+        public string Text { get; set; }
     }
 
     private Dictionary<string, string> table = new Dictionary<string, string>();
@@ -34,8 +34,8 @@ public class StringTable : DataTable
                 var records = csvReader.GetRecords<Data>();
                 foreach (var record in records)
                 {
-                    table.Add(record.STRING_ID, record.STRING);
-                    Debug.Log(record.STRING);
+                    table.Add(record.StringID, record.Text);
+                    Debug.Log(record.Text);
                 }
             }
         };
