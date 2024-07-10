@@ -14,10 +14,10 @@ public class BigNumberTest : MonoBehaviour
         UnityEngine.Debug.Log("ToBigNumberTest" + test.ToSimpleString());
 
 
-        BigInteger bigIntNum1 = BigInteger.Parse("123456789012345678901234567890");
-        BigInteger bigIntNum2 = BigInteger.Parse("987654321098765432109876543210");
-        BigNum myBigNum1 = new BigNum("123456789012345678901234567890");
-        BigNum myBigNum2 = new BigNum("987654321098765432109876543210");
+        BigNumber bigIntNum1 = StringExtensions.ToBigNumber("123456789012345678901234567890");
+        BigNumber bigIntNum2 = StringExtensions.ToBigNumber("987654321098765432109876543210");
+        BigNumber myBigNum1 = new BigNumber("123456789012345678901234567890");
+        BigNumber myBigNum2 = new BigNumber("987654321098765432109876543210");
 
         BigNumber bigNum = new BigNumber(0);
         UnityEngine.Debug.Log(bigNum.IsZero);
@@ -56,7 +56,7 @@ public class BigNumberTest : MonoBehaviour
         UnityEngine.Debug.Log($"BigNum »¬¼À ½Ã°£: {sw.ElapsedMilliseconds} ms");
 
         BigInteger bigIntNum3 = BigInteger.Parse("123456789012345678901234567890");
-        BigNum myBigNum3 = new BigNum("123456789012345678901234567890");
+        BigNumber myBigNum3 = StringExtensions.ToBigNumber("123456789012345678901234567890");
         int smallNum = 12345;
         sw.Start();
         //for (int i = 0; i < 100000; i++)

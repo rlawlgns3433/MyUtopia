@@ -11,12 +11,14 @@ public class Floor : Subject, IGrowable
     public List<Animal> animals = new List<Animal>();
     public List<Building> buildings = new List<Building>();
     public List<Observer> uiCurrencies = new List<Observer>();
+    public StorageTest storage;
     private FloorData currentFloorData; // FloorData에 따라서 건물이 달라짐 프로퍼티로 구성 필요
     private FloorData nextFloorData;
     private CancellationTokenSource cts = new CancellationTokenSource();
     private BigNumber autoWorkload;
     private string workloadPerSec;
     public string floorName;
+    private int count;
 
     private int currentFloorId = 21501;
     public int CurrentFloorId
@@ -83,6 +85,10 @@ public class Floor : Subject, IGrowable
         }
         UniAutoWork(cts.Token).Forget();
         FloorManager.AddFloor(floorName, this);
+        count = 0;
+        UniSetBuilding().Forget();
+
+
     }
 
     public void LevelUp()
@@ -102,7 +108,14 @@ public class Floor : Subject, IGrowable
 
         animals.Remove(animal);
     }
-
+    private async UniTaskVoid UniSetBuilding()
+    {
+        await UniTask.WaitUntil(() => storage != null && storage.Buildings != null && storage.Buildings.Length > 0);
+        for (int i = 0; i < buildings.Count; i++)
+        {
+            storage.Buildings[i] = buildings[i];
+        }
+    }
     private async UniTaskVoid UniAutoWork(CancellationToken cts)
     {
         while(true)
@@ -115,6 +128,7 @@ public class Floor : Subject, IGrowable
                     autoWorkload += animal.animalData.Workload / 2;
                 else 
                     autoWorkload += animal.animalData.Workload;
+                storage.currBigNum = autoWorkload;
             }
 
 
@@ -127,7 +141,6 @@ public class Floor : Subject, IGrowable
                         continue;
 
                     b.accumWorkLoad += autoWorkload;
-
                     switch ((int)b.buildingType)
                     {
                         case 0:

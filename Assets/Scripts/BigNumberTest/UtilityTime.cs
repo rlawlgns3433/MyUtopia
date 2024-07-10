@@ -1,12 +1,7 @@
 using Cysharp.Threading.Tasks;
-using DG.Tweening.Plugins.Core.PathCore;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Drawing;
 using System.IO;
-using System.Reflection;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -35,18 +30,19 @@ public class TimeData
         }
         set
         {
-            this .enterTime = value;
+            this.enterTime = value;
         }
     }
 }
 
-public class UtilityTime : MonoBehaviour
+public static class UtilityTime
 {
-    private string filePath;
-    private int seconds;
-    public int Seconds { get { return seconds; } set { this.seconds = value; } }
+    private static string filePath = Path.Combine(Application.persistentDataPath, "Time.json");
+    private static int seconds;
+    public static int Seconds { get { return seconds; } set { seconds = value; } }
 
-    private async void Start()
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    private static async void OnApplicationStart()
     {
         switch (Application.internetReachability)
         {
@@ -54,19 +50,16 @@ public class UtilityTime : MonoBehaviour
                 Debug.Log("인터넷 연결 x");
                 break;
             case NetworkReachability.ReachableViaCarrierDataNetwork:
-                filePath = System.IO.Path.Combine(Application.persistentDataPath, "Time.json");
-                await SaveEnterTime();
-                CompareStoredAndCurrentTime();
-                break;
             case NetworkReachability.ReachableViaLocalAreaNetwork:
-                filePath = System.IO.Path.Combine(Application.persistentDataPath, "Time.json");
                 await SaveEnterTime();
                 CompareStoredAndCurrentTime();
                 break;
         }
+
+        Application.quitting += OnApplicationQuit;
     }
 
-    private void OnApplicationQuit()
+    private static void OnApplicationQuit()
     {
         switch (Application.internetReachability)
         {
@@ -74,15 +67,13 @@ public class UtilityTime : MonoBehaviour
                 SaveQuitTimeOffLine();
                 break;
             case NetworkReachability.ReachableViaCarrierDataNetwork:
-                SaveQuitTimeOnLine().Forget();
-                break;
             case NetworkReachability.ReachableViaLocalAreaNetwork:
                 SaveQuitTimeOnLine().Forget();
                 break;
         }
     }
 
-    private async UniTask<string> GetServerTimeAsync()
+    private static async UniTask<string> GetServerTimeAsync()
     {
         using (UnityWebRequest req = UnityWebRequest.Get("http://google.com"))
         {
@@ -100,7 +91,7 @@ public class UtilityTime : MonoBehaviour
         return DateTime.Now.ToString("o");
     }
 
-    private DateTime ToLocalize(string serverTime)
+    private static DateTime ToLocalize(string serverTime)
     {
         if (DateTime.TryParse(serverTime, out DateTime serverDateTime))
         {
@@ -112,7 +103,7 @@ public class UtilityTime : MonoBehaviour
         }
     }
 
-    private async UniTask SaveEnterTime()
+    private static async UniTask SaveEnterTime()
     {
         string enterTimeString = await GetServerTimeAsync();
         TimeData timeData = LoadTimeData();
@@ -120,7 +111,7 @@ public class UtilityTime : MonoBehaviour
         SaveTimeData(timeData);
     }
 
-    private async UniTask SaveQuitTimeOnLine()
+    private static async UniTask SaveQuitTimeOnLine()
     {
         string quitTimeString = await GetServerTimeAsync();
         TimeData timeData = LoadTimeData();
@@ -128,7 +119,7 @@ public class UtilityTime : MonoBehaviour
         SaveTimeData(timeData);
     }
 
-    private void SaveQuitTimeOffLine()
+    private static void SaveQuitTimeOffLine()
     {
         string quitTimeString = DateTime.Now.ToString("o") + "a";
         TimeData timeData = LoadTimeData();
@@ -136,7 +127,7 @@ public class UtilityTime : MonoBehaviour
         SaveTimeData(timeData);
     }
 
-    private void CompareStoredAndCurrentTime()
+    private static void CompareStoredAndCurrentTime()
     {
         if (File.Exists(filePath))
         {
@@ -147,16 +138,8 @@ public class UtilityTime : MonoBehaviour
                 DateTime quitTime = DateTime.Parse(data.QuitTime);
                 DateTime enterTime = DateTime.Parse(data.EnterTime);
                 TimeSpan compareTime = enterTime - quitTime;
-                Seconds = (int)compareTime.TotalSeconds; // test(시간별 획득재화)
-                //BigNum bigNumSeconds = new BigNum(seconds.ToString());
-                //BigNumSeconds = new BigNum(seconds.ToString());
+                Seconds = (int)compareTime.TotalSeconds;
                 Debug.Log($"Seconds since last quit: {Seconds}");
-                //Debug.Log($"BigNum format: {bigNumSeconds}");
-
-                //if (timeText != null)
-                //{
-                //    timeText.text = bigNumSeconds.ToString();
-                //}
             }
         }
         else
@@ -165,7 +148,7 @@ public class UtilityTime : MonoBehaviour
         }
     }
 
-    private TimeData LoadTimeData()
+    private static TimeData LoadTimeData()
     {
         if (File.Exists(filePath))
         {
@@ -179,13 +162,11 @@ public class UtilityTime : MonoBehaviour
         return new TimeData();
     }
 
-    private void SaveTimeData(TimeData timeData)
+    private static void SaveTimeData(TimeData timeData)
     {
-        var QuitTimeConverter = new QuitTimeConverter();
         using (var jw = new JsonTextWriter(new StreamWriter(filePath)))
         {
             var serializer = new JsonSerializer();
-            serializer.Converters.Add(QuitTimeConverter);
             serializer.Formatting = Formatting.Indented;
             serializer.TypeNameHandling = TypeNameHandling.All;
             serializer.Serialize(jw, timeData);
