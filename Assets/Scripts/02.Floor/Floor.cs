@@ -29,6 +29,7 @@ public class Floor : Subject, IGrowable
             floorData = value;
         }
     }
+    public StorageTest storage;
     private CancellationTokenSource cts = new CancellationTokenSource();
     private BigNumber autoWorkload;
     public string floorName;
@@ -41,6 +42,7 @@ public class Floor : Subject, IGrowable
         }
         UniAutoWork(cts.Token).Forget();
         FloorManager.AddFloor(floorName, this);
+        UniSetBuilding().Forget();
     }
 
     public void LevelUp()
@@ -87,7 +89,14 @@ public class Floor : Subject, IGrowable
 
         animals.Remove(animal);
     }
-
+    private async UniTaskVoid UniSetBuilding()
+    {
+        await UniTask.WaitUntil(() => storage != null && storage.Buildings != null && storage.Buildings.Length > 0);
+        for (int i = 0; i < buildings.Count; i++)
+        {
+            storage.Buildings[i] = buildings[i];
+        }
+    }
     private async UniTaskVoid UniAutoWork(CancellationToken cts)
     {
         while(true)
@@ -100,6 +109,7 @@ public class Floor : Subject, IGrowable
                     autoWorkload += animal.animalData.Workload / 2;
                 else 
                     autoWorkload += animal.animalData.Workload;
+                storage.currBigNum = autoWorkload;
             }
 
 
@@ -114,7 +124,6 @@ public class Floor : Subject, IGrowable
                         continue;
 
                     b.accumWorkLoad += autoWorkload;
-
                     switch ((int)b.buildingType)
                     {
                         case 0:

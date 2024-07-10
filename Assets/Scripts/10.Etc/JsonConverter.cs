@@ -24,3 +24,22 @@ public class QuitTimeConverter : JsonConverter<TimeData>
         writer.WriteEndObject();
     }
 }
+
+public class WorkLoadConverter : JsonConverter<StorageTest>
+{
+    public override StorageTest ReadJson(JsonReader reader, Type objectType, StorageTest existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        StorageTest result = new StorageTest();
+        JObject jObj = JObject.Load(reader);
+        result.currBigNum = new BigNumber(jObj["workLoad"]?.ToString());
+        return result;
+    }
+
+    public override void WriteJson(JsonWriter writer, StorageTest value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+        writer.WritePropertyName("workLoad");
+        writer.WriteValue(value.currBigNum.ToSimpleString());
+        writer.WriteEndObject();
+    }
+}
