@@ -35,7 +35,6 @@ public class StringTable : DataTable
                 foreach (var record in records)
                 {
                     table.Add(record.StringID, record.Text);
-                    Debug.Log(record.Text);
                 }
             }
         };

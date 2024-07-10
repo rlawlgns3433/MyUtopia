@@ -18,7 +18,7 @@ public class Floor : Subject, IGrowable
     {
         get
         {
-            if(floorData.ID == 0)
+            if (floorData.ID == 0)
             {
                 floorData = DataTableMgr.GetFloorTable().Get(floorId);
             }
@@ -36,7 +36,7 @@ public class Floor : Subject, IGrowable
 
     private void Start()
     {
-        foreach(var c in uiCurrencies)
+        foreach (var c in uiCurrencies)
         {
             Attach(c);
         }
@@ -51,7 +51,7 @@ public class Floor : Subject, IGrowable
             return;
 
         // 필요 재화가 있는지 확인
-        if(FloorData.Level_Up_Coin.ToBigNumber() > CurrencyManager.currency[(int)CurrencyType.Coin])
+        if (FloorData.Level_Up_Coin.ToBigNumber() > CurrencyManager.currency[(int)CurrencyType.Coin])
             return;
         if (FloorData.Level_Up_Resource_1 != 0)
         {
@@ -82,7 +82,7 @@ public class Floor : Subject, IGrowable
 
     public void RemoveAnimal(Animal animal)
     {
-        if (animal == null) 
+        if (animal == null)
             return;
         if (!animals.Contains(animal))
             return;
@@ -99,22 +99,24 @@ public class Floor : Subject, IGrowable
     }
     private async UniTaskVoid UniAutoWork(CancellationToken cts)
     {
-        while(true)
+        while (true)
         {
             autoWorkload = BigNumber.Zero;
 
-            foreach(var animal in animals)
+            foreach (var animal in animals)
             {
                 if (animal.Stamina <= 0)
                     autoWorkload += animal.animalData.Workload / 2;
-                else 
+                else
                     autoWorkload += animal.animalData.Workload;
-                storage.currBigNum = autoWorkload;
+
+                if (storage != null)
+                    storage.currBigNum = autoWorkload;
             }
 
 
             await UniTask.Delay(1000, cancellationToken: cts);
-            if(!autoWorkload.IsZero)
+            if (!autoWorkload.IsZero)
             {
                 foreach (var b in buildings)
                 {
@@ -130,7 +132,7 @@ public class Floor : Subject, IGrowable
                         case 1:
                         case 2:
                         case 3:
-                            if(b.accumWorkLoad > b.BuildingData.Work_Require)
+                            if (b.accumWorkLoad > b.BuildingData.Work_Require)
                             {
                                 BigNumber c = b.accumWorkLoad / b.BuildingData.Work_Require;
                                 CurrencyManager.currency[(int)b.buildingType] += c;
@@ -162,7 +164,7 @@ public class Floor : Subject, IGrowable
                             }
                             break;
                         case 7:
-                            if(b.accumWorkLoad > b.BuildingData.Work_Require)
+                            if (b.accumWorkLoad > b.BuildingData.Work_Require)
                             {
                                 // 레시피 정보 불러오기
                                 if (CurrencyManager.currency[(int)CurrencyType.Coin] > 10 && CurrencyManager.currency[(int)CurrencyType.CopperStone] > 10)
@@ -190,7 +192,7 @@ public class Floor : Subject, IGrowable
     {
         foreach (var building in buildings)
         {
-            if(floorData.Unlock_Content == building.BuildingData.ID)
+            if (floorData.Unlock_Content == building.BuildingData.ID)
             {
                 building.isLock = false;
             }
