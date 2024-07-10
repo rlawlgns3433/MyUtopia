@@ -7,7 +7,7 @@ public static class CurrencyManager
     {
         for (int i = 0; i < currencyCount; i++)
         {
-            currency[i].Clear();
+            currency[i] = BigNumber.Zero;
         }
     }
 }

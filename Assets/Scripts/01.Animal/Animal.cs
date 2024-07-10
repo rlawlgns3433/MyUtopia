@@ -17,7 +17,6 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
         this.walkSpeed = other.walkSpeed;
         this.runSpeed = other.runSpeed;
         this.idleTime = other.idleTime;
-        levelUpEvent += LevelUp;
     }
 
     public Animal(int animalId)
@@ -87,7 +86,6 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
     public float IdleTime { get => idleTime; set => idleTime = value; }
 
     public event Action clickEvent;
-    public event Action levelUpEvent;
 
     public void LevelUp()
     {
@@ -117,7 +115,7 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
             return;
         }
         BigNumber lvCoin = new BigNumber(animalData.Level_Up_Coin);
-        if (CurrencyManager.currency[(int)CurrencyType.Coin] < new BigNumber(animalData.Level_Up_Coin)) // 임시 코드
+        if (CurrencyManager.currency[(int)CurrencyType.Coin] < lvCoin) // 임시 코드
             return;
 
         animalData = DataTableMgr.GetAnimalTable().Get(animalData.ID + 1);
@@ -126,6 +124,7 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
         {
             if(a.animalWork.gameObject.GetInstanceID() == animalClick.gameObject.GetInstanceID())
             {
+                CurrencyManager.currency[(int)CurrencyType.Coin] -= lvCoin;
                 a.animalData = animalData;
                 
                 break;

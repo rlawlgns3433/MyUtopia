@@ -12,9 +12,9 @@ public static class DataTableMgr
         tables.Add(DataTableIds.String[(int)Vars.currentLang], stringTable);
 
         // 테이블 완료 시 주석 해제
-        //DataTable floorTable = new FloorTable();
-        //floorTable.Load(DataTableIds.Floor);
-        //tables.Add(DataTableIds.Floor, floorTable);
+        DataTable floorTable = new FloorTable();
+        floorTable.Load(DataTableIds.Floor);
+        tables.Add(DataTableIds.Floor, floorTable);
 
         // 테이블 완료 시 주석 해제
         DataTable animalTable = new AnimalTable();
@@ -32,9 +32,9 @@ public static class DataTableMgr
         //tables.Add(DataTableIds.Facility, facilityTable);
 
         // 테이블 완료 시 주석 해제
-        //DataTable mergeTable = new MergeTable();
-        //mergeTable.Load(DataTableIds.MergeTable);
-        //tables.Add(DataTableIds.MergeTable, mergeTable);
+        DataTable mergeTable = new MergeTable();
+        mergeTable.Load(DataTableIds.MergeTable);
+        tables.Add(DataTableIds.MergeTable, mergeTable);
     }
 
     public static StringTable GetStringTable()
@@ -50,6 +50,11 @@ public static class DataTableMgr
     public static MergeTable GetMergeTable()
     {
         return Get<MergeTable>(DataTableIds.MergeTable);
+    }
+
+    public static FloorTable GetFloorTable()
+    {
+        return Get<FloorTable>(DataTableIds.Floor);
     }
 
     public static T Get<T>(string id) where T : DataTable

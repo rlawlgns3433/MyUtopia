@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -5,8 +7,23 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class AnimalManager : MonoBehaviour
 {
     public LayerMask floorLayer;
+    public Dictionary<int, AssetReference> animalDictionary = new Dictionary<int, AssetReference>();
+    private AnimalTable animalTable;
+    public AnimalTable AnimalTable
+    {
+        get
+        {
+            if(animalTable == null)
+            {
+                animalTable = DataTableMgr.GetAnimalTable();
+            }
+            return animalTable;
+        }
+    }
+
     public AssetReference hamsterPrefabReference; // Addressable Asset Reference
     public AssetReference ferretPrefabReference; // Addressable Asset Reference
+
 
     public void MoveAnimal(string toFloor)
     {
@@ -32,7 +49,7 @@ public class AnimalManager : MonoBehaviour
         animalClick.AnimalWork.Animal.LevelUp();
     }
 
-    void Start()
+    private void Start()
     {
         DataTableMgr.GetStringTable();
     }
@@ -48,6 +65,9 @@ public class AnimalManager : MonoBehaviour
                 var pos = hit.point;
                 var spawnFloor = hit.collider.gameObject.GetComponent<Floor>();
                 pos.y = 0f;
+
+                if (spawnFloor.animals.Count >= spawnFloor.FloorData.Max_Population)
+                    return;
 
                 if (spawnFloor != null)
                     Create(pos, spawnFloor, hamsterPrefabReference);
@@ -72,6 +92,17 @@ public class AnimalManager : MonoBehaviour
 
     public void Create(Vector3 position, Floor floor, AssetReference asset, bool isMerged = false)
     {
+        if (floor.animals.Count >= floor.FloorData.Max_Population)
+            return;
+
+        if (animalDictionary.Count == 0)
+        {
+            foreach (var animal in AnimalTable.GetKeyValuePairs)
+            {
+                animalDictionary.Add(animal.Key, new AssetReference(animal.Value.Prefab));
+            }
+        }
+
         asset.InstantiateAsync(position, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
         {
             if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -90,6 +121,33 @@ public class AnimalManager : MonoBehaviour
                     animalClick.IsClicked = true;
                 }
             }
+        };
+    }
+
+    public void Create(Vector3 position, Floor floor, int animalId, bool isMerged = false)
+    {
+        if (floor.animals.Count >= floor.FloorData.Max_Population)
+            return;
+
+        animalDictionary[animalId].InstantiateAsync(position, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
+        {
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                var animalWork = handle.Result.GetComponent<AnimalWork>();
+                Debug.Log(animalWork.gameObject.GetInstanceID());
+                animalWork.currentFloor = floor.floorName;
+                animalWork.Animal = new Animal(animalWork.animalId);
+                animalWork.Animal.animalWork = animalWork;
+                animalWork.Animal.SetAnimal();
+                floor.animals.Add(animalWork.Animal);
+
+                if (isMerged)
+                {
+                    var animalClick = handle.Result.GetComponent<AnimalClick>();
+                    animalClick.IsClicked = true;
+                }
+            }
+            UiManager.Instance.animalFocusUi.Set();
         };
     }
 }

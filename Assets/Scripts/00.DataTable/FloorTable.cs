@@ -37,7 +37,7 @@ public struct FloorData
 
 public class FloorTable : DataTable
 {
-    private static readonly FloorData defaultData = new FloorData();
+    public static readonly FloorData defaultData = new FloorData();
     private Dictionary<int, FloorData> table = new Dictionary<int, FloorData>();
     public override void Load(string path)
     {

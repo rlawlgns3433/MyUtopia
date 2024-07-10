@@ -273,7 +273,7 @@ public struct BigNumber
     {
         if (a.bigNumber == null)
         {
-            return b < 0;
+            return b > 0;
         }
 
         var aBigNumber = a.bigNumber;

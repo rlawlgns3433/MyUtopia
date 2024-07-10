@@ -22,10 +22,8 @@ public class UiAnimalFocus : MonoBehaviour
     private TextMeshProUGUI textCurrentFloor;
     [SerializeField]
     private TextMeshProUGUI textAnimalWorkload;
-    [SerializeField]
-    private Button buttonLevelUp;
-    [SerializeField]
-    private Button buttonSell;
+    public Button buttonLevelUp;
+    public Button buttonSell;
 
     private AnimalWork currentAnimal;
 
@@ -36,9 +34,24 @@ public class UiAnimalFocus : MonoBehaviour
 
     public void Set()
     {
-        var animalWork = (ClickableManager.CurrentClicked as AnimalClick).AnimalWork;
-        if(animalWork == null)
+        var animalClick = ClickableManager.CurrentClicked as AnimalClick;
+        if(animalClick == null)
+        {
+            UiManager.Instance.animalFocusUi.buttonLevelUp.interactable = false;
+            UiManager.Instance.animalFocusUi.buttonSell.interactable = false;
             return;
+        }
+
+        var animalWork = animalClick.AnimalWork;
+
+        if(animalWork == null)
+        {
+            UiManager.Instance.animalFocusUi.buttonLevelUp.interactable = false;
+            UiManager.Instance.animalFocusUi.buttonSell.interactable = false;
+            return;
+        }
+        UiManager.Instance.animalFocusUi.buttonLevelUp.interactable = true;
+        UiManager.Instance.animalFocusUi.buttonSell.interactable = true;
         currentAnimal = animalWork;
 
         Set(currentAnimal);

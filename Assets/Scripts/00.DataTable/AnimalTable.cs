@@ -26,12 +26,6 @@ public struct AnimalData
     {
         return DataTableMgr.GetStringTable().Get(Name);
     }
-
-    public override string ToString()
-    {
-        return string.Format("ID: {0}, Type: {1}, Grade: {2}, Name: {3}, Level: {4}, Level_Max: {5}, Workload: {6}, Stamina: {7}, Merge_ID: {9}, Sale_Coin: {10}, Level_Up_Coin: {11}",
-                       ID, Type, Grade, Name, Level, Level_Max, Workload, Stamina, Merge_ID, Sale_Coin, Level_Up_Coin);
-    }
 }
 
 public class AnimalTable : DataTable
@@ -44,6 +38,14 @@ public class AnimalTable : DataTable
         get
         {
             return table;
+        }
+    }
+
+    public int Count
+    {
+        get
+        {
+            return table.Count;
         }
     }
 
@@ -72,25 +74,10 @@ public class AnimalTable : DataTable
                 foreach (var record in records)
                 {
                     table.Add(record.ID, record);
+
                 }
             }
         };
-
-        //var textAsset = Resources.Load<TextAsset>(path);
-
-        //using (var reader = new StringReader(textAsset.text))
-        //using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
-        //{
-        //    csvReader.Read();
-        //    csvReader.ReadHeader();
-        //    csvReader.Read();
-
-        //    var records = csvReader.GetRecords<AnimalData>();
-        //    foreach (var record in records)
-        //    {
-        //        table.Add(record.ID, record);
-        //    }
-        //}
     }
 
     public AnimalData Get(int id)

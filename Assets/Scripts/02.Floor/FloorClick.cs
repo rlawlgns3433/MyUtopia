@@ -42,7 +42,7 @@ public class FloorClick : MonoBehaviour, IClickable, IPointerClickHandler
         ClickableManager.RemoveClickable(this);
         clickEvent -= FocusOut;
         clickEvent -= UnFollow;
-        clickEvent -= UiManager.Instance.ShowMainUi;
+        //clickEvent -= UiManager.Instance.ShowMainUi;
     }
 
     public void OnPointerClick(PointerEventData eventData)

@@ -98,6 +98,9 @@ public class AnimalClick : MonoBehaviour, IClickable
 
     private void Bump()
     {
+        if (IsClicked)
+            return;
+
         transform.DOScale(clickedScale, duration).OnComplete(() =>
         {
             transform.DOScale(initialScale, duration);

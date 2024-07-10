@@ -1,10 +1,8 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
-using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Threading;
-using TMPro;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class Floor : Subject, IGrowable
@@ -12,69 +10,28 @@ public class Floor : Subject, IGrowable
     public List<Animal> animals = new List<Animal>();
     public List<Building> buildings = new List<Building>();
     public List<Observer> uiCurrencies = new List<Observer>();
-    private FloorData currentFloorData; // FloorData에 따라서 건물이 달라짐 프로퍼티로 구성 필요
-    private FloorData nextFloorData;
+    [SerializeField]
+    private int floorId;
+
+    private FloorData floorData; // FloorData에 따라서 건물이 달라짐 프로퍼티로 구성 필요
+    public FloorData FloorData
+    {
+        get
+        {
+            if(floorData.ID == 0)
+            {
+                floorData = DataTableMgr.GetFloorTable().Get(floorId);
+            }
+            return floorData;
+        }
+        set
+        {
+            floorData = value;
+        }
+    }
     private CancellationTokenSource cts = new CancellationTokenSource();
     private BigNumber autoWorkload;
-    private string workloadPerSec;
     public string floorName;
-
-    private int currentFloorId = 21501;
-    public int CurrentFloorId
-    {
-        get
-        {
-            return currentFloorId;
-        }
-        set
-        {
-            currentFloorId = value;
-            currentFloorData = DataTableMgr.Get<FloorTable>(DataTableIds.Floor).Get(currentFloorId);
-        }
-    }
-
-    [SerializeField]
-    private int currentLevel;
-    public int CurrentLevel
-    {
-        get
-        {
-            return currentLevel;
-        }
-
-        set
-        {
-            // Floor Data 교체
-            currentLevel = value;
-            currentFloorData = nextFloorData;
-        }
-    }
-    [SerializeField]
-    private int maxLevel;
-    public int MaxLevel { get => currentFloorData.Grade_Max; }
-    [SerializeField]
-    private string costForLevelUp;
-
-    public event Action levelUpEvent;
-
-    public BigNumber CostForLevelUp
-    {
-        get
-        {
-            return new BigNumber(costForLevelUp);
-        }
-
-        set
-        {
-            costForLevelUp = value.ToString();
-        }
-    }
-
-    private void Awake()
-    {
-        //currentFloorData = DataTableMgr.Get<FloorTable>(DataTableIds.Floor).Get(CurrentFloorId);
-        //nextFloorData = DataTableMgr.Get<FloorTable>(DataTableIds.Floor).Get(++CurrentFloorId);
-    }
 
     private void Start()
     {
@@ -88,10 +45,37 @@ public class Floor : Subject, IGrowable
 
     public void LevelUp()
     {
-        // 보유 재화 조건에 의해 레벨업
+        if (FloorData.Grade == FloorData.Grade_Max)
+            return;
 
-        ++CurrentLevel;
-        levelUpEvent?.Invoke();
+        // 필요 재화가 있는지 확인
+        if(FloorData.Level_Up_Coin.ToBigNumber() > CurrencyManager.currency[(int)CurrencyType.Coin])
+            return;
+        if (FloorData.Level_Up_Resource_1 != 0)
+        {
+            if (FloorData.Resource_1_Value.ToBigNumber() > CurrencyManager.currency[FloorData.Level_Up_Resource_1])
+                return;
+        }
+
+        if (FloorData.Level_Up_Resource_2 != 0)
+        {
+            if (FloorData.Resource_2_Value.ToBigNumber() > CurrencyManager.currency[FloorData.Level_Up_Resource_2])
+                return;
+        }
+
+        if (FloorData.Level_Up_Resource_3 != 0)
+        {
+            if (FloorData.Resource_3_Value.ToBigNumber() > CurrencyManager.currency[FloorData.Level_Up_Resource_3])
+                return;
+        }
+
+        CurrencyManager.currency[(int)CurrencyType.Coin] -= FloorData.Level_Up_Coin.ToBigNumber();
+        CurrencyManager.currency[FloorData.Level_Up_Resource_1] -= FloorData.Level_Up_Resource_1 != 0 ? FloorData.Resource_1_Value.ToBigNumber() : BigNumber.Zero;
+        CurrencyManager.currency[FloorData.Level_Up_Resource_2] -= FloorData.Level_Up_Resource_2 != 0 ? FloorData.Resource_2_Value.ToBigNumber() : BigNumber.Zero;
+        CurrencyManager.currency[FloorData.Level_Up_Resource_3] -= FloorData.Level_Up_Resource_3 != 0 ? FloorData.Resource_3_Value.ToBigNumber() : BigNumber.Zero;
+
+        FloorData = DataTableMgr.GetFloorTable().Get(floorData.ID + 1);
+        Set();
     }
 
     public void RemoveAnimal(Animal animal)
@@ -189,6 +173,17 @@ public class Floor : Subject, IGrowable
                     }
                     NotifyObservers();
                 }
+            }
+        }
+    }
+
+    public void Set()
+    {
+        foreach (var building in buildings)
+        {
+            if(floorData.Unlock_Content == building.BuildingData.ID)
+            {
+                building.isLock = false;
             }
         }
     }

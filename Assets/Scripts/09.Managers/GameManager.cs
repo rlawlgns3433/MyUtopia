@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using static UnityEngine.UI.CanvasScaler;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -31,6 +32,7 @@ public class GameManager : Singleton<GameManager>
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
 
         CurrentSceneId = SceneIds.WorldLandOfHope;
+        CurrencyManager.Init();
     }
 
     public void RegisterSceneManager(SceneIds sceneName, SceneController sceneManager)

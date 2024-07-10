@@ -60,18 +60,6 @@ public class AnimalWork : MonoBehaviour, IMergable
         UniConsumeStamina().Forget();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            foreach(var a in FloorManager.GetFloor(currentFloor).animals)
-            {
-                if (Merge(a.animalWork))
-                    break;
-            }
-        }
-    }
-
     public bool Merge(AnimalWork animalWork)
     {
         if (ClickableManager.CurrentClicked as AnimalClick == null)
@@ -83,7 +71,8 @@ public class AnimalWork : MonoBehaviour, IMergable
         if (animalWork.animal.animalData.ID== animal.animalData.ID)
         {
             var floor = FloorManager.GetFloor(animalWork.currentFloor);
-            animalManager.Create(floor.gameObject.transform.position, floor, animalManager.ferretPrefabReference);
+            int resultAnimalId = DataTableMgr.GetMergeTable().Get(animal.animalData.Merge_ID).Result_Animal;
+            animalManager.Create(floor.gameObject.transform.position, floor, resultAnimalId);
             FloorManager.GetFloor(currentFloor).RemoveAnimal(animal);
             FloorManager.GetFloor(currentFloor).RemoveAnimal(animalWork.animal);
             Destroy(gameObject);

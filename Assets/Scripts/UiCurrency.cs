@@ -7,7 +7,6 @@ public class UiCurrency : Observer
 {
     private TextMeshProUGUI currency;
     public CurrencyType currencyType;
-    public string format;
 
     private void Awake()
     {
@@ -15,6 +14,6 @@ public class UiCurrency : Observer
     }
     public override void Notify(Subject subject)
     {
-        currency.text = string.Format(format, CurrencyManager.currency[(int)currencyType].ToString());
+        currency.text = CurrencyManager.currency[(int)currencyType].ToString();
     }
 }
