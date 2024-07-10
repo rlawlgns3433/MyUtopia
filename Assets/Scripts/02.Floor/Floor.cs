@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -123,6 +124,8 @@ public class Floor : Subject, IGrowable
             {
                 foreach (var b in buildings)
                 {
+                    if (b.isLock)
+                        continue;
                     if (b.BuildingData.Level == 0)
                         continue;
 

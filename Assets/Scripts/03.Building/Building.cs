@@ -12,6 +12,7 @@ public class Building : Subject, IClickable, IPointerClickHandler
     public Vector3 clickedScale;
     public CurrencyType buildingType;
     public int buildingId;
+    public bool isLock = true;
 
     private BuildingData buildingData;
     public BuildingData BuildingData
@@ -85,11 +86,15 @@ public class Building : Subject, IClickable, IPointerClickHandler
             case CurrencyType.CopperStone:
             case CurrencyType.SilverStone:
             case CurrencyType.GoldStone:
+                if (isLock)
+                    return;
                 CurrencyManager.currency[(int)buildingType] += new BigNumber(BuildingData.Touch_Produce);
                 break;
             case CurrencyType.CopperIngot:
             case CurrencyType.SilverIngot:
             case CurrencyType.GoldIngot:
+                if (isLock)
+                    return;
                 if (CurrencyManager.currency[BuildingData.Materials_Type] > BuildingData.Conversion_rate)
                 {
                     CurrencyManager.currency[(int)buildingType] += 1;
