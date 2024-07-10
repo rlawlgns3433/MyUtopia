@@ -92,8 +92,12 @@ public class AnimalManager : MonoBehaviour
 
     public void Create(Vector3 position, Floor floor, AssetReference asset, bool isMerged = false)
     {
-        if (floor.animals.Count >= floor.FloorData.Max_Population)
-            return;
+        if(!isMerged)
+        {
+            if (floor.animals.Count >= floor.FloorData.Max_Population)
+                return;
+        }
+
 
         if (animalDictionary.Count == 0)
         {
