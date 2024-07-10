@@ -130,8 +130,11 @@ public class AnimalManager : MonoBehaviour
 
     public void Create(Vector3 position, Floor floor, int animalId, bool isMerged = false)
     {
-        if (floor.animals.Count >= floor.FloorData.Max_Population)
-            return;
+        if (!isMerged)
+        {
+            if (floor.animals.Count >= floor.FloorData.Max_Population)
+                return;
+        }
 
         animalDictionary[animalId].InstantiateAsync(position, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
         {

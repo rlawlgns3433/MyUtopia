@@ -88,6 +88,7 @@ public class Floor : Subject, IGrowable
             return;
 
         animals.Remove(animal);
+        Destroy(animal.animalWork.gameObject);
     }
     private async UniTaskVoid UniSetBuilding()
     {
@@ -182,9 +183,9 @@ public class Floor : Subject, IGrowable
                             }
                             break;
                     }
-                    NotifyObservers();
                 }
             }
+            NotifyObservers();
         }
     }
 

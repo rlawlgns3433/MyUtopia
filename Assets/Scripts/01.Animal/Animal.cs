@@ -1,5 +1,4 @@
 using System;
-using System.Numerics;
 using UnityEngine;
 
 [Serializable]
@@ -135,7 +134,8 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
 
     public void Sale()
     {
-
+        FloorManager.GetFloor(animalWork.currentFloor).RemoveAnimal(this);
+        CurrencyManager.currency[(int)CurrencyType.Coin] += animalData.Sale_Coin.ToBigNumber();
     }
 
     public void SetAnimal()

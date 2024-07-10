@@ -30,6 +30,7 @@ public class UiAnimalFocus : MonoBehaviour
     private void Start()
     {
         buttonLevelUp.onClick.AddListener(Set);
+        buttonSell.onClick.AddListener(SetSaleUi);
     }
 
     public void Set()
@@ -68,5 +69,10 @@ public class UiAnimalFocus : MonoBehaviour
         textAnimalLevel.text = string.Format(levelFormat, animalData.Level, animalData.Level_Max);
         textCurrentFloor.text = string.Format(currentFloorFormat, animalWork.currentFloor);
         textAnimalWorkload.text = string.Format(workloadFormat, animalData.Workload);
+    }
+
+    public void SetSaleUi()
+    {
+        UiManager.Instance.uiSell.textCoinForSale.text = currentAnimal.Animal.animalData.Sale_Coin;
     }
 }

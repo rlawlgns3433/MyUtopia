@@ -72,7 +72,7 @@ public class AnimalWork : MonoBehaviour, IMergable
         {
             var floor = FloorManager.GetFloor(animalWork.currentFloor);
             int resultAnimalId = DataTableMgr.GetMergeTable().Get(animal.animalData.Merge_ID).Result_Animal;
-            animalManager.Create(floor.gameObject.transform.position, floor, resultAnimalId);
+            animalManager.Create(floor.gameObject.transform.position, floor, resultAnimalId, true);
             FloorManager.GetFloor(currentFloor).RemoveAnimal(animal);
             FloorManager.GetFloor(currentFloor).RemoveAnimal(animalWork.animal);
             Destroy(gameObject);

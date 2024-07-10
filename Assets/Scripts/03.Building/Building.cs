@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Building : Subject, IClickable, IPointerClickHandler
+public class Building : MonoBehaviour, IClickable, IPointerClickHandler
 {
     [SerializeField]
     private float duration = 0f;
