@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using static UnityEditor.AddressableAssets.Build.Layout.BuildLayout;
 
 public struct AnimalData
 {
@@ -20,11 +21,17 @@ public struct AnimalData
     public string Sale_Coin { get; set; }
     public string Level_Up_Coin { get; set; }
     public string Prefab { get; set; }
+    public string Profile { get; set; }
     // 데이터 테이블에 따른 추가 필요
 
     public string GetName()
     {
         return DataTableMgr.GetStringTable().Get(Name);
+    }
+
+    public Sprite GetProfile()
+    {
+        return Addressables.LoadAssetAsync<Sprite>(Profile).Result;
     }
 }
 
@@ -74,7 +81,7 @@ public class AnimalTable : DataTable
                 foreach (var record in records)
                 {
                     table.Add(record.ID, record);
-
+                    Debug.Log(record.Profile);
                 }
             }
         };
