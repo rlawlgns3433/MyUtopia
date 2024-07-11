@@ -10,6 +10,9 @@ public class AnimalController : MonoBehaviour
     private Node behaviorTreeRoot;
     private bool destinationSet;
     public float range = 10.0f;
+    private float timer = 0f;
+    private float interval = 7f;
+    private Vector3 prevDestination;
 
     public bool DestinationSet
     {
@@ -62,8 +65,16 @@ public class AnimalController : MonoBehaviour
     private void Update()
     {
         behaviorTreeRoot.Execute();
-
-
+        timer += Time.deltaTime;
+        if(timer > interval)
+        {
+            // 이전 도착지와 동일할 경우 새로운 목적지 설정
+            if(prevDestination == agent.destination)
+            {
+                RandomDestination();
+            }
+            timer = 0f;
+        }
     }
 
     public void SetDestination(Vector3 destination)
@@ -73,6 +84,7 @@ public class AnimalController : MonoBehaviour
 
         agent.isStopped = false;
         agent.destination = destination;
+        prevDestination = agent.destination;
     }
 
 

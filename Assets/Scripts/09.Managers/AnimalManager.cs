@@ -8,6 +8,7 @@ public class AnimalManager : MonoBehaviour
 {
     public LayerMask floorLayer;
     public Dictionary<int, AssetReference> animalDictionary = new Dictionary<int, AssetReference>();
+    public UiAnimalInventory uiAnimalInventory;
     private AnimalTable animalTable;
     public AnimalTable AnimalTable
     {
@@ -90,9 +91,9 @@ public class AnimalManager : MonoBehaviour
         }
     }
 
-    public void Create(Vector3 position, Floor floor, AssetReference asset, bool isMerged = false)
+    public void Create(Vector3 position, Floor floor, AssetReference asset,  bool isMerged = false)
     {
-        if(!isMerged)
+        if (!isMerged)
         {
             if (floor.animals.Count >= floor.FloorData.Max_Population)
                 return;
@@ -125,6 +126,7 @@ public class AnimalManager : MonoBehaviour
                     animalClick.IsClicked = true;
                 }
             }
+            UiManager.Instance.animalFocusUi.Set();
         };
     }
 

@@ -34,7 +34,6 @@ public class AnimalWork : MonoBehaviour, IMergable
     private int mergeId;
     public int MergeId { get => mergeId; set => mergeId = value; }
 
-    public Slider staminaSlider;
     public string currentFloor;
 
     private void Awake()
@@ -44,17 +43,6 @@ public class AnimalWork : MonoBehaviour, IMergable
 
     private void Start()
     {
-        staminaSlider.maxValue = Animal.Stamina;
-        staminaSlider.minValue = 0f;
-        staminaSlider.value = Animal.Stamina;
-
-        staminaSlider.onValueChanged.AddListener(
-        (float value) =>
-        {
-            Animal.Stamina = (int)value;
-        });
-
-        //animalManager = GameObject.FindWithTag("AddressableLoad").GetComponent<AnimalManager>();
         animalManager = GameManager.Instance.GetAnimalManager();
 
         UniConsumeStamina().Forget();
@@ -87,7 +75,6 @@ public class AnimalWork : MonoBehaviour, IMergable
         while (Animal.Stamina > 0)
         {
             Animal.Stamina -= 1;
-            staminaSlider.value = Animal.Stamina;
 
             await UniTask.Delay(3000);
         }

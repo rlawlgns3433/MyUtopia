@@ -5,15 +5,12 @@ using TMPro;
 
 public class UiCurrency : Observer
 {
-    private TextMeshProUGUI currency;
+    [SerializeField]
+    private TextMeshProUGUI textCurrency;
     public CurrencyType currencyType;
 
-    private void Awake()
-    {
-        currency = GetComponent<TextMeshProUGUI>();
-    }
     public override void Notify(Subject subject)
     {
-        currency.text = CurrencyManager.currency[(int)currencyType].ToString();
+        textCurrency.text = CurrencyManager.currency[(int)currencyType].ToString();
     }
 }
