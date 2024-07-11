@@ -35,14 +35,21 @@ public class TimeData
     }
 }
 
-public static class UtilityTime
+public class UtilityTime : MonoBehaviour
 {
     private static string filePath = Path.Combine(Application.persistentDataPath, "Time.json");
     private static int seconds;
     public static int Seconds { get { return seconds; } set { seconds = value; } }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-    private static async void OnApplicationStart()
+    private static void OnApplicationStart()
+    {
+        GameObject obj = new GameObject("UtilityTime");
+        DontDestroyOnLoad(obj);
+        obj.AddComponent<UtilityTime>();
+    }
+
+    private async void Start()
     {
         switch (Application.internetReachability)
         {
@@ -55,11 +62,9 @@ public static class UtilityTime
                 CompareStoredAndCurrentTime();
                 break;
         }
-
-        Application.quitting += OnApplicationQuit;
     }
 
-    private static void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
         switch (Application.internetReachability)
         {
@@ -70,6 +75,14 @@ public static class UtilityTime
             case NetworkReachability.ReachableViaLocalAreaNetwork:
                 SaveQuitTimeOnLine().Forget();
                 break;
+        }
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            SaveQuitTimeOnPause();
         }
     }
 
@@ -125,6 +138,15 @@ public static class UtilityTime
         TimeData timeData = LoadTimeData();
         timeData.QuitTime = quitTimeString;
         SaveTimeData(timeData);
+    }
+
+    private static async void SaveQuitTimeOnPause()
+    {
+        string quitTimeString = DateTime.Now.ToString("o");
+        TimeData timeData = LoadTimeData();
+        timeData.QuitTime = quitTimeString;
+        SaveTimeData(timeData);
+        await UniTask.CompletedTask;
     }
 
     private static void CompareStoredAndCurrentTime()

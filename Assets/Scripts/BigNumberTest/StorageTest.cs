@@ -122,6 +122,14 @@ public class StorageTest : MonoBehaviour, IClickable
 
     private void SaveDataOnQuit()
     {
+        if(CurrWorkLoad == 0)
+        {
+            CurrWorkLoad = BigNumber.Zero;
+        }
+        if(CurrArray == null)
+        {
+            CurrArray = new BigNumber[textMeshPros.Count];
+        }
         string filePath = Path.Combine(Application.persistentDataPath, "storageData.json");
         StorageData storageData = new StorageData
         {
