@@ -522,6 +522,8 @@ public struct BigNumber
 
     private static BigNumber Divide(BigNumber a, int b)
     {
+        if(a.bigNumber == null)
+        { return Zero; }
         if (b == 0)
             return new BigNumber(0);
         if (b == 1)

@@ -105,15 +105,6 @@ public class StorageTest : MonoBehaviour, IClickable
         CheckStorage().Forget();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyUp(KeyCode.Space))
-        {
-            CheckStorage().Forget();
-        }
-
-    }
-
     public async UniTaskVoid CheckStorage()
     {
         await UniTask.WaitUntil(() => buildings.Length > 0 && buildings[0] != null);
@@ -148,8 +139,14 @@ public class StorageTest : MonoBehaviour, IClickable
         {
             string json = File.ReadAllText(filePath);
             StorageData data = JsonConvert.DeserializeObject<StorageData>(json, new WorkLoadConverter());
-
-            CurrWorkLoad = data.CurrentWorkLoad;
+            if(data.CurrentWorkLoad.IsZero)
+            {
+                CurrWorkLoad = BigNumber.Zero;
+            }
+            else
+            {
+                CurrWorkLoad = data.CurrentWorkLoad;
+            }
             if (data.CurrArray.Length != 0)
             {
                 CurrArray = data.CurrArray;
