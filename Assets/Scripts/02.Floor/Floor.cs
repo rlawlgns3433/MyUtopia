@@ -112,7 +112,7 @@ public class Floor : Subject, IGrowable
                     autoWorkload += animal.animalData.Workload;
 
                 if (storage != null)
-                    storage.currBigNum = autoWorkload;
+                    storage.CurrWorkLoad = autoWorkload;
             }
 
 
