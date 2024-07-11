@@ -49,8 +49,9 @@ public class StorageTest : MonoBehaviour, IClickable
     private Building[] buildings;
     private bool isClick = false;
 
-    //public ParticleSystem ps;
     public List<ParticleSystem> particleSystems;
+    public Canvas canvas;
+
     public Building[] Buildings
     {
         get
@@ -104,6 +105,15 @@ public class StorageTest : MonoBehaviour, IClickable
         CheckStorage().Forget();
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            CheckStorage().Forget();
+        }
+
+    }
+
     public async UniTaskVoid CheckStorage()
     {
         await UniTask.WaitUntil(() => buildings.Length > 0 && buildings[0] != null);
@@ -140,7 +150,7 @@ public class StorageTest : MonoBehaviour, IClickable
             StorageData data = JsonConvert.DeserializeObject<StorageData>(json, new WorkLoadConverter());
 
             CurrWorkLoad = data.CurrentWorkLoad;
-            if(data.CurrArray.Length != 0)
+            if (data.CurrArray.Length != 0)
             {
                 CurrArray = data.CurrArray;
             }
@@ -153,12 +163,11 @@ public class StorageTest : MonoBehaviour, IClickable
         if (!isClick)
         {
             isClick = true;
-            for(int i = 0; i < CurrArray.Length; ++i)
+            for (int i = 0; i < CurrArray.Length; ++i)
             {
                 if (CurrArray[i] > BigNumber.Zero)
                 {
                     ParticleSystemEmit(particleSystems[i]).Forget();
-                    
                 }
             }
         }
@@ -182,6 +191,10 @@ public class StorageTest : MonoBehaviour, IClickable
     {
         if (ps != null)
         {
+            var worldPosition = transform.position;
+            var screenPos = Camera.main.WorldToScreenPoint(worldPosition);
+            ps.transform.position = screenPos;
+
             ps.Emit(1);
             await UniTask.WaitUntil(() => !ps.IsAlive(true));
 
