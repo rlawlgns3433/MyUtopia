@@ -168,11 +168,14 @@ public class StorageTest : MonoBehaviour, IClickable
         if (!isClick)
         {
             isClick = true;
-            for (int i = 0; i < CurrArray.Length; ++i)
+            if(CurrArray != null)
             {
-                if (CurrArray[i] > BigNumber.Zero)
+                for (int i = 0; i < CurrArray.Length; ++i)
                 {
-                    ParticleSystemEmit(particleSystems[i]).Forget();
+                    if (CurrArray[i] > BigNumber.Zero)
+                    {
+                        ParticleSystemEmit(particleSystems[i]).Forget();
+                    }
                 }
             }
         }
