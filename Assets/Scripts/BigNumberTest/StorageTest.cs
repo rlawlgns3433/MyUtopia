@@ -1,7 +1,7 @@
+using Coffee.UIExtensions;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,13 +9,48 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Coffee.UIParticleExtensions;
+
+[Serializable]
+public class StorageData
+{
+    private string currWorkLoad;
+    public BigNumber CurrentWorkLoad
+    {
+        get
+        {
+            return new BigNumber(currWorkLoad);
+        }
+        set
+        {
+            currWorkLoad = value.ToSimpleString();
+        }
+    }
+    private string[] currArray;
+    public BigNumber[] CurrArray
+    {
+        get
+        {
+            return currArray.Select(s => new BigNumber(s)).ToArray();
+        }
+        set
+        {
+            currArray = value.Select(bn => bn.ToSimpleString()).ToArray();
+        }
+    }
+}
 
 public class StorageTest : MonoBehaviour, IClickable
 {
     public List<CurrencyType> currencyTypes;
     public List<TextMeshPro> textMeshPros;
-    public BigNumber currBigNum;
+    public BigNumber CurrWorkLoad;
+    public BigNumber[] CurrArray;
     private Building[] buildings;
+    private bool isClick = false;
+
+    //public ParticleSystem ps;
+    public List<ParticleSystem> particleSystems;
     public Building[] Buildings
     {
         get
@@ -50,6 +85,7 @@ public class StorageTest : MonoBehaviour, IClickable
             }
         }
     }
+
     private void Awake()
     {
         clickEvent += OpenStorage;
@@ -63,58 +99,36 @@ public class StorageTest : MonoBehaviour, IClickable
         offLineSeconds = UtilityTime.Seconds / 3;
         Debug.Log(offLineSeconds);
         buildings = new Building[textMeshPros.Count];
+        CurrArray = new BigNumber[textMeshPros.Count];
         LoadDataOnStart();
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Test().Forget();
-        }
+        CheckStorage().Forget();
     }
 
-    public async UniTaskVoid Test()
+    public async UniTaskVoid CheckStorage()
     {
+        await UniTask.WaitUntil(() => buildings.Length > 0 && buildings[0] != null);
+
         for (int i = 0; i < buildings.Length; i++)
         {
-            if (buildings[i] == null)
-            {
-                Debug.LogError($"Building at index {i} is null");
-                continue;
-            }
-
-            if (buildings[i].BuildingData.Name == null)
-            {
-                Debug.LogError($"BuildingData for building at index {i} is null");
-                continue;
-            }
-
             var workRequire = buildings[i].BuildingData.Work_Require;
-            if (workRequire == 0)
-            {
-                Debug.LogError($"Work_Require for building at index {i} is zero");
-                continue;
-            }
-
-            var value = currBigNum / workRequire;
-            Debug.Log($"Building ID: {buildings[i].buildingId}");
-            Debug.Log($"Value before multiplication: {value.ToSimpleString()}");
-
+            var value = CurrWorkLoad / workRequire;
             value *= offLineSeconds;
-            Debug.Log($"Value after multiplication: {value.ToSimpleString()}");
-
-            textMeshPros[i].text = value.ToString();
+            CurrArray[i] += value;
+            textMeshPros[i].text = CurrArray[i].ToString();
         }
         await UniTask.Yield();
     }
 
-
     private void SaveDataOnQuit()
     {
         string filePath = Path.Combine(Application.persistentDataPath, "storageData.json");
-        string json = JsonConvert.SerializeObject(this, Formatting.Indented, new WorkLoadConverter());
+        StorageData storageData = new StorageData
+        {
+            CurrentWorkLoad = CurrWorkLoad,
+            CurrArray = CurrArray
+        };
+        string json = JsonConvert.SerializeObject(storageData, Formatting.Indented, new WorkLoadConverter());
         File.WriteAllText(filePath, json);
-        Debug.Log($"Data saved to {filePath}");
     }
 
     private void LoadDataOnStart()
@@ -123,17 +137,35 @@ public class StorageTest : MonoBehaviour, IClickable
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-            StorageTest data = JsonConvert.DeserializeObject<StorageTest>(json, new WorkLoadConverter());
+            StorageData data = JsonConvert.DeserializeObject<StorageData>(json, new WorkLoadConverter());
 
-            currBigNum = data.currBigNum;
-            Debug.Log("testst"+currBigNum);
-            Debug.Log($"Data loaded from {filePath}");
+            CurrWorkLoad = data.CurrentWorkLoad;
+            if(data.CurrArray.Length != 0)
+            {
+                CurrArray = data.CurrArray;
+            }
+
         }
     }
 
     public void OpenStorage()
     {
-        Debug.Log("Click");
+        if (!isClick)
+        {
+            isClick = true;
+            for(int i = 0; i < CurrArray.Length; ++i)
+            {
+                if (CurrArray[i] > BigNumber.Zero)
+                {
+                    ParticleSystemEmit(particleSystems[i]).Forget();
+                    
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("isClick");
+        }
     }
 
     public void RegisterClickable()
@@ -144,5 +176,23 @@ public class StorageTest : MonoBehaviour, IClickable
     public void OnPointerClick(PointerEventData eventData)
     {
         IsClicked = true;
+    }
+
+    public async UniTask ParticleSystemEmit(ParticleSystem ps)
+    {
+        if (ps != null)
+        {
+            ps.Emit(1);
+            await UniTask.WaitUntil(() => !ps.IsAlive(true));
+
+            Debug.Log("Click");
+            for (int i = 0; i < textMeshPros.Count; ++i)
+            {
+                CurrencyManager.currency[(int)currencyTypes[i]] += CurrArray[i];
+                CurrArray[i] = BigNumber.Zero;
+                textMeshPros[i].text = CurrArray[i].ToString();
+                isClick = true;
+            }
+        }
     }
 }
