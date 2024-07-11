@@ -2,76 +2,14 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Animal : IGrowable, ISaleable, IConductable, IMovable
+public class Animal : IGrowable, IMovable
 {
     public AnimalWork animalWork;
     public AnimalData animalData;
     public Animal() { }
-    public Animal(Animal other)
-    {
-        this.costForLevelUp = other.costForLevelUp;
-        this.coinForSale = other.coinForSale;
-        this.stamina = other.stamina;
-        this.workload = other.workload;
-        this.walkSpeed = other.walkSpeed;
-        this.runSpeed = other.runSpeed;
-        this.idleTime = other.idleTime;
-    }
-
     public Animal(int animalId)
     {
         animalData = DataTableMgr.GetAnimalTable().Get(animalId);
-
-        this.coinForSale = animalData.Sale_Coin;
-        this.workload = animalData.Workload;
-        this.stamina = (int)animalData.Stamina;
-        this.coinForSale = animalData.Sale_Coin;
-        this.costForLevelUp = animalData.Level_Up_Coin;
-    }
-
-    [SerializeField]
-    private string costForLevelUp;
-    public BigNumber CostForLevelUp
-    {
-        get
-        {
-            return new BigNumber(costForLevelUp);
-        }
-        set
-        {
-            costForLevelUp = value.ToString();
-        }
-    }
-
-
-    [SerializeField]
-    private string coinForSale;
-    public BigNumber CoinForSale
-    {
-        get
-        {
-            return new BigNumber(coinForSale);
-        }
-        set
-        {
-            coinForSale = value.ToString();
-        }
-    }
-    [SerializeField]
-    private int stamina;
-    public int Stamina { get => stamina; set => stamina = value; }
-    [SerializeField]
-    private int workload;
-    public int Workload 
-    { 
-        get
-        {
-            return workload;
-        }
-        set
-        {
-            workload = value;
-        }
     }
 
     [SerializeField]
@@ -143,10 +81,5 @@ public class Animal : IGrowable, ISaleable, IConductable, IMovable
         walkSpeed = 3f;
         runSpeed = 5f;
         idleTime = 2f;
-    }
-
-    public override string ToString()
-    {
-        return $"coin for sale : {CoinForSale}\nStamina : {Stamina}\nAutoHarvesting : {Workload}";
     }
 }

@@ -71,7 +71,7 @@ public class AnimalManager : MonoBehaviour
                     return;
 
                 if (spawnFloor != null)
-                    Create(pos, spawnFloor, hamsterPrefabReference);
+                    Create(pos, spawnFloor, hamsterPrefabReference, 0);
             }
         }
 
@@ -86,12 +86,12 @@ public class AnimalManager : MonoBehaviour
                 pos.y = 0f;
 
                 if (spawnFloor != null)
-                    Create(pos, spawnFloor, ferretPrefabReference);
+                    Create(pos, spawnFloor, ferretPrefabReference, 0);
             }
         }
     }
 
-    public void Create(Vector3 position, Floor floor, AssetReference asset,  bool isMerged = false)
+    public void Create(Vector3 position, Floor floor, AssetReference asset, int slotId, bool isMerged = false)
     {
         if (!isMerged)
         {
@@ -118,6 +118,22 @@ public class AnimalManager : MonoBehaviour
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
+
+                if (slotId == 0)
+                {
+                    foreach (var slot in uiAnimalInventory.uiAnimalSlots)
+                    {
+                        if (slot.IsEmpty)
+                        {
+                            var animalClick = animalWork.GetComponent<AnimalClick>();
+                            uiAnimalInventory.SetSlot(slotId, animalClick);
+                            Debug.Log("111" + animalClick.GetInstanceID());
+                            break;
+                        }
+                    }
+                }
+
+
                 floor.animals.Add(animalWork.Animal);
 
                 if(isMerged)
@@ -130,7 +146,7 @@ public class AnimalManager : MonoBehaviour
         };
     }
 
-    public void Create(Vector3 position, Floor floor, int animalId, bool isMerged = false)
+    public void Create(Vector3 position, Floor floor, int animalId, int slotId, bool isMerged = false)
     {
         if (!isMerged)
         {
@@ -148,6 +164,21 @@ public class AnimalManager : MonoBehaviour
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
+
+                if(slotId == 0)
+                {
+                    foreach(var slot in uiAnimalInventory.uiAnimalSlots)
+                    {
+                        if(slot.IsEmpty)
+                        {
+                            var animalClick = animalWork.GetComponent<AnimalClick>();
+                            uiAnimalInventory.SetSlot(slotId, animalClick);
+                            Debug.Log("111" + animalClick.GetInstanceID());
+                            break;
+                        }
+                    }
+                }
+
                 floor.animals.Add(animalWork.Animal);
 
                 if (isMerged)

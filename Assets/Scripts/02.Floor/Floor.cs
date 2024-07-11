@@ -106,7 +106,7 @@ public class Floor : Subject, IGrowable
 
             foreach (var animal in animals)
             {
-                if (animal.Stamina <= 0)
+                if (animal.animalData.Stamina <= 0)
                     autoWorkload += animal.animalData.Workload / 2;
                 else
                     autoWorkload += animal.animalData.Workload;

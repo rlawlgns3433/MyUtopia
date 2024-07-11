@@ -60,7 +60,7 @@ public class AnimalWork : MonoBehaviour, IMergable
         {
             var floor = FloorManager.GetFloor(animalWork.currentFloor);
             int resultAnimalId = DataTableMgr.GetMergeTable().Get(animal.animalData.Merge_ID).Result_Animal;
-            animalManager.Create(floor.gameObject.transform.position, floor, resultAnimalId, true);
+            animalManager.Create(floor.gameObject.transform.position, floor, resultAnimalId, 0, true);
             FloorManager.GetFloor(currentFloor).RemoveAnimal(animal);
             FloorManager.GetFloor(currentFloor).RemoveAnimal(animalWork.animal);
             Destroy(gameObject);
@@ -72,11 +72,11 @@ public class AnimalWork : MonoBehaviour, IMergable
 
     private async UniTaskVoid UniConsumeStamina()
     {
-        while (Animal.Stamina > 0)
+        while (Animal.animalData.Stamina > 0)
         {
-            Animal.Stamina -= 1;
+            Animal.animalData.Stamina -= 1;
 
-            await UniTask.Delay(3000);
+            await UniTask.Delay(30);
         }
     }
 }

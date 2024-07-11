@@ -24,18 +24,20 @@ public class UiAnimalSlot : MonoBehaviour
         sliderStamina.onValueChanged.AddListener(
         (float value) =>
         {
-            animalData.Stamina = (int)value;
+            animalClick.AnimalWork.Animal.animalData.Stamina = (int)value;
         });
     }
 
-    public void SetData(AnimalClick animalClick)
+    public void SetData(AnimalClick animClick)
     {
-        if (animalClick == null)
+        if (animClick == null)
             return;
+        animalClick = animClick;
+        animalData = animClick.AnimalWork.Animal.animalData;
+        Debug.Log("222" + animalClick.GetInstanceID());
 
-        animalData = animalClick.AnimalWork.Animal.animalData;
-        if(animalData.GetProfile() != null)
-            imagePortrait.sprite = animalData.GetProfile();
+        //if(animalData.GetProfile() != null)
+        //    imagePortrait.sprite = animalData.GetProfile();
 
         sliderStamina.minValue = 0f;
         sliderStamina.maxValue = DataTableMgr.GetAnimalTable().Get(animalData.ID).Stamina;

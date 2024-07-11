@@ -34,11 +34,14 @@ public class UiAnimalInventory : MonoBehaviour
             {
                 var animalManager = GameObject.FindWithTag(Tags.AnimalManager).GetComponent<AnimalManager>();
                 var floor = FloorManager.GetFloor("B5"); // 임시 코드
-                animalManager.Create(floor.transform.position, floor, animalManager.hamsterPrefabReference);
-                var animalClick = animalManager.hamsterPrefabReference.Asset.GetComponent<AnimalClick>();
-                slot.SetData(animalClick);
+                animalManager.Create(floor.transform.position, floor, animalManager.hamsterPrefabReference, 0);
                 break;
             }
         }
+    }
+
+    public void SetSlot(int slotId, AnimalClick animalClick)
+    {
+        uiAnimalSlots[slotId].SetData(animalClick);
     }
 }
