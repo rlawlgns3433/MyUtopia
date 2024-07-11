@@ -118,25 +118,12 @@ public class AnimalManager : MonoBehaviour
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
-
-                if (slotId == 0)
-                {
-                    foreach (var slot in uiAnimalInventory.uiAnimalSlots)
-                    {
-                        if (slot.IsEmpty)
-                        {
-                            var animalClick = animalWork.GetComponent<AnimalClick>();
-                            uiAnimalInventory.SetSlot(slotId, animalClick);
-                            Debug.Log("111" + animalClick.GetInstanceID());
-                            break;
-                        }
-                    }
-                }
-
+                //animalWork.uiSlot = uiAnimalInventory.uiAnimalSlots[slotId];
+                //uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
 
                 floor.animals.Add(animalWork.Animal);
 
-                if(isMerged)
+                if (isMerged)
                 {
                     var animalClick = handle.Result.GetComponent<AnimalClick>();
                     animalClick.IsClicked = true;
@@ -154,6 +141,14 @@ public class AnimalManager : MonoBehaviour
                 return;
         }
 
+        if (animalDictionary.Count == 0)
+        {
+            foreach (var animal in AnimalTable.GetKeyValuePairs)
+            {
+                animalDictionary.Add(animal.Key, new AssetReference(animal.Value.Prefab));
+            }
+        }
+
         animalDictionary[animalId].InstantiateAsync(position, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
         {
             if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -164,20 +159,8 @@ public class AnimalManager : MonoBehaviour
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
-
-                if(slotId == 0)
-                {
-                    foreach(var slot in uiAnimalInventory.uiAnimalSlots)
-                    {
-                        if(slot.IsEmpty)
-                        {
-                            var animalClick = animalWork.GetComponent<AnimalClick>();
-                            uiAnimalInventory.SetSlot(slotId, animalClick);
-                            Debug.Log("111" + animalClick.GetInstanceID());
-                            break;
-                        }
-                    }
-                }
+                //animalWork.uiSlot = uiAnimalInventory.uiAnimalSlots[slotId];
+                //uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
 
                 floor.animals.Add(animalWork.Animal);
 

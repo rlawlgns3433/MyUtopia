@@ -1,10 +1,11 @@
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Triggers;
+using Spine;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AnimalWork : MonoBehaviour, IMergable
+public class AnimalWork : Subject, IMergable
 {
+    public Observer uiSlot;
     private AnimalManager animalManager;
     public int animalId;
     private Animal animal;
@@ -36,15 +37,10 @@ public class AnimalWork : MonoBehaviour, IMergable
 
     public string currentFloor;
 
-    private void Awake()
-    {
-        Animal = new Animal(animalId);
-    }
-
     private void Start()
     {
         animalManager = GameManager.Instance.GetAnimalManager();
-
+        Attach(uiSlot);
         UniConsumeStamina().Forget();
     }
 
@@ -74,8 +70,8 @@ public class AnimalWork : MonoBehaviour, IMergable
     {
         while (Animal.animalData.Stamina > 0)
         {
-            Animal.animalData.Stamina -= 1;
-
+           Animal.animalData.Stamina -= 1;
+            //NotifyObservers();
             await UniTask.Delay(30);
         }
     }

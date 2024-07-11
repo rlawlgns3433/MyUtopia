@@ -5,7 +5,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using static UnityEditor.AddressableAssets.Build.Layout.BuildLayout;
 
 public struct AnimalData
 {

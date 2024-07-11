@@ -172,6 +172,14 @@ public class StorageTest : MonoBehaviour, IClickable
         {
             Debug.Log("isClick");
         }
+
+        foreach(var text in textMeshPros)
+        {
+            if(text.gameObject.activeInHierarchy)
+            {
+                text.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void RegisterClickable()
