@@ -31,7 +31,7 @@ public class Animal : IGrowable, IMovable
         if (animalClick == null)
             return;
 
-        var animals = FloorManager.GetFloor(animalWork.currentFloor).animals;
+        var animals = FloorManager.Instance.GetFloor(animalWork.currentFloor).animals;
 
         if (animalData.Level == animalData.Level_Max)
         {
@@ -72,7 +72,7 @@ public class Animal : IGrowable, IMovable
 
     public void Sale()
     {
-        FloorManager.GetFloor(animalWork.currentFloor).RemoveAnimal(this);
+        FloorManager.Instance.GetFloor(animalWork.currentFloor).RemoveAnimal(this);
         CurrencyManager.currency[(int)CurrencyType.Coin] += animalData.Sale_Coin.ToBigNumber();
     }
 

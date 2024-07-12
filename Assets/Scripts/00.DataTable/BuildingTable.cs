@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using static UnityEditor.AddressableAssets.Build.Layout.BuildLayout;
 
 public struct BuildingData
 {
@@ -29,6 +30,12 @@ public struct BuildingData
     public string GetName()
     {
         return DataTableMgr.GetStringTable().Get(Name);
+    }
+
+    public Sprite GetProfile()
+    {
+        //return Addressables.LoadAssetAsync<Sprite>(Profile).Result;
+        return null;
     }
 }
 

@@ -39,7 +39,7 @@ public class Floor : Subject, IGrowable
             Attach(c);
         }
         UniAutoWork(cts.Token).Forget();
-        FloorManager.AddFloor(floorName, this);
+        FloorManager.Instance.AddFloor(floorName, this);
         UniSetBuilding().Forget();
     }
 

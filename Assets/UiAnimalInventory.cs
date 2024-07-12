@@ -9,6 +9,7 @@ public class UiAnimalInventory : MonoBehaviour
     public ScrollRect scrollRect;
     public int maxSlot = 5;
     public int currentIndex = 0;
+    private Floor currentFloor;
 
     private void Awake()
     {
@@ -23,7 +24,7 @@ public class UiAnimalInventory : MonoBehaviour
     {
         UiAnimalSlot slot = Instantiate(slotPrefab, scrollRect.content);
         var animalManager = GameObject.FindWithTag(Tags.AnimalManager).GetComponent<AnimalManager>();
-        var floor = FloorManager.GetFloor("B5"); // 임시 코드
+        var floor = FloorManager.Instance.GetFloor("B5"); // 임시 코드
         animalManager.Create(floor.transform.position, floor, 10005001, slot.SlotIndex);
 
 
@@ -33,5 +34,10 @@ public class UiAnimalInventory : MonoBehaviour
         uiAnimalSlots.Add(slot);
         slot.SlotIndex = currentIndex++;
         uiAnimalSlots[currentIndex - 1].SlotIndex = currentIndex - 1;
+    }
+
+    public void SetFloor(Floor floor)
+    {
+        currentFloor = floor;
     }
 }

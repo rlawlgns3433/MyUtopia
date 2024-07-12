@@ -15,6 +15,12 @@ public class FloorLockTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             CurrencyManager.currency[(int)CurrencyType.Coin] += 50000;
+            CurrencyManager.currency[(int)CurrencyType.CopperStone] += 50000;
+            CurrencyManager.currency[(int)CurrencyType.SilverStone] += 50000;
+            CurrencyManager.currency[(int)CurrencyType.GoldStone] += 50000;
+            CurrencyManager.currency[(int)CurrencyType.CopperIngot] += 50000;
+            CurrencyManager.currency[(int)CurrencyType.SilverIngot] += 50000;
+            CurrencyManager.currency[(int)CurrencyType.GoldIngot] += 50000;
             CurrencyManager.currency[(int)CurrencyType.CopperIngot] += 50000;
         }
     }
