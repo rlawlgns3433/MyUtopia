@@ -22,6 +22,7 @@ public class UiFloorInformation : MonoBehaviour
     //public List<UiBuildingInfo> uiFacilities;
 
     public Floor currentFloor;
+
     public FloorData floorData;
 
     private void Awake()
@@ -55,23 +56,6 @@ public class UiFloorInformation : MonoBehaviour
                 textCurrency.text = building.buildingType.ToString();
                 textProduceCurrencies.Add(textCurrency);
 
-                /*
-                건물 이름
-                생산품
-                재료, 생산
-                현재 교환비
-                다음 교환비 // 현재 최고 레벨이 아닌경우민
-
-
-                    public TextMeshProUGUI textBuildingLevel;
-                    public Image buildingProfile;
-                    public TextMeshProUGUI textBuildingName;
-                    public TextMeshProUGUI textProceeds;
-                    public TextMeshProUGUI textExchange;
-                    public TextMeshProUGUI textCurrentExchangeRate;
-                    public TextMeshProUGUI textNextExchangeRate;
-                    public Button buttonLevelUp;
-                 */
                 if(ValidateBuildingData(building.BuildingData))
                 {
                     UiBuildingInfo uiBuildingInfo = Instantiate(buildingInfoPrefab, buildingParent);
@@ -84,12 +68,6 @@ public class UiFloorInformation : MonoBehaviour
         }
 
         buttonLevelUp.onClick.AddListener(currentFloor.LevelUp);
-
-        //textSynergyName;
-        //textFacilityEffectName;
-        //uiBuildings;
-        //uiFacilities;
-
     }
 
     public bool ValidateBuildingData(BuildingData newData)

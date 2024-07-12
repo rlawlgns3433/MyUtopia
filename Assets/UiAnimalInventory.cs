@@ -9,6 +9,7 @@ public class UiAnimalInventory : MonoBehaviour
     public ScrollRect scrollRect;
     public int maxSlot = 5;
     public int currentIndex = 0;
+    private Floor currentFloor;
 
     private void Awake()
     {
@@ -33,5 +34,10 @@ public class UiAnimalInventory : MonoBehaviour
         uiAnimalSlots.Add(slot);
         slot.SlotIndex = currentIndex++;
         uiAnimalSlots[currentIndex - 1].SlotIndex = currentIndex - 1;
+    }
+
+    public void SetFloor(Floor floor)
+    {
+        currentFloor = floor;
     }
 }
