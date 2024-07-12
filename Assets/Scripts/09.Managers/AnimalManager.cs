@@ -33,9 +33,9 @@ public class AnimalManager : MonoBehaviour
         if (animalClick == null)
             return;
 
-        FloorManager.MoveAnimal(animalClick.AnimalWork.currentFloor, toFloor, animalClick.AnimalWork.Animal);
+        FloorManager.Instance.MoveAnimal(animalClick.AnimalWork.currentFloor, toFloor, animalClick.AnimalWork.Animal);
         animalClick.gameObject.SetActive(false);
-        animalClick.gameObject.transform.SetParent(FloorManager.GetFloor(toFloor).transform);
+        animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
         animalClick.gameObject.transform.localPosition = Vector3.zero;
         animalClick.gameObject.SetActive(true);
     }

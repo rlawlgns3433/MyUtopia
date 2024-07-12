@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 
-public class FloorManager
+// GameManger로 이동 필요
+public class FloorManager : Singleton<FloorManager>
 {
-    public static Dictionary<string, Floor> floors = new Dictionary<string, Floor>();
+    public Dictionary<string, Floor> floors = new Dictionary<string, Floor>();
 
-    public static void AddFloor(string floorId, Floor floor)
+    public void AddFloor(string floorId, Floor floor)
     {
         if (floors.ContainsKey(floorId))
             return;
@@ -12,7 +13,7 @@ public class FloorManager
         floors[floorId] = floor;
     }
 
-    public static void MoveAnimal(string fromFloor, string toFloor, Animal animal)
+    public void MoveAnimal(string fromFloor, string toFloor, Animal animal)
     {
         if (!floors.ContainsKey(fromFloor))
             return;
@@ -24,10 +25,17 @@ public class FloorManager
         floors[fromFloor].animals.Remove(animal);
     }
 
-    public static Floor GetFloor(string floorId)
+    public Floor GetFloor(string floorId)
     {
         if (!floors.ContainsKey(floorId))
             return null;
         return floors[floorId];
+    }
+
+    public void LevelUp(string floorId)
+    {
+        if (!floors.ContainsKey(floorId))
+            return;
+        floors[floorId].LevelUp();
     }
 }

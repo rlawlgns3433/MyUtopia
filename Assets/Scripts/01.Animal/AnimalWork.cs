@@ -54,11 +54,11 @@ public class AnimalWork : Subject, IMergable
 
         if (animalWork.animal.animalData.ID== animal.animalData.ID)
         {
-            var floor = FloorManager.GetFloor(animalWork.currentFloor);
+            var floor = FloorManager.Instance.GetFloor(animalWork.currentFloor);
             int resultAnimalId = DataTableMgr.GetMergeTable().Get(animal.animalData.Merge_ID).Result_Animal;
             animalManager.Create(floor.gameObject.transform.position, floor, resultAnimalId, 0, true);
-            FloorManager.GetFloor(currentFloor).RemoveAnimal(animal);
-            FloorManager.GetFloor(currentFloor).RemoveAnimal(animalWork.animal);
+            FloorManager.Instance.GetFloor(currentFloor).RemoveAnimal(animal);
+            FloorManager.Instance.GetFloor(currentFloor).RemoveAnimal(animalWork.animal);
             Destroy(gameObject);
             Destroy(animalWork.gameObject);
             return true;

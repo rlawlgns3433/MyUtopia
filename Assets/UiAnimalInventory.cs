@@ -23,7 +23,7 @@ public class UiAnimalInventory : MonoBehaviour
     {
         UiAnimalSlot slot = Instantiate(slotPrefab, scrollRect.content);
         var animalManager = GameObject.FindWithTag(Tags.AnimalManager).GetComponent<AnimalManager>();
-        var floor = FloorManager.GetFloor("B5"); // 임시 코드
+        var floor = FloorManager.Instance.GetFloor("B5"); // 임시 코드
         animalManager.Create(floor.transform.position, floor, 10005001, slot.SlotIndex);
 
 
