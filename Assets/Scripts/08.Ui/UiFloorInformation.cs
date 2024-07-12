@@ -2,21 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using Unity.VisualScripting;
-
-
-
-//public class UiFacilityInfo
-//{
-//    public TextMeshProUGUI textBuildingLevel;
-//    public Image buildingProfile;
-//    public TextMeshProUGUI textBuildingName;
-//    public TextMeshProUGUI textAccumTime;
-//    public TextMeshProUGUI textCurrentSaveTime;
-//    public TextMeshProUGUI textNextSaveTime;
-//    public Button buttonLevelUp;
-//}
-
+using System.Linq;
 
 public class UiFloorInformation : MonoBehaviour
 {
@@ -24,6 +10,7 @@ public class UiFloorInformation : MonoBehaviour
     private static readonly string exchangeFormat = "{0} -> {1}";
 
     public UiBuildingInfo buildingInfoPrefab;
+    public Transform buildingParent;
 
     public TextMeshProUGUI textFloorName = new TextMeshProUGUI();
     public TextMeshProUGUI textFloorLevel = new TextMeshProUGUI();
@@ -85,24 +72,14 @@ public class UiFloorInformation : MonoBehaviour
                     public TextMeshProUGUI textNextExchangeRate;
                     public Button buttonLevelUp;
                  */
-
-                UiBuildingInfo uiBuildingInfo = new UiBuildingInfo();
-                uiBuildingInfo.textBuildingLevel.text = string.Format(levelFormat, building.BuildingData.Level, building.BuildingData.Level_Max);
-                //uiBuildingInfo.buildingProfile.sprite = building.BuildingData.GetProfile();
-                uiBuildingInfo.textProceeds.text = ((CurrencyType)building.BuildingData.Resource_Type).ToString();
-                uiBuildingInfo.textExchange.text = string.Format(exchangeFormat, ((CurrencyType)building.BuildingData.Materials_Type), ((CurrencyType)building.BuildingData.Resource_Type));
-                uiBuildingInfo.textCurrentExchangeRate.text = building.BuildingData.Conversion_rate.ToString();
-
-                if(building.BuildingData.Level < building.BuildingData.Level_Max)
+                if(ValidateBuildingData(building.BuildingData))
                 {
-                    uiBuildingInfo.textNextExchangeRate.text = DataTableMgr.GetBuildingTable().Get(building.BuildingData.ID + 1).Conversion_rate.ToString();
-                }
-                else
-                {
-                    uiBuildingInfo.textNextExchangeRate.text = string.Empty;
-                }
+                    UiBuildingInfo uiBuildingInfo = Instantiate(buildingInfoPrefab, buildingParent);
+                    bool isSucceed = uiBuildingInfo.Set(building.BuildingData);
 
-                uiBuildings.Add(uiBuildingInfo);
+                    if (isSucceed)
+                        uiBuildings.Add(uiBuildingInfo);
+                }
             }
         }
 
@@ -113,5 +90,15 @@ public class UiFloorInformation : MonoBehaviour
         //uiBuildings;
         //uiFacilities;
 
+    }
+
+    public bool ValidateBuildingData(BuildingData newData)
+    {
+        foreach (var uiBuilding in uiBuildings)
+        {
+            if (uiBuilding.buildingData.ID == newData.ID)
+                return false;
+        }
+        return true;
     }
 }

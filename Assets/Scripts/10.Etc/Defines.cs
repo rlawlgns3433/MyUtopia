@@ -36,6 +36,8 @@ public static class Tags
 {
     public static readonly string VirtualCamera = "VirtualCamera";
     public static readonly string AnimalManager = "AnimalManager";
+    public static readonly string FloorInformation = "FloorInformation";
+
 }
 
 public static class SortingLayers
