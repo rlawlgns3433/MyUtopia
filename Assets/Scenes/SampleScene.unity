@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -945,7 +945,7 @@ MonoBehaviour:
   - {fileID: 937218067}
   m_DestinationRadius: 1
   m_DelayRate: 0.2
-  m_MaxSpeed: 2
+  m_MaxSpeed: 3
   m_Movement: 0
   m_UpdateMode: 0
   m_OnAttracted:
@@ -2568,7 +2568,7 @@ MonoBehaviour:
   - {fileID: 360228965}
   m_DestinationRadius: 1
   m_DelayRate: 0.2
-  m_MaxSpeed: 2
+  m_MaxSpeed: 4
   m_Movement: 0
   m_UpdateMode: 0
   m_OnAttracted:
@@ -4934,7 +4934,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.35
+  m_fontSize: 25
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7695,6 +7695,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 5.34
       objectReference: {fileID: 0}
+    - target: {fileID: 2400112268036428586, guid: 395e827141ee38743adc11a0ccc55ca5, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3133630606146568225, guid: 395e827141ee38743adc11a0ccc55ca5, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3221042697629487837, guid: 395e827141ee38743adc11a0ccc55ca5, type: 3}
       propertyPath: m_LocalScale.x
       value: -1
@@ -7751,6 +7759,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6925662104693241950, guid: 395e827141ee38743adc11a0ccc55ca5, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7394020826600877362, guid: 395e827141ee38743adc11a0ccc55ca5, type: 3}
       propertyPath: canvas
       value: 
@@ -7799,6 +7811,10 @@ PrefabInstance:
       propertyPath: particleSystems.Array.data[3]
       value: 
       objectReference: {fileID: 360228965}
+    - target: {fileID: 8422879844868652855, guid: 395e827141ee38743adc11a0ccc55ca5, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8982905473311796051, guid: 395e827141ee38743adc11a0ccc55ca5, type: 3}
       propertyPath: m_LocalScale.x
       value: -1

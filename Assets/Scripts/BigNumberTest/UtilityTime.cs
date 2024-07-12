@@ -2,93 +2,87 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
 [Serializable]
 public class TimeData
 {
-    private string quitTime;
-    public string QuitTime
-    {
-        get
-        {
-            return this.quitTime;
-        }
-        set
-        {
-            this.quitTime = value;
-        }
-    }
-    private string enterTime;
-
-    public string EnterTime
-    {
-        get
-        {
-            return this.enterTime;
-        }
-        set
-        {
-            this.enterTime = value;
-        }
-    }
+    public string EnterTime { get; set; }
+    public float QuitTime { get; set; }
 }
 
-public static class UtilityTime
+public class UtilityTime : MonoBehaviour
 {
-    private static string filePath = Path.Combine(Application.persistentDataPath, "Time.json");
+    private static string filePath = Path.Combine(Application.persistentDataPath, "TimeData.json");
     private static int seconds;
-    public static int Seconds { get { return seconds; } set { seconds = value; } }
+    public static int Seconds { get { return seconds; } private set { seconds = value; } }
+
+    private static TimeData previousTimeData;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-    private static async void OnApplicationStart()
+    private static void OnApplicationStart()
     {
-        switch (Application.internetReachability)
-        {
-            case NetworkReachability.NotReachable:
-                Debug.Log("인터넷 연결 x");
-                break;
-            case NetworkReachability.ReachableViaCarrierDataNetwork:
-            case NetworkReachability.ReachableViaLocalAreaNetwork:
-                await SaveEnterTime();
-                CompareStoredAndCurrentTime();
-                break;
-        }
-
-        Application.quitting += OnApplicationQuit;
+        GameObject obj = new GameObject("UtilityTime");
+        DontDestroyOnLoad(obj);
+        obj.AddComponent<UtilityTime>();
+        Application.wantsToQuit += OnApplicationWantsToQuit;
     }
 
-    private static void OnApplicationQuit()
+    private async void Start()
     {
-        switch (Application.internetReachability)
-        {
-            case NetworkReachability.NotReachable:
-                SaveQuitTimeOffLine();
-                break;
-            case NetworkReachability.ReachableViaCarrierDataNetwork:
-            case NetworkReachability.ReachableViaLocalAreaNetwork:
-                SaveQuitTimeOnLine().Forget();
-                break;
-        }
+        Debug.Log($"File path: {filePath}");
+        await LoadPreviousTimeData();
+        await CalculateElapsedTime();
+        await SaveEnterTime();
     }
 
-    private static async UniTask<string> GetServerTimeAsync()
+    private static bool OnApplicationWantsToQuit()
+    {
+        Debug.Log("OnApplicationWantsToQuit called.");
+        HandleQuit();
+        return true;
+    }
+
+    private static void HandleQuit()
+    {
+        Debug.Log("HandleQuit called.");
+        SaveQuitTime();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    private static async Task<string> GetServerTimeAsync()
     {
         using (UnityWebRequest req = UnityWebRequest.Get("http://google.com"))
         {
-            var op = await req.SendWebRequest();
+            req.timeout = 5;
+            var op = await req.SendWebRequest().ToUniTask();
             if (op.result == UnityWebRequest.Result.Success)
             {
                 string serverTime = req.GetResponseHeader("Date");
+                Debug.Log($"Server time received: {serverTime}");
                 if (!string.IsNullOrEmpty(serverTime))
                 {
                     var localizedTime = ToLocalize(serverTime);
+                    Debug.Log($"Localized server time: {localizedTime}");
                     return localizedTime.ToString("o");
                 }
+                else
+                {
+                    Debug.LogError("Server time is null or empty.");
+                }
+            }
+            else
+            {
+                Debug.LogError($"Failed to get server time. Error: {req.error}");
             }
         }
-        return DateTime.Now.ToString("o");
+        return DateTime.UtcNow.ToString("o");
     }
 
     private static DateTime ToLocalize(string serverTime)
@@ -97,54 +91,60 @@ public static class UtilityTime
         {
             return serverDateTime.ToLocalTime();
         }
-        else
-        {
-            return DateTime.Now;
-        }
+        return DateTime.Now;
     }
 
-    private static async UniTask SaveEnterTime()
+    private static async Task SaveEnterTime()
     {
         string enterTimeString = await GetServerTimeAsync();
+        Debug.Log($"Enter time: {enterTimeString}");
+        previousTimeData.EnterTime = enterTimeString;
+        SaveTimeData(previousTimeData);
+
         TimeData timeData = LoadTimeData();
-        timeData.EnterTime = enterTimeString;
-        SaveTimeData(timeData);
+        Debug.Log($"Loaded Enter time after save: {timeData.EnterTime}");
     }
 
-    private static async UniTask SaveQuitTimeOnLine()
+    private static void SaveQuitTime()
     {
-        string quitTimeString = await GetServerTimeAsync();
+        Debug.Log("SaveQuitTime called.");
+        float quitTimeFloat = Time.time;
+        Debug.Log($"Quit time (Time.time): {quitTimeFloat}");
+        previousTimeData.QuitTime = quitTimeFloat;
+        SaveTimeData(previousTimeData);
+
         TimeData timeData = LoadTimeData();
-        timeData.QuitTime = quitTimeString;
-        SaveTimeData(timeData);
+        Debug.Log($"Loaded Quit time after save: {timeData.QuitTime}");
     }
 
-    private static void SaveQuitTimeOffLine()
+    private static async Task CalculateElapsedTime()
     {
-        string quitTimeString = DateTime.Now.ToString("o") + "a";
-        TimeData timeData = LoadTimeData();
-        timeData.QuitTime = quitTimeString;
-        SaveTimeData(timeData);
-    }
-
-    private static void CompareStoredAndCurrentTime()
-    {
-        if (File.Exists(filePath))
+        if (!string.IsNullOrEmpty(previousTimeData.EnterTime) && previousTimeData.QuitTime > 0)
         {
-            TimeData data = LoadTimeData();
+            string serverTimeString = await GetServerTimeAsync();
+            DateTime serverTime = DateTime.Parse(serverTimeString);
+            DateTime enterTime = DateTime.Parse(previousTimeData.EnterTime);
+            float quitTime = previousTimeData.QuitTime;
 
-            if (!string.IsNullOrEmpty(data.QuitTime) && !string.IsNullOrEmpty(data.EnterTime))
-            {
-                DateTime quitTime = DateTime.Parse(data.QuitTime);
-                DateTime enterTime = DateTime.Parse(data.EnterTime);
-                TimeSpan compareTime = enterTime - quitTime;
-                Seconds = (int)compareTime.TotalSeconds;
-                Debug.Log($"Seconds since last quit: {Seconds}");
-            }
+            DateTime quitDateTime = enterTime.AddSeconds(quitTime);
+            Debug.Log($"Quit date time: {quitDateTime}");
+
+            TimeSpan elapsedTime = serverTime - quitDateTime;
+            Seconds = (int)elapsedTime.TotalSeconds;
+            Debug.Log($"Seconds since last quit: {Seconds}");
         }
         else
         {
-            Debug.Log("No quit time found.");
+            Debug.Log("No valid enter or quit time found.");
+        }
+    }
+
+    private static async Task LoadPreviousTimeData()
+    {
+        previousTimeData = LoadTimeData();
+        if (previousTimeData == null)
+        {
+            previousTimeData = new TimeData();
         }
     }
 
@@ -152,7 +152,8 @@ public static class UtilityTime
     {
         if (File.Exists(filePath))
         {
-            using (var jr = new JsonTextReader(new StreamReader(filePath)))
+            using (var sr = new StreamReader(filePath))
+            using (var jr = new JsonTextReader(sr))
             {
                 var deserializer = new JsonSerializer();
                 deserializer.TypeNameHandling = TypeNameHandling.All;
@@ -164,11 +165,14 @@ public static class UtilityTime
 
     private static void SaveTimeData(TimeData timeData)
     {
-        using (var jw = new JsonTextWriter(new StreamWriter(filePath)))
+        using (var sw = new StreamWriter(filePath))
+        using (var jw = new JsonTextWriter(sw))
         {
-            var serializer = new JsonSerializer();
-            serializer.Formatting = Formatting.Indented;
-            serializer.TypeNameHandling = TypeNameHandling.All;
+            var serializer = new JsonSerializer
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All
+            };
             serializer.Serialize(jw, timeData);
         }
     }

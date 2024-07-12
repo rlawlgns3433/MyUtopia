@@ -9,8 +9,11 @@ public class QuitTimeConverter : JsonConverter<TimeData>
     {
         TimeData timeData = new TimeData();
         JObject jObj = JObject.Load(reader);
-        timeData.QuitTime = jObj["quitTime"]?.ToString();
         timeData.EnterTime = jObj["enterTime"]?.ToString();
+        if (jObj["quitTime"] != null)
+        {
+            timeData.QuitTime = jObj["quitTime"].ToObject<float>();
+        }
 
         return timeData;
     }
@@ -18,10 +21,10 @@ public class QuitTimeConverter : JsonConverter<TimeData>
     public override void WriteJson(JsonWriter writer, TimeData value, JsonSerializer serializer)
     {
         writer.WriteStartObject();
+        writer.WritePropertyName("enterTime");
+        writer.WriteValue(value.EnterTime); // ISO 8601 형식으로 저장
         writer.WritePropertyName("quitTime");
         writer.WriteValue(value.QuitTime);
-        writer.WritePropertyName("enterTime");
-        writer.WriteValue(value.EnterTime);
         writer.WriteEndObject();
     }
 }

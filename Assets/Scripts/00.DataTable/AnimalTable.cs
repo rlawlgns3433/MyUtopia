@@ -80,7 +80,7 @@ public class AnimalTable : DataTable
                 foreach (var record in records)
                 {
                     table.Add(record.ID, record);
-                    Debug.Log(record.Profile);
+                    //Debug.Log(record.Profile);
                 }
             }
         };
