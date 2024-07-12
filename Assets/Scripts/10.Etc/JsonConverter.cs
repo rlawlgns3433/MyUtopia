@@ -44,6 +44,7 @@ public class WorkLoadConverter : JsonConverter<StorageData>
             i++;
         }
         result.CurrArray = currArray.ToArray();
+        result.TotalOfflineTime = jObj["totalOfflineTime"].ToObject<int>();
         return result;
     }
 
@@ -57,6 +58,8 @@ public class WorkLoadConverter : JsonConverter<StorageData>
             writer.WritePropertyName($"Currency{i}");
             writer.WriteValue(value.CurrArray[i].ToSimpleString());
         }
+        writer.WritePropertyName("totalOfflineTime");
+        writer.WriteValue(value.TotalOfflineTime.ToString());
         writer.WriteEndObject();
     }
 }

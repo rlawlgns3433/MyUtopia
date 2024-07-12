@@ -8,18 +8,20 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public struct FacilityData
 {
-    public int ID { get; set; }
+    public int Furniture_ID { get; set; }
     public int Floor_Type { get; set; }
-    public string Name { get; set; }
+    public string Furniture_Name { get; set; }
     public int Level { get; set; }
     public int Level_Max { get; set; }
     public int Effect_Type { get; set; }
-    public float Effect_Value { get; set; }
+    public int Effect_Value { get; set; }
+    public int Level_Up_Resource_ID {  get; set; }
     public string Level_Up_Coin { get; set; }
+    public string Prefab {  get; set; }
 
     public string GetName()
     {
-        return DataTableMgr.GetStringTable().Get(Name);
+        return DataTableMgr.GetStringTable().Get(Furniture_Name);
     }
 }
 
@@ -45,7 +47,7 @@ public class FacilityTable : DataTable
                 var records = csvReader.GetRecords<FacilityData>();
                 foreach (var record in records)
                 {
-                    table.Add(record.ID, record);
+                    table.Add(record.Furniture_ID, record);
                 }
             }
         };
