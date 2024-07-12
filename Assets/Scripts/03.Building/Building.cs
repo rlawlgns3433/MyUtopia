@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Building : MonoBehaviour, IClickable, IPointerClickHandler
+public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowable
 {
     [SerializeField]
     private float duration = 0f;
@@ -106,5 +106,10 @@ public class Building : MonoBehaviour, IClickable, IPointerClickHandler
                 Debug.Log(accumWorkLoad);
                 break;
         }
+    }
+
+    public void LevelUp()
+    {
+        Debug.Log($"{buildingData.ID} Building LevelUp");
     }
 }

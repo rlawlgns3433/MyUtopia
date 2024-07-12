@@ -57,6 +57,11 @@ public static class DataTableMgr
         return Get<FloorTable>(DataTableIds.Floor);
     }
 
+    public static BuildingTable GetBuildingTable()
+    {
+        return Get<BuildingTable>(DataTableIds.Building);
+    }
+
     public static T Get<T>(string id) where T : DataTable
     {
         if (!tables.ContainsKey(id))
