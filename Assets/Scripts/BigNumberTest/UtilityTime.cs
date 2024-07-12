@@ -15,7 +15,7 @@ public class TimeData
 
 public class UtilityTime : MonoBehaviour
 {
-    private static string filePath = Path.Combine(Application.persistentDataPath, "Time.json");
+    private static string filePath = Path.Combine(Application.persistentDataPath, "TimeData.json");
     private static int seconds;
     public static int Seconds { get { return seconds; } private set { seconds = value; } }
 
