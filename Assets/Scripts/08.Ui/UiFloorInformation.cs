@@ -63,7 +63,7 @@ public class UiFloorInformation : MonoBehaviour
                     if (isSucceed)
                     {
                         uiBuildings.Add(uiBuildingInfo);
-                        imageProduction[unlockBuildingCount++].sprite = resourceTable.Get(building.BuildingData.Resource_Type).GetImage();
+                        //imageProduction[unlockBuildingCount++].sprite = resourceTable.Get(building.BuildingData.Resource_Type).GetImage();
                     }
                 }
             }

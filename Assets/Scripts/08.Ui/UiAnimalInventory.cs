@@ -15,8 +15,6 @@ public class UiAnimalInventory : MonoBehaviour
     {
         UiAnimalSlot slot = Instantiate(slotPrefab, scrollRect.content);
         slot.SlotIndex = currentIndex++;
-        var button = slot.GetComponent<Button>();
-        button.onClick.AddListener(OnClickAddAnimal);
         uiAnimalSlots.Add(slot);
     }
 

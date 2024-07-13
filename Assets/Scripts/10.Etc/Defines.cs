@@ -11,7 +11,9 @@ public static class DataTableIds
     public static readonly string Animal = "AnimalTable";
     public static readonly string Building = "BuildingTable";
     public static readonly string Facility = "FacilityTable";
-    public static readonly string MergeTable = "MergeTable";
+    public static readonly string Merge = "MergeTable";
+    public static readonly string Resource = "ResourceTable";
+    public static readonly string Furniture = "FurnitureTable";
 
     public static string CurrString
     {
@@ -54,14 +56,15 @@ public static class Layers
 
 public enum CurrencyType
 {
-    Coin,
-    CopperStone,
-    SilverStone,
-    GoldStone,    
-    CopperIngot,
-    SilverIngot,
-    GoldIngot,
-    Craft,
+    Diamond = 90000101,
+    Coin = 91050201,
+    CopperStone = 91050301,
+    SilverStone = 91050302,
+    GoldStone = 91050303,    
+    CopperIngot = 91040401,
+    SilverIngot = 91040402,
+    GoldIngot = 91040403,
+    //Craft,
     /*
     건물 테이블
 	생산 재화타입이 7(특산물)인 경우
