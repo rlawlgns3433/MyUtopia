@@ -38,6 +38,7 @@ public class AnimalTable : DataTable
 {
     private static readonly AnimalData defaultData = new AnimalData();
     private Dictionary<int, AnimalData> table = new Dictionary<int, AnimalData>();
+    public override bool IsLoaded { get; protected set; }
 
     public Dictionary<int, AnimalData> GetKeyValuePairs
     {
@@ -83,6 +84,8 @@ public class AnimalTable : DataTable
                     //Debug.Log(record.Profile);
                 }
             }
+
+            IsLoaded = true;
         };
     }
 

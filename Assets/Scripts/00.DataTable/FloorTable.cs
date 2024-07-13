@@ -39,6 +39,7 @@ public class FloorTable : DataTable
 {
     public static readonly FloorData defaultData = new FloorData();
     private Dictionary<int, FloorData> table = new Dictionary<int, FloorData>();
+    public override bool IsLoaded { get; protected set; }
     public override void Load(string path)
     {
         path = string.Format(FormatPath, path);
@@ -60,6 +61,7 @@ public class FloorTable : DataTable
                     table.Add(record.ID, record);
                 }
             }
+            IsLoaded = true;
         };
     }
 

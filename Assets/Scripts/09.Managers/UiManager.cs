@@ -2,44 +2,74 @@ using UnityEngine;
 
 public class UiManager : Singleton<UiManager>
 {
+    public GameObject currencyUi;
     public GameObject mainUi;
     public UiAnimalFocus animalFocusUi;
-    public UiSell uiSell;
-    public UiFloorInformation uiFloorInformation;
+    public UiSell sellUi;
+    public UiFloorInformation floorInformationUi;
+    public GameObject animalListUi;
 
     private void Start()
     {
         ShowMainUi();
     }
+    public void ShowCurrencyUi()
+    {
+        currencyUi.SetActive(true);
+        mainUi.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.SetActive(false);
+        animalListUi.SetActive(false);
+    }
 
     public void ShowMainUi()
     {
-        animalFocusUi.gameObject.SetActive(false);
+        currencyUi.SetActive(true);
         mainUi.SetActive(true);
-        uiSell.gameObject.SetActive(false);
-        uiFloorInformation.gameObject.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.SetActive(false);
+        animalListUi.SetActive(false);
     }
+
     public void ShowAnimalFocusUi()
     {
-        animalFocusUi.gameObject.SetActive(true);
+        currencyUi.SetActive(true);
         mainUi.SetActive(false);
-        uiSell.gameObject.SetActive(false);
-        uiFloorInformation.gameObject.SetActive(false);
+        animalFocusUi.gameObject.SetActive(true);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.SetActive(false);
+        animalListUi.SetActive(false);
     }
 
     public void ShowSellUi()
     {
-        animalFocusUi.gameObject.SetActive(false);
+        currencyUi.SetActive(false);
         mainUi.SetActive(false);
-        uiSell.gameObject.SetActive(true);
-        uiFloorInformation.gameObject.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(true);
+        floorInformationUi.gameObject.SetActive(false);
+        animalListUi.SetActive(false);
     }
 
     public void ShowFloorInformationUi()
     {
-        animalFocusUi.gameObject.SetActive(false);
+        currencyUi.SetActive(false);
         mainUi.SetActive(false);
-        uiSell.gameObject.SetActive(false);
-        uiFloorInformation.gameObject.SetActive(true);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.SetActive(true);
+        animalListUi.SetActive(false);
+    }
+
+    public void ShowAnimalListUi()
+    {
+        currencyUi.SetActive(false);
+        mainUi.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.SetActive(false);
+        animalListUi.SetActive(true);
     }
 }

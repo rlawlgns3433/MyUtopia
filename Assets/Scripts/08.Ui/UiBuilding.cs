@@ -1,6 +1,4 @@
-using System.Collections;
 using TMPro;
-using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,16 +6,6 @@ public class UiBuildingInfo : MonoBehaviour
 {
     private static readonly string levelFormat = "{0} / {1}";
     private static readonly string exchangeFormat = "{0} -> {1}";
-
-    public UiBuildingInfo()
-    {
-        textBuildingLevel = new TextMeshProUGUI();
-        textBuildingName = new TextMeshProUGUI();
-        textProceeds = new TextMeshProUGUI();
-        textExchange = new TextMeshProUGUI();
-        textCurrentExchangeRate = new TextMeshProUGUI();
-        textNextExchangeRate = new TextMeshProUGUI();
-    }
 
     public TextMeshProUGUI textBuildingLevel;
     public Image buildingProfile;

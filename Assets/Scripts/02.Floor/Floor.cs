@@ -32,6 +32,14 @@ public class Floor : Subject, IGrowable
     private BigNumber autoWorkload;
     public string floorName;
 
+    private void OnEnable()
+    {
+        if (floorData.ID == 0)
+        {
+            floorData = DataTableMgr.GetFloorTable().Get(floorId);
+        }
+    }
+
     private void Start()
     {
         foreach (var c in uiCurrencies)

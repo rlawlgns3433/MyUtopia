@@ -12,12 +12,12 @@ public class UiFloorInformation : MonoBehaviour
     public UiBuildingInfo buildingInfoPrefab;
     public Transform buildingParent;
 
-    public TextMeshProUGUI textFloorName = new TextMeshProUGUI();
-    public TextMeshProUGUI textFloorLevel = new TextMeshProUGUI();
+    public TextMeshProUGUI textFloorName;
+    public TextMeshProUGUI textFloorLevel;
     public List<TextMeshProUGUI> textProduceCurrencies;
     public Button buttonLevelUp;
-    public TextMeshProUGUI textSynergyName = new TextMeshProUGUI();
-    public TextMeshProUGUI textFacilityEffectName = new TextMeshProUGUI();
+    public TextMeshProUGUI textSynergyName;
+    public TextMeshProUGUI textFacilityEffectName;
     public List<UiBuildingInfo> uiBuildings;
     //public List<UiBuildingInfo> uiFacilities;
 

@@ -43,6 +43,7 @@ public class BuildingTable : DataTable
 {
     private static readonly BuildingData defaultData = new BuildingData();
     private Dictionary<int, BuildingData> table = new Dictionary<int, BuildingData>();
+    public override bool IsLoaded { get; protected set; }
 
     public override void Load(string path)
     {
@@ -65,6 +66,7 @@ public class BuildingTable : DataTable
                     table.Add(record.ID, record);
                 }
             }
+            IsLoaded = true;
         };
     }
 

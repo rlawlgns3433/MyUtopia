@@ -24,6 +24,7 @@ public class MergeTable : DataTable
 {
     public static readonly MergeData defaultData = new MergeData();
     private Dictionary<int, MergeData> table = new Dictionary<int, MergeData>();
+    public override bool IsLoaded { get; protected set; }
 
     public override void Load(string path)
     {
@@ -46,6 +47,7 @@ public class MergeTable : DataTable
                     table.Add(record.ID, record);
                 }
             }
+            IsLoaded = true;
         };
     }
 

@@ -6,7 +6,6 @@ public static class DataTableMgr
 
     static DataTableMgr()
     {
-
         DataTable stringTable = new StringTable();
         stringTable.Load(DataTableIds.String[(int)Vars.currentLang]);
         tables.Add(DataTableIds.String[(int)Vars.currentLang], stringTable);

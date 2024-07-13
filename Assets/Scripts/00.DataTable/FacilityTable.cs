@@ -28,6 +28,7 @@ public class FacilityTable : DataTable
 {
     private static readonly FacilityData defaultData = new FacilityData();
     private Dictionary<int, FacilityData> table = new Dictionary<int, FacilityData>();
+    public override bool IsLoaded { get; protected set; }
     public override void Load(string path)
     {
         path = string.Format(FormatPath, path);
@@ -48,6 +49,7 @@ public class FacilityTable : DataTable
                     table.Add(record.ID, record);
                 }
             }
+            IsLoaded = true;
         };
     }
 
