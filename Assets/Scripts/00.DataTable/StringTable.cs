@@ -10,7 +10,7 @@ public class StringTable : DataTable
 {
     private class Data
     {
-        public string StringID { get; set; }
+        public string String_ID { get; set; }
         public string Text { get; set; }
     }
 
@@ -36,7 +36,7 @@ public class StringTable : DataTable
                 var records = csvReader.GetRecords<Data>();
                 foreach (var record in records)
                 {
-                    table.Add(record.StringID, record.Text);
+                    table.Add(record.String_ID, record.Text);
                 }
             }
             IsLoaded = true;

@@ -5,13 +5,12 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using static UnityEditor.AddressableAssets.Build.Layout.BuildLayout;
 
 public struct BuildingData
 {
-    public int ID { get; set; }
+    public int Building_ID { get; set; }
     public int Floor_Type { get; set; }
-    public string Name { get; set; }
+    public string Building_Name_ID { get; set; }
     public int Level { get; set; }
     public int Level_Max { get; set; }
     public int Materials_Type { get; set; }
@@ -19,24 +18,27 @@ public struct BuildingData
     public int Work_Require { get; set; }
     public int Resource_Type { get; set; } // 생산 재화 타입
     public string Touch_Produce { get; set; }
-    public string Level_Up_Coin { get; set; }
+    public string Level_Up_Resource_ID { get; set; }
+    public string Level_Up_Coin_Value { get; set; }
     public int Level_Up_Resource_1 { get; set; }
     public string Resource_1_Value { get; set; }
     public int Level_Up_Resource_2 { get; set; }
     public string Resource_2_Value { get; set; }
     public int Level_Up_Resource_3 { get; set; }
     public string Resource_3_Value { get; set; }
+    public string Prefab { get; set; }
 
     public string GetName()
     {
-        return DataTableMgr.GetStringTable().Get(Name);
+        return DataTableMgr.GetStringTable().Get(Building_Name_ID);
     }
 
-    public Sprite GetProfile()
+    public Sprite GetPrefab()
     {
-        //return Addressables.LoadAssetAsync<Sprite>(Profile).Result;
+        //return Addressables.LoadAssetAsync<Sprite>(Prefab).Result;
         return null;
     }
+
 }
 
 public class BuildingTable : DataTable
@@ -63,7 +65,7 @@ public class BuildingTable : DataTable
                 var records = csvReader.GetRecords<BuildingData>();
                 foreach (var record in records)
                 {
-                    table.Add(record.ID, record);
+                    table.Add(record.Building_ID, record);
                 }
             }
             IsLoaded = true;

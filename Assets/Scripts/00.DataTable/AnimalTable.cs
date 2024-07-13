@@ -8,24 +8,30 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public struct AnimalData
 {
-    public int ID { get; set; }
-    public int Type { get; set; }
-    public int Grade { get; set; }
-    public string Name { get; set; }
+    public int Animal_ID { get; set; }
+    public int Animal_Type { get; set; }
+    public int Animal_Grade { get; set; }
+    public string Animal_Name_ID { get; set; }
     public int Level { get; set; }
     public int Level_Max { get; set; }
     public int Workload { get; set; }
     public float Stamina { get; set; }
     public int Merge_ID { get; set; }
     public string Sale_Coin { get; set; }
-    public string Level_Up_Coin { get; set; }
+    public string Level_Up_Coin_ID { get; set; }
+    public string Level_Up_Coin_Value { get; set; }
     public string Prefab { get; set; }
     public string Profile { get; set; }
     // 데이터 테이블에 따른 추가 필요
 
     public string GetName()
     {
-        return DataTableMgr.GetStringTable().Get(Name);
+        return DataTableMgr.GetStringTable().Get(Animal_Name_ID);
+    }
+
+    public Sprite GetPrefab()
+    {
+        return Addressables.LoadAssetAsync<Sprite>(Prefab).Result;
     }
 
     public Sprite GetProfile()
@@ -80,7 +86,7 @@ public class AnimalTable : DataTable
                 var records = csvReader.GetRecords<AnimalData>();
                 foreach (var record in records)
                 {
-                    table.Add(record.ID, record);
+                    table.Add(record.Animal_ID, record);
                     //Debug.Log(record.Profile);
                 }
             }

@@ -32,8 +32,19 @@ public static class DataTableMgr
 
         // 테이블 완료 시 주석 해제
         DataTable mergeTable = new MergeTable();
-        mergeTable.Load(DataTableIds.MergeTable);
-        tables.Add(DataTableIds.MergeTable, mergeTable);
+        mergeTable.Load(DataTableIds.Merge);
+        tables.Add(DataTableIds.Merge, mergeTable);
+
+        // 테이블 완료 시 주석 해제
+        DataTable resourceTable = new ResourceTable();
+        resourceTable.Load(DataTableIds.Resource);
+        tables.Add(DataTableIds.Resource, resourceTable);
+
+        // 테이블 완료 시 주석 해제
+        DataTable furnitureTable = new FurnitureTable();
+        furnitureTable.Load(DataTableIds.Furniture);
+        tables.Add(DataTableIds.Furniture, furnitureTable);
+
     }
 
     public static StringTable GetStringTable()
@@ -48,7 +59,7 @@ public static class DataTableMgr
 
     public static MergeTable GetMergeTable()
     {
-        return Get<MergeTable>(DataTableIds.MergeTable);
+        return Get<MergeTable>(DataTableIds.Merge);
     }
 
     public static FloorTable GetFloorTable()
@@ -59,6 +70,11 @@ public static class DataTableMgr
     public static BuildingTable GetBuildingTable()
     {
         return Get<BuildingTable>(DataTableIds.Building);
+    }
+
+    public static ResourceTable GetResourceTable()
+    {
+        return Get<ResourceTable>(DataTableIds.Resource);
     }
 
     public static T Get<T>(string id) where T : DataTable

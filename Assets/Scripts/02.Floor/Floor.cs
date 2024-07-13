@@ -16,7 +16,7 @@ public class Floor : Subject, IGrowable
     {
         get
         {
-            if (floorData.ID == 0)
+            if (floorData.Floor_ID == 0)
             {
                 floorData = DataTableMgr.GetFloorTable().Get(floorId);
             }
@@ -34,7 +34,7 @@ public class Floor : Subject, IGrowable
 
     private void OnEnable()
     {
-        if (floorData.ID == 0)
+        if (floorData.Floor_ID == 0)
         {
             floorData = DataTableMgr.GetFloorTable().Get(floorId);
         }
@@ -57,32 +57,44 @@ public class Floor : Subject, IGrowable
             return;
 
         // 필요 재화가 있는지 확인
-        if (FloorData.Level_Up_Coin.ToBigNumber() > CurrencyManager.currency[(int)CurrencyType.Coin])
+        if (FloorData.Level_Up_Coin_Value.ToBigNumber() > CurrencyManager.currency[CurrencyType.Coin])
             return;
         if (FloorData.Level_Up_Resource_1 != 0)
         {
-            if (FloorData.Resource_1_Value.ToBigNumber() > CurrencyManager.currency[FloorData.Level_Up_Resource_1])
+            if (FloorData.Resource_1_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)FloorData.Level_Up_Resource_1])
                 return;
         }
 
         if (FloorData.Level_Up_Resource_2 != 0)
         {
-            if (FloorData.Resource_2_Value.ToBigNumber() > CurrencyManager.currency[FloorData.Level_Up_Resource_2])
+            if (FloorData.Resource_2_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)FloorData.Level_Up_Resource_2])
                 return;
         }
 
         if (FloorData.Level_Up_Resource_3 != 0)
         {
-            if (FloorData.Resource_3_Value.ToBigNumber() > CurrencyManager.currency[FloorData.Level_Up_Resource_3])
+            if (FloorData.Resource_3_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)FloorData.Level_Up_Resource_3])
                 return;
         }
 
-        CurrencyManager.currency[(int)CurrencyType.Coin] -= FloorData.Level_Up_Coin.ToBigNumber();
-        CurrencyManager.currency[FloorData.Level_Up_Resource_1] -= FloorData.Level_Up_Resource_1 != 0 ? FloorData.Resource_1_Value.ToBigNumber() : BigNumber.Zero;
-        CurrencyManager.currency[FloorData.Level_Up_Resource_2] -= FloorData.Level_Up_Resource_2 != 0 ? FloorData.Resource_2_Value.ToBigNumber() : BigNumber.Zero;
-        CurrencyManager.currency[FloorData.Level_Up_Resource_3] -= FloorData.Level_Up_Resource_3 != 0 ? FloorData.Resource_3_Value.ToBigNumber() : BigNumber.Zero;
+        CurrencyManager.currency[CurrencyType.Coin] -= FloorData.Level_Up_Coin_Value.ToBigNumber();
 
-        FloorData = DataTableMgr.GetFloorTable().Get(floorData.ID + 1);
+        if(FloorData.Level_Up_Resource_1 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)FloorData.Level_Up_Resource_1] -= FloorData.Resource_1_Value.ToBigNumber();
+        }
+
+        if (FloorData.Level_Up_Resource_2 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)FloorData.Level_Up_Resource_2] -= FloorData.Resource_2_Value.ToBigNumber();
+        }
+
+        if (FloorData.Level_Up_Resource_3 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)FloorData.Level_Up_Resource_3] -= FloorData.Resource_3_Value.ToBigNumber();
+        }
+
+        FloorData = DataTableMgr.GetFloorTable().Get(floorData.Floor_ID + 1);
         Set();
     }
 
@@ -142,7 +154,7 @@ public class Floor : Subject, IGrowable
                             if (b.accumWorkLoad > b.BuildingData.Work_Require)
                             {
                                 BigNumber c = b.accumWorkLoad / b.BuildingData.Work_Require;
-                                CurrencyManager.currency[(int)b.buildingType] += c;
+                                CurrencyManager.currency[b.buildingType] += c;
                                 b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingData.Work_Require;
                             }
                             else
@@ -154,15 +166,15 @@ public class Floor : Subject, IGrowable
                         case 6:
                             if (b.accumWorkLoad > b.BuildingData.Work_Require)
                             {
-                                if (CurrencyManager.currency[b.BuildingData.Materials_Type] < b.BuildingData.Conversion_rate)
+                                if (CurrencyManager.currency[(CurrencyType)b.BuildingData.Materials_Type] < b.BuildingData.Conversion_rate)
                                 {
                                     b.accumWorkLoad = new BigNumber(0);
                                     break;
                                 }
 
                                 BigNumber c = b.accumWorkLoad / b.BuildingData.Work_Require;
-                                CurrencyManager.currency[(int)b.buildingType] += c;
-                                CurrencyManager.currency[b.BuildingData.Materials_Type] -= c * b.BuildingData.Conversion_rate;
+                                CurrencyManager.currency[b.buildingType] += c;
+                                CurrencyManager.currency[(CurrencyType)b.BuildingData.Materials_Type] -= c * b.BuildingData.Conversion_rate;
                                 b.accumWorkLoad -= c * b.BuildingData.Work_Require;
                             }
                             else
@@ -174,11 +186,11 @@ public class Floor : Subject, IGrowable
                             if (b.accumWorkLoad > b.BuildingData.Work_Require)
                             {
                                 // 레시피 정보 불러오기
-                                if (CurrencyManager.currency[(int)CurrencyType.Coin] > 10 && CurrencyManager.currency[(int)CurrencyType.CopperStone] > 10)
+                                if (CurrencyManager.currency[CurrencyType.Coin] > 10 && CurrencyManager.currency[CurrencyType.CopperStone] > 10)
                                 {
-                                    CurrencyManager.currency[(int)CurrencyType.Coin] -= 10;
-                                    CurrencyManager.currency[(int)CurrencyType.CopperStone] -= 10;
-                                    CurrencyManager.currency[(int)CurrencyType.Craft] += 1;
+                                    CurrencyManager.currency[CurrencyType.Coin] -= 10;
+                                    CurrencyManager.currency[CurrencyType.CopperStone] -= 10;
+                                    //CurrencyManager.currency[CurrencyType.Craft] += 1;
 
                                     b.accumWorkLoad -= b.BuildingData.Work_Require;
                                 }
@@ -199,7 +211,7 @@ public class Floor : Subject, IGrowable
     {
         foreach (var building in buildings)
         {
-            if (floorData.Unlock_Content == building.BuildingData.ID)
+            if (floorData.Unlock_Facility == building.BuildingData.Building_ID)
             {
                 building.isLock = false;
             }

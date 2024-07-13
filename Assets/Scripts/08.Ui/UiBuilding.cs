@@ -26,12 +26,13 @@ public class UiBuildingInfo : MonoBehaviour
 
         foreach(var uiBuilding in uiFloorInformation.uiBuildings)
         {
-            if (uiBuilding.buildingData.ID == newData.ID)
+            if (uiBuilding.buildingData.Building_ID == newData.Building_ID)
                 return false;
         }
 
-        if (newData.ID == 0)
+        if (newData.Building_ID == 0)
             return false;
+
         buildingData = newData;
         textBuildingLevel.text = string.Format(levelFormat, buildingData.Level, buildingData.Level_Max);
         textBuildingName.text = buildingData.GetName();
@@ -42,7 +43,7 @@ public class UiBuildingInfo : MonoBehaviour
 
         if (buildingData.Level < buildingData.Level_Max)
         {
-            textNextExchangeRate.text = DataTableMgr.GetBuildingTable().Get(buildingData.ID + 100).Conversion_rate.ToString();
+            textNextExchangeRate.text = DataTableMgr.GetBuildingTable().Get(buildingData.Building_ID + 100).Conversion_rate.ToString();
         }
         else
         {

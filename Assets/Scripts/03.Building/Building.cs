@@ -19,7 +19,7 @@ public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowab
     {
         get
         {
-            if(buildingData.ID == 0)
+            if(buildingData.Building_ID == 0)
                 buildingData = DataTableMgr.Get<BuildingTable>(DataTableIds.Building).Get(buildingId);
             return buildingData;
         }
@@ -88,28 +88,28 @@ public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowab
             case CurrencyType.GoldStone:
                 if (isLock)
                     return;
-                CurrencyManager.currency[(int)buildingType] += new BigNumber(BuildingData.Touch_Produce);
+                CurrencyManager.currency[buildingType] += new BigNumber(BuildingData.Touch_Produce);
                 break;
             case CurrencyType.CopperIngot:
             case CurrencyType.SilverIngot:
             case CurrencyType.GoldIngot:
                 if (isLock)
                     return;
-                if (CurrencyManager.currency[BuildingData.Materials_Type] > BuildingData.Conversion_rate)
+                if (CurrencyManager.currency[(CurrencyType)BuildingData.Materials_Type] > BuildingData.Conversion_rate)
                 {
-                    CurrencyManager.currency[(int)buildingType] += 1;
-                    CurrencyManager.currency[BuildingData.Materials_Type] -= BuildingData.Conversion_rate;
+                    CurrencyManager.currency[buildingType] += 1;
+                    CurrencyManager.currency[(CurrencyType)BuildingData.Materials_Type] -= BuildingData.Conversion_rate;
                 }
                 break;
-            case CurrencyType.Craft:
-                accumWorkLoad += new BigNumber(BuildingData.Touch_Produce);
-                Debug.Log(accumWorkLoad);
-                break;
+            //case CurrencyType.Craft:
+            //    accumWorkLoad += new BigNumber(BuildingData.Touch_Produce);
+            //    Debug.Log(accumWorkLoad);
+            //    break;
         }
     }
 
     public void LevelUp()
     {
-        Debug.Log($"{buildingData.ID} Building LevelUp");
+        Debug.Log($"{buildingData.Building_ID} Building LevelUp");
     }
 }

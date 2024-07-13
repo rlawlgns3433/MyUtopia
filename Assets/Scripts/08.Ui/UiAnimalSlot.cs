@@ -9,7 +9,7 @@ public class UiAnimalSlot : Observer
     {
         get
         {
-            return animalData.ID == 0;
+            return animalData.Animal_ID == 0;
         }
     }
     [SerializeField]
@@ -32,7 +32,7 @@ public class UiAnimalSlot : Observer
         //    imagePortrait.sprite = animalData.GetProfile();
 
         sliderStamina.minValue = 0f;
-        sliderStamina.maxValue = DataTableMgr.GetAnimalTable().Get(animalData.ID).Stamina;
+        sliderStamina.maxValue = DataTableMgr.GetAnimalTable().Get(animalData.Animal_ID).Stamina;
         sliderStamina.value = animClick.AnimalWork.Animal.animalData.Stamina;
     }
 
@@ -51,7 +51,7 @@ public class UiAnimalSlot : Observer
 
     public void OnClick()
     {
-        if (animalData.ID == 0)
+        if (animalData.Animal_ID == 0)
         {
             Debug.Log("Empty");
         }

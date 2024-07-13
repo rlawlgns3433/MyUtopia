@@ -3,6 +3,7 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class UiFloorInformation : MonoBehaviour
 {
@@ -14,11 +15,13 @@ public class UiFloorInformation : MonoBehaviour
 
     public TextMeshProUGUI textFloorName;
     public TextMeshProUGUI textFloorLevel;
-    public List<TextMeshProUGUI> textProduceCurrencies;
-    public Button buttonLevelUp;
     public TextMeshProUGUI textSynergyName;
     public TextMeshProUGUI textFacilityEffectName;
     public List<UiBuildingInfo> uiBuildings;
+    public List<Image> imageProduction;
+
+    private int unlockBuildingCount = 0;
+    private ResourceTable resourceTable;
     //public List<UiBuildingInfo> uiFacilities;
 
     public Floor currentFloor;
@@ -28,8 +31,8 @@ public class UiFloorInformation : MonoBehaviour
     private void Awake()
     {
         uiBuildings = new List<UiBuildingInfo>();
+        resourceTable = DataTableMgr.GetResourceTable();
         //uiFacilities = new List<UiBuildingInfo>();
-        textProduceCurrencies = new List<TextMeshProUGUI>();
     }
 
     public void SetFloorData(string floorId)
@@ -52,29 +55,26 @@ public class UiFloorInformation : MonoBehaviour
         {
             if(!building.isLock)
             {
-                TextMeshProUGUI textCurrency = new TextMeshProUGUI();
-                textCurrency.text = building.buildingType.ToString();
-                textProduceCurrencies.Add(textCurrency);
-
                 if(ValidateBuildingData(building.BuildingData))
                 {
                     UiBuildingInfo uiBuildingInfo = Instantiate(buildingInfoPrefab, buildingParent);
                     bool isSucceed = uiBuildingInfo.Set(building.BuildingData);
 
                     if (isSucceed)
+                    {
                         uiBuildings.Add(uiBuildingInfo);
+                        imageProduction[unlockBuildingCount++].sprite = resourceTable.Get(building.BuildingData.Resource_Type).GetImage();
+                    }
                 }
             }
         }
-
-        buttonLevelUp.onClick.AddListener(currentFloor.LevelUp);
     }
 
     public bool ValidateBuildingData(BuildingData newData)
     {
         foreach (var uiBuilding in uiBuildings)
         {
-            if (uiBuilding.buildingData.ID == newData.ID)
+            if (uiBuilding.buildingData.Building_ID == newData.Building_ID)
                 return false;
         }
         return true;

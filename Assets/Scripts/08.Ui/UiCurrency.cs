@@ -15,6 +15,6 @@ public class UiCurrency : Observer
 
     public override void Notify(Subject subject)
     {
-        textCurrency.text = CurrencyManager.currency[(int)currencyType].ToString();
+        textCurrency.text = CurrencyManager.currency[currencyType].ToString();
     }
 }

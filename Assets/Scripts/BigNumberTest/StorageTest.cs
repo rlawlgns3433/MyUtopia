@@ -217,7 +217,7 @@ public class StorageTest : MonoBehaviour, IClickable
             Debug.Log("Click");
             for (int i = 0; i < textMeshPros.Count; ++i)
             {
-                CurrencyManager.currency[(int)currencyTypes[i]] += CurrArray[i];
+                CurrencyManager.currency[currencyTypes[i]] += CurrArray[i];
                 CurrArray[i] = BigNumber.Zero;
                 textMeshPros[i].text = CurrArray[i].ToString();
                 isClick = true;

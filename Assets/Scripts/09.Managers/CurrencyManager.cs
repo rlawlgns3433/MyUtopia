@@ -1,13 +1,26 @@
+using System.Collections.Generic;
+
 public static class CurrencyManager
 {
-    private static readonly int currencyCount = 8;
-    public static BigNumber[] currency = new BigNumber[currencyCount];
+    private static CurrencyType[] currencyTypes =
+    {
+        CurrencyType.Diamond,
+        CurrencyType.Coin,
+        CurrencyType.CopperStone,
+        CurrencyType.SilverStone,
+        CurrencyType.GoldStone,
+        CurrencyType.CopperIngot,
+        CurrencyType.SilverIngot,
+        CurrencyType.GoldIngot,
+    };
+    public static Dictionary<CurrencyType, BigNumber> currency = new Dictionary<CurrencyType, BigNumber>();
+
 
     public static void Init()
     {
-        for (int i = 0; i < currencyCount; i++)
+        for(int i = 0; i < currencyTypes.Length; i++)
         {
-            currency[i] = BigNumber.Zero;
+            currency.Add(currencyTypes[i], BigNumber.Zero);
         }
     }
 }

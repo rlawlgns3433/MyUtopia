@@ -52,7 +52,7 @@ public class AnimalWork : Subject, IMergable
         if (gameObject.Equals(animalWork.gameObject))
             return false;
 
-        if (animalWork.animal.animalData.ID== animal.animalData.ID)
+        if (animalWork.animal.animalData.Animal_ID== animal.animalData.Animal_ID)
         {
             var floor = FloorManager.Instance.GetFloor(animalWork.currentFloor);
             int resultAnimalId = DataTableMgr.GetMergeTable().Get(animal.animalData.Merge_ID).Result_Animal;

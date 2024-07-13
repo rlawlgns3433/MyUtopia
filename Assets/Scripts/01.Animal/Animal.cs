@@ -51,17 +51,17 @@ public class Animal : IGrowable, IMovable
             }
             return;
         }
-        BigNumber lvCoin = new BigNumber(animalData.Level_Up_Coin);
-        if (CurrencyManager.currency[(int)CurrencyType.Coin] < lvCoin) // 임시 코드
+        BigNumber lvCoin = new BigNumber(animalData.Level_Up_Coin_Value);
+        if (CurrencyManager.currency[CurrencyType.Coin] < lvCoin) // 임시 코드
             return;
 
-        animalData = DataTableMgr.GetAnimalTable().Get(animalData.ID + 1);
+        animalData = DataTableMgr.GetAnimalTable().Get(animalData.Animal_ID + 1);
 
         foreach(var a in animals)
         {
             if(a.animalWork.gameObject.GetInstanceID() == animalClick.gameObject.GetInstanceID())
             {
-                CurrencyManager.currency[(int)CurrencyType.Coin] -= lvCoin;
+                CurrencyManager.currency[CurrencyType.Coin] -= lvCoin;
                 a.animalData = animalData;
                 
                 break;
@@ -73,7 +73,7 @@ public class Animal : IGrowable, IMovable
     public void Sale()
     {
         FloorManager.Instance.GetFloor(animalWork.currentFloor).RemoveAnimal(this);
-        CurrencyManager.currency[(int)CurrencyType.Coin] += animalData.Sale_Coin.ToBigNumber();
+        CurrencyManager.currency[CurrencyType.Coin] += animalData.Sale_Coin.ToBigNumber();
     }
 
     public void SetAnimal()
