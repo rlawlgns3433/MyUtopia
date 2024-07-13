@@ -16,6 +16,8 @@ public class StringTable : DataTable
 
     private Dictionary<string, string> table = new Dictionary<string, string>();
 
+    public override bool IsLoaded { get; protected set; }
+
     public override void Load(string path)
     {
         path = string.Format(FormatPath, path);
@@ -37,6 +39,7 @@ public class StringTable : DataTable
                     table.Add(record.StringID, record.Text);
                 }
             }
+            IsLoaded = true;
         };
     }
 

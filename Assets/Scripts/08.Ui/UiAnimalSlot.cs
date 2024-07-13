@@ -16,6 +16,8 @@ public class UiAnimalSlot : Observer
     private Image imagePortrait;
     [SerializeField]
     private Slider sliderStamina;
+    [SerializeField]
+    private Image imageAdd;
     public AnimalClick animalClick;
     public AnimalData animalData;
 
@@ -42,6 +44,9 @@ public class UiAnimalSlot : Observer
         sliderStamina.minValue = 0f;
         sliderStamina.maxValue = 0f;
         sliderStamina.value = 0f;
+        imagePortrait.gameObject.SetActive(false);
+        sliderStamina.gameObject.SetActive(false);
+        imageAdd.gameObject.SetActive(true);
     }
 
     public void OnClick()
@@ -51,12 +56,7 @@ public class UiAnimalSlot : Observer
             Debug.Log("Empty");
         }
 
-        UiAnimalInventory uiAnimalInventory = GetComponentInParent<UiAnimalInventory>();
-
-        if (SlotIndex == uiAnimalInventory.currentIndex)
-        {
-            animalClick.IsClicked = true;
-        }
+        // 동물 인벤토리 열기
     }
 
     public override void Notify(Subject subject)

@@ -73,6 +73,6 @@ public class UiAnimalFocus : MonoBehaviour
 
     public void SetSaleUi()
     {
-        UiManager.Instance.uiSell.textCoinForSale.text = currentAnimal.Animal.animalData.Sale_Coin;
+        UiManager.Instance.sellUi.textCoinForSale.text = currentAnimal.Animal.animalData.Sale_Coin;
     }
 }
