@@ -53,7 +53,7 @@ public class StorageData
     }
 }
 
-public class StorageTest : MonoBehaviour, IClickable
+public class Storage : MonoBehaviour, IClickable
 {
     public List<CurrencyType> currencyTypes;
     public BigNumber CurrWorkLoad;

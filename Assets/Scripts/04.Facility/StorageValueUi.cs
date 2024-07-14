@@ -15,7 +15,7 @@ public class StorageValueUi : MonoBehaviour, IClickable
     public GameObject[] currencyValues;
     private int maxValue;
     private int totalValue;
-    private StorageTest storageTest;
+    private Storage storage;
     public TextMeshProUGUI timeDifferenceText;
 
     public event Action clickEvent;
@@ -46,20 +46,20 @@ public class StorageValueUi : MonoBehaviour, IClickable
 
     private void OnEnable()
     {
-        storageTest = GetComponentInParent<StorageTest>();
-        currentValue = new BigNumber[storageTest.CurrArray.Length];
-        currentWorkLoads = new BigNumber[storageTest.CurrArray.Length];
-        maxValue = storageTest.MaxSeconds;
-        totalValue = storageTest.CurrentTotalSeconds;
+        storage = GetComponentInParent<Storage>();
+        currentValue = new BigNumber[storage.CurrArray.Length];
+        currentWorkLoads = new BigNumber[storage.CurrArray.Length];
+        maxValue = storage.MaxSeconds;
+        totalValue = storage.CurrentTotalSeconds;
         var maxValueText = ConvertSecondsToHours(maxValue);
         var totalValueText = ConvertSecondsToHours(totalValue);
         timeDifferenceText.text = $"{totalValueText} / {maxValueText}";
-        for(int i = 0; i < storageTest.CurrArray.Length; i++)
+        for(int i = 0; i < storage.CurrArray.Length; i++)
         {
-            currentValue[i] = storageTest.CurrArray[i];
-            currentWorkLoads[i] = storageTest.Values[i];
+            currentValue[i] = storage.CurrArray[i];
+            currentWorkLoads[i] = storage.Values[i];
         }
-        for (int i = 0; i < storageTest.CurrArray.Length; i++)
+        for (int i = 0; i < storage.CurrArray.Length; i++)
         {
             currencyValues[i].gameObject.SetActive(true);
             var currencyValueText = currencyValues[i].GetComponentInChildren<TextMeshProUGUI>();
