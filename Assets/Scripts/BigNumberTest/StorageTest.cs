@@ -223,8 +223,8 @@ public class StorageTest : MonoBehaviour, IClickable
         {
             var workRequire = buildings[i].BuildingData.Work_Require;
             values[i] = CurrWorkLoad / workRequire;
-            CurrArray[i] += values[i];
-            CurrArray[i] *= offLineSeconds;
+            var tempValue = values[i] * offLineSeconds;
+            CurrArray[i] += tempValue;
         }
         await UniTask.Yield();
     }
@@ -243,7 +243,7 @@ public class StorageTest : MonoBehaviour, IClickable
         {
             currentTotalSeconds = 0;
         }
-        string filePath = Path.Combine(Application.persistentDataPath, "storageData.json");
+        string filePath = Path.Combine(Application.persistentDataPath, $"{FacilityData.Furniture_ID}.json");
         StorageData storageData = new StorageData
         {
             CurrentWorkLoad = CurrWorkLoad,
@@ -256,7 +256,7 @@ public class StorageTest : MonoBehaviour, IClickable
 
     private void LoadDataOnStart()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, "storageData.json");
+        string filePath = Path.Combine(Application.persistentDataPath, $"{FacilityData.Furniture_ID}.json");
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);

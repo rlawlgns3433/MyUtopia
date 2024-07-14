@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 public struct BigNumber
 {
@@ -698,5 +699,25 @@ public struct BigNumber
             result[i] = 0;
         }
         return new BigNumber { bigNumber = result };
+    }
+    public float ToFloat()
+    {
+        if (bigNumber == null || bigNumber.Count == 0)
+            return 0f;
+
+        float result = 0f;
+        for (int i = bigNumber.Count - 1; i >= 0; i--)
+        {
+            result = result * 1000 + bigNumber[i];
+        }
+
+        return result;
+    }
+
+    public static float ToFloatClamped01(BigNumber value, BigNumber max)
+    {
+        float result = value.ToFloat();
+        float maxValue = max.ToFloat();
+        return Mathf.Clamp(result / maxValue, 0f, 1f);
     }
 }

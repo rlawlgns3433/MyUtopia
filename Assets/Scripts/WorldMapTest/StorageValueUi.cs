@@ -68,8 +68,14 @@ public class StorageValueUi : MonoBehaviour, IClickable
             var maxSeconds = maxValue / 3;
             if(currentValue[i] > 0)
             {
-                currencyValueSlider.value = Mathf.Clamp01((float)totalValue/maxValue);
-                Debug.Log(currencyValueSlider.value);
+                //currencyValueSlider.value = Mathf.Clamp01((float)totalValue / maxValue);
+                //Debug.Log(currencyValueSlider.value);
+                currentWorkLoads[i] *= maxSeconds;
+                var clampValue = BigNumber.ToFloatClamped01(currentValue[i], currentWorkLoads[i]);
+                
+                currencyValueSlider.value = clampValue;
+                Debug.Log("test" + currencyValueSlider.value);
+                //Debug.Log(("test" + clampValue.ToFloat()));
             }
             else
             {
