@@ -667,7 +667,6 @@ public struct BigNumber
         }
         return 0;
     }
-
     public BigNumber Plus(BigNumber a)
     {
         var result = Add(bigNumber, a.bigNumber);

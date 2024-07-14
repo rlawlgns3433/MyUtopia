@@ -50,9 +50,8 @@ public class StorageValue : MonoBehaviour, IClickable
 
     public void OpenStorageUi()
     {
-        if (!storageUi.gameObject.activeSelf)
+        if(!storageUi.gameObject.activeSelf)
         {
-            gameObject.SetActive(false );
             storageUi.gameObject.SetActive(true);
         }
     }

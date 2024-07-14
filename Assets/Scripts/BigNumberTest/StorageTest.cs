@@ -56,12 +56,34 @@ public class StorageData
 public class StorageTest : MonoBehaviour, IClickable
 {
     public List<CurrencyType> currencyTypes;
-    public List<TextMeshPro> textMeshPros;
-    public int currentTotalSeconds;
     public BigNumber CurrWorkLoad;
-    public BigNumber[] CurrArray;
     private Building[] buildings;
     private bool isClick = false;
+    private int currentTotalSeconds;
+    public int CurrentTotalSeconds
+    {
+        get
+        {
+            return currentTotalSeconds;
+        }
+        private set
+        {
+            currentTotalSeconds = value;
+        }
+    }
+    private BigNumber[] currArray;
+    public BigNumber[] CurrArray
+    {
+        get
+        {
+            return currArray;
+        }
+        set
+        {
+            currArray = value;
+        }
+    }
+
     public Slider currentValue;
     [SerializeField]
     private int facilityId;
@@ -83,7 +105,18 @@ public class StorageTest : MonoBehaviour, IClickable
     }
     public List<ParticleSystem> particleSystems;
     public Canvas canvas;
-
+    private BigNumber[] values;
+    public BigNumber[] Values
+    {
+        get
+        {
+            return values;
+        }
+        set
+        {
+            values = value;
+        }
+    }
     public Building[] Buildings
     {
         get
@@ -96,6 +129,17 @@ public class StorageTest : MonoBehaviour, IClickable
         }
     }
     private int maxSeconds;
+    public int MaxSeconds
+    {
+        get
+        {
+            return maxSeconds;
+        }
+        private set
+        {
+            maxSeconds = value;
+        }
+    }
     private int offLineSeconds;
 
     public event Action clickEvent;
@@ -118,7 +162,7 @@ public class StorageTest : MonoBehaviour, IClickable
             }
         }
     }
-    public StorageValue storageValue;
+    private StorageValue storageValue;
     private void Awake()
     {
         clickEvent += OpenStorage;
@@ -129,10 +173,11 @@ public class StorageTest : MonoBehaviour, IClickable
     private async void Start()
     {
         await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
-        buildings = new Building[textMeshPros.Count];
-        CurrArray = new BigNumber[textMeshPros.Count];
+        buildings = new Building[currencyTypes.Count];
+        CurrArray = new BigNumber[currencyTypes.Count];
+        values = new BigNumber[currencyTypes.Count];
         LoadDataOnStart();
-        maxSeconds = FacilityData.Effect_Value;
+        MaxSeconds = FacilityData.Effect_Value;
         Debug.Log($"maxSeconds{maxSeconds}");
         Debug.Log($"UtilityTime{UtilityTime.Seconds}");
         currentTotalSeconds += UtilityTime.Seconds;
@@ -158,11 +203,11 @@ public class StorageTest : MonoBehaviour, IClickable
         if (currentTotalSeconds > 0)
         {
             currentValue.gameObject.SetActive(true);
-            storageValue = GetComponentInChildren<StorageValue>();
+            storageValue = currentValue.GetComponent<StorageValue>();
             currentValue.value = Mathf.Clamp01(currentTotalSeconds / maxSeconds);
             await UniTask.WaitUntil(() => currentValue.gameObject.activeSelf);
             storageValue.TotalValue = currentTotalSeconds;
-            if(currentValue.value <= 0)
+            if(storageValue.TotalValue <= 0 || CurrWorkLoad == 0)
             {
                 currentValue.gameObject.SetActive(false);
             }
@@ -177,10 +222,9 @@ public class StorageTest : MonoBehaviour, IClickable
         for (int i = 0; i < buildings.Length; i++)
         {
             var workRequire = buildings[i].BuildingData.Work_Require;
-            var value = CurrWorkLoad / workRequire;
-            value *= offLineSeconds;
-            CurrArray[i] += value;
-            textMeshPros[i].text = CurrArray[i].ToString();
+            values[i] = CurrWorkLoad / workRequire;
+            CurrArray[i] += values[i];
+            CurrArray[i] *= offLineSeconds;
         }
         await UniTask.Yield();
     }
@@ -193,9 +237,9 @@ public class StorageTest : MonoBehaviour, IClickable
         }
         if(CurrArray == null)
         {
-            CurrArray = new BigNumber[textMeshPros.Count];
+            CurrArray = new BigNumber[currencyTypes.Count];
         }
-        if(UtilityTime.Seconds == 0)
+        if(UtilityTime.Seconds == 0 || CurrWorkLoad == 0)
         {
             currentTotalSeconds = 0;
         }
@@ -261,13 +305,6 @@ public class StorageTest : MonoBehaviour, IClickable
                 }
             }
         }
-        foreach(var text in textMeshPros)
-        {
-            if(text.gameObject.activeInHierarchy)
-            {
-                text.gameObject.SetActive(false);
-            }
-        }
     }
 
     public void RegisterClickable()
@@ -292,11 +329,10 @@ public class StorageTest : MonoBehaviour, IClickable
             await UniTask.WaitUntil(() => !ps.IsAlive(true));
 
             Debug.Log("Click");
-            for (int i = 0; i < textMeshPros.Count; ++i)
+            for (int i = 0; i < currencyTypes.Count; ++i)
             {
                 CurrencyManager.currency[(int)currencyTypes[i]] += CurrArray[i];
                 CurrArray[i] = BigNumber.Zero;
-                textMeshPros[i].text = CurrArray[i].ToString();
                 isClick = true;
             }
         }
