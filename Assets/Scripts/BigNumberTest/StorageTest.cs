@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Coffee.UIParticleExtensions;
+using UnityEngine.UI;
 
 [Serializable]
 public class StorageData
@@ -61,7 +62,7 @@ public class StorageTest : MonoBehaviour, IClickable
     public BigNumber[] CurrArray;
     private Building[] buildings;
     private bool isClick = false;
-
+    public Slider currentValue;
     [SerializeField]
     private int facilityId;
 
@@ -117,7 +118,7 @@ public class StorageTest : MonoBehaviour, IClickable
             }
         }
     }
-
+    public StorageValue storageValue;
     private void Awake()
     {
         clickEvent += OpenStorage;
@@ -154,6 +155,19 @@ public class StorageTest : MonoBehaviour, IClickable
         Debug.Log($"offLine = {offLineSeconds},utiliy = {UtilityTime.Seconds},totla = {currentTotalSeconds}");
         CheckStorage().Forget();
         Debug.Log($"Storage Load Test{FacilityData.Furniture_Name}");
+        if (currentTotalSeconds > 0)
+        {
+            currentValue.gameObject.SetActive(true);
+            storageValue = GetComponentInChildren<StorageValue>();
+            currentValue.value = Mathf.Clamp01(currentTotalSeconds / maxSeconds);
+            await UniTask.WaitUntil(() => currentValue.gameObject.activeSelf);
+            storageValue.TotalValue = currentTotalSeconds;
+            if(currentValue.value <= 0)
+            {
+                currentValue.gameObject.SetActive(false);
+            }
+        }
+        Debug.Log("StorageChildTest"+storageValue.TotalValue);
     }
 
     public async UniTaskVoid CheckStorage()
@@ -228,7 +242,7 @@ public class StorageTest : MonoBehaviour, IClickable
 
     public void OpenStorage()
     {
-
+        currentValue.gameObject.SetActive(false);
         if (!isClick)
         {
             isClick = true;
