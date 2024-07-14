@@ -110,6 +110,47 @@ public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowab
 
     public void LevelUp()
     {
-        Debug.Log($"{buildingData.Building_ID} Building LevelUp");
+        if(BuildingData.Level == BuildingData.Level_Max)
+            return;
+
+        if (CurrencyManager.currency[CurrencyType.Coin] < BuildingData.Level_Up_Coin_Value.ToBigNumber())
+            return;
+
+        if (BuildingData.Level_Up_Resource_1 != 0)
+        {
+            if (BuildingData.Resource_1_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)BuildingData.Level_Up_Resource_1])
+                return;
+        }
+
+        if (BuildingData.Level_Up_Resource_2 != 0)
+        {
+            if (BuildingData.Resource_2_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)BuildingData.Level_Up_Resource_2])
+                return;
+        }
+
+        if (BuildingData.Level_Up_Resource_3 != 0)
+        {
+            if (BuildingData.Resource_3_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)BuildingData.Level_Up_Resource_3])
+                return;
+        }
+
+        CurrencyManager.currency[CurrencyType.Coin] -= BuildingData.Level_Up_Coin_Value.ToBigNumber();
+
+        if (BuildingData.Level_Up_Resource_1 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)BuildingData.Level_Up_Resource_1] -= BuildingData.Resource_1_Value.ToBigNumber();
+        }
+
+        if (BuildingData.Level_Up_Resource_2 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)BuildingData.Level_Up_Resource_2] -= BuildingData.Resource_2_Value.ToBigNumber();
+        }
+
+        if (BuildingData.Level_Up_Resource_3 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)BuildingData.Level_Up_Resource_3] -= BuildingData.Resource_3_Value.ToBigNumber();
+        }
+
+        BuildingData = DataTableMgr.GetBuildingTable().Get(BuildingData.Building_ID + 100);
     }
 }

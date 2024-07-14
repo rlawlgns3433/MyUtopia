@@ -55,10 +55,10 @@ public class UiFloorInformation : MonoBehaviour
         {
             if(!building.isLock)
             {
-                if(ValidateBuildingData(building.BuildingData))
+                if(ValidateBuildingData(building))
                 {
                     UiBuildingInfo uiBuildingInfo = Instantiate(buildingInfoPrefab, buildingParent);
-                    bool isSucceed = uiBuildingInfo.Set(building.BuildingData);
+                    bool isSucceed = uiBuildingInfo.Set(building);
 
                     if (isSucceed)
                     {
@@ -70,11 +70,11 @@ public class UiFloorInformation : MonoBehaviour
         }
     }
 
-    public bool ValidateBuildingData(BuildingData newData)
+    public bool ValidateBuildingData(Building newBuilding)
     {
         foreach (var uiBuilding in uiBuildings)
         {
-            if (uiBuilding.buildingData.Building_ID == newData.Building_ID)
+            if (uiBuilding.building.BuildingData.GetName().Equals(newBuilding.BuildingData.GetName()))
                 return false;
         }
         return true;

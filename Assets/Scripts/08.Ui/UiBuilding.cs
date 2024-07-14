@@ -15,9 +15,9 @@ public class UiBuildingInfo : MonoBehaviour
     public TextMeshProUGUI textCurrentExchangeRate;
     public TextMeshProUGUI textNextExchangeRate;
     public Button buttonLevelUp;
-    public BuildingData buildingData;
+    public Building building;
 
-    public bool Set(BuildingData newData)
+    public bool Set(Building building)
     {
         var uiFloorInformation = GameObject.FindWithTag(Tags.FloorInformation).GetComponentInParent<UiFloorInformation>();
 
@@ -26,32 +26,39 @@ public class UiBuildingInfo : MonoBehaviour
 
         foreach(var uiBuilding in uiFloorInformation.uiBuildings)
         {
-            if (uiBuilding.buildingData.Building_ID == newData.Building_ID)
+            if (uiBuilding.building.BuildingData.GetName().Equals(building.BuildingData.GetName()))
                 return false;
         }
 
-        if (newData.Building_ID == 0)
+        if (building.BuildingData.Building_ID == 0)
             return false;
 
-        buildingData = newData;
-        textBuildingLevel.text = string.Format(levelFormat, buildingData.Level, buildingData.Level_Max);
-        textBuildingName.text = buildingData.GetName();
-        //uiBuildingInfo.buildingProfile.sprite = building.BuildingData.GetProfile();
-        textProceeds.text = ((CurrencyType)buildingData.Resource_Type).ToString();
-        textExchange.text = string.Format(exchangeFormat, ((CurrencyType)buildingData.Materials_Type), ((CurrencyType)buildingData.Resource_Type));
-        textCurrentExchangeRate.text = buildingData.Conversion_rate.ToString();
+        this.building = building;
 
-        if (buildingData.Level < buildingData.Level_Max)
+        buttonLevelUp.onClick.AddListener(building.LevelUp);
+        buttonLevelUp.onClick.AddListener(SetBuildingUi);
+
+        SetBuildingUi();
+
+        return true;
+    }
+
+    public void SetBuildingUi()
+    {
+        textBuildingLevel.text = string.Format(levelFormat, building.BuildingData.Level, building.BuildingData.Level_Max);
+        textBuildingName.text = building.BuildingData.GetName();
+        //uiBuildingInfo.buildingProfile.sprite = building.BuildingData.GetProfile();
+        textProceeds.text = ((CurrencyType)building.BuildingData.Resource_Type).ToString();
+        textExchange.text = string.Format(exchangeFormat, ((CurrencyType)building.BuildingData.Materials_Type), ((CurrencyType)building.BuildingData.Resource_Type));
+        textCurrentExchangeRate.text = building.BuildingData.Conversion_rate.ToString();
+
+        if (building.BuildingData.Level < building.BuildingData.Level_Max)
         {
-            textNextExchangeRate.text = DataTableMgr.GetBuildingTable().Get(buildingData.Building_ID + 100).Conversion_rate.ToString();
+            textNextExchangeRate.text = DataTableMgr.GetBuildingTable().Get(building.BuildingData.Building_ID + 100).Conversion_rate.ToString();
         }
         else
         {
             textNextExchangeRate.text = string.Empty;
         }
-
-        return true;
     }
-
-
 }
