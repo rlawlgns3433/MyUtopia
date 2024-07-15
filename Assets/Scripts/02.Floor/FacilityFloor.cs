@@ -1,18 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 
 public class FacilityFloor : Floor
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        
+        base.Start();
+        UniAutoHeal(cts.Token).Forget();
     }
-
-    // Update is called once per frame
-    void Update()
+    private async UniTaskVoid UniAutoHeal(CancellationToken cts)
     {
-        
+        Debug.Log("facilityFloorInit");
+        while (true)
+        {
+            autoWorkload = BigNumber.Zero;
+
+            foreach (var animal in animals)
+            {
+                animal.animalStat.CurrentFloor = floorName;
+            }
+            await UniTask.Delay(1000, cancellationToken: cts);
+            NotifyObservers();
+        }
     }
 }

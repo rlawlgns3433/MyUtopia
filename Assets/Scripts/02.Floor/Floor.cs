@@ -42,10 +42,14 @@ public class Floor : Subject, IGrowable
 
     protected virtual void Start()
     {
-        foreach (var c in uiCurrencies)
+        if(uiCurrencies.Count != 0)
         {
-            Attach(c);
+            foreach (var c in uiCurrencies)
+            {
+                Attach(c);
+            }
         }
+
         FloorManager.Instance.AddFloor(floorName, this);
     }
 
