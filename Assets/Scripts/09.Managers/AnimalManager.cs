@@ -25,10 +25,6 @@ public class AnimalManager : Subject
         }
     }
 
-    public AssetReference hamsterPrefabReference; // Addressable Asset Reference
-    public AssetReference ferretPrefabReference; // Addressable Asset Reference
-
-
     public void MoveAnimal(string toFloor)
     {
         var animalClick = ClickableManager.CurrentClicked as AnimalClick;
