@@ -22,8 +22,8 @@ public class FloorManager : Singleton<FloorManager>
         if (!floors.ContainsKey(toFloor))
             return;
         animal.animalWork.Animal.animalStat.CurrentFloor = toFloor;
-        //animal.animalStat.CurrentFloor = toFloor;
         floors[toFloor].animals.Add(animal);
+        animal.animalWork.MoveFloor();
         floors[fromFloor].animals.Remove(animal);
     }
 

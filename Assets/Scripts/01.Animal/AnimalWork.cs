@@ -54,7 +54,7 @@ public class AnimalWork : Subject, IMergable
     private void Start()
     {
         animalManager = GameManager.Instance.GetAnimalManager();
-        UniConsumeStamina(cts.Token).Forget();
+        StartConsumeStamina().Forget();
     }
 
     public bool Merge(AnimalWork animalWork)
@@ -79,26 +79,40 @@ public class AnimalWork : Subject, IMergable
         return false;
     }
 
-    private async UniTaskVoid UniConsumeStamina(CancellationToken cts)
+    public void MoveFloor()
     {
-        Debug.Log($"currentFloor{Animal.animalStat.CurrentFloor}");
-        if(Animal.animalStat.CurrentFloor == "B2")
+        StartConsumeStamina().Forget();
+    }
+
+    private async UniTaskVoid StartConsumeStamina()
+    {
+        cts.Cancel();
+        cts = new CancellationTokenSource();
+        await UniConsumeStamina(cts.Token);
+    }
+    private async UniTask UniConsumeStamina(CancellationToken cts)
+    {
+        Debug.Log("B2?else?"+Animal.animalStat.CurrentFloor);
+        switch (animal.animalStat.CurrentFloor)
         {
-            while (Animal.animalStat.Stamina < Animal.standardAnimalData.Stamina)
-            {
-                Animal.animalStat.Stamina += 1;
-                NotifyObservers();
-                await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
-            }
-        }
-        else
-        {
-            while (Animal.animalStat.Stamina > 0)
-            {
-                Animal.animalStat.Stamina -= 1;
-                NotifyObservers();
-                await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
-            }
+            case "B2":
+                Debug.Log("B2Start");
+                while (Animal.animalStat.Stamina < Animal.standardAnimalData.Stamina)
+                {
+                    Animal.animalStat.Stamina += 1;
+                    NotifyObservers();
+                    await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
+                }
+                break;
+            default:
+                Debug.Log("else");
+                while (Animal.animalStat.Stamina > 0)
+                {
+                    Animal.animalStat.Stamina -= 1;
+                    NotifyObservers();
+                    await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
+                }
+                break;
         }
         
     }
