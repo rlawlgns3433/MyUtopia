@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UiManager : Singleton<UiManager>
 {
-    public GameObject currencyUi;
+    public UiCurrencies uiCurrencies;
     public GameObject mainUi;
     public UiAnimalFocus animalFocusUi;
     public UiSell sellUi;
@@ -15,7 +15,7 @@ public class UiManager : Singleton<UiManager>
     }
     public void ShowCurrencyUi()
     {
-        currencyUi.SetActive(true);
+        uiCurrencies.gameObject.SetActive(true);
         mainUi.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -25,7 +25,7 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowMainUi()
     {
-        currencyUi.SetActive(true);
+        uiCurrencies.gameObject.SetActive(true);
         mainUi.SetActive(true);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -35,7 +35,7 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowAnimalFocusUi()
     {
-        currencyUi.SetActive(true);
+        uiCurrencies.gameObject.SetActive(true);
         mainUi.SetActive(false);
         animalFocusUi.gameObject.SetActive(true);
         sellUi.gameObject.SetActive(false);
@@ -45,7 +45,7 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowSellUi()
     {
-        currencyUi.SetActive(false);
+        uiCurrencies.gameObject.SetActive(false);
         mainUi.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(true);
@@ -55,7 +55,7 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowFloorInformationUi()
     {
-        currencyUi.SetActive(false);
+        uiCurrencies.gameObject.SetActive(false);
         mainUi.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -65,7 +65,7 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowAnimalListUi()
     {
-        currencyUi.SetActive(false);
+        uiCurrencies.gameObject.SetActive(false);
         mainUi.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
