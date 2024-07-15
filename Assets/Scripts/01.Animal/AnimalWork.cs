@@ -1,10 +1,13 @@
 using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 
 public class AnimalWork : Subject, IMergable
 {
     public Observer uiSlot;
+    public Observer uiAnimalFloorSlot;
     private AnimalManager animalManager;
+    private CancellationTokenSource cts = new CancellationTokenSource();
     public int animalId;
     private Animal animal;
     public Animal Animal
@@ -35,11 +38,26 @@ public class AnimalWork : Subject, IMergable
 
     public string currentFloor;
 
+    private void OnDestroy()
+    {
+        cts.Cancel();
+        cts.Dispose();
+
+        Detach(uiSlot);
+        Detach(uiAnimalFloorSlot);
+
+        if(uiSlot != null)
+            Destroy(uiSlot.gameObject);
+        if(uiAnimalFloorSlot != null)
+            Destroy(uiAnimalFloorSlot.gameObject);
+    }
+
     private void Start()
     {
         animalManager = GameManager.Instance.GetAnimalManager();
         Attach(uiSlot);
-        UniConsumeStamina().Forget();
+        Attach(uiAnimalFloorSlot);
+        UniConsumeStamina(cts.Token).Forget();
     }
 
     public bool Merge(AnimalWork animalWork)
@@ -64,13 +82,13 @@ public class AnimalWork : Subject, IMergable
         return false;
     }
 
-    private async UniTaskVoid UniConsumeStamina()
+    private async UniTaskVoid UniConsumeStamina(CancellationToken cts)
     {
         while (Animal.animalStat.Stamina > 0)
         {
             Animal.animalStat.Stamina -= 1;
             NotifyObservers();
-            await UniTask.Delay(30);
+            await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
         }
     }
 }

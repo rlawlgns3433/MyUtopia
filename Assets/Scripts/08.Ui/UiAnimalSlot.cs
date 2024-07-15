@@ -13,20 +13,15 @@ public class UiAnimalSlot : UiAnimalFloorSlot
         }
     }
 
-    [SerializeField]
-    private Image imageAdd;
-
     public override void SetData(AnimalClick animClick)
     {
         base.SetData(animClick);
-        imageAdd.gameObject.SetActive(false);
     }
 
     public override void ClearData()
     {
         base.ClearData();
         animalClick = null;
-        imageAdd.gameObject.SetActive(true);
     }
 
     public void OnClick()

@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UiAnimalFloorSlot : Observer
@@ -7,19 +8,26 @@ public class UiAnimalFloorSlot : Observer
     public AnimalData animalData;
     public AnimalClick animalClick;
 
+    private void OnDestroy()
+    {
+        Destroy(imagePortrait.gameObject);
+        Destroy(sliderStamina.gameObject);
+    }
+
     public virtual void SetData(AnimalClick animClick)
     {
         if (animClick == null)
             return;
         animalClick = animClick;
         animalData = animClick.AnimalWork.Animal.animalStat.AnimalData;
+        Debug.Log($"UiAnimalFloorSlot : {animClick.GetInstanceID()}");
 
         //if(animalData.GetProfile() != null)
         //    imagePortrait.sprite = animalData.GetProfile();
 
         sliderStamina.minValue = 0f;
         sliderStamina.maxValue = DataTableMgr.GetAnimalTable().Get(animalData.Animal_ID).Stamina;
-        sliderStamina.value = animClick.AnimalWork.Animal.animalStat.Stamina;
+        sliderStamina.value = animalData.Stamina;
     }
 
     public virtual void ClearData()

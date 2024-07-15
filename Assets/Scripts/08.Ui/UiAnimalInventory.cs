@@ -11,18 +11,12 @@ public class UiAnimalInventory : Observer
     public int currentIndex = 0;
     private Floor currentFloor;
 
-    private void Awake()
-    {
-        UiAnimalSlot slot = Instantiate(slotPrefab, scrollRect.content);
-        slot.SlotIndex = currentIndex++;
-        uiAnimalSlots.Add(slot);
-
-    }
-
-    private void Start()
-    {
-        SetFloor(FloorManager.Instance.GetFloor("B5"));
-    }
+    //private void Awake()
+    //{
+    //    UiAnimalSlot slot = Instantiate(slotPrefab, scrollRect.content);
+    //    slot.SlotIndex = currentIndex++;
+    //    uiAnimalSlots.Add(slot);
+    //}
 
     public void SetFloor(Floor floor)
     {

@@ -61,26 +61,6 @@ public class AnimalManager : Subject
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            //var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            //if (Physics.Raycast(ray, out var hit, 200f, floorLayer.value))
-            //{
-            //    var pos = hit.point;
-            //    var spawnFloor = hit.collider.gameObject.GetComponent<Floor>();
-            //    pos.y = 0f;
-
-            //    if (spawnFloor.animals.Count >= spawnFloor.FloorData.Max_Population)
-            //        return;
-
-            //    if (spawnFloor != null)
-            //        Create(pos, spawnFloor, hamsterPrefabReference, 0);
-            //}
-
-            NotifyObservers();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out var hit, 200f, floorLayer.value))
@@ -89,10 +69,29 @@ public class AnimalManager : Subject
                 var spawnFloor = hit.collider.gameObject.GetComponent<Floor>();
                 pos.y = 0f;
 
+                if (spawnFloor.animals.Count >= spawnFloor.FloorData.Max_Population)
+                    return;
+
                 if (spawnFloor != null)
-                    Create(pos, spawnFloor, ferretPrefabReference, 0);
+                uiAnimalInventory.SetFloor(spawnFloor);
+                NotifyObservers();
             }
         }
+
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        //    if (Physics.Raycast(ray, out var hit, 200f, floorLayer.value))
+        //    {
+        //        var pos = hit.point;
+        //        var spawnFloor = hit.collider.gameObject.GetComponent<Floor>();
+        //        pos.y = 0f;
+
+        //        if (spawnFloor != null)
+        //            Create(pos, spawnFloor, ferretPrefabReference, 0);
+        //    }
+        //}
     }
 
     public void Create(Vector3 position, Floor floor, AssetReference asset, int slotId, bool isMerged = false)
@@ -122,6 +121,7 @@ public class AnimalManager : Subject
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
+
                 animalWork.uiSlot = uiAnimalInventory.uiAnimalSlots[slotId];
                 uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
                 uiAnimalList.SetAnimal(floor.FloorData.Floor_Num, animalWork.GetComponent<AnimalClick>());
@@ -159,15 +159,14 @@ public class AnimalManager : Subject
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
                 var animalWork = handle.Result.GetComponent<AnimalWork>();
-                Debug.Log(animalWork.gameObject.GetInstanceID());
                 animalWork.currentFloor = floor.floorName;
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
+                
                 animalWork.uiSlot = uiAnimalInventory.uiAnimalSlots[slotId];
                 uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
-                uiAnimalList.SetAnimal(floor.FloorData.Floor_Num, animalWork.GetComponent<AnimalClick>());
-
+                animalWork.uiAnimalFloorSlot = uiAnimalList.SetAnimal(floor.FloorData.Floor_Num, animalWork.GetComponent<AnimalClick>());
                 floor.animals.Add(animalWork.Animal);
 
                 if (isMerged)

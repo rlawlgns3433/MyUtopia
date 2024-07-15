@@ -22,8 +22,8 @@ public class UiAnimalList : Observer
         }
     }
 
-    public void SetAnimal(int floorId, AnimalClick animalClick)
+    public UiAnimalFloorSlot SetAnimal(int floorId, AnimalClick animalClick)
     {
-        parents[floorId - 1].Add(animalClick);
+        return parents[floorId - 1].Add(animalClick);
     }
 }
