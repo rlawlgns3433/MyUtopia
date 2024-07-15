@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 // 데이터 테이블 변경에 따른 수정 필요
 
-public struct FloorData
+public class FloorData
 {
     public int Floor_ID { get; set; }
     public int World_Type { get; set; }

@@ -51,7 +51,7 @@ public class UiAnimalInventory : Observer
 
     public override void Notify(Subject subject)
     {
-        if (currentFloor.animals.Count >= currentFloor.FloorData.Max_Population)
+        if (currentFloor.animals.Count >= currentFloor.FloorStat.Max_Population)
             return;
 
         UiAnimalSlot slot = Instantiate(slotPrefab, scrollRect.content);

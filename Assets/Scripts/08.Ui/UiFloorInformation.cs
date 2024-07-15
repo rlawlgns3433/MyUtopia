@@ -26,7 +26,7 @@ public class UiFloorInformation : MonoBehaviour
 
     public Floor currentFloor;
 
-    public FloorData floorData;
+    public FloorStat floorStat;
 
     private void Awake()
     {
@@ -41,15 +41,15 @@ public class UiFloorInformation : MonoBehaviour
             return;
 
         currentFloor = FloorManager.Instance.floors[floorId];
-        floorData = currentFloor.FloorData;
+        floorStat = currentFloor.FloorStat;
 
         SetFloorUi();
     }
 
     public void SetFloorUi()
     {
-        textFloorName.text = floorData.GetFloorName();
-        textFloorLevel.text = string.Format(levelFormat, floorData.Grade, floorData.Grade_Max);
+        textFloorName.text = floorStat.FloorData.GetFloorName();
+        textFloorLevel.text = string.Format(levelFormat, floorStat.Grade, floorStat.Grade_Max);
 
         foreach (var building in currentFloor.buildings)
         {

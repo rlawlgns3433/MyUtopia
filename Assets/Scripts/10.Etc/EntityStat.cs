@@ -93,3 +93,66 @@ public class FurnitureStat
     }
 }
 
+public class FloorStat
+{
+    private FloorData floorData;
+    public FloorData FloorData
+    {
+        get
+        {
+            if (floorData == null)
+            {
+                floorData = new FloorData();
+            }
+            return floorData;
+        }
+        set
+        {
+            floorData = value;
+            Floor_ID = floorData.Floor_ID;
+            World_Type = floorData.World_Type;
+            Floor_Num = floorData.Floor_Num;
+            Floor_Type = floorData.Floor_Type;
+            Floor_Name_ID = floorData.Floor_Name_ID;
+            Grade = floorData.Grade;
+            Grade_Max = floorData.Grade_Max;
+            Unlock_Facility = floorData.Unlock_Facility;
+            Unlock_Content = floorData.Unlock_Content;
+            Max_Population = floorData.Max_Population;
+            Level_Up_Coin_ID = floorData.Level_Up_Coin_ID;
+            Level_Up_Coin_Value = floorData.Level_Up_Coin_Value;
+            Level_Up_Resource_1 = floorData.Level_Up_Resource_1;
+            Resource_1_Value = floorData.Resource_1_Value;
+            Level_Up_Resource_2 = floorData.Level_Up_Resource_2;
+            Resource_2_Value = floorData.Resource_2_Value;
+            Level_Up_Resource_3 = floorData.Level_Up_Resource_3;
+            Resource_3_Value = floorData.Resource_3_Value;
+        }
+    }
+    public int Floor_ID { get; set; }
+    public int World_Type { get; set; }
+    public int Floor_Num { get; set; }
+    public int Floor_Type { get; set; }
+    public string Floor_Name_ID { get; set; }
+    public int Grade { get; set; }
+    public int Grade_Max { get; set; }
+    public int Unlock_Facility { get; set; }
+    public int Unlock_Content { get; set; }
+    public int Max_Population { get; set; }
+    public int Level_Up_Coin_ID { get; set; }
+    public string Level_Up_Coin_Value { get; set; }
+    public int Level_Up_Resource_1 { get; set; }
+    public string Resource_1_Value { get; set; }
+    public int Level_Up_Resource_2 { get; set; }
+    public string Resource_2_Value { get; set; }
+    public int Level_Up_Resource_3 { get; set; }
+    public string Resource_3_Value { get; set; }
+
+    public FloorStat() { }
+
+    public FloorStat(int floorId)
+    {
+        this.FloorData = DataTableMgr.GetFloorTable().Get(floorId);
+    }
+}
+

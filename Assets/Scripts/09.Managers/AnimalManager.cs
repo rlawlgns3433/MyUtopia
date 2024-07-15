@@ -67,7 +67,7 @@ public class AnimalManager : Subject
                 var spawnFloor = hit.collider.gameObject.GetComponent<Floor>();
                 pos.y = 0f;
 
-                if (spawnFloor.animals.Count >= spawnFloor.FloorData.Max_Population)
+                if (spawnFloor.animals.Count >= spawnFloor.FloorStat.Max_Population)
                     return;
 
                 if (spawnFloor != null)
@@ -81,7 +81,7 @@ public class AnimalManager : Subject
     {
         if (!isMerged)
         {
-            if (floor.animals.Count >= floor.FloorData.Max_Population)
+            if (floor.animals.Count >= floor.FloorStat.Max_Population)
                 return;
         }
 
