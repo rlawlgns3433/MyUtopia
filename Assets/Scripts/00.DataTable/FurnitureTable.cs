@@ -6,9 +6,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-// 데이터 테이블 변경에 따른 수정 필요
-
-public struct FurnitureData
+public class FunitureData
 {
     public int Furniture_ID { get; set; }
     public int Floor_Type { get; set; }
@@ -18,18 +16,13 @@ public struct FurnitureData
     public int Level_Max { get; set; }
     public int Effect_Type { get; set; }
     public int Effect_Value { get; set; }
-    public int Level_Up_Coin_ID { get; set; }
+    public int Level_Up_Coin_ID{  get; set; }
     public string Level_Up_Coin_Value { get; set; }
-    public string Prefab { get; set; }
+    public string Prefab {  get; set; }
 
-    public string GetFurnitureName()
+    public string GetName()
     {
         return DataTableMgr.GetStringTable().Get(Furniture_Name_ID);
-    }
-
-    public string GetFurnitureDesc()
-    {
-        return DataTableMgr.GetStringTable().Get(Furniture_Desc_ID);
     }
 
     public Sprite GetPrefab()
@@ -38,17 +31,17 @@ public struct FurnitureData
     }
 }
 
+
 public class FurnitureTable : DataTable
 {
-    public static readonly FurnitureData defaultData = new FurnitureData();
-    private Dictionary<int, FurnitureData> table = new Dictionary<int, FurnitureData>();
+    private static readonly FunitureData defaultData = new FunitureData();
+    private Dictionary<int, FunitureData> table = new Dictionary<int, FunitureData>();
     public override bool IsLoaded { get; protected set; }
     public override void Load(string path)
     {
         path = string.Format(FormatPath, path);
 
         table.Clear();
-
         Addressables.LoadAssetAsync<TextAsset>(DataTableIds.Furniture).Completed += (AsyncOperationHandle<TextAsset> handle) =>
         {
             using (var reader = new StringReader(handle.Result.text))
@@ -58,7 +51,7 @@ public class FurnitureTable : DataTable
                 csvReader.ReadHeader();
                 csvReader.Read();
 
-                var records = csvReader.GetRecords<FurnitureData>();
+                var records = csvReader.GetRecords<FunitureData>();
                 foreach (var record in records)
                 {
                     table.Add(record.Furniture_ID, record);
@@ -68,10 +61,12 @@ public class FurnitureTable : DataTable
         };
     }
 
-    public FurnitureData Get(int id)
+    public FunitureData Get(int id)
     {
-        if (!table.ContainsKey(id))
-            return defaultData;
-        return table[id];
+        if (table.ContainsKey(id))
+        {
+            return table[id];
+        }
+        return defaultData;
     }
 }

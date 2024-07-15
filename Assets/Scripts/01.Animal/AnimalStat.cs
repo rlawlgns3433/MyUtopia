@@ -48,31 +48,31 @@ public class AnimalStat
     }
 }
 
-public class FacilityStat
+public class FurnitureStat
 {
-    private FacilityData facilityData;
-    public FacilityData FacilityData
+    private FunitureData furnitureData;
+    public FunitureData FurnitureData
     {
         get
         {
-            if (facilityData == null)
+            if (furnitureData == null)
             {
-                facilityData = new FacilityData();
+                furnitureData = new FunitureData();
             }
-            return facilityData;
+            return furnitureData;
         }
         set
         {
-            facilityData = value;
-            Furniture_ID = FacilityData.Furniture_ID;
-            Furniture_Name = FacilityData.Furniture_Name;
-            Level = FacilityData.Level;
-            Level_Max = FacilityData.Level_Max;
-            Effect_Type = FacilityData.Effect_Type;
-            Effect_Value = FacilityData.Effect_Value;
-            Level_Up_Resource_ID = FacilityData.Level_Up_Resource_ID;
-            Level_Up_Coin = FacilityData.Level_Up_Coin;
-            Prefab = FacilityData.Prefab;
+            furnitureData = value;
+            Furniture_ID = FurnitureData.Furniture_ID;
+            Furniture_Name = FurnitureData.Furniture_Name_ID;
+            Level = FurnitureData.Level;
+            Level_Max = FurnitureData.Level_Max;
+            Effect_Type = FurnitureData.Effect_Type;
+            Effect_Value = FurnitureData.Effect_Value;
+            Level_Up_Coin_ID = FurnitureData.Level_Up_Coin_ID;
+            Level_Up_Coin_Value = FurnitureData.Level_Up_Coin_Value;
+            Prefab = FurnitureData.Prefab;
         }
     }
     public int Furniture_ID { get; set; }
@@ -81,15 +81,15 @@ public class FacilityStat
     public int Level_Max { get; set; }
     public int Effect_Type { get; set; }
     public int Effect_Value { get; set; }
-    public int Level_Up_Resource_ID { get; set; }
-    public string Level_Up_Coin { get; set; }
+    public int Level_Up_Coin_ID { get; set; }
+    public string Level_Up_Coin_Value { get; set; }
     public string Prefab { get; set; }
 
-    public FacilityStat() { }
+    public FurnitureStat() { }
 
-    public FacilityStat(int facilityId)
+    public FurnitureStat(int furnitureId)
     {
-        this.FacilityData = DataTableMgr.GetFacilityTable().Get(facilityId);
+        this.FurnitureData = DataTableMgr.GetFurnitureTable().Get(furnitureId);
     }
 }
 

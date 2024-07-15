@@ -50,19 +50,19 @@ public class Storage : MonoBehaviour, IClickable
     [SerializeField]
     private int facilityId;
 
-    private FacilityStat facilityStat;
-    public FacilityStat FacilityStat
+    private FurnitureStat furnitureStat;
+    public FurnitureStat FurnitureStat
     {
         get
         {
-            if(facilityStat == null)
-                facilityStat = new FacilityStat(facilityId);
+            if(furnitureStat == null)
+                furnitureStat = new FurnitureStat(facilityId);
 
-            return facilityStat;
+            return furnitureStat;
         }
         set
         {
-            facilityStat = value;
+            furnitureStat = value;
         }
     }
 
@@ -105,7 +105,7 @@ public class Storage : MonoBehaviour, IClickable
 
     public void OpenProductStorage()
     {
-        UiManager.Instance.SetProductCapacity(FacilityStat.Effect_Value);
+        UiManager.Instance.SetProductCapacity(FurnitureStat.Effect_Value);
         UiManager.Instance.ShowProductsUi();
     }
 }
