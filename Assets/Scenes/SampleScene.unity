@@ -12375,10 +12375,10 @@ GameObject:
   - component: {fileID: 963501682}
   - component: {fileID: 963501681}
   - component: {fileID: 963501684}
-  - component: {fileID: 963501685}
   - component: {fileID: 963501686}
   - component: {fileID: 963501687}
   - component: {fileID: 963501688}
+  - component: {fileID: 963501689}
   m_Layer: 6
   m_Name: B5Layer
   m_TagString: Untagged
@@ -12487,35 +12487,6 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: eb91db96b6ea6c6448092fe844e76193, type: 2}
   m_BuildHeightMesh: 0
---- !u!114 &963501685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963501679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d0ab4443376544dbebe68a554d0968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animals: []
-  buildings:
-  - {fileID: 539012006}
-  - {fileID: 1536589762}
-  - {fileID: 632716700}
-  - {fileID: 1839315194}
-  uiCurrencies:
-  - {fileID: 115322187}
-  - {fileID: 2083659082}
-  - {fileID: 733283589}
-  - {fileID: 940670843}
-  - {fileID: 2010210246}
-  - {fileID: 784281088}
-  - {fileID: 577120818}
-  floorId: 2010501
-  storage: {fileID: 1095205393}
-  floorName: B5
 --- !u!114 &963501686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12565,7 +12536,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a4b2cc39113c1840a5b94447ae553d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floor: {fileID: 963501685}
+  floor: {fileID: 0}
+--- !u!114 &963501689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963501679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad28e071de0e8f44ea96d71337788c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animals: []
+  buildings:
+  - {fileID: 539012006}
+  - {fileID: 1536589762}
+  - {fileID: 632716700}
+  - {fileID: 1839315194}
+  uiCurrencies:
+  - {fileID: 115322187}
+  - {fileID: 2083659082}
+  - {fileID: 733283589}
+  - {fileID: 940670843}
+  - {fileID: 2010210246}
+  - {fileID: 784281088}
+  - {fileID: 577120818}
+  floorId: 2010501
+  storage: {fileID: 1095205393}
+  floorName: B5
 --- !u!1 &967562099
 GameObject:
   m_ObjectHideFlags: 0
@@ -20418,9 +20418,9 @@ GameObject:
   - component: {fileID: 1605998522}
   - component: {fileID: 1605998521}
   - component: {fileID: 1605998520}
-  - component: {fileID: 1605998519}
   - component: {fileID: 1605998518}
   - component: {fileID: 1605998517}
+  - component: {fileID: 1605998524}
   m_Layer: 6
   m_Name: B3Layer
   m_TagString: Untagged
@@ -20465,32 +20465,6 @@ MonoBehaviour:
   vc: {fileID: 1579680827}
   focusOutPosition: {x: 0, y: 15, z: -15}
   focusOutRotation: {x: 40, y: 0, z: 0}
---- !u!114 &1605998519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1605998516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d0ab4443376544dbebe68a554d0968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animals: []
-  buildings:
-  - {fileID: 856959791}
-  uiCurrencies:
-  - {fileID: 115322187}
-  - {fileID: 2083659082}
-  - {fileID: 733283589}
-  - {fileID: 940670843}
-  - {fileID: 2010210246}
-  - {fileID: 784281088}
-  - {fileID: 577120818}
-  floorId: 2010301
-  storage: {fileID: 0}
-  floorName: B3
 --- !u!114 &1605998520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20588,6 +20562,24 @@ Transform:
   - {fileID: 856959796}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1605998524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605998516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad28e071de0e8f44ea96d71337788c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animals: []
+  buildings: []
+  uiCurrencies: []
+  floorId: 0
+  storage: {fileID: 0}
+  floorName: 
 --- !u!1 &1619382222
 GameObject:
   m_ObjectHideFlags: 0
@@ -20854,9 +20846,9 @@ GameObject:
   - component: {fileID: 1626516720}
   - component: {fileID: 1626516719}
   - component: {fileID: 1626516718}
-  - component: {fileID: 1626516717}
   - component: {fileID: 1626516716}
   - component: {fileID: 1626516715}
+  - component: {fileID: 1626516722}
   m_Layer: 6
   m_Name: B4Layer
   m_TagString: Untagged
@@ -20901,34 +20893,6 @@ MonoBehaviour:
   vc: {fileID: 1579680827}
   focusOutPosition: {x: 0, y: 15, z: -15}
   focusOutRotation: {x: 40, y: 0, z: 0}
---- !u!114 &1626516717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626516714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d0ab4443376544dbebe68a554d0968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animals: []
-  buildings:
-  - {fileID: 645287615}
-  - {fileID: 1128308985}
-  - {fileID: 1290641617}
-  uiCurrencies:
-  - {fileID: 115322187}
-  - {fileID: 2083659082}
-  - {fileID: 733283589}
-  - {fileID: 940670843}
-  - {fileID: 2010210246}
-  - {fileID: 784281088}
-  - {fileID: 577120818}
-  floorId: 2010401
-  storage: {fileID: 0}
-  floorName: B4
 --- !u!114 &1626516718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21029,6 +20993,34 @@ Transform:
   - {fileID: 1825236343}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1626516722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626516714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad28e071de0e8f44ea96d71337788c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animals: []
+  buildings:
+  - {fileID: 645287615}
+  - {fileID: 1128308985}
+  - {fileID: 1290641617}
+  uiCurrencies:
+  - {fileID: 115322187}
+  - {fileID: 2083659082}
+  - {fileID: 733283589}
+  - {fileID: 940670843}
+  - {fileID: 2010210246}
+  - {fileID: 784281088}
+  - {fileID: 577120818}
+  floorId: 2010401
+  storage: {fileID: 0}
+  floorName: B4
 --- !u!1 &1627572077
 GameObject:
   m_ObjectHideFlags: 0
@@ -21083,7 +21075,7 @@ MonoBehaviour:
   scrollRect: {fileID: 2100354806}
   maxSlot: 5
   currentIndex: 0
-  currentFloor: {fileID: 963501685}
+  currentFloor: {fileID: 963501689}
 --- !u!1 &1629027195
 GameObject:
   m_ObjectHideFlags: 0

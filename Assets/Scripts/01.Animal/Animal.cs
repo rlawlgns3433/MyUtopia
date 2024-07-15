@@ -6,15 +6,16 @@ public class Animal : IGrowable, IMovable
 {
     public AnimalWork animalWork;
     public AnimalStat animalStat;
+    public AnimalData standardAnimalData;
+
     public Animal() { }
     public Animal(int animalId)
     {
         if(animalStat == null)
         {
             animalStat = new AnimalStat(animalId);
+            standardAnimalData = DataTableMgr.GetAnimalTable().Get(animalId);
         }
-
-        //animalStat.AnimalData = DataTableMgr.GetAnimalTable().Get(animalId);
     }
 
     [SerializeField]
