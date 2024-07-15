@@ -9,6 +9,7 @@ public class AnimalWork : Subject, IMergable
     private AnimalManager animalManager;
     private CancellationTokenSource cts = new CancellationTokenSource();
     public int animalId;
+    public bool isHealing = false;
     private Animal animal;
     public Animal Animal
     {
@@ -35,8 +36,6 @@ public class AnimalWork : Subject, IMergable
     [SerializeField]
     private int mergeId;
     public int MergeId { get => mergeId; set => mergeId = value; }
-
-    public string currentFloor;
 
     private void OnDestroy()
     {
@@ -68,11 +67,11 @@ public class AnimalWork : Subject, IMergable
 
         if (animalWork.animal.animalStat.Animal_ID== animal.animalStat.Animal_ID)
         {
-            var floor = FloorManager.Instance.GetFloor(animalWork.currentFloor);
+            var floor = FloorManager.Instance.GetFloor(animal.animalStat.CurrentFloor);
             int resultAnimalId = DataTableMgr.GetMergeTable().Get(animal.animalStat.Merge_ID).Result_Animal;
             animalManager.Create(floor.gameObject.transform.position, floor, resultAnimalId, 0, true);
-            FloorManager.Instance.GetFloor(currentFloor).RemoveAnimal(animal);
-            FloorManager.Instance.GetFloor(currentFloor).RemoveAnimal(animalWork.animal);
+            FloorManager.Instance.GetFloor(animal.animalStat.CurrentFloor).RemoveAnimal(animal);
+            FloorManager.Instance.GetFloor(animal.animalStat.CurrentFloor).RemoveAnimal(animalWork.animal);
             Destroy(gameObject);
             Destroy(animalWork.gameObject);
             return true;
@@ -82,12 +81,26 @@ public class AnimalWork : Subject, IMergable
 
     private async UniTaskVoid UniConsumeStamina(CancellationToken cts)
     {
-        while (Animal.animalStat.Stamina > 0)
+        Debug.Log($"currentFloor{Animal.animalStat.CurrentFloor}");
+        if(Animal.animalStat.CurrentFloor == "B2")
         {
-            Animal.animalStat.Stamina -= 1;
-            NotifyObservers();
-            await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
+            while (Animal.animalStat.Stamina < Animal.standardAnimalData.Stamina)
+            {
+                Animal.animalStat.Stamina += 1;
+                NotifyObservers();
+                await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
+            }
         }
+        else
+        {
+            while (Animal.animalStat.Stamina > 0)
+            {
+                Animal.animalStat.Stamina -= 1;
+                NotifyObservers();
+                await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
+            }
+        }
+        
     }
 
     public void SetUiAnimalFloorSlot(Observer observer)

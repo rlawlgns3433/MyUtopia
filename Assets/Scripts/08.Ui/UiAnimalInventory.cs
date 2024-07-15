@@ -67,7 +67,7 @@ public class UiAnimalInventory : Observer
     {
         foreach (var slot in uiAnimalSlots)
         {
-            if(slot.animalClick.AnimalWork.currentFloor.Equals(currentFloor))
+            if(slot.animalClick.AnimalWork.Animal.animalStat.CurrentFloor.Equals(currentFloor))
             {
                 slot.SetData(slot.animalClick);
             }
