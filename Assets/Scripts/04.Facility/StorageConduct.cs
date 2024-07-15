@@ -39,23 +39,7 @@ public class StorageConduct : Storage
     }
 
     public Slider currentValue;
-    [SerializeField]
-    private int facilityId;
 
-    private FacilityData facilityData;
-    public FacilityData FacilityData
-    {
-        get
-        {
-            if (facilityData.Furniture_ID == 0)
-                facilityData = DataTableMgr.Get<FacilityTable>(DataTableIds.Facility).Get(facilityId);
-            return facilityData;
-        }
-        set
-        {
-            facilityData = value;
-        }
-    }
     public List<ParticleSystem> particleSystems;
     public Canvas canvas;
     private BigNumber[] values;
@@ -112,7 +96,7 @@ public class StorageConduct : Storage
         CurrArray = new BigNumber[currencyTypes.Count];
         values = new BigNumber[currencyTypes.Count];
         LoadDataOnStart();
-        MaxSeconds = FacilityData.Effect_Value;
+        MaxSeconds = FacilityStat.Effect_Value;
         Debug.Log($"maxSeconds{maxSeconds}");
         Debug.Log($"UtilityTime{UtilityTime.Seconds}");
         currentTotalSeconds += UtilityTime.Seconds;
@@ -134,7 +118,7 @@ public class StorageConduct : Storage
         }
         Debug.Log($"offLine = {offLineSeconds},utiliy = {UtilityTime.Seconds},totla = {currentTotalSeconds}");
         CheckStorage().Forget();
-        Debug.Log($"Storage Load Test{FacilityData.Furniture_Name}");
+        Debug.Log($"Storage Load Test{FacilityStat.Furniture_Name}");
         if (currentTotalSeconds > 0)
         {
             currentValue.gameObject.SetActive(true);
@@ -178,7 +162,7 @@ public class StorageConduct : Storage
         {
             currentTotalSeconds = 0;
         }
-        string filePath = Path.Combine(Application.persistentDataPath, $"{FacilityData.Furniture_ID}.json");
+        string filePath = Path.Combine(Application.persistentDataPath, $"{FacilityStat.Furniture_ID}.json");
         StorageData storageData = new StorageData
         {
             CurrentWorkLoad = CurrWorkLoad,
@@ -191,7 +175,7 @@ public class StorageConduct : Storage
 
     private void LoadDataOnStart()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, $"{FacilityData.Furniture_ID}.json");
+        string filePath = Path.Combine(Application.persistentDataPath, $"{FacilityStat.Furniture_ID}.json");
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);

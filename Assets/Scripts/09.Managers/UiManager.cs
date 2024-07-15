@@ -8,7 +8,7 @@ public class UiManager : Singleton<UiManager>
     public UiSell sellUi;
     public UiFloorInformation floorInformationUi;
     public GameObject animalListUi;
-    public GameObject productsUi;
+    public UiProducts productsUi;
 
     private void Start()
     {
@@ -89,5 +89,10 @@ public class UiManager : Singleton<UiManager>
         floorInformationUi.gameObject.SetActive(false);
         animalListUi.SetActive(false);
         productsUi.gameObject.SetActive(true);
+    }
+
+    public void SetProductCapacity(int capacity)
+    {
+        productsUi.SetCapacity(capacity);
     }
 }

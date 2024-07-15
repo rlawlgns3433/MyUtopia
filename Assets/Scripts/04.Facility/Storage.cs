@@ -47,7 +47,27 @@ public class StorageData
 
 public class Storage : MonoBehaviour, IClickable
 {
+    [SerializeField]
+    private int facilityId;
+
+    private FacilityStat facilityStat;
+    public FacilityStat FacilityStat
+    {
+        get
+        {
+            if(facilityStat == null)
+                facilityStat = new FacilityStat(facilityId);
+
+            return facilityStat;
+        }
+        set
+        {
+            facilityStat = value;
+        }
+    }
+
     public event Action clickEvent;
+
     [SerializeField]
     private bool isClicked;
     public bool IsClicked
@@ -85,6 +105,7 @@ public class Storage : MonoBehaviour, IClickable
 
     public void OpenProductStorage()
     {
+        UiManager.Instance.SetProductCapacity(FacilityStat.Effect_Value);
         UiManager.Instance.ShowProductsUi();
     }
 }

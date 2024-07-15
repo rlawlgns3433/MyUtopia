@@ -47,3 +47,49 @@ public class AnimalStat
         this.AnimalData = DataTableMgr.GetAnimalTable().Get(aniamlId);
     }
 }
+
+public class FacilityStat
+{
+    private FacilityData facilityData;
+    public FacilityData FacilityData
+    {
+        get
+        {
+            if (facilityData == null)
+            {
+                facilityData = new FacilityData();
+            }
+            return facilityData;
+        }
+        set
+        {
+            facilityData = value;
+            Furniture_ID = FacilityData.Furniture_ID;
+            Furniture_Name = FacilityData.Furniture_Name;
+            Level = FacilityData.Level;
+            Level_Max = FacilityData.Level_Max;
+            Effect_Type = FacilityData.Effect_Type;
+            Effect_Value = FacilityData.Effect_Value;
+            Level_Up_Resource_ID = FacilityData.Level_Up_Resource_ID;
+            Level_Up_Coin = FacilityData.Level_Up_Coin;
+            Prefab = FacilityData.Prefab;
+        }
+    }
+    public int Furniture_ID { get; set; }
+    public string Furniture_Name { get; set; }
+    public int Level { get; set; }
+    public int Level_Max { get; set; }
+    public int Effect_Type { get; set; }
+    public int Effect_Value { get; set; }
+    public int Level_Up_Resource_ID { get; set; }
+    public string Level_Up_Coin { get; set; }
+    public string Prefab { get; set; }
+
+    public FacilityStat() { }
+
+    public FacilityStat(int facilityId)
+    {
+        this.FacilityData = DataTableMgr.GetFacilityTable().Get(facilityId);
+    }
+}
+
