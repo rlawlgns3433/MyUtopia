@@ -26,9 +26,9 @@ public static class DataTableMgr
         tables.Add(DataTableIds.Building, buildingTable);
 
         // 테이블 완료 시 주석 해제
-        //DataTable facilityTable = new FacilityTable();
-        //facilityTable.Load(DataTableIds.Facility);
-        //tables.Add(DataTableIds.Facility, facilityTable);
+        DataTable facilityTable = new FacilityTable();
+        facilityTable.Load(DataTableIds.Facility);
+        tables.Add(DataTableIds.Facility, facilityTable);
 
         // 테이블 완료 시 주석 해제
         DataTable mergeTable = new MergeTable();
@@ -65,6 +65,10 @@ public static class DataTableMgr
     public static FloorTable GetFloorTable()
     {
         return Get<FloorTable>(DataTableIds.Floor);
+    }
+    public static FacilityTable GetFacilityTable()
+    {
+        return Get<FacilityTable>(DataTableIds.Facility);
     }
 
     public static BuildingTable GetBuildingTable()

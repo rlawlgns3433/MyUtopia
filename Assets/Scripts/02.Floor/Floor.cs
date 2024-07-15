@@ -27,7 +27,7 @@ public class Floor : Subject, IGrowable
             floorData = value;
         }
     }
-    public StorageTest storage;
+    public Storage storage;
     private CancellationTokenSource cts = new CancellationTokenSource();
     private BigNumber autoWorkload;
     public string floorName;
