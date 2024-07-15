@@ -15,7 +15,7 @@ public class StorageValueUi : MonoBehaviour, IClickable
     public GameObject[] currencyValues;
     private int maxValue;
     private int totalValue;
-    private Storage storage;
+    private StorageConduct storage;
     public TextMeshProUGUI timeDifferenceText;
 
     public event Action clickEvent;
@@ -46,7 +46,7 @@ public class StorageValueUi : MonoBehaviour, IClickable
 
     private void OnEnable()
     {
-        storage = GetComponentInParent<Storage>();
+        storage = GetComponentInParent<StorageConduct>();
         currentValue = new BigNumber[storage.CurrArray.Length];
         currentWorkLoads = new BigNumber[storage.CurrArray.Length];
         maxValue = storage.MaxSeconds;

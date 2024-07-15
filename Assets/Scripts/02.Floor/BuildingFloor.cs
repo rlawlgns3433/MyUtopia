@@ -15,14 +15,19 @@ public class BuildingFloor : Floor
 
     private async UniTaskVoid UniSetBuilding()
     {
-        await UniTask.WaitUntil(() => storage != null && storage.Buildings != null && storage.Buildings.Length > 0);
+        var storageConduct = storage as StorageConduct;
+
+        await UniTask.WaitUntil(() => storageConduct != null && storageConduct.Buildings != null && storageConduct.Buildings.Length > 0);
         for (int i = 0; i < buildings.Count; i++)
         {
-            storage.Buildings[i] = buildings[i];
+            storageConduct.Buildings[i] = buildings[i];
         }
     }
     private async UniTaskVoid UniAutoWork(CancellationToken cts)
     {
+        var storageConduct = storage as StorageConduct;
+
+
         while (true)
         {
             autoWorkload = BigNumber.Zero;
@@ -35,7 +40,7 @@ public class BuildingFloor : Floor
                     autoWorkload += animal.animalStat.Workload;
 
                 if (storage != null)
-                    storage.CurrWorkLoad = autoWorkload;
+                    storageConduct.CurrWorkLoad = autoWorkload;
             }
 
 
