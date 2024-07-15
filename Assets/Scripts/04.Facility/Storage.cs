@@ -290,10 +290,6 @@ public class Storage : MonoBehaviour, IClickable
         if (!isClick)
         {
             isClick = true;
-            if(isClick)
-            {
-                currentTotalSeconds = default;
-            }
             if(CurrArray != null)
             {
                 for (int i = 0; i < CurrArray.Length; ++i)
@@ -327,12 +323,16 @@ public class Storage : MonoBehaviour, IClickable
 
             ps.Emit(1);
             await UniTask.WaitUntil(() => !ps.IsAlive(true));
-
+            if (isClick)
+            {
+                currentTotalSeconds = default;
+            }
             Debug.Log("Click");
             for (int i = 0; i < currencyTypes.Count; ++i)
             {
                 CurrencyManager.currency[currencyTypes[i]] += CurrArray[i];
                 CurrArray[i] = BigNumber.Zero;
+                
                 isClick = true;
             }
         }
