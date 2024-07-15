@@ -55,8 +55,6 @@ public class AnimalWork : Subject, IMergable
     private void Start()
     {
         animalManager = GameManager.Instance.GetAnimalManager();
-        Attach(uiSlot);
-        Attach(uiAnimalFloorSlot);
         UniConsumeStamina(cts.Token).Forget();
     }
 
@@ -90,5 +88,15 @@ public class AnimalWork : Subject, IMergable
             NotifyObservers();
             await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
         }
+    }
+
+    public void SetUiAnimalFloorSlot(Observer observer)
+    {
+        Attach(observer);
+    }
+
+    public void SetUiAnimalSlot(Observer observer)
+    {
+        Attach(observer);
     }
 }

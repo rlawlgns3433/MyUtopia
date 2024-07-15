@@ -14,4 +14,12 @@ public class UiFloorAnimal : MonoBehaviour
 
         return slot;
     }
+
+    public void Clear()
+    {
+        foreach(var slot in uiAnimalFloorSlots)
+        {
+            Destroy(slot);
+        }
+    }
 }

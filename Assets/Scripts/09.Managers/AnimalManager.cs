@@ -1,3 +1,4 @@
+using Spine;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -122,17 +123,18 @@ public class AnimalManager : Subject
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
 
-                animalWork.uiSlot = uiAnimalInventory.uiAnimalSlots[slotId];
-                uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
-                uiAnimalList.SetAnimal(floor.FloorData.Floor_Num, animalWork.GetComponent<AnimalClick>());
-
+                //animalWork.uiSlot = uiAnimalInventory.uiAnimalSlots[slotId];
+                //uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
+                //animalWork.uiAnimalFloorSlot = uiAnimalList.SetAnimal(floor.FloorData.Floor_Num, animalWork.GetComponent<AnimalClick>());
                 floor.animals.Add(animalWork.Animal);
 
                 if (isMerged)
                 {
                     var animalClick = handle.Result.GetComponent<AnimalClick>();
                     animalClick.IsClicked = true;
+                    //uiAnimalInventory.SetAnimal();
                 }
+                uiAnimalInventory.UpdateInventory(isMerged);
             }
             UiManager.Instance.animalFocusUi.Set();
         };
@@ -163,17 +165,20 @@ public class AnimalManager : Subject
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
-                
-                animalWork.uiSlot = uiAnimalInventory.uiAnimalSlots[slotId];
-                uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
-                animalWork.uiAnimalFloorSlot = uiAnimalList.SetAnimal(floor.FloorData.Floor_Num, animalWork.GetComponent<AnimalClick>());
+
+                //animalWork.SetUiAnimalSlot(uiAnimalInventory.uiAnimalSlots[slotId]);
+                //uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
+                //animalWork.uiAnimalFloorSlot = uiAnimalList.SetAnimal(floor.FloorData.Floor_Num, animalWork.GetComponent<AnimalClick>());
                 floor.animals.Add(animalWork.Animal);
 
                 if (isMerged)
                 {
                     var animalClick = handle.Result.GetComponent<AnimalClick>();
                     animalClick.IsClicked = true;
+                    //uiAnimalInventory.SetAnimal();
                 }
+                uiAnimalInventory.UpdateInventory(isMerged);
+
             }
             UiManager.Instance.animalFocusUi.Set();
         };

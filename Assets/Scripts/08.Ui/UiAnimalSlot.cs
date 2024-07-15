@@ -22,6 +22,7 @@ public class UiAnimalSlot : UiAnimalFloorSlot
     {
         base.ClearData();
         animalClick = null;
+        Destroy(gameObject);
     }
 
     public void OnClick()

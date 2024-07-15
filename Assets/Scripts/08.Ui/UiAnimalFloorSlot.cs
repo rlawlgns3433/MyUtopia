@@ -12,6 +12,7 @@ public class UiAnimalFloorSlot : Observer
     {
         Destroy(imagePortrait.gameObject);
         Destroy(sliderStamina.gameObject);
+        Destroy(gameObject);
     }
 
     public virtual void SetData(AnimalClick animClick)
