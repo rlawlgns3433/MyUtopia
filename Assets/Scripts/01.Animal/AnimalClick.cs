@@ -83,6 +83,11 @@ public class AnimalClick : MonoBehaviour, IClickable
 
     public void Follow()
     {
+        var animalClick = ClickableManager.CurrentClicked as AnimalClick;
+
+        if (animalClick == null)
+            return;
+        Debug.Log($"moveTest{animalClick.AnimalWork.Animal.animalStat.CurrentFloor}");
         VirtualCamera.Follow = transform;
         VirtualCamera.LookAt = transform;
     }
@@ -100,7 +105,6 @@ public class AnimalClick : MonoBehaviour, IClickable
     {
         if (IsClicked)
             return;
-
         transform.DOScale(clickedScale, duration).OnComplete(() =>
         {
             transform.DOScale(initialScale, duration);
@@ -114,7 +118,12 @@ public class AnimalClick : MonoBehaviour, IClickable
 
     public void MoveAnimal(string toFloor)
     {
-        FloorManager.Instance.MoveAnimal(animalWork.currentFloor, toFloor, animalWork.Animal);
+        var animalClick = ClickableManager.CurrentClicked as AnimalClick;
+
+        if (animalClick == null)
+            return;
+        Debug.Log("Move"+animalWork.Animal.animalStat.CurrentFloor);
+        FloorManager.Instance.MoveAnimal(animalClick.AnimalWork.Animal.animalStat.CurrentFloor, toFloor, animalWork.Animal);
         gameObject.SetActive(false);
         gameObject.transform.position = FloorManager.Instance.GetFloor(toFloor).transform.position;
         gameObject.SetActive(true); 

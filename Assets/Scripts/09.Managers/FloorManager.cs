@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 
 // GameManger로 이동 필요
 public class FloorManager : Singleton<FloorManager>
@@ -20,7 +21,8 @@ public class FloorManager : Singleton<FloorManager>
 
         if (!floors.ContainsKey(toFloor))
             return;
-
+        animal.animalWork.Animal.animalStat.CurrentFloor = toFloor;
+        //animal.animalStat.CurrentFloor = toFloor;
         floors[toFloor].animals.Add(animal);
         floors[fromFloor].animals.Remove(animal);
     }

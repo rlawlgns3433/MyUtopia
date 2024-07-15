@@ -10,7 +10,7 @@ public class UiAnimalList : Observer
     {
         var floors = FloorManager.Instance.floors;
 
-        for (int i = 0; i < floors.Count + 2; ++i)
+        for (int i = 0; i < floors.Count + 1; ++i)
         {
             if (i <= 2)
                 continue;
@@ -28,7 +28,7 @@ public class UiAnimalList : Observer
     {
         var floors = FloorManager.Instance.floors;
 
-        for (int i = 0; i < floors.Count + 2; ++i)
+        for (int i = 0; i < floors.Count + 1; ++i)
         {
             if (i <= 2)
                 continue;

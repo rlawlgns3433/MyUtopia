@@ -34,8 +34,8 @@ public class AnimalManager : Subject
 
         if (animalClick == null)
             return;
-
-        FloorManager.Instance.MoveAnimal(animalClick.AnimalWork.currentFloor, toFloor, animalClick.AnimalWork.Animal);
+        Debug.Log($"moveTest{animalClick.AnimalWork.Animal.animalStat.Animal_ID}");
+        FloorManager.Instance.MoveAnimal(animalClick.AnimalWork.Animal.animalStat.CurrentFloor, toFloor, animalClick.AnimalWork.Animal);
         animalClick.gameObject.SetActive(false);
         animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
         animalClick.gameObject.transform.localPosition = Vector3.zero;
@@ -103,7 +103,6 @@ public class AnimalManager : Subject
                 return;
         }
 
-
         if (animalDictionary.Count == 0)
         {
             foreach (var animal in AnimalTable.GetKeyValuePairs)
@@ -118,7 +117,8 @@ public class AnimalManager : Subject
             {
                 var animalWork = handle.Result.GetComponent<AnimalWork>();
                 Debug.Log(animalWork.gameObject.GetInstanceID());
-                animalWork.currentFloor = floor.floorName;
+                animalWork.Animal.animalStat.CurrentFloor = floor.floorName;
+                Debug.Log($"{animalWork.Animal.animalStat.CurrentFloor}/{floor.floorName}");
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
@@ -161,8 +161,9 @@ public class AnimalManager : Subject
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
                 var animalWork = handle.Result.GetComponent<AnimalWork>();
-                animalWork.currentFloor = floor.floorName;
                 animalWork.Animal = new Animal(animalWork.animalId);
+                animalWork.Animal.animalStat.CurrentFloor = floor.floorName;
+                Debug.Log($"{animalWork.Animal.animalStat.CurrentFloor}/{floor.floorName}");
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
 

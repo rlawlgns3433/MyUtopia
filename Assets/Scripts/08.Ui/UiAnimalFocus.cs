@@ -67,7 +67,7 @@ public class UiAnimalFocus : MonoBehaviour
 
         textAnimalName.text = animalData.GetName();
         textAnimalLevel.text = string.Format(levelFormat, animalData.Level, animalData.Level_Max);
-        textCurrentFloor.text = string.Format(currentFloorFormat, animalWork.currentFloor);
+        textCurrentFloor.text = string.Format(currentFloorFormat, animalWork.Animal.animalStat.CurrentFloor);
         textAnimalWorkload.text = string.Format(workloadFormat, animalData.Workload);
     }
 
