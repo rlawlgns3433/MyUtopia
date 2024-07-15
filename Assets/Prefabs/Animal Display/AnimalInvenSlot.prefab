@@ -234,6 +234,7 @@ GameObject:
   - component: {fileID: 9043776310462746391}
   - component: {fileID: 4291353320827774647}
   - component: {fileID: 2830233409935601794}
+  - component: {fileID: 6341504080615605718}
   m_Layer: 5
   m_Name: AnimalInvenSlot
   m_TagString: Untagged
@@ -344,6 +345,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6341504080615605718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3424178406013155918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74524e2ee68bcfa4dbcb6588a4e77bde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imagePortrait: {fileID: 5652126283396988619}
+  sliderStamina: {fileID: 9122180097599459001}
+  animalClick: {fileID: 0}
 --- !u!1 &4095382429179470434
 GameObject:
   m_ObjectHideFlags: 0

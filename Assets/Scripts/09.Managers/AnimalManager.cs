@@ -3,11 +3,13 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class AnimalManager : MonoBehaviour
+public class AnimalManager : Subject
 {
     public LayerMask floorLayer;
     public Dictionary<int, AssetReference> animalDictionary = new Dictionary<int, AssetReference>();
     public UiAnimalInventory uiAnimalInventory;
+    public UiAnimalList uiAnimalList;
+
     private AnimalTable animalTable;
     public AnimalTable AnimalTable
     {
@@ -52,26 +54,29 @@ public class AnimalManager : MonoBehaviour
     private void Start()
     {
         DataTableMgr.GetStringTable();
+        Attach(uiAnimalInventory);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out var hit, 200f, floorLayer.value))
-            {
-                var pos = hit.point;
-                var spawnFloor = hit.collider.gameObject.GetComponent<Floor>();
-                pos.y = 0f;
+            //if (Physics.Raycast(ray, out var hit, 200f, floorLayer.value))
+            //{
+            //    var pos = hit.point;
+            //    var spawnFloor = hit.collider.gameObject.GetComponent<Floor>();
+            //    pos.y = 0f;
 
-                if (spawnFloor.animals.Count >= spawnFloor.FloorData.Max_Population)
-                    return;
+            //    if (spawnFloor.animals.Count >= spawnFloor.FloorData.Max_Population)
+            //        return;
 
-                if (spawnFloor != null)
-                    Create(pos, spawnFloor, hamsterPrefabReference, 0);
-            }
+            //    if (spawnFloor != null)
+            //        Create(pos, spawnFloor, hamsterPrefabReference, 0);
+            //}
+
+            NotifyObservers();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -117,8 +122,9 @@ public class AnimalManager : MonoBehaviour
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
-                //animalWork.uiSlot = uiAnimalInventory.uiAnimalSlots[slotId];
-                //uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
+                animalWork.uiSlot = uiAnimalInventory.uiAnimalSlots[slotId];
+                uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
+                uiAnimalList.SetAnimal(floor.FloorData.Floor_Num, animalWork.GetComponent<AnimalClick>());
 
                 floor.animals.Add(animalWork.Animal);
 
@@ -158,8 +164,9 @@ public class AnimalManager : MonoBehaviour
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
-                //animalWork.uiSlot = uiAnimalInventory.uiAnimalSlots[slotId];
-                //uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
+                animalWork.uiSlot = uiAnimalInventory.uiAnimalSlots[slotId];
+                uiAnimalInventory.uiAnimalSlots[slotId].SetData(animalWork.GetComponent<AnimalClick>());
+                uiAnimalList.SetAnimal(floor.FloorData.Floor_Num, animalWork.GetComponent<AnimalClick>());
 
                 floor.animals.Add(animalWork.Animal);
 

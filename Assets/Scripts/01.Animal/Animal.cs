@@ -5,11 +5,16 @@ using UnityEngine;
 public class Animal : IGrowable, IMovable
 {
     public AnimalWork animalWork;
-    public AnimalData animalData;
+    public AnimalStat animalStat;
     public Animal() { }
     public Animal(int animalId)
     {
-        animalData = DataTableMgr.GetAnimalTable().Get(animalId);
+        if(animalStat == null)
+        {
+            animalStat = new AnimalStat(animalId);
+        }
+
+        //animalStat.AnimalData = DataTableMgr.GetAnimalTable().Get(animalId);
     }
 
     [SerializeField]
@@ -33,7 +38,7 @@ public class Animal : IGrowable, IMovable
 
         var animals = FloorManager.Instance.GetFloor(animalWork.currentFloor).animals;
 
-        if (animalData.Level == animalData.Level_Max)
+        if (animalStat.Level == animalStat.Level_Max)
         {
             if (animals.Count == 1)
                 return;
@@ -41,7 +46,7 @@ public class Animal : IGrowable, IMovable
             {
                 if (animalWork.Equals(a.animalWork))
                     continue;
-                if(a.animalData.Level == a.animalData.Level_Max)
+                if(a.animalStat.Level == a.animalStat.Level_Max)
                 {
                     if (!animalWork.Merge(a.animalWork))
                         continue;
@@ -51,18 +56,18 @@ public class Animal : IGrowable, IMovable
             }
             return;
         }
-        BigNumber lvCoin = new BigNumber(animalData.Level_Up_Coin_Value);
+        BigNumber lvCoin = new BigNumber(animalStat.Level_Up_Coin_Value);
         if (CurrencyManager.currency[CurrencyType.Coin] < lvCoin) // 임시 코드
             return;
 
-        animalData = DataTableMgr.GetAnimalTable().Get(animalData.Animal_ID + 1);
+        animalStat.AnimalData = DataTableMgr.GetAnimalTable().Get(animalStat.Animal_ID + 1);
 
         foreach(var a in animals)
         {
             if(a.animalWork.gameObject.GetInstanceID() == animalClick.gameObject.GetInstanceID())
             {
                 CurrencyManager.currency[CurrencyType.Coin] -= lvCoin;
-                a.animalData = animalData;
+                a.animalStat = animalStat;
                 
                 break;
             }
@@ -73,7 +78,7 @@ public class Animal : IGrowable, IMovable
     public void Sale()
     {
         FloorManager.Instance.GetFloor(animalWork.currentFloor).RemoveAnimal(this);
-        CurrencyManager.currency[CurrencyType.Coin] += animalData.Sale_Coin.ToBigNumber();
+        CurrencyManager.currency[CurrencyType.Coin] += animalStat.Sale_Coin.ToBigNumber();
     }
 
     public void SetAnimal()

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UiAnimalSlot : Observer
+public class UiAnimalSlot : UiAnimalFloorSlot
 {
     public int SlotIndex;
 
@@ -12,40 +12,20 @@ public class UiAnimalSlot : Observer
             return animalData.Animal_ID == 0;
         }
     }
-    [SerializeField]
-    private Image imagePortrait;
-    [SerializeField]
-    private Slider sliderStamina;
+
     [SerializeField]
     private Image imageAdd;
-    public AnimalClick animalClick;
-    public AnimalData animalData;
 
-    public void SetData(AnimalClick animClick)
+    public override void SetData(AnimalClick animClick)
     {
-        if (animClick == null)
-            return;
-        animalClick = animClick;
-        animalData = animClick.AnimalWork.Animal.animalData;
-
-        //if(animalData.GetProfile() != null)
-        //    imagePortrait.sprite = animalData.GetProfile();
-
-        sliderStamina.minValue = 0f;
-        sliderStamina.maxValue = DataTableMgr.GetAnimalTable().Get(animalData.Animal_ID).Stamina;
-        sliderStamina.value = animClick.AnimalWork.Animal.animalData.Stamina;
+        base.SetData(animClick);
+        imageAdd.gameObject.SetActive(false);
     }
 
-    public void ClearData()
+    public override void ClearData()
     {
+        base.ClearData();
         animalClick = null;
-        animalData = default(AnimalData);
-        imagePortrait.sprite = null;
-        sliderStamina.minValue = 0f;
-        sliderStamina.maxValue = 0f;
-        sliderStamina.value = 0f;
-        imagePortrait.gameObject.SetActive(false);
-        sliderStamina.gameObject.SetActive(false);
         imageAdd.gameObject.SetActive(true);
     }
 
@@ -57,10 +37,5 @@ public class UiAnimalSlot : Observer
         }
 
         // 동물 인벤토리 열기
-    }
-
-    public override void Notify(Subject subject)
-    {
-        sliderStamina.value = animalClick.AnimalWork.Animal.animalData.Stamina;
     }
 }

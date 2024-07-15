@@ -1,7 +1,5 @@
 using Cysharp.Threading.Tasks;
-using Spine;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AnimalWork : Subject, IMergable
 {
@@ -52,10 +50,10 @@ public class AnimalWork : Subject, IMergable
         if (gameObject.Equals(animalWork.gameObject))
             return false;
 
-        if (animalWork.animal.animalData.Animal_ID== animal.animalData.Animal_ID)
+        if (animalWork.animal.animalStat.Animal_ID== animal.animalStat.Animal_ID)
         {
             var floor = FloorManager.Instance.GetFloor(animalWork.currentFloor);
-            int resultAnimalId = DataTableMgr.GetMergeTable().Get(animal.animalData.Merge_ID).Result_Animal;
+            int resultAnimalId = DataTableMgr.GetMergeTable().Get(animal.animalStat.Merge_ID).Result_Animal;
             animalManager.Create(floor.gameObject.transform.position, floor, resultAnimalId, 0, true);
             FloorManager.Instance.GetFloor(currentFloor).RemoveAnimal(animal);
             FloorManager.Instance.GetFloor(currentFloor).RemoveAnimal(animalWork.animal);
@@ -68,10 +66,10 @@ public class AnimalWork : Subject, IMergable
 
     private async UniTaskVoid UniConsumeStamina()
     {
-        while (Animal.animalData.Stamina > 0)
+        while (Animal.animalStat.Stamina > 0)
         {
-           Animal.animalData.Stamina -= 1;
-            //NotifyObservers();
+            Animal.animalStat.Stamina -= 1;
+            NotifyObservers();
             await UniTask.Delay(30);
         }
     }

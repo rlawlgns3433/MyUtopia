@@ -61,7 +61,7 @@ public class UiAnimalFocus : MonoBehaviour
     public void Set(AnimalWork animalWork)
     {
         var buttonText = buttonLevelUp.GetComponentInChildren<TextMeshProUGUI>();
-        var animalData = animalWork.Animal.animalData;
+        var animalData = animalWork.Animal.animalStat.AnimalData;
 
         buttonText.text = animalData.Level == animalData.Level_Max ? mergeText : levelUpText;
 
@@ -73,6 +73,6 @@ public class UiAnimalFocus : MonoBehaviour
 
     public void SetSaleUi()
     {
-        UiManager.Instance.sellUi.textCoinForSale.text = currentAnimal.Animal.animalData.Sale_Coin;
+        UiManager.Instance.sellUi.textCoinForSale.text = currentAnimal.Animal.animalStat.Sale_Coin;
     }
 }

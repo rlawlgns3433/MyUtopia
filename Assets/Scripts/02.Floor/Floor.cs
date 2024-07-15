@@ -124,10 +124,10 @@ public class Floor : Subject, IGrowable
 
             foreach (var animal in animals)
             {
-                if (animal.animalData.Stamina <= 0)
-                    autoWorkload += animal.animalData.Workload / 2;
+                if (animal.animalStat.Stamina <= 0)
+                    autoWorkload += animal.animalStat.Workload / 2;
                 else
-                    autoWorkload += animal.animalData.Workload;
+                    autoWorkload += animal.animalStat.Workload;
 
                 if (storage != null)
                     storage.CurrWorkLoad = autoWorkload;
@@ -145,12 +145,12 @@ public class Floor : Subject, IGrowable
                         continue;
 
                     b.accumWorkLoad += autoWorkload;
-                    switch ((int)b.buildingType)
+                    switch (b.buildingType)
                     {
-                        case 0:
-                        case 1:
-                        case 2:
-                        case 3:
+                        case CurrencyType.Coin:
+                        case CurrencyType.CopperStone:
+                        case CurrencyType.SilverStone:
+                        case CurrencyType.GoldStone:
                             if (b.accumWorkLoad > b.BuildingData.Work_Require)
                             {
                                 BigNumber c = b.accumWorkLoad / b.BuildingData.Work_Require;
@@ -161,9 +161,9 @@ public class Floor : Subject, IGrowable
                                 b.accumWorkLoad += autoWorkload;
 
                             break;
-                        case 4:
-                        case 5:
-                        case 6:
+                        case CurrencyType.CopperIngot:
+                        case CurrencyType.SilverIngot:
+                        case CurrencyType.GoldIngot:
                             if (b.accumWorkLoad > b.BuildingData.Work_Require)
                             {
                                 if (CurrencyManager.currency[(CurrencyType)b.BuildingData.Materials_Type] < b.BuildingData.Conversion_rate)
@@ -182,24 +182,24 @@ public class Floor : Subject, IGrowable
                                 b.accumWorkLoad += autoWorkload;
                             }
                             break;
-                        case 7:
-                            if (b.accumWorkLoad > b.BuildingData.Work_Require)
-                            {
-                                // 레시피 정보 불러오기
-                                if (CurrencyManager.currency[CurrencyType.Coin] > 10 && CurrencyManager.currency[CurrencyType.CopperStone] > 10)
-                                {
-                                    CurrencyManager.currency[CurrencyType.Coin] -= 10;
-                                    CurrencyManager.currency[CurrencyType.CopperStone] -= 10;
-                                    //CurrencyManager.currency[CurrencyType.Craft] += 1;
+                        //case 7:
+                        //    if (b.accumWorkLoad > b.BuildingData.Work_Require)
+                        //    {
+                        //        // 레시피 정보 불러오기
+                        //        if (CurrencyManager.currency[CurrencyType.Coin] > 10 && CurrencyManager.currency[CurrencyType.CopperStone] > 10)
+                        //        {
+                        //            CurrencyManager.currency[CurrencyType.Coin] -= 10;
+                        //            CurrencyManager.currency[CurrencyType.CopperStone] -= 10;
+                        //            //CurrencyManager.currency[CurrencyType.Craft] += 1;
 
-                                    b.accumWorkLoad -= b.BuildingData.Work_Require;
-                                }
-                            }
-                            else
-                            {
-                                b.accumWorkLoad += autoWorkload;
-                            }
-                            break;
+                        //            b.accumWorkLoad -= b.BuildingData.Work_Require;
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        b.accumWorkLoad += autoWorkload;
+                        //    }
+                        //    break;
                     }
                 }
             }

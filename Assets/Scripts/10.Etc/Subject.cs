@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public abstract class Subject : MonoBehaviour
 {
-    private readonly ArrayList observers = new ArrayList();
+    private readonly List<Observer> observers = new List<Observer>();
 
     protected void Attach(Observer observer)
     {

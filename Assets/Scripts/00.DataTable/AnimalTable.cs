@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public struct AnimalData
+public class AnimalData
 {
     public int Animal_ID { get; set; }
     public int Animal_Type { get; set; }
