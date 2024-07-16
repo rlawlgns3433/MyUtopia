@@ -10,10 +10,8 @@ public class UiAnimalList : Observer
     {
         var floors = FloorManager.Instance.floors;
 
-        for (int i = 0; i < floors.Count + 1; ++i)
+        for (int i = 0; i < floors.Count; ++i)
         {
-            if (i == 0)
-                continue;
             var animals = floors[$"B{i + 1}"].animals;
             for (int j = 0; j < animals.Count; ++j)
             {
@@ -28,10 +26,8 @@ public class UiAnimalList : Observer
     {
         var floors = FloorManager.Instance.floors;
 
-        for (int i = 0; i < floors.Count + 1; ++i)
+        for (int i = 0; i < floors.Count; ++i)
         {
-            if (i == 0)
-                continue;
             for (int j = 0; j < floors[$"B{i + 1}"].animals.Count; ++j)
             {
                 parents[i].Clear();
