@@ -132,6 +132,7 @@ namespace Coffee.UIExtensions
                     if (0f < p.remainingLifetime && Vector3.Distance(p.position, dstPos) < m_DestinationRadius)
                     {
                         p.remainingLifetime = 0f;
+                        p.velocity = Vector3.zero;  // 파티클의 속도를 0으로 설정
                         particles[i] = p;
 
                         if (m_OnAttracted != null)
