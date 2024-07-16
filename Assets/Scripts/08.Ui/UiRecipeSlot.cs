@@ -40,7 +40,7 @@ public class UiRecipeSlot : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public virtual void SetData(RecipeStat recipeStat) // 레시피로 변경
+    public virtual void SetData(RecipeStat recipeStat) // virtual 제거 예정
     {
         if (recipeStat == null)
             return;
@@ -86,7 +86,7 @@ public class UiRecipeSlot : MonoBehaviour
          */
         var uiCraftingTable = UiManager.Instance.craftTableUi;
         uiCraftingTable.uiCraftingList.Add(recipeStat);
-
+        CurrencyManager.currency[CurrencyType.Craft] += 1;
         // 즉시 생산 창고에 넣기
         Destroy(gameObject);
     }
