@@ -131,7 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5235583418826381467}
   m_Layer: 5
-  m_Name: Stop
+  m_Name: Cancel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 7132925532198586744}
   - component: {fileID: 2580900800419232416}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -640,7 +640,7 @@ GameObject:
   - component: {fileID: 8267409165499659754}
   - component: {fileID: 7159616858455259131}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: RemainAmount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1314,7 +1314,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imagePortrait: {fileID: 1871505571425925232}
+  textName: {fileID: 2580900800419232416}
+  textRemainAmount: {fileID: 7159616858455259131}
   sliderProcess: {fileID: 6956825297100783094}
+  buttonCancel: {fileID: 5077994343480874563}
 --- !u!1 &6866522274399703701
 GameObject:
   m_ObjectHideFlags: 0
@@ -1438,7 +1441,7 @@ GameObject:
   - component: {fileID: 5412696412074874193}
   - component: {fileID: 6211324810960919316}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextProcess
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

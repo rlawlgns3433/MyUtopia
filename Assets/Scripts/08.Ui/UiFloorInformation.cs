@@ -74,7 +74,7 @@ public class UiFloorInformation : MonoBehaviour
     {
         foreach (var uiBuilding in uiBuildings)
         {
-            if (uiBuilding.building.BuildingData.GetName().Equals(newBuilding.BuildingData.GetName()))
+            if (uiBuilding.building.BuildingStat.BuildingData.GetName().Equals(newBuilding.BuildingStat.BuildingData.GetName()))
                 return false;
         }
         return true;

@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 3914588864388777325}
   - component: {fileID: 4684071732268462588}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextRequireCurrency
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,10 +129,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6149601339378137335}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.0000076293945, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3914588864388777325
 CanvasRenderer:
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 3618479650557726087}
   - component: {fileID: 4457016039438813174}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonAuto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -363,7 +363,7 @@ GameObject:
   - component: {fileID: 6333556731484695947}
   - component: {fileID: 139483067303551942}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextSaleCoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -383,10 +383,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 690028276557517414}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.0000076293945, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6333556731484695947
 CanvasRenderer:
@@ -1419,7 +1419,7 @@ GameObject:
   - component: {fileID: 6805449615624834031}
   - component: {fileID: 6581953255476466369}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextRequireWorkload
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1439,10 +1439,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7784662393953182175}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.0000076293945, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6805449615624834031
 CanvasRenderer:
@@ -1780,7 +1780,7 @@ GameObject:
   - component: {fileID: 5514595148776976727}
   - component: {fileID: 2350156855065325999}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextAmount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2146,7 +2146,7 @@ GameObject:
   - component: {fileID: 5676443798719546889}
   - component: {fileID: 5191952115209665489}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonCraft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2635,6 +2635,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87e3d9754b3d42547a9e0f20ffd96845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imagePortrait: {fileID: 5974501485489483147}
+  textName: {fileID: 1838756414819529799}
+  textRequireCurrency: {fileID: 4684071732268462588}
+  textRequireWorkload: {fileID: 6581953255476466369}
+  textSaleCoin: {fileID: 139483067303551942}
+  textAmount: {fileID: 2350156855065325999}
+  buttonDecreaseAmount: {fileID: 6633468777343999024}
+  buttonIncreaseAmount: {fileID: 804287623051551320}
+  buttonAutoCraft: {fileID: 4457016039438813174}
+  buttonCraft: {fileID: 5191952115209665489}
 --- !u!1 &8502706935707115927
 GameObject:
   m_ObjectHideFlags: 0
@@ -3034,7 +3044,7 @@ GameObject:
   - component: {fileID: 7577783253898370166}
   - component: {fileID: 1838756414819529799}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,11 +1,15 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UiCraftingSlot : MonoBehaviour
 {
     public Image imagePortrait;
+    public TextMeshProUGUI textName;
+    public TextMeshProUGUI textRemainAmount;
     public Slider sliderProcess;
+    public Button buttonCancel;
     public RecipeStat recipeStat;
 
     private void OnDestroy()
@@ -17,7 +21,7 @@ public class UiCraftingSlot : MonoBehaviour
 
     public virtual void SetData(RecipeStat recipeStat) // 레시피로 변경
     {
-        if (this.recipeStat == null)
+        if (recipeStat == null)
             return;
         this.recipeStat = recipeStat;
 

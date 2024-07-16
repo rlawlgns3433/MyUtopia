@@ -41,6 +41,15 @@ public static class DataTableMgr
         furnitureTable.Load(DataTableIds.Furniture);
         tables.Add(DataTableIds.Furniture, furnitureTable);
 
+        // 테이블 완료 시 주석 해제
+        DataTable recipeTable = new RecipeTable();
+        recipeTable.Load(DataTableIds.Recipe);
+        tables.Add(DataTableIds.Recipe, recipeTable);
+
+        // 테이블 완료 시 주석 해제
+        DataTable itemTable = new ItemTable();
+        itemTable.Load(DataTableIds.Item);
+        tables.Add(DataTableIds.Item, itemTable);
     }
 
     public static StringTable GetStringTable()
