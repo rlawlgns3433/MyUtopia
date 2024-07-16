@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using static UnityEditor.Progress;
 
 public static class DataTableMgr
 {
@@ -74,6 +75,16 @@ public static class DataTableMgr
     public static ResourceTable GetResourceTable()
     {
         return Get<ResourceTable>(DataTableIds.Resource);
+    }
+
+    public static RecipeTable GetRecipeTable()
+    {
+        return Get<RecipeTable>(DataTableIds.Recipe);
+    }
+
+    public static ItemTable GetItemTable()
+    {
+        return Get<ItemTable>(DataTableIds.Item);
     }
 
     public static T Get<T>(string id) where T : DataTable
