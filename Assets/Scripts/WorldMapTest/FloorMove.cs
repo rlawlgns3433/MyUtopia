@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 
 public class FloorMove : MonoBehaviour
 {
-    public MultiTouch touchManager;
+    public FloorSwipe touchManager;
     public float moveDistance = 10.0f;
     public float moveDuration = 0.5f;
     public int floorCount = 5;
