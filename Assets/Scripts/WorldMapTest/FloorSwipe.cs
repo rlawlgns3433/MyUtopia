@@ -34,13 +34,11 @@ public class FloorSwipe : MonoBehaviour
         float dpi = Screen.dpi;
         if (dpi == 0)
         {
-            Debug.LogWarning("Screen DPI is 0, setting default DPI to 96.");
             dpi = 96; // 기본 DPI 값
         }
         minSwipeDistancePixels = dpi * minSwipeDistanceInch;
         Debug.Log($"DPI: {dpi}, Min Swipe Distance (pixels): {minSwipeDistancePixels}");
 
-        // Input Actions 초기화
         touchPressAction = inputActions.FindActionMap("Swipe").FindAction("Press");
         touchPositionAction = inputActions.FindActionMap("Swipe").FindAction("Position");
 
@@ -62,26 +60,22 @@ public class FloorSwipe : MonoBehaviour
 
     private void HandleTouchPress(InputAction.CallbackContext context)
     {
-        Debug.Log("Touch Pressed");
         if (!isTouching)
         {
             isTouching = true;
             primaryStartTime = Time.time;
             primaryStartPos = touchPositionAction.ReadValue<Vector2>();
-            Debug.Log($"Touch started at: {primaryStartPos}");
         }
     }
 
     private async void HandleTouchRelease(InputAction.CallbackContext context)
     {
-        Debug.Log("Touch Released");
         if (isTouching)
         {
             isTouching = false;
             var duration = Time.time - primaryStartTime;
             var endPos = touchPositionAction.ReadValue<Vector2>();
             var diff = endPos - primaryStartPos;
-            Debug.Log($"Touch ended at: {endPos}, duration: {duration}, diff: {diff}");
 
             if (duration < swipeTime)
             {
@@ -90,7 +84,6 @@ public class FloorSwipe : MonoBehaviour
                     if (Mathf.Abs(diff.x) < Mathf.Abs(diff.y))
                     {
                         Swipe = diff.y > 0 ? Dirs.Up : Dirs.Down;
-                        Debug.Log($"Swipe detected: {Swipe}");
                     }
                 }
             }
@@ -98,38 +91,11 @@ public class FloorSwipe : MonoBehaviour
             if (duration < timeTap)
             {
                 Tap = true;
-                Debug.Log("Tap detected");
             }
 
             await UniTask.Delay(100);
             Tap = false;
             Swipe = Dirs.None;
-        }
-    }
-
-    private void Update()
-    {
-#if UNITY_EDITOR
-        SimulateTouchInput();
-#endif
-    }
-
-    private void SimulateTouchInput()
-    {
-        if (Mouse.current == null)
-        {
-            Debug.LogWarning("Mouse.current is null.");
-            return;
-        }
-
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            HandleTouchPress(new InputAction.CallbackContext());
-        }
-
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
-        {
-            HandleTouchRelease(new InputAction.CallbackContext());
         }
     }
 }
