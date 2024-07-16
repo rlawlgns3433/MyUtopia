@@ -86,6 +86,8 @@ public class UiRecipeSlot : MonoBehaviour
          */
         var uiCraftingTable = UiManager.Instance.craftTableUi;
         uiCraftingTable.uiCraftingList.Add(recipeStat);
+
+        // 즉시 생산 창고에 넣기
         Destroy(gameObject);
     }
 }
