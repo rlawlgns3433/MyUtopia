@@ -12,9 +12,9 @@ public static class CurrencyManager
         CurrencyType.CopperIngot,
         CurrencyType.SilverIngot,
         CurrencyType.GoldIngot,
+        CurrencyType.Craft
     };
     public static Dictionary<CurrencyType, BigNumber> currency = new Dictionary<CurrencyType, BigNumber>();
-
 
     public static void Init()
     {

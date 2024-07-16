@@ -720,4 +720,18 @@ public struct BigNumber
         float maxValue = max.ToFloat();
         return Mathf.Clamp(result / maxValue, 0f, 1f);
     }
+
+    public int ToInt()
+    {
+        if (bigNumber == null || bigNumber.Count == 0)
+            return 0;
+
+        int result = 0;
+        for (int i = bigNumber.Count - 1; i >= 0; i--)
+        {
+            result = result * 1000 + bigNumber[i];
+        }
+
+        return result;
+    }
 }

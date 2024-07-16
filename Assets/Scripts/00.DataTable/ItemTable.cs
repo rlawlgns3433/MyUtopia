@@ -1,7 +1,9 @@
 using CsvHelper;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -30,9 +32,20 @@ public class ItemData
         return DataTableMgr.GetStringTable().Get(Item_Desc_ID);
     }
 
-    public Sprite GetImage()
+    public async UniTask<Sprite> GetImage()
     {
-        return Addressables.LoadAssetAsync<Sprite>(Image).Result;
+        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(Image);
+        await handle.Task;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            return handle.Result;
+        }
+        else
+        {
+            Debug.LogError("Failed to load image.");
+            return null;
+        }
     }
 }
 
