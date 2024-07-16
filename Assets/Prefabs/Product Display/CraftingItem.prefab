@@ -320,10 +320,10 @@ RectTransform:
   - {fileID: 6164742199986563835}
   m_Father: {fileID: 2924445828166265879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90.71033, y: -32.5}
-  m_SizeDelta: {x: 181.42065, y: 21.666666}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3376529245989766119
 CanvasRenderer:
@@ -894,10 +894,10 @@ RectTransform:
   - {fileID: 4757410054620241020}
   m_Father: {fileID: 2924445828166265879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90.71033, y: -10.833333}
-  m_SizeDelta: {x: 181.42065, y: 21.666666}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7430694383250127714
 CanvasRenderer:
@@ -1127,10 +1127,10 @@ RectTransform:
   - {fileID: 7595083966268339104}
   m_Father: {fileID: 2924445828166265879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90.71033, y: -54.166664}
-  m_SizeDelta: {x: 181.42065, y: 21.666666}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6956825297100783094
 MonoBehaviour:
@@ -1215,6 +1215,7 @@ GameObject:
   - component: {fileID: 2584710293236145604}
   - component: {fileID: 3046287628970197823}
   - component: {fileID: 4469125913780695214}
+  - component: {fileID: 2674335004595748024}
   m_Layer: 5
   m_Name: CraftingItem
   m_TagString: Untagged
@@ -1300,6 +1301,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &2674335004595748024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6756285354894911871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2906a722ea4ac09458ec5d3f6cd62e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imagePortrait: {fileID: 1871505571425925232}
+  sliderProcess: {fileID: 6956825297100783094}
 --- !u!1 &6866522274399703701
 GameObject:
   m_ObjectHideFlags: 0

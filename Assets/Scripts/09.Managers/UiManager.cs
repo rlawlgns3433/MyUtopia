@@ -54,7 +54,7 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowSellUi()
     {
-        uiCurrencies.gameObject.SetActive(false);
+        uiCurrencies.gameObject.SetActive(true);
         mainUi.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(true);
@@ -66,7 +66,7 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowFloorInformationUi()
     {
-        uiCurrencies.gameObject.SetActive(false);
+        uiCurrencies.gameObject.SetActive(true);
         mainUi.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -78,7 +78,7 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowAnimalListUi()
     {
-        uiCurrencies.gameObject.SetActive(false);
+        uiCurrencies.gameObject.SetActive(true);
         mainUi.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -90,7 +90,7 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowProductsUi()
     {
-        uiCurrencies.gameObject.SetActive(false);
+        uiCurrencies.gameObject.SetActive(true);
         mainUi.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -102,7 +102,7 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowCraftTableUi()
     {
-        uiCurrencies.gameObject.SetActive(false);
+        uiCurrencies.gameObject.SetActive(true);
         mainUi.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -110,6 +110,7 @@ public class UiManager : Singleton<UiManager>
         animalListUi.SetActive(false);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(true);
+
     }
 
     public void SetProductCapacity(int capacity)

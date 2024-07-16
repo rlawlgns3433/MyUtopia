@@ -51,18 +51,17 @@ public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowab
         }
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         RegisterClickable();
-        clickEvent += RefreshCurrency;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         transform.localScale = initialScale;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public virtual void OnPointerClick(PointerEventData eventData)
     {
         IsClicked = true;
 
@@ -70,42 +69,11 @@ public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowab
         {
             transform.DOScale(initialScale, duration);
         });
-
     }
 
     public void RegisterClickable()
     {
         ClickableManager.AddClickable(this);
-    }
-
-    private void RefreshCurrency()
-    {
-        switch (buildingType)
-        {
-            case CurrencyType.Coin:
-            case CurrencyType.CopperStone:
-            case CurrencyType.SilverStone:
-            case CurrencyType.GoldStone:
-                if (isLock)
-                    return;
-                CurrencyManager.currency[buildingType] += new BigNumber(BuildingData.Touch_Produce);
-                break;
-            case CurrencyType.CopperIngot:
-            case CurrencyType.SilverIngot:
-            case CurrencyType.GoldIngot:
-                if (isLock)
-                    return;
-                if (CurrencyManager.currency[(CurrencyType)BuildingData.Materials_Type] > BuildingData.Conversion_rate)
-                {
-                    CurrencyManager.currency[buildingType] += 1;
-                    CurrencyManager.currency[(CurrencyType)BuildingData.Materials_Type] -= BuildingData.Conversion_rate;
-                }
-                break;
-            //case CurrencyType.Craft:
-            //    accumWorkLoad += new BigNumber(BuildingData.Touch_Produce);
-            //    Debug.Log(accumWorkLoad);
-            //    break;
-        }
     }
 
     public void LevelUp()

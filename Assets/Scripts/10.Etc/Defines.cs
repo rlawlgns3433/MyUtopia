@@ -14,6 +14,8 @@ public static class DataTableIds
     public static readonly string Merge = "MergeTable";
     public static readonly string Resource = "ResourceTable";
     public static readonly string Furniture = "FurnitureTable";
+    public static readonly string Recipe = "RecipeTable";
+    public static readonly string Item = "ItemTable";
 
     public static string CurrString
     {
@@ -64,7 +66,7 @@ public enum CurrencyType
     CopperIngot = 91040401,
     SilverIngot = 91040402,
     GoldIngot = 91040403,
-    //Craft,
+    Craft = 0xFFFFFFF,
     /*
     건물 테이블
 	생산 재화타입이 7(특산물)인 경우
