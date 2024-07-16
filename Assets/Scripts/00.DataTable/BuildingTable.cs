@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public struct BuildingData
+public class BuildingData
 {
     public int Building_ID { get; set; }
     public int Floor_Type { get; set; }

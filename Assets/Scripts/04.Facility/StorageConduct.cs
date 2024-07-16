@@ -139,7 +139,7 @@ public class StorageConduct : Storage
 
         for (int i = 0; i < buildings.Length; i++)
         {
-            var workRequire = buildings[i].BuildingData.Work_Require;
+            var workRequire = buildings[i].BuildingStat.Work_Require;
             values[i] = CurrWorkLoad / workRequire;
             var tempValue = values[i] * offLineSeconds;
             CurrArray[i] += tempValue;

@@ -171,7 +171,7 @@ public class RecipeStat
         }
         set
         {
-            RecipeData = value;
+            recipeData = value;
             Recipe_ID = RecipeData.Recipe_ID;
             Recipe_Name_ID = RecipeData.Recipe_Name_ID;
             Unlock_Lv = RecipeData.Unlock_Lv;
@@ -221,7 +221,7 @@ public class ItemStat
         }
         set
         {
-            ItemData = value;
+            itemData = value;
             Item_ID = ItemData.Item_ID;
             Item_Name_ID = ItemData.Item_Name_ID;
             Item_Desc_ID = ItemData.Item_Desc_ID;
@@ -251,5 +251,70 @@ public class ItemStat
     public ItemStat(int itemId)
     {
         this.ItemData = DataTableMgr.GetItemTable().Get(itemId);
+    }
+}
+
+public class BuildingStat
+{
+    private BuildingData buildingData;
+    public BuildingData BuildingData
+    {
+        get
+        {
+            if (buildingData == null)
+            {
+                buildingData = new BuildingData();
+            }
+            return buildingData;
+        }
+        set
+        {
+            buildingData = value;
+            Building_ID = BuildingData.Building_ID;
+            Floor_Type = BuildingData.Floor_Type;
+            Building_Name_ID = BuildingData.Building_Name_ID;
+            Level = BuildingData.Level;
+            Level_Max = BuildingData.Level_Max;
+            Materials_Type = BuildingData.Materials_Type;
+            Conversion_rate = BuildingData.Conversion_rate;
+            Work_Require = BuildingData.Work_Require;
+            Resource_Type = BuildingData.Resource_Type;
+            Touch_Produce = BuildingData.Touch_Produce;
+            Level_Up_Resource_ID = BuildingData.Level_Up_Resource_ID;
+            Level_Up_Coin_Value = BuildingData.Level_Up_Coin_Value;
+            Level_Up_Resource_1 = BuildingData.Level_Up_Resource_1;
+            Resource_1_Value = BuildingData.Resource_1_Value;
+            Level_Up_Resource_2 = BuildingData.Level_Up_Resource_2;
+            Resource_2_Value = BuildingData.Resource_2_Value;
+            Level_Up_Resource_3 = BuildingData.Level_Up_Resource_3;
+            Resource_3_Value = BuildingData.Resource_3_Value;
+            Prefab = BuildingData.Prefab;
+        }
+    }
+    public int Building_ID { get; set; }
+    public int Floor_Type { get; set; }
+    public string Building_Name_ID { get; set; }
+    public int Level { get; set; }
+    public int Level_Max { get; set; }
+    public int Materials_Type { get; set; }
+    public int Conversion_rate { get; set; }
+    public int Work_Require { get; set; }
+    public int Resource_Type { get; set; } // 생산 재화 타입
+    public string Touch_Produce { get; set; }
+    public string Level_Up_Resource_ID { get; set; }
+    public string Level_Up_Coin_Value { get; set; }
+    public int Level_Up_Resource_1 { get; set; }
+    public string Resource_1_Value { get; set; }
+    public int Level_Up_Resource_2 { get; set; }
+    public string Resource_2_Value { get; set; }
+    public int Level_Up_Resource_3 { get; set; }
+    public string Resource_3_Value { get; set; }
+    public string Prefab { get; set; }
+
+    public BuildingStat() { }
+
+    public BuildingStat(int buildingId)
+    {
+        this.BuildingData = DataTableMgr.GetBuildingTable().Get(buildingId);
     }
 }

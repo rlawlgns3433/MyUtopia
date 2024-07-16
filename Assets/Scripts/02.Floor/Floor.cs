@@ -120,7 +120,7 @@ public class Floor : Subject, IGrowable
     {
         foreach (var building in buildings)
         {
-            if (floorStat.Unlock_Facility == building.BuildingData.Building_ID)
+            if (floorStat.Unlock_Facility == building.BuildingStat.Building_ID)
             {
                 building.isLock = false;
             }

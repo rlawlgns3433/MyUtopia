@@ -26,11 +26,11 @@ public class UiBuildingInfo : MonoBehaviour
 
         foreach(var uiBuilding in uiFloorInformation.uiBuildings)
         {
-            if (uiBuilding.building.BuildingData.GetName().Equals(building.BuildingData.GetName()))
+            if (uiBuilding.building.BuildingStat.BuildingData.GetName().Equals(building.BuildingStat.BuildingData.GetName()))
                 return false;
         }
 
-        if (building.BuildingData.Building_ID == 0)
+        if (building.BuildingStat.BuildingData.Building_ID == 0)
             return false;
 
         this.building = building;
@@ -45,16 +45,16 @@ public class UiBuildingInfo : MonoBehaviour
 
     public void SetBuildingUi()
     {
-        textBuildingLevel.text = string.Format(levelFormat, building.BuildingData.Level, building.BuildingData.Level_Max);
-        textBuildingName.text = building.BuildingData.GetName();
+        textBuildingLevel.text = string.Format(levelFormat, building.BuildingStat.BuildingData.Level, building.BuildingStat.BuildingData.Level_Max);
+        textBuildingName.text = building.BuildingStat.BuildingData.GetName();
         //uiBuildingInfo.buildingProfile.sprite = building.BuildingData.GetProfile();
-        textProceeds.text = ((CurrencyType)building.BuildingData.Resource_Type).ToString();
-        textExchange.text = string.Format(exchangeFormat, ((CurrencyType)building.BuildingData.Materials_Type), ((CurrencyType)building.BuildingData.Resource_Type));
-        textCurrentExchangeRate.text = building.BuildingData.Conversion_rate.ToString();
+        textProceeds.text = ((CurrencyType)building.BuildingStat.Resource_Type).ToString();
+        textExchange.text = string.Format(exchangeFormat, ((CurrencyType)building.BuildingStat.Materials_Type), ((CurrencyType)building.BuildingStat.Resource_Type));
+        textCurrentExchangeRate.text = building.BuildingStat.Conversion_rate.ToString();
 
-        if (building.BuildingData.Level < building.BuildingData.Level_Max)
+        if (building.BuildingStat.Level < building.BuildingStat.Level_Max)
         {
-            textNextExchangeRate.text = DataTableMgr.GetBuildingTable().Get(building.BuildingData.Building_ID + 100).Conversion_rate.ToString();
+            textNextExchangeRate.text = DataTableMgr.GetBuildingTable().Get(building.BuildingStat.Building_ID + 100).Conversion_rate.ToString();
         }
         else
         {

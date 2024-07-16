@@ -51,7 +51,7 @@ public class BuildingFloor : Floor
                 {
                     if (b.isLock)
                         continue;
-                    if (b.BuildingData.Level == 0)
+                    if (b.BuildingStat.Level == 0)
                         continue;
 
                     b.accumWorkLoad += autoWorkload;
@@ -61,11 +61,11 @@ public class BuildingFloor : Floor
                         case CurrencyType.CopperStone:
                         case CurrencyType.SilverStone:
                         case CurrencyType.GoldStone:
-                            if (b.accumWorkLoad > b.BuildingData.Work_Require)
+                            if (b.accumWorkLoad > b.BuildingStat.Work_Require)
                             {
-                                BigNumber c = b.accumWorkLoad / b.BuildingData.Work_Require;
+                                BigNumber c = b.accumWorkLoad / b.BuildingStat.Work_Require;
                                 CurrencyManager.currency[b.buildingType] += c;
-                                b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingData.Work_Require;
+                                b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingStat.Work_Require;
                             }
                             else
                                 b.accumWorkLoad += autoWorkload;
@@ -74,18 +74,18 @@ public class BuildingFloor : Floor
                         case CurrencyType.CopperIngot:
                         case CurrencyType.SilverIngot:
                         case CurrencyType.GoldIngot:
-                            if (b.accumWorkLoad > b.BuildingData.Work_Require)
+                            if (b.accumWorkLoad > b.BuildingStat.Work_Require)
                             {
-                                if (CurrencyManager.currency[(CurrencyType)b.BuildingData.Materials_Type] < b.BuildingData.Conversion_rate)
+                                if (CurrencyManager.currency[(CurrencyType)b.BuildingStat.Materials_Type] < b.BuildingStat.Conversion_rate)
                                 {
                                     b.accumWorkLoad = new BigNumber(0);
                                     break;
                                 }
 
-                                BigNumber c = b.accumWorkLoad / b.BuildingData.Work_Require;
+                                BigNumber c = b.accumWorkLoad / b.BuildingStat.Work_Require;
                                 CurrencyManager.currency[b.buildingType] += c;
-                                CurrencyManager.currency[(CurrencyType)b.BuildingData.Materials_Type] -= c * b.BuildingData.Conversion_rate;
-                                b.accumWorkLoad -= c * b.BuildingData.Work_Require;
+                                CurrencyManager.currency[(CurrencyType)b.BuildingStat.Materials_Type] -= c * b.BuildingStat.Conversion_rate;
+                                b.accumWorkLoad -= c * b.BuildingStat.Work_Require;
                             }
                             else
                             {

@@ -28,17 +28,17 @@ public class ConductBuilding : Building
             case CurrencyType.GoldStone:
                 if (isLock)
                     return;
-                CurrencyManager.currency[buildingType] += new BigNumber(BuildingData.Touch_Produce);
+                CurrencyManager.currency[buildingType] += new BigNumber(BuildingStat.Touch_Produce);
                 break;
             case CurrencyType.CopperIngot:
             case CurrencyType.SilverIngot:
             case CurrencyType.GoldIngot:
                 if (isLock)
                     return;
-                if (CurrencyManager.currency[(CurrencyType)BuildingData.Materials_Type] > BuildingData.Conversion_rate)
+                if (CurrencyManager.currency[(CurrencyType)BuildingStat.Materials_Type] > BuildingStat.Conversion_rate)
                 {
                     CurrencyManager.currency[buildingType] += 1;
-                    CurrencyManager.currency[(CurrencyType)BuildingData.Materials_Type] -= BuildingData.Conversion_rate;
+                    CurrencyManager.currency[(CurrencyType)BuildingStat.Materials_Type] -= BuildingStat.Conversion_rate;
                 }
                 break;
         }
