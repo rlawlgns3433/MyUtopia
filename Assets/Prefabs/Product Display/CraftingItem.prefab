@@ -120,7 +120,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5629281451163416681}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2674335004595748024}
+        m_TargetAssemblyTypeName: UiCraftingSlot, Assembly-CSharp
+        m_MethodName: OnClickCancel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &632804637361949602
 GameObject:
   m_ObjectHideFlags: 0
@@ -1316,6 +1328,7 @@ MonoBehaviour:
   imagePortrait: {fileID: 1871505571425925232}
   textName: {fileID: 2580900800419232416}
   textRemainAmount: {fileID: 7159616858455259131}
+  textRemainProcess: {fileID: 6211324810960919316}
   sliderProcess: {fileID: 6956825297100783094}
   buttonCancel: {fileID: 5077994343480874563}
 --- !u!1 &6866522274399703701

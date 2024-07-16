@@ -46,7 +46,7 @@ public class UiRecipeSlot : MonoBehaviour
             return;
         this.recipeStat = recipeStat;
 
-        imagePortrait.sprite = DataTableMgr.GetItemTable().Get(recipeStat.Product_ID).GetImage(); // 현재 이미지 없음
+        //imagePortrait.sprite = DataTableMgr.GetItemTable().Get(recipeStat.Product_ID).GetImage(); // 현재 이미지 없음
         textName.text = recipeStat.RecipeData.GetName();
 
         int count = -1;
@@ -75,5 +75,17 @@ public class UiRecipeSlot : MonoBehaviour
 
         textRequireWorkload.text = recipeStat.RecipeData.Workload.ToString();
         textSaleCoin.text = recipeStat.RecipeData.GetProduct().Sell_Price;
+    }
+
+    public void OnCraftButtonClicked()
+    {
+        /*
+         1. 제작중 UI를 생성 & 추가 o
+         2. 제작중 UI에 정보를 출력
+         3. 현재 게임 오브젝트 삭제
+         */
+        var uiCraftingTable = UiManager.Instance.craftTableUi;
+        uiCraftingTable.uiCraftingList.Add(recipeStat);
+        Destroy(gameObject);
     }
 }
