@@ -90,7 +90,7 @@ public class Storage : MonoBehaviour, IClickable
 
     private void Awake()
     {
-        clickEvent+= OpenProductStorage;
+        clickEvent += OpenProductStorage;
     }
 
     public void RegisterClickable()

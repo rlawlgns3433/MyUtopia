@@ -80,12 +80,18 @@ public class StorageConduct : Storage
 
 
     private StorageValue storageValue;
+    private bool isAddQuitEvent = false;
 
     private void Awake()
     {
         clickEvent += OpenStorage;
         RegisterClickable();
-        Application.quitting += SaveDataOnQuit;
+        if (!isAddQuitEvent)
+        {
+            Application.quitting -= SaveDataOnQuit;
+            Application.quitting += SaveDataOnQuit;
+            isAddQuitEvent=true;
+        }
     }
 
     private async void Start()
