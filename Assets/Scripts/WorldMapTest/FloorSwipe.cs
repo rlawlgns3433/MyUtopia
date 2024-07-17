@@ -12,11 +12,11 @@ public enum Dirs
 public class FloorSwipe : MonoBehaviour
 {
     public InputActionAsset inputActions;
-    public bool Tap { get; private set; }
+    public bool Tap { get; set; }
     public Dirs Swipe { get; set; }
 
     private bool isTouching = false;
-    private float timeTap = 0.25f;
+    private float timeTap = 0.2f;
 
     private float primaryStartTime = 0f;
     private Vector2 primaryStartPos;
@@ -24,7 +24,7 @@ public class FloorSwipe : MonoBehaviour
     public float minSwipeDistanceInch = 0.25f;
     private float minSwipeDistancePixels;
 
-    private float swipeTime = 0.25f;
+    private float swipeTime = 0.2f;
 
     private InputAction touchPressAction;
     private InputAction touchPositionAction;
@@ -39,14 +39,20 @@ public class FloorSwipe : MonoBehaviour
         minSwipeDistancePixels = dpi * minSwipeDistanceInch;
         Debug.Log($"DPI: {dpi}, Min Swipe Distance (pixels): {minSwipeDistancePixels}");
 
-        touchPressAction = inputActions.FindActionMap(InputActions.Swipe).FindAction(InputActions.Press);
-        touchPositionAction = inputActions.FindActionMap(InputActions.Swipe).FindAction(InputActions.Position);
+        var swipeActionMap = inputActions.FindActionMap("Swipe");
+        touchPressAction = swipeActionMap.FindAction("Press");
+        touchPositionAction = swipeActionMap.FindAction("Position");
 
         touchPressAction.performed += HandleTouchPress;
         touchPressAction.canceled += HandleTouchRelease;
 
         touchPressAction.Enable();
         touchPositionAction.Enable();
+        Tap = false;
+        isTouching = false;
+        Swipe = Dirs.None;
+        primaryStartTime = 0f;
+        primaryStartPos = Vector2.zero;
     }
 
     private void OnDestroy()
@@ -65,6 +71,7 @@ public class FloorSwipe : MonoBehaviour
             isTouching = true;
             primaryStartTime = Time.time;
             primaryStartPos = touchPositionAction.ReadValue<Vector2>();
+            Debug.Log($"Touch started at {primaryStartPos} at time {primaryStartTime}");
         }
     }
 
@@ -77,18 +84,17 @@ public class FloorSwipe : MonoBehaviour
             var endPos = touchPositionAction.ReadValue<Vector2>();
             var diff = endPos - primaryStartPos;
 
-            if (duration < swipeTime)
+            bool isSwipe = duration < swipeTime && diff.magnitude > minSwipeDistancePixels;
+            bool isTap = duration < timeTap && diff.magnitude < minSwipeDistancePixels;
+
+            if (isSwipe)
             {
-                if (diff.magnitude > minSwipeDistancePixels)
+                if (Mathf.Abs(diff.x) < Mathf.Abs(diff.y))
                 {
-                    if (Mathf.Abs(diff.x) < Mathf.Abs(diff.y))
-                    {
-                        Swipe = diff.y > 0 ? Dirs.Up : Dirs.Down;
-                    }
+                    Swipe = diff.y > 0 ? Dirs.Up : Dirs.Down;
                 }
             }
-
-            if (duration < timeTap)
+            else if (isTap)
             {
                 Tap = true;
             }
