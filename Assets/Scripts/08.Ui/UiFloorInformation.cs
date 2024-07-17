@@ -35,6 +35,19 @@ public class UiFloorInformation : MonoBehaviour
         //uiFacilities = new List<UiBuildingInfo>();
     }
 
+    public void SetFloorData()
+    {
+        var floor = FloorManager.Instance.GetCurrentFloor();
+
+        if (floor == null)
+            return;
+
+        currentFloor = floor;
+        floorStat = currentFloor.FloorStat;
+
+        SetFloorUi();
+    }
+
     public void SetFloorData(string floorId)
     {
         if (!FloorManager.Instance.floors.ContainsKey(floorId))
@@ -44,6 +57,15 @@ public class UiFloorInformation : MonoBehaviour
         floorStat = currentFloor.FloorStat;
 
         SetFloorUi();
+    }
+
+    public void ClearFloorUi()
+    {
+        foreach (var uiBuilding in uiBuildings)
+        {
+            Destroy(uiBuilding.gameObject);
+        }
+        uiBuildings.Clear();
     }
 
     public void SetFloorUi()

@@ -60,4 +60,12 @@ public class FloorManager : Singleton<FloorManager>
             return;
         floors[floorId].LevelUp();
     }
+
+    public void LevelUp()
+    {
+        if(GetCurrentFloor() != null)
+        {
+            floors[$"B{CurrentFloorIndex}"].LevelUp();
+        }
+    }
 }
