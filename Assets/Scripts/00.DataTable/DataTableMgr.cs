@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using static UnityEditor.Progress;
 
 public static class DataTableMgr
 {

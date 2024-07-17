@@ -10,8 +10,6 @@ public class UiAnimalFloorSlot : Observer
 
     private void OnDestroy()
     {
-        Destroy(imagePortrait.gameObject);
-        Destroy(sliderStamina.gameObject);
         Destroy(gameObject);
     }
 

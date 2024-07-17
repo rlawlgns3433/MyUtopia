@@ -101,7 +101,7 @@ public class AnimalWork : Subject, IMergable
                 break;
             case "B2":
                 Debug.Log("B2Start");
-                while (Animal.animalStat.Stamina < Animal.standardAnimalData.Stamina)
+                while (Animal.animalStat.Stamina < Animal.animalStat.AnimalData.Stamina)
                 {
                     Animal.animalStat.Stamina += 1;
                     NotifyObservers();

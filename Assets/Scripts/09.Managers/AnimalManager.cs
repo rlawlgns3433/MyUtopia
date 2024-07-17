@@ -57,11 +57,15 @@ public class AnimalManager : Subject
 
     private void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
                 NotifyObservers();
         }
+    }
+
+    public void CreateAnimal()
+    {
+        NotifyObservers();
     }
 
     public void Create(Vector3 position, Floor floor, int animalId, int slotId, bool isMerged = false)

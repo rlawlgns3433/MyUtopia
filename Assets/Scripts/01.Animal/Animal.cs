@@ -6,7 +6,6 @@ public class Animal : IGrowable, IMovable
 {
     public AnimalWork animalWork;
     public AnimalStat animalStat;
-    public AnimalData standardAnimalData;
 
     public Animal() { }
     public Animal(int animalId)
@@ -14,7 +13,6 @@ public class Animal : IGrowable, IMovable
         if(animalStat == null)
         {
             animalStat = new AnimalStat(animalId);
-            standardAnimalData = DataTableMgr.GetAnimalTable().Get(animalId);
         }
     }
 

@@ -36,6 +36,7 @@ public class FloorManager : Singleton<FloorManager>
         floors[toFloor].animals.Add(animal);
         animal.animalWork.MoveFloor();
         floors[fromFloor].animals.Remove(animal);
+        UiManager.Instance.animalFocusUi.Set();
     }
 
     public Floor GetFloor(string floorId)
