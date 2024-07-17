@@ -52,6 +52,24 @@ public class AnimalClick : MonoBehaviour, IClickable
 
     public event Action clickEvent;
 
+    private CinemachineTransposer transposer;
+    private CinemachineTransposer Transposer
+    {
+        get
+        {
+            if (transposer == null)
+            {
+                transposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+            }
+
+            return transposer;
+        }
+        set
+        {
+            transposer = value;
+        }
+    }
+
     private CinemachineVirtualCamera virtualCamera;
 
     public CinemachineVirtualCamera VirtualCamera
@@ -65,6 +83,10 @@ public class AnimalClick : MonoBehaviour, IClickable
 
             return virtualCamera;
         }
+        set
+        {
+            virtualCamera = value;
+        }
     }
 
     private void Awake()
@@ -73,6 +95,9 @@ public class AnimalClick : MonoBehaviour, IClickable
         clickEvent += Follow;
         clickEvent += UiManager.Instance.ShowAnimalFocusUi;
         clickEvent += UiManager.Instance.animalFocusUi.Set;
+        VirtualCamera = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
+        transposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+
         RegisterClickable();
     }
 
@@ -94,7 +119,6 @@ public class AnimalClick : MonoBehaviour, IClickable
 
     public void FocusIn()
     {
-        var transposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         if (transposer != null)
         {
             transposer.m_FollowOffset = new Vector3(0, 2, -2);
