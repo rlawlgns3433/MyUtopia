@@ -16,15 +16,13 @@ public class FloorSwipe : MonoBehaviour
     public Dirs Swipe { get; set; }
 
     private bool isTouching = false;
-    private float timeTap = 0.2f;
+    private float timeTap = 0.25f;
 
     private float primaryStartTime = 0f;
     private Vector2 primaryStartPos;
 
-    public float minSwipeDistanceInch = 0.25f;
-    private float minSwipeDistancePixels;
-
-    private float swipeTime = 0.2f;
+    public float minSwipeDistanceInch = 2f;
+    private float swipeTime = 0.25f;
 
     private InputAction touchPressAction;
     private InputAction touchPositionAction;
@@ -36,8 +34,6 @@ public class FloorSwipe : MonoBehaviour
         {
             dpi = 96; // ±âº» DPI °ª
         }
-        minSwipeDistancePixels = dpi * minSwipeDistanceInch;
-        Debug.Log($"DPI: {dpi}, Min Swipe Distance (pixels): {minSwipeDistancePixels}");
 
         var swipeActionMap = inputActions.FindActionMap("Swipe");
         touchPressAction = swipeActionMap.FindAction("Press");
@@ -84,24 +80,29 @@ public class FloorSwipe : MonoBehaviour
             var endPos = touchPositionAction.ReadValue<Vector2>();
             var diff = endPos - primaryStartPos;
 
-            bool isSwipe = duration < swipeTime && diff.magnitude > minSwipeDistancePixels;
-            bool isTap = duration < timeTap && diff.magnitude < minSwipeDistancePixels;
+            float normalizedDiff = diff.magnitude / Screen.dpi;
+            bool isSwipe = duration < swipeTime && normalizedDiff > minSwipeDistanceInch;
+            Debug.Log($"nomalizedDiffTest{normalizedDiff},{isSwipe}");
+            bool isTap = duration < timeTap && normalizedDiff < minSwipeDistanceInch;
 
             if (isSwipe)
             {
                 if (Mathf.Abs(diff.x) < Mathf.Abs(diff.y))
                 {
                     Swipe = diff.y > 0 ? Dirs.Up : Dirs.Down;
+                    Debug.Log($"Swipe detected: {Swipe}");
                 }
             }
             else if (isTap)
             {
                 Tap = true;
+                Debug.Log("Tap detected");
             }
 
             await UniTask.Delay(100);
             Tap = false;
             Swipe = Dirs.None;
+            Debug.Log("Reset Tap and Swipe");
         }
     }
 }
