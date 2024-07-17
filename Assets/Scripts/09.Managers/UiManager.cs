@@ -10,9 +10,9 @@ public class UiManager : Singleton<UiManager>
     public GameObject animalListUi;
     public UiProducts productsUi;
     public UiCraftTable craftTableUi;
-    public GameObject floorMove;
-    public GameObject b4StorageValueUi;
-    public GameObject b5StorageValueUi;
+    public FloorMove floorMove;
+    public StorageValueUi b4StorageValueUi;
+    public StorageValueUi b5StorageValueUi;
 
     private void Start()
     {
@@ -28,9 +28,9 @@ public class UiManager : Singleton<UiManager>
         animalListUi.SetActive(false);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
-        floorMove.GetComponent<FloorMove>().enabled = false;
-        b4StorageValueUi.SetActive(false);
-        b5StorageValueUi.SetActive(false);
+        floorMove.enabled = false;
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
     }
 
     public void ShowMainUi()
@@ -44,8 +44,8 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = true;
-        b4StorageValueUi.SetActive(false);
-        b5StorageValueUi.SetActive(false);
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
     }
 
     public void ShowAnimalFocusUi()
@@ -59,8 +59,8 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = false;
-        b4StorageValueUi.SetActive(false);
-        b5StorageValueUi.SetActive(false);
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
     }
 
     public void ShowSellUi()
@@ -74,8 +74,8 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = false;
-        b4StorageValueUi.SetActive(false);
-        b5StorageValueUi.SetActive(false);
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
     }
 
     public void ShowFloorInformationUi()
@@ -89,8 +89,8 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = false;
-        b4StorageValueUi.SetActive(false);
-        b5StorageValueUi.SetActive(false);
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
     }
 
     public void ShowAnimalListUi()
@@ -104,8 +104,8 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = false;
-        b4StorageValueUi.SetActive(false);
-        b5StorageValueUi.SetActive(false);
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
     }
 
     public void ShowProductsUi()
@@ -119,8 +119,8 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(true);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = false;
-        b4StorageValueUi.SetActive(false);
-        b5StorageValueUi.SetActive(false);
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
     }
 
     public void ShowCraftTableUi()
@@ -134,16 +134,14 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(true);
         floorMove.GetComponent<FloorMove>().enabled = false;
-        b4StorageValueUi.SetActive(false);
-        b5StorageValueUi.SetActive(false);
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
     }
 
     public void SetProductCapacity(int capacity)
     {
         productsUi.SetCapacity(capacity);
         floorMove.GetComponent<FloorMove>().enabled = false;
-        b4StorageValueUi.SetActive(false);
-        b5StorageValueUi.SetActive(false);
     }
 
     public void SetSwipeDisable()
