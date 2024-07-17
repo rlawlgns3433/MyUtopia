@@ -127,6 +127,12 @@ public class Floor : Subject, IGrowable
         }
     }
 
+    public void AttachObserver(Observer observer)
+    {
+        Attach(observer);
+    }
+
+
     public async UniTask UniWaitFloorTable()
     {
         while(!DataTableMgr.GetFloorTable().IsLoaded)

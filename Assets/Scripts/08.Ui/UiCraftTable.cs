@@ -21,8 +21,17 @@ public class UiCraftTable : MonoBehaviour
         int level = craftingBuilding.BuildingStat.Level;
         var recipes = GetRecipes(level);
 
+        // 제작 빌딩에서 제작중인 게 있다면 가져온다.
+        if(craftingBuilding.isCrafting)
+        {
+            uiCraftingList.Add(craftingBuilding.recipeStat);
+        }
+
         for (int i = 0; i < recipes.Count; ++i)
         {
+            if(craftingBuilding.recipeStat != null && craftingBuilding.recipeStat.Recipe_ID == recipes[i] && craftingBuilding.isCrafting)
+                continue;
+
             uiRecipeList.Add(new RecipeStat(recipes[i]));
         }
     }

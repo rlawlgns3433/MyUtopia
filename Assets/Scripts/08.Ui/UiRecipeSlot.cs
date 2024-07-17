@@ -60,16 +60,16 @@ public class UiRecipeSlot : MonoBehaviour
 
         switch(count)
         {
+            case 0:
+                    textRequireCurrency.text = string.Format(format[count], ((CurrencyType)recipeStat.RecipeData.Resource_1).ToString(), recipeStat.Resource_1_Value);
+                break;
             case 1:
-                    textRequireCurrency.text = string.Format(format[count - 1], recipeStat.RecipeData.Resource_1, recipeStat.Resource_1_Value);
+                textRequireCurrency.text = string.Format(format[count], ((CurrencyType)recipeStat.RecipeData.Resource_1).ToString(), recipeStat.Resource_1_Value,
+                    ((CurrencyType)recipeStat.RecipeData.Resource_2).ToString(), recipeStat.Resource_2_Value);
                 break;
             case 2:
-                textRequireCurrency.text = string.Format(format[count - 1], recipeStat.RecipeData.Resource_1, recipeStat.Resource_1_Value,
-                    recipeStat.RecipeData.Resource_2, recipeStat.Resource_2_Value);
-                break;
-            case 3:
-                    textRequireCurrency.text = string.Format(format[count - 1], recipeStat.RecipeData.Resource_1, recipeStat.Resource_1_Value,
-                    recipeStat.RecipeData.Resource_2, recipeStat.Resource_2_Value, recipeStat.RecipeData.Resource_3, recipeStat.Resource_3_Value);
+                    textRequireCurrency.text = string.Format(format[count], ((CurrencyType)recipeStat.RecipeData.Resource_1).ToString(), recipeStat.Resource_1_Value,
+                    ((CurrencyType)recipeStat.RecipeData.Resource_2).ToString(), recipeStat.Resource_2_Value, ((CurrencyType)recipeStat.RecipeData.Resource_3).ToString(), recipeStat.Resource_3_Value);
                 break;
         }
 
@@ -84,10 +84,44 @@ public class UiRecipeSlot : MonoBehaviour
          2. 제작중 UI에 정보를 출력
          3. 현재 게임 오브젝트 삭제
          */
+        // 재화가 충분하다면 실행
+        if (recipeStat.Resource_1 != 0)
+        {
+            if (recipeStat.Resource_1_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1])
+                return;
+        }
+
+        if (recipeStat.Resource_2 != 0)
+        {
+            if (recipeStat.Resource_2_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2])
+                return;
+        }
+
+        if (recipeStat.Resource_3 != 0)
+        {
+            if (recipeStat.Resource_3_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3])
+                return;
+        }
+
+        if (recipeStat.Resource_1 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1] -= recipeStat.Resource_1_Value.ToBigNumber();
+        }
+
+        if (recipeStat.Resource_2 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2] -= recipeStat.Resource_2_Value.ToBigNumber();
+        }
+
+        if (recipeStat.Resource_3 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3] -= recipeStat.Resource_3_Value.ToBigNumber();
+        }
+
         var uiCraftingTable = UiManager.Instance.craftTableUi;
         uiCraftingTable.uiCraftingList.Add(recipeStat);
-        CurrencyManager.currency[CurrencyType.Craft] += 1;
         // 즉시 생산 창고에 넣기
+        uiCraftingTable.craftingBuilding.Set(recipeStat);
         Destroy(gameObject);
     }
 }

@@ -27,7 +27,6 @@ public class BuildingFloor : Floor
     {
         var storageConduct = storage as StorageConduct;
 
-
         while (true)
         {
             autoWorkload = BigNumber.Zero;
