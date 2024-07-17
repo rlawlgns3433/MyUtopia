@@ -4,10 +4,8 @@ using UnityEngine.EventSystems;
 
 public class UiFocusOut : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField]
-    private Vector3 focusOutPosition;
-    [SerializeField]
-    private Vector3 focusOutRotation;
+    private Vector3 focusOutPosition = new Vector3(0, 15, -15);
+    private Vector3 focusOutRotation = new Vector3(40, 0, 0);
 
     public CinemachineVirtualCamera vc;
     private CinemachineTransposer transposer;

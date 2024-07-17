@@ -27,11 +27,6 @@ public class UiAnimalSlot : UiAnimalFloorSlot
 
     public void OnClick()
     {
-        if (animalData.Animal_ID == 0)
-        {
-            Debug.Log("Empty");
-        }
-
-        // 동물 인벤토리 열기
+        animalClick.IsClicked = true;
     }
 }
