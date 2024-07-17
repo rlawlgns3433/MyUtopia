@@ -21,6 +21,7 @@ public class FloorMove : MonoBehaviour
 
     private void Update()
     {
+
         if (touchManager.Swipe == Dirs.Up)
         {
             MoveUp();
@@ -29,6 +30,7 @@ public class FloorMove : MonoBehaviour
         {
             MoveDown();
         }
+        
     }
 
     private async UniTask MoveFloor(Vector3 moveVector)

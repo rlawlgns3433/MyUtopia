@@ -45,6 +45,7 @@ public class StorageValue : MonoBehaviour, IClickable
     private void Awake()
     {
         clickEvent += OpenStorageUi;
+        clickEvent += UiManager.Instance.SetSwipeDisable;
         RegisterClickable();
     }
 
