@@ -57,23 +57,10 @@ public class AnimalManager : Subject
 
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out var hit, 200f, floorLayer.value))
-            {
-                var pos = hit.point;
-                var spawnFloor = hit.collider.gameObject.GetComponent<Floor>();
-                pos.y = 0f;
-
-                if (spawnFloor.animals.Count >= spawnFloor.FloorStat.Max_Population)
-                    return;
-
-                if (spawnFloor != null)
-                uiAnimalInventory.SetFloor(spawnFloor);
                 NotifyObservers();
-            }
         }
     }
 

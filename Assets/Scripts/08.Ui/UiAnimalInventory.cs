@@ -53,7 +53,7 @@ public class UiAnimalInventory : Observer
     {
         if (currentFloor.animals.Count >= currentFloor.FloorStat.Max_Population)
             return;
-
+        currentFloor = FloorManager.Instance.GetCurrentFloor();
         UiAnimalSlot slot = Instantiate(slotPrefab, scrollRect.content);
         var animalManager = GameObject.FindWithTag(Tags.AnimalManager).GetComponent<AnimalManager>();
         slot.SlotIndex = currentIndex++;

@@ -13,6 +13,7 @@ public class FloorMove : MonoBehaviour
     private int upCount = 1;
     private bool isMoving = false;
     private Vector3 targetPosition;
+    public UiAnimalInventory uiAnimalInventory;
 
     private void Start()
     {
@@ -47,6 +48,8 @@ public class FloorMove : MonoBehaviour
         touchManager.Swipe = Dirs.None;
         upCount++;
         FloorManager.Instance.CurrentFloorIndex = upCount;
+        uiAnimalInventory.SetFloor(FloorManager.Instance.GetCurrentFloor());
+        uiAnimalInventory.UpdateInventory(false);
         await MoveFloor(new Vector3(0, moveDistance, 0));
         isMoving = false;
     }
@@ -59,6 +62,8 @@ public class FloorMove : MonoBehaviour
         touchManager.Swipe = Dirs.None;
         upCount--;
         FloorManager.Instance.CurrentFloorIndex = upCount;
+        uiAnimalInventory.SetFloor(FloorManager.Instance.GetCurrentFloor());
+        uiAnimalInventory.UpdateInventory(false);
         await MoveFloor(new Vector3(0, -moveDistance, 0));
         isMoving = false;
     }
