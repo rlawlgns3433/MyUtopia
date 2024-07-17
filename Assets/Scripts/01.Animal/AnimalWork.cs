@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class AnimalWork : Subject, IMergable
 {
     public Observer uiSlot;
     public Observer uiAnimalFloorSlot;
+
     private AnimalManager animalManager;
     private CancellationTokenSource cts = new CancellationTokenSource();
     public int animalId;
@@ -125,5 +127,15 @@ public class AnimalWork : Subject, IMergable
     public void SetUiAnimalSlot(Observer observer)
     {
         Attach(observer);
+    }
+
+    public void AttachObserver(Observer observer)
+    {
+        Attach(observer);
+    }
+
+    public void DetachObserver(Observer observer)
+    {
+        Detach(observer);
     }
 }

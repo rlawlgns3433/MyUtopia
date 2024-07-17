@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class UiAnimalFocus : MonoBehaviour
+public class UiAnimalFocus : Observer
 {
     private static readonly string levelFormat = "Level : {0} / {1}";
     private static readonly string workloadFormat = "Workload : {0} / s"; // xxx / s
@@ -58,8 +58,16 @@ public class UiAnimalFocus : MonoBehaviour
         Set(currentAnimal);
     }
 
-    public void Set(AnimalWork animalWork)
+    public async void Set(AnimalWork animalWork)
     {
+        currentAnimal.DetachObserver(this);
+        currentAnimal.AttachObserver(this);
+
+        sliderAnimalStamina.minValue = 0;
+        sliderAnimalStamina.maxValue = animalWork.Animal.animalStat.AnimalData.Stamina;
+
+        imageAnimalPotrait.sprite = await animalWork.Animal.animalStat.AnimalData.GetProfile();
+
         var buttonText = buttonLevelUp.GetComponentInChildren<TextMeshProUGUI>();
         var animalData = animalWork.Animal.animalStat.AnimalData;
 
@@ -74,5 +82,10 @@ public class UiAnimalFocus : MonoBehaviour
     public void SetSaleUi()
     {
         UiManager.Instance.sellUi.textCoinForSale.text = currentAnimal.Animal.animalStat.Sale_Coin;
+    }
+
+    public override void Notify(Subject subject)
+    {
+        sliderAnimalStamina.value = currentAnimal.Animal.animalStat.Stamina;
     }
 }
