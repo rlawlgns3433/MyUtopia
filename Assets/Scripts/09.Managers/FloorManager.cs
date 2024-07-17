@@ -5,7 +5,18 @@ using System.Diagnostics;
 public class FloorManager : Singleton<FloorManager>
 {
     public Dictionary<string, Floor> floors = new Dictionary<string, Floor>();
-
+    private int currentFloorIndex;
+    public int CurrentFloorIndex
+    {
+        get
+        {
+            return currentFloorIndex;
+        }
+        set
+        {
+            currentFloorIndex = value;
+        }
+    }
     public void AddFloor(string floorId, Floor floor)
     {
         if (floors.ContainsKey(floorId))
@@ -29,6 +40,14 @@ public class FloorManager : Singleton<FloorManager>
 
     public Floor GetFloor(string floorId)
     {
+        if (!floors.ContainsKey(floorId))
+            return null;
+        return floors[floorId];
+    }
+
+    public Floor GetCurrentFloor()
+    {
+        var floorId = $"B{currentFloorIndex}";
         if (!floors.ContainsKey(floorId))
             return null;
         return floors[floorId];
