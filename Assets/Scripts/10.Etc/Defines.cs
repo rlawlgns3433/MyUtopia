@@ -56,6 +56,13 @@ public static class Layers
     public static readonly string UI = "UI";
 }
 
+public static class InputActions
+{
+    public static readonly string Swipe = "Swipe";
+    public static readonly string Press = "Press";
+    public static readonly string Position = "Position";
+}
+
 public enum CurrencyType
 {
     Diamond = 90000101,
