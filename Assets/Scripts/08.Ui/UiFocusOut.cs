@@ -12,6 +12,11 @@ public class UiFocusOut : MonoBehaviour, IPointerClickHandler
     public CinemachineVirtualCamera vc;
     private CinemachineTransposer transposer;
 
+    private void Awake()
+    {
+        vc = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
+    }
+
     private void UnFollow()
     {
         vc.Follow = null;
