@@ -97,6 +97,8 @@ public class AnimalWork : Subject, IMergable
         Debug.Log("B2?else?"+Animal.animalStat.CurrentFloor);
         switch (animal.animalStat.CurrentFloor)
         {
+            case "B1":
+                break;
             case "B2":
                 Debug.Log("B2Start");
                 while (Animal.animalStat.Stamina < Animal.standardAnimalData.Stamina)
