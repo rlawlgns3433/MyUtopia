@@ -13,6 +13,11 @@ public class UiAnimalSlot : UiAnimalFloorSlot
         }
     }
 
+    private void OnDestroy()
+    {
+        Destroy(gameObject);
+    }
+
     public override void SetData(AnimalClick animClick)
     {
         base.SetData(animClick);
