@@ -15,7 +15,7 @@ public class UiAnimalFloorSlot : Observer
         Destroy(gameObject);
     }
 
-    public virtual void SetData(AnimalClick animClick)
+    public virtual async void SetData(AnimalClick animClick)
     {
         if (animClick == null)
             return;
@@ -23,8 +23,7 @@ public class UiAnimalFloorSlot : Observer
         animalData = animClick.AnimalWork.Animal.animalStat.AnimalData;
         Debug.Log($"UiAnimalFloorSlot : {animClick.GetInstanceID()}");
 
-        //if(animalData.GetProfile() != null)
-        //    imagePortrait.sprite = animalData.GetProfile();
+        imagePortrait.sprite = await animalData.GetProfile();
 
         sliderStamina.minValue = 0f;
         sliderStamina.maxValue = DataTableMgr.GetAnimalTable().Get(animalData.Animal_ID).Stamina;

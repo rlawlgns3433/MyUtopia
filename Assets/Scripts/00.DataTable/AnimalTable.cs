@@ -1,4 +1,5 @@
 using CsvHelper;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -34,9 +35,20 @@ public class AnimalData
         return Addressables.LoadAssetAsync<Sprite>(Prefab).Result;
     }
 
-    public Sprite GetProfile()
+    public async UniTask<Sprite> GetProfile()
     {
-        return Addressables.LoadAssetAsync<Sprite>(Profile).Result;
+        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(Profile);
+        await handle.Task;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            return handle.Result;
+        }
+        else
+        {
+            Debug.LogError("Failed to load image.");
+            return null;
+        }
     }
 }
 
