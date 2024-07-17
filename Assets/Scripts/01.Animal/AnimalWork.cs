@@ -98,6 +98,7 @@ public class AnimalWork : Subject, IMergable
         switch (animal.animalStat.CurrentFloor)
         {
             case "B1":
+                NotifyObservers();
                 break;
             case "B2":
                 Debug.Log("B2Start");

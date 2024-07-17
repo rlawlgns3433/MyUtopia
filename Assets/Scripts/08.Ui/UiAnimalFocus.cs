@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class UiAnimalFocus : Observer
 {
@@ -65,6 +66,7 @@ public class UiAnimalFocus : Observer
 
         sliderAnimalStamina.minValue = 0;
         sliderAnimalStamina.maxValue = animalWork.Animal.animalStat.AnimalData.Stamina;
+        sliderAnimalStamina.value = animalWork.Animal.animalStat.Stamina;
 
         imageAnimalPotrait.sprite = await animalWork.Animal.animalStat.AnimalData.GetProfile();
 

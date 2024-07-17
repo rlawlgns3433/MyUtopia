@@ -91,12 +91,13 @@ public class AnimalClick : MonoBehaviour, IClickable
 
     private void Awake()
     {
+        VirtualCamera = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
+        Transposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+
         clickEvent += Bump;
-        clickEvent += Follow;
         clickEvent += UiManager.Instance.ShowAnimalFocusUi;
         clickEvent += UiManager.Instance.animalFocusUi.Set;
-        VirtualCamera = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
-        transposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+        clickEvent += Follow;
 
         RegisterClickable();
     }
@@ -115,6 +116,7 @@ public class AnimalClick : MonoBehaviour, IClickable
         Debug.Log($"moveTest{animalClick.AnimalWork.Animal.animalStat.CurrentFloor}");
         VirtualCamera.Follow = transform;
         VirtualCamera.LookAt = transform;
+        Transposer.m_FollowOffset = followOffset;
     }
 
     public void FocusIn()
