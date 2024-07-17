@@ -39,8 +39,8 @@ public class FloorSwipe : MonoBehaviour
         minSwipeDistancePixels = dpi * minSwipeDistanceInch;
         Debug.Log($"DPI: {dpi}, Min Swipe Distance (pixels): {minSwipeDistancePixels}");
 
-        touchPressAction = inputActions.FindActionMap("Swipe").FindAction("Press");
-        touchPositionAction = inputActions.FindActionMap("Swipe").FindAction("Position");
+        touchPressAction = inputActions.FindActionMap(InputActions.Swipe).FindAction(InputActions.Press);
+        touchPositionAction = inputActions.FindActionMap(InputActions.Swipe).FindAction(InputActions.Position);
 
         touchPressAction.performed += HandleTouchPress;
         touchPressAction.canceled += HandleTouchRelease;
