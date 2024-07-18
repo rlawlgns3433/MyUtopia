@@ -42,6 +42,12 @@ public class UiAnimalSlot : UiAnimalFloorSlot
             var fromUifloorAnimal = GetComponentInParent<UiFloorAnimal>();
             fromUifloorAnimal.Clear();
             UiManager.Instance.animalListUi.MoveSlot(fromUifloorAnimal, UiManager.Instance.animalListUi.parents[FloorManager.Instance.CurrentFloorIndex - 1], this);
+            // ÀüÃ¼ Ãþ ¸®ÇÁ·¹½Ã
+            var floorAnimalParent = UiManager.Instance.animalListUi.parents; 
+            foreach(var parent in floorAnimalParent)
+            {
+                parent.Refresh();
+            }
         }
         else 
         //if (UiManager.Instance.isAnimalList) + ¹Ù´Ú
