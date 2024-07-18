@@ -78,7 +78,6 @@ public class StorageConduct : Storage
     }
     private int offLineSeconds;
 
-
     private StorageValue storageValue;
     private bool isAddQuitEvent = false;
 
@@ -90,7 +89,7 @@ public class StorageConduct : Storage
         {
             Application.quitting -= SaveDataOnQuit;
             Application.quitting += SaveDataOnQuit;
-            isAddQuitEvent=true;
+            isAddQuitEvent = true;
         }
     }
 
@@ -155,27 +154,7 @@ public class StorageConduct : Storage
 
     private void SaveDataOnQuit()
     {
-        if (CurrWorkLoad == 0)
-        {
-            CurrWorkLoad = BigNumber.Zero;
-        }
-        if (CurrArray == null)
-        {
-            CurrArray = new BigNumber[currencyTypes.Count];
-        }
-        if (UtilityTime.Seconds == 0 || CurrWorkLoad == 0)
-        {
-            currentTotalSeconds = 0;
-        }
-        string filePath = Path.Combine(Application.persistentDataPath, $"{FurnitureStat.Furniture_ID}.json");
-        StorageData storageData = new StorageData
-        {
-            CurrentWorkLoad = CurrWorkLoad,
-            CurrArray = CurrArray,
-            TotalOfflineTime = currentTotalSeconds,
-        };
-        string json = JsonConvert.SerializeObject(storageData, Formatting.Indented, new WorkLoadConverter());
-        File.WriteAllText(filePath, json);
+        SaveData();
     }
 
     private void LoadDataOnStart()
@@ -249,6 +228,39 @@ public class StorageConduct : Storage
 
                 isClick = true;
             }
+        }
+    }
+
+    private void SaveData()
+    {
+        if (CurrWorkLoad == 0)
+        {
+            CurrWorkLoad = BigNumber.Zero;
+        }
+        if (CurrArray == null)
+        {
+            CurrArray = new BigNumber[currencyTypes.Count];
+        }
+        if (UtilityTime.Seconds == 0 || CurrWorkLoad == 0)
+        {
+            currentTotalSeconds = 0;
+        }
+        string filePath = Path.Combine(Application.persistentDataPath, $"{FurnitureStat.Furniture_ID}.json");
+        StorageData storageData = new StorageData
+        {
+            CurrentWorkLoad = CurrWorkLoad,
+            CurrArray = CurrArray,
+            TotalOfflineTime = currentTotalSeconds,
+        };
+        string json = JsonConvert.SerializeObject(storageData, Formatting.Indented, new WorkLoadConverter());
+        File.WriteAllText(filePath, json);
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            SaveData();
         }
     }
 }
