@@ -46,9 +46,14 @@ public class FloorManager : Singleton<FloorManager>
         return floors[floorId];
     }
 
+    public void SetFloor(string floorId)
+    {
+        CurrentFloorIndex = floorId[1];
+    }
+
     public Floor GetCurrentFloor()
     {
-        var floorId = $"B{currentFloorIndex}";
+        var floorId = $"B{CurrentFloorIndex}";
         if (!floors.ContainsKey(floorId))
             return null;
         return floors[floorId];

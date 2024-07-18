@@ -33,5 +33,7 @@ public class UiAnimalSlot : UiAnimalFloorSlot
     public void OnClick()
     {
         animalClick.IsClicked = true;
-    }
+
+        FloorManager.Instance.SetFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor);
+}
 }
