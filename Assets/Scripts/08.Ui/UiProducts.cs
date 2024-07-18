@@ -17,13 +17,7 @@ public class UiProducts : MonoBehaviour
             uiProduct.ClearData();
             uiProducts.Add(uiProduct);
         }
-
-        int size = CurrencyManager.currency[CurrencyType.Craft].ToInt();
-
-        for (int i = 0; i < size; ++i)
-        {
-            uiProducts[i].SetData(new ItemStat(801101));
-        }
+        Refresh();
     }
 
     private void OnDisable()
@@ -38,5 +32,15 @@ public class UiProducts : MonoBehaviour
     public void SetCapacity(int capacity)
     {
         this.capacity = capacity;
+    }
+
+    public void Refresh()
+    {
+        int size = CurrencyManager.currency[CurrencyType.Craft].ToInt();
+
+        for (int i = 0; i < size; ++i)
+        {
+            uiProducts[i].SetData(new ItemStat(801101));
+        }
     }
 }

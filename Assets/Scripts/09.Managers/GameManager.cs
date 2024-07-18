@@ -26,13 +26,17 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private void Awake()
+    {
+        CurrencyManager.Init();
+    }
+
     void Start()
     {
         //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
 
         CurrentSceneId = SceneIds.WorldLandOfHope;
-        CurrencyManager.Init();
     }
 
     public void RegisterSceneManager(SceneIds sceneName, SceneController sceneManager)
