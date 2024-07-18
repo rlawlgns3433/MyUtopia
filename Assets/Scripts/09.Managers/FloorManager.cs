@@ -48,7 +48,7 @@ public class FloorManager : Singleton<FloorManager>
 
     public void SetFloor(string floorId)
     {
-        CurrentFloorIndex = floorId[1];
+        CurrentFloorIndex = int.Parse(floorId[1].ToString());
     }
 
     public Floor GetCurrentFloor()

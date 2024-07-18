@@ -1,4 +1,5 @@
 using Cinemachine;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
 using UnityEngine;
@@ -6,6 +7,20 @@ using UnityEngine.EventSystems;
 
 public class AnimalClick : MonoBehaviour, IClickable
 {
+    [SerializeField]
+    private FloorMove floorMoveGo;
+    public FloorMove FloorMoveGo
+    {
+        get
+        {
+            if (floorMoveGo == null)
+            {
+                floorMoveGo = GameObject.Find("Floors").GetComponent<FloorMove>();
+            }
+
+            return floorMoveGo;
+        }
+    }
     [SerializeField]
     private AnimalWork animalWork;
     public AnimalWork AnimalWork
@@ -93,7 +108,7 @@ public class AnimalClick : MonoBehaviour, IClickable
     {
         VirtualCamera = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
         Transposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-
+        floorMoveGo = GameObject.Find("Floors").GetComponent<FloorMove>();
         clickEvent += Bump;
         clickEvent += UiManager.Instance.ShowAnimalFocusUi;
         clickEvent += UiManager.Instance.animalFocusUi.Set;
@@ -117,6 +132,8 @@ public class AnimalClick : MonoBehaviour, IClickable
         VirtualCamera.Follow = transform;
         VirtualCamera.LookAt = transform;
         Transposer.m_FollowOffset = followOffset;
+        FloorManager.Instance.SetFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor);
+        floorMoveGo.MoveToCurrentFloor();
     }
 
     public void FocusIn()

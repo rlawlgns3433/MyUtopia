@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class UiAnimalSlot : UiAnimalFloorSlot
 {
     public int SlotIndex;
-
     public bool IsEmpty
     {
         get
@@ -33,7 +32,6 @@ public class UiAnimalSlot : UiAnimalFloorSlot
     public void OnClick()
     {
         animalClick.IsClicked = true;
-
         FloorManager.Instance.SetFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor);
 }
 }
