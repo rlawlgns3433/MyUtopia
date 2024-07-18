@@ -20,7 +20,7 @@ public class UiAnimalFloorSlot : Observer
 
         sliderStamina.minValue = 0f;
         sliderStamina.maxValue = DataTableMgr.GetAnimalTable().Get(animalData.Animal_ID).Stamina;
-        sliderStamina.value = animalData.Stamina;
+        sliderStamina.value = animClick.AnimalWork.Animal.animalStat.Stamina;
     }
 
     public virtual void ClearData()

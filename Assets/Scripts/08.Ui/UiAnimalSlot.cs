@@ -56,5 +56,6 @@ public class UiAnimalSlot : UiAnimalFloorSlot
                 FloorManager.Instance.SetFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor);
             }
         }
+        UiManager.Instance.mainUi.animalInventoryUi.UpdateInventory(false);
     }
 }

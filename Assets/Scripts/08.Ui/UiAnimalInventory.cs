@@ -20,7 +20,14 @@ public class UiAnimalInventory : Observer
 
     private void OnEnable()
     {
+        currentIndex = 0;
         var animals = currentFloor.animals;
+
+        foreach(var slot in uiAnimalSlots)
+        {
+            Destroy(slot.gameObject);
+        }
+
         uiAnimalSlots = new List<UiAnimalSlot>();
         for (int j = 0; j < animals.Count; ++j)
         {

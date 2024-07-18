@@ -37,5 +37,6 @@ public class UiFocusOut : MonoBehaviour, IPointerClickHandler
         FocusOut();
         UnFollow();
         UiManager.Instance.ShowMainUi();
+        UiManager.Instance.mainUi.animalInventoryUi.UpdateInventory(false);
     }
 }
