@@ -85,6 +85,8 @@ public class UiAnimalInventory : Observer
     {
         if (isMerged)
             return;
+        SetFloor(FloorManager.Instance.GetCurrentFloor());
+
         for (int j = 0; j < uiAnimalSlots.Count; ++j)
         {
             uiAnimalSlots[j].ClearData();
