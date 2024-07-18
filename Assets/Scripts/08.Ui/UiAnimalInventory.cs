@@ -89,6 +89,9 @@ public class UiAnimalInventory : Observer
         uiAnimalSlots = new List<UiAnimalSlot>();
         for (int j = 0; j < animals.Count; ++j)
         {
+            if (animals[j].animalWork.gameObject.GetComponent<AnimalClick>() == null)
+                continue;
+
             // Floor에 있는 동물 데이터를 여기서 담는다.
             UiAnimalSlot slot = Instantiate(slotPrefab, scrollRect.content);
             slot.SlotIndex = currentIndex++;
