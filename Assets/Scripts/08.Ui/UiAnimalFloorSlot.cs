@@ -8,11 +8,6 @@ public class UiAnimalFloorSlot : Observer
     public AnimalData animalData;
     public AnimalClick animalClick;
 
-    private void OnDestroy()
-    {
-        Destroy(gameObject);
-    }
-
     public virtual async void SetData(AnimalClick animClick)
     {
         if (animClick == null)

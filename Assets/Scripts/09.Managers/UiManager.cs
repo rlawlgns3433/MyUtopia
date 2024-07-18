@@ -1,31 +1,54 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UiManager : Singleton<UiManager>
 {
     public UiCurrencies uiCurrencies;
-    public GameObject mainUi;
+    public UiMain mainUi;
     public UiAnimalFocus animalFocusUi;
     public UiSell sellUi;
     public UiFloorInformation floorInformationUi;
-    public GameObject animalListUi;
+    public UiAnimalList animalListUi;
     public UiProducts productsUi;
     public UiCraftTable craftTableUi;
     public FloorMove floorMove;
     public StorageValueUi b4StorageValueUi;
     public StorageValueUi b5StorageValueUi;
 
+    public bool isAnimalList = false;
+    public bool isAnimalMove = false;
+
     private void Start()
     {
         ShowMainUi();
     }
+
+    public void IsAnimalList(bool condition)
+    {
+        isAnimalList = condition;
+        isAnimalMove = !condition;
+    }
+
+    public void IsAnimalMove(bool condition)
+    {
+        isAnimalList = !condition;
+        isAnimalMove = condition;
+    }
+
+    public void OffAnimalList()
+    {
+        isAnimalList = false;
+        isAnimalMove = false;
+    }
+
     public void ShowCurrencyUi()
     {
         uiCurrencies.gameObject.SetActive(true);
-        mainUi.SetActive(false);
+        mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
-        animalListUi.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         floorMove.enabled = false;
@@ -36,26 +59,27 @@ public class UiManager : Singleton<UiManager>
     public void ShowMainUi()
     {
         uiCurrencies.gameObject.SetActive(true);
-        mainUi.SetActive(true);
+        mainUi.gameObject.SetActive(true);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
-        animalListUi.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = true;
         b4StorageValueUi.gameObject.SetActive(false);
         b5StorageValueUi.gameObject.SetActive(false);
+        OffAnimalList();
     }
 
     public void ShowAnimalFocusUi()
     {
         uiCurrencies.gameObject.SetActive(true);
-        mainUi.SetActive(false);
+        mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(true);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
-        animalListUi.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = false;
@@ -66,11 +90,11 @@ public class UiManager : Singleton<UiManager>
     public void ShowSellUi()
     {
         uiCurrencies.gameObject.SetActive(true);
-        mainUi.SetActive(false);
+        mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(true);
         floorInformationUi.gameObject.SetActive(false);
-        animalListUi.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = false;
@@ -81,11 +105,11 @@ public class UiManager : Singleton<UiManager>
     public void ShowFloorInformationUi()
     {
         uiCurrencies.gameObject.SetActive(true);
-        mainUi.SetActive(false);
+        mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(true);
-        animalListUi.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = false;
@@ -96,11 +120,11 @@ public class UiManager : Singleton<UiManager>
     public void ShowAnimalListUi()
     {
         uiCurrencies.gameObject.SetActive(true);
-        mainUi.SetActive(false);
+        mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
-        animalListUi.SetActive(true);
+        animalListUi.gameObject.SetActive(true);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = false;
@@ -111,11 +135,11 @@ public class UiManager : Singleton<UiManager>
     public void ShowProductsUi()
     {
         uiCurrencies.gameObject.SetActive(true);
-        mainUi.SetActive(false);
+        mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
-        animalListUi.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(true);
         craftTableUi.gameObject.SetActive(false);
         floorMove.GetComponent<FloorMove>().enabled = false;
@@ -126,11 +150,11 @@ public class UiManager : Singleton<UiManager>
     public void ShowCraftTableUi()
     {
         uiCurrencies.gameObject.SetActive(true);
-        mainUi.SetActive(false);
+        mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
-        animalListUi.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(true);
         floorMove.GetComponent<FloorMove>().enabled = false;

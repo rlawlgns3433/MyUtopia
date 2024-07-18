@@ -24,6 +24,19 @@ public class AnimalManager : Subject
             return animalTable;
         }
     }
+    public void MoveAnimal(string fromFloor, string toFloor, Animal animal)
+    {
+        var animalClick = animal.animalWork.gameObject.GetComponent<AnimalClick>();
+
+        if (animalClick == null)
+            return;
+        Debug.Log($"moveTest{animalClick.AnimalWork.Animal.animalStat.Animal_ID}");
+        FloorManager.Instance.MoveAnimal(fromFloor, toFloor, animalClick.AnimalWork.Animal);
+        animalClick.gameObject.SetActive(false);
+        animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
+        animalClick.gameObject.transform.localPosition = Vector3.zero;
+        animalClick.gameObject.SetActive(true);
+    }
 
     public void MoveAnimal(string toFloor)
     {
@@ -66,6 +79,7 @@ public class AnimalManager : Subject
     public void CreateAnimal()
     {
         NotifyObservers();
+
     }
 
     public void Create(Vector3 position, Floor floor, int animalId, int slotId, bool isMerged = false)
@@ -104,7 +118,6 @@ public class AnimalManager : Subject
                 }
                 uiAnimalInventory.UpdateInventory(isMerged);
                 uiCurrencies.SetAllAnimals();
-
             }
             UiManager.Instance.animalFocusUi.Set();
         };

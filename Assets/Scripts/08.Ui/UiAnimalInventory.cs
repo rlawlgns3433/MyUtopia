@@ -32,6 +32,7 @@ public class UiAnimalInventory : Observer
             uiAnimalSlots[currentIndex - 1].SlotIndex = currentIndex - 1;
             animals[j].animalWork.SetUiAnimalSlot(slot);
         }
+        UiManager.Instance.mainUi.Refresh();
     }
 
     private void OnDisable()
@@ -60,7 +61,6 @@ public class UiAnimalInventory : Observer
         animalManager.Create(currentFloor.transform.position, currentFloor, 10005001, slot.SlotIndex);
         uiAnimalSlots.Add(slot);
         uiAnimalSlots[currentIndex-1].SlotIndex = currentIndex-1;
-
     }
 
     public void SetAnimal()
@@ -97,5 +97,7 @@ public class UiAnimalInventory : Observer
             uiAnimalSlots[currentIndex - 1].SlotIndex = currentIndex - 1;
             animals[j].animalWork.SetUiAnimalSlot(slot);
         }
+
+        UiManager.Instance.mainUi.Refresh();
     }
 }

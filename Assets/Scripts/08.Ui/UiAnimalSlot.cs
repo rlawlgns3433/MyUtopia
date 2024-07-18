@@ -32,6 +32,21 @@ public class UiAnimalSlot : UiAnimalFloorSlot
 
     public void OnClick()
     {
-        animalClick.IsClicked = true;
+        if (UiManager.Instance.isAnimalMove)
+        // Å¬¸¯ µÆÀ» ¶§ ÇöÀç ÃþÀ¸·Î ÀÌµ¿
+        {
+            var animalStat = animalClick.AnimalWork.Animal.animalStat;
+            var toFloor = $"B{FloorManager.Instance.CurrentFloorIndex}";
+            GameManager.Instance.GetAnimalManager().MoveAnimal(animalStat.CurrentFloor, toFloor, animalClick.AnimalWork.Animal);
+            UiManager.Instance.OffAnimalList();
+            var fromUifloorAnimal = GetComponentInParent<UiFloorAnimal>();
+            fromUifloorAnimal.Clear();
+            UiManager.Instance.animalListUi.MoveSlot(fromUifloorAnimal, UiManager.Instance.animalListUi.parents[FloorManager.Instance.CurrentFloorIndex - 1], this);
+        }
+        else 
+        //if (UiManager.Instance.isAnimalList) + ¹Ù´Ú
+        {
+            animalClick.IsClicked = true;
+        }
     }
 }
