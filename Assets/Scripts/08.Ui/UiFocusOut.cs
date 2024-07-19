@@ -33,7 +33,6 @@ public class UiFocusOut : MonoBehaviour, IPointerClickHandler
         vc.transform.position = movePosition;
         vc.transform.rotation = Quaternion.Euler(focusOutRotation);
 
-
         var floorMove = FloorManager.Instance.FloorMove;
         await floorMove.MoveToCurrentFloor();
 

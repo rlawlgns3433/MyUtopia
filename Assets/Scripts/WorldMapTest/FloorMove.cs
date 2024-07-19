@@ -76,7 +76,7 @@ public class FloorMove : MonoBehaviour
     {
         var distance = FloorManager.Instance.CurrentFloorIndex - 1;
         distance *= moveDistance;
-        var movePosition = new Vector3(0, defaultPosition.y + distance, defaultPosition.z);
+        var movePosition = new Vector3(0, defaultPosition.y - distance, defaultPosition.z);
         upCount = FloorManager.Instance.CurrentFloorIndex;
         await vc.transform.DOMove(movePosition, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
         targetPosition = vc.transform.position;
