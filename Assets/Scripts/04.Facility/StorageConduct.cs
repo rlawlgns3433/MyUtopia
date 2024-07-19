@@ -80,6 +80,7 @@ public class StorageConduct : Storage
 
     private StorageValue storageValue;
     private bool isAddQuitEvent = false;
+    private BigNumber workLoadValue;
     private void Awake()
     {
         clickEvent += OpenStorage;
@@ -164,7 +165,7 @@ public class StorageConduct : Storage
                 currentValue.value = Mathf.Clamp01((float)currentTotalSeconds / maxSeconds);
                 await UniTask.WaitUntil(() => currentValue.gameObject.activeSelf);
                 storageValue.TotalValue = currentTotalSeconds;
-                if (storageValue.TotalValue <= 0 || CurrWorkLoad == 0)
+                if (storageValue.TotalValue <= 0 || workLoadValue == 0)
                 {
                     currentValue.gameObject.SetActive(false);
                 }
@@ -184,7 +185,7 @@ public class StorageConduct : Storage
         for (int i = 0; i < buildings.Length; i++)
         {
             var workRequire = buildings[i].BuildingStat.Work_Require;
-            values[i] = CurrWorkLoad / workRequire;
+            values[i] = workLoadValue / workRequire;
             var tempValue = values[i] * offLineSeconds;
             CurrArray[i] += tempValue;
             Debug.Log($"Building {i}: workRequire = {workRequire}, values[i] = {values[i]}, tempValue = {tempValue}");
@@ -207,11 +208,11 @@ public class StorageConduct : Storage
             StorageData data = JsonConvert.DeserializeObject<StorageData>(json, new WorkLoadConverter());
             if (data.CurrentWorkLoad.IsZero)
             {
-                CurrWorkLoad = BigNumber.Zero;
+                workLoadValue = BigNumber.Zero;
             }
             else
             {
-                CurrWorkLoad = data.CurrentWorkLoad;
+                workLoadValue = data.CurrentWorkLoad;
             }
             if (data.CurrArray.Length != 0)
             {
@@ -281,9 +282,9 @@ public class StorageConduct : Storage
     private void SaveData()
     {
         Debug.Log("Saving data...");
-        if (CurrWorkLoad == 0)
+        if (CurrWorkLoad == 0 || CurrWorkLoad == default)
         {
-            CurrWorkLoad = BigNumber.Zero;
+            CurrWorkLoad = new BigNumber(0);
         }
         if (CurrArray == null)
         {
