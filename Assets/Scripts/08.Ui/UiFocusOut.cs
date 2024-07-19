@@ -20,7 +20,7 @@ public class UiFocusOut : MonoBehaviour, IPointerClickHandler
         vc.Follow = null;
         vc.LookAt = null;
     }
-    private void FocusOut()
+    private async void FocusOut()
     {
         if (transposer == null)
         {
@@ -32,6 +32,11 @@ public class UiFocusOut : MonoBehaviour, IPointerClickHandler
         var movePosition = new Vector3(0, defaultPosition.y - currentFloorIndex * offSet, -15);
         vc.transform.position = movePosition;
         vc.transform.rotation = Quaternion.Euler(focusOutRotation);
+
+
+        var floorMove = FloorManager.Instance.FloorMove;
+        await floorMove.MoveToCurrentFloor();
+
     }
 
     public void OnPointerClick(PointerEventData eventData)

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 
 // GameManger로 이동 필요
 public class FloorManager : Singleton<FloorManager>
@@ -17,6 +17,20 @@ public class FloorManager : Singleton<FloorManager>
             currentFloorIndex = value;
         }
     }
+    private FloorMove floorMove;
+    public FloorMove FloorMove
+    {
+        get
+        {
+            if(floorMove == null)
+            {
+                floorMove = GameObject.FindWithTag(Tags.Floors).GetComponent<FloorMove>();
+            }
+
+            return floorMove;
+        }
+    }
+
     public void AddFloor(string floorId, Floor floor)
     {
         if (floors.ContainsKey(floorId))
@@ -55,6 +69,7 @@ public class FloorManager : Singleton<FloorManager>
     public void SetFloor(string floorId)
     {
         CurrentFloorIndex = int.Parse(floorId[1].ToString());
+        FloorMove.UpCount = CurrentFloorIndex;
     }
 
     public Floor GetCurrentFloor()
