@@ -31,11 +31,13 @@ public class AnimalManager : Subject
         if (animalClick == null)
             return;
         Debug.Log($"moveTest{animalClick.AnimalWork.Animal.animalStat.Animal_ID}");
-        FloorManager.Instance.MoveAnimal(fromFloor, toFloor, animalClick.AnimalWork.Animal);
-        animalClick.gameObject.SetActive(false);
-        animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
-        animalClick.gameObject.transform.localPosition = Vector3.zero;
-        animalClick.gameObject.SetActive(true);
+        if(FloorManager.Instance.MoveAnimal(fromFloor, toFloor, animalClick.AnimalWork.Animal))
+        {
+            animalClick.gameObject.SetActive(false);
+            animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
+            animalClick.gameObject.transform.localPosition = Vector3.zero;
+            animalClick.gameObject.SetActive(true);
+        }
     }
 
     public void MoveAnimal(string toFloor)
@@ -45,11 +47,13 @@ public class AnimalManager : Subject
         if (animalClick == null)
             return;
         Debug.Log($"moveTest{animalClick.AnimalWork.Animal.animalStat.Animal_ID}");
-        FloorManager.Instance.MoveAnimal(animalClick.AnimalWork.Animal.animalStat.CurrentFloor, toFloor, animalClick.AnimalWork.Animal);
-        animalClick.gameObject.SetActive(false);
-        animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
-        animalClick.gameObject.transform.localPosition = Vector3.zero;
-        animalClick.gameObject.SetActive(true);
+        if(FloorManager.Instance.MoveAnimal(animalClick.AnimalWork.Animal.animalStat.CurrentFloor, toFloor, animalClick.AnimalWork.Animal))
+        {
+            animalClick.gameObject.SetActive(false);
+            animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
+            animalClick.gameObject.transform.localPosition = Vector3.zero;
+            animalClick.gameObject.SetActive(true);
+        }
     }
 
     public void LevelUpAnimal()

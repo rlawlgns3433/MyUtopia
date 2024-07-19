@@ -25,18 +25,24 @@ public class FloorManager : Singleton<FloorManager>
         floors[floorId] = floor;
     }
 
-    public void MoveAnimal(string fromFloor, string toFloor, Animal animal)
+    public bool MoveAnimal(string fromFloor, string toFloor, Animal animal)
     {
         if (!floors.ContainsKey(fromFloor))
-            return;
+            return false;
 
         if (!floors.ContainsKey(toFloor))
-            return;
+            return false;
+
+        var currentFloor = GetCurrentFloor();
+        if (currentFloor.animals.Count >= currentFloor.FloorStat.Max_Population)
+            return false;
+
         animal.animalWork.Animal.animalStat.CurrentFloor = toFloor;
         floors[toFloor].animals.Add(animal);
         animal.animalWork.MoveFloor();
         floors[fromFloor].animals.Remove(animal);
         UiManager.Instance.animalFocusUi.Set();
+        return true;
     }
 
     public Floor GetFloor(string floorId)
