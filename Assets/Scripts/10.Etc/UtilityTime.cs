@@ -2,7 +2,6 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -27,7 +26,6 @@ public class UtilityTime : MonoBehaviour
         GameObject obj = new GameObject("UtilityTime");
         DontDestroyOnLoad(obj);
         obj.AddComponent<UtilityTime>();
-        Application.wantsToQuit += OnApplicationWantsToQuit;
     }
 
     private async void Start()
@@ -38,25 +36,22 @@ public class UtilityTime : MonoBehaviour
         await SaveEnterTime();
     }
 
-    private static bool OnApplicationWantsToQuit()
+    private void OnApplicationPause(bool pauseStatus)
     {
-        Debug.Log("OnApplicationWantsToQuit called.");
-        HandleQuit();
-        return true;
+        if (pauseStatus)
+        {
+            Debug.Log("Application paused. Saving data...");
+            SaveQuitTimeSync();
+        }
     }
 
-    private static void HandleQuit()
+    private void OnApplicationQuit()
     {
-        Debug.Log("HandleQuit called.");
-        SaveQuitTime();
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        Debug.Log("Application quitting. Saving data...");
+        SaveQuitTimeSync();
     }
 
-    private static async Task<string> GetServerTimeAsync()
+    private static async UniTask<string> GetServerTimeAsync()
     {
         using (UnityWebRequest req = UnityWebRequest.Get("http://google.com"))
         {
@@ -94,30 +89,42 @@ public class UtilityTime : MonoBehaviour
         return DateTime.Now;
     }
 
-    private static async Task SaveEnterTime()
+    private static async UniTask SaveEnterTime()
     {
         string enterTimeString = await GetServerTimeAsync();
         Debug.Log($"Enter time: {enterTimeString}");
         previousTimeData.EnterTime = enterTimeString;
-        SaveTimeData(previousTimeData);
+        await SaveTimeDataAsync(previousTimeData);
 
-        TimeData timeData = LoadTimeData();
+        TimeData timeData = await LoadTimeDataAsync();
         Debug.Log($"Loaded Enter time after save: {timeData.EnterTime}");
     }
 
-    private static void SaveQuitTime()
+    private static async UniTask SaveQuitTime()
     {
         Debug.Log("SaveQuitTime called.");
         float quitTimeFloat = Time.time;
         Debug.Log($"Quit time (Time.time): {quitTimeFloat}");
         previousTimeData.QuitTime = quitTimeFloat;
-        SaveTimeData(previousTimeData);
+        await SaveTimeDataAsync(previousTimeData);
 
-        TimeData timeData = LoadTimeData();
+        TimeData timeData = await LoadTimeDataAsync();
         Debug.Log($"Loaded Quit time after save: {timeData.QuitTime}");
     }
 
-    private static async Task CalculateElapsedTime()
+    private static void SaveQuitTimeSync()
+    {
+        Debug.Log("SaveQuitTimeSync called.");
+        float quitTimeFloat = Time.time;
+        Debug.Log($"Quit time (Time.time): {quitTimeFloat}");
+        previousTimeData.QuitTime = quitTimeFloat;
+        SaveTimeDataSync(previousTimeData);
+
+        TimeData timeData = LoadTimeDataSync();
+        Debug.Log($"Loaded Quit time after save: {timeData.QuitTime}");
+    }
+
+    private static async UniTask CalculateElapsedTime()
     {
         if (!string.IsNullOrEmpty(previousTimeData.EnterTime) && previousTimeData.QuitTime > 0)
         {
@@ -139,41 +146,112 @@ public class UtilityTime : MonoBehaviour
         }
     }
 
-    private static async Task LoadPreviousTimeData()
+    private static async UniTask LoadPreviousTimeData()
     {
-        previousTimeData = LoadTimeData();
+        Debug.Log("Loading previous time data...");
+        previousTimeData = await LoadTimeDataAsync();
         if (previousTimeData == null)
         {
             previousTimeData = new TimeData();
         }
+        Debug.Log($"Loaded previous time data: {JsonConvert.SerializeObject(previousTimeData)}");
     }
 
-    private static TimeData LoadTimeData()
+    private static async UniTask<TimeData> LoadTimeDataAsync()
     {
         if (File.Exists(filePath))
         {
-            using (var sr = new StreamReader(filePath))
-            using (var jr = new JsonTextReader(sr))
+            try
             {
-                var deserializer = new JsonSerializer();
-                deserializer.TypeNameHandling = TypeNameHandling.All;
-                return deserializer.Deserialize<TimeData>(jr);
+                using (var sr = new StreamReader(filePath))
+                using (var jr = new JsonTextReader(sr))
+                {
+                    var deserializer = new JsonSerializer();
+                    deserializer.TypeNameHandling = TypeNameHandling.All;
+                    Debug.Log("Deserializing time data from file...");
+                    TimeData data = await UniTask.RunOnThreadPool(() => deserializer.Deserialize<TimeData>(jr));
+                    Debug.Log($"Deserialized time data: {JsonConvert.SerializeObject(data)}");
+                    return data;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error reading file: {e.Message}");
             }
         }
+        Debug.Log("No existing time data file found.");
         return new TimeData();
     }
 
-    private static void SaveTimeData(TimeData timeData)
+    private static void SaveTimeDataSync(TimeData timeData)
     {
-        using (var sw = new StreamWriter(filePath))
-        using (var jw = new JsonTextWriter(sw))
+        Debug.Log($"Saving time data: {JsonConvert.SerializeObject(timeData)}");
+        try
         {
-            var serializer = new JsonSerializer
+            using (var sw = new StreamWriter(filePath))
+            using (var jw = new JsonTextWriter(sw))
             {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.All
-            };
-            serializer.Serialize(jw, timeData);
+                var serializer = new JsonSerializer
+                {
+                    Formatting = Formatting.Indented,
+                    TypeNameHandling = TypeNameHandling.All
+                };
+                serializer.Serialize(jw, timeData);
+            }
+            Debug.Log("Time data saved successfully.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error writing file: {e.Message}");
+        }
+    }
+
+    private static TimeData LoadTimeDataSync()
+    {
+        if (File.Exists(filePath))
+        {
+            try
+            {
+                using (var sr = new StreamReader(filePath))
+                using (var jr = new JsonTextReader(sr))
+                {
+                    var deserializer = new JsonSerializer();
+                    deserializer.TypeNameHandling = TypeNameHandling.All;
+                    Debug.Log("Deserializing time data from file...");
+                    TimeData data = deserializer.Deserialize<TimeData>(jr);
+                    Debug.Log($"Deserialized time data: {JsonConvert.SerializeObject(data)}");
+                    return data;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error reading file: {e.Message}");
+            }
+        }
+        Debug.Log("No existing time data file found.");
+        return new TimeData();
+    }
+
+    private static async UniTask SaveTimeDataAsync(TimeData timeData)
+    {
+        Debug.Log($"Saving time data: {JsonConvert.SerializeObject(timeData)}");
+        try
+        {
+            using (var sw = new StreamWriter(filePath))
+            using (var jw = new JsonTextWriter(sw))
+            {
+                var serializer = new JsonSerializer
+                {
+                    Formatting = Formatting.Indented,
+                    TypeNameHandling = TypeNameHandling.All
+                };
+                await UniTask.RunOnThreadPool(() => serializer.Serialize(jw, timeData));
+            }
+            Debug.Log("Time data saved successfully.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error writing file: {e.Message}");
         }
     }
 }
