@@ -95,87 +95,62 @@ public class StorageConduct : Storage
 
     private async void Start()
     {
-        Debug.Log("Start method entered");
-        try
+
+        await UniWaitFurnitureTable();
+        MaxSeconds = FurnitureStat.Effect_Value;
+        await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
+        buildings = new Building[currencyTypes.Count];
+        CurrArray = new BigNumber[currencyTypes.Count];
+        values = new BigNumber[currencyTypes.Count];
+
+        LoadDataOnStart();
+
+        if (MaxSeconds == 0)
         {
-            await UniWaitFurnitureTable();
-            Debug.Log("furnitureStat.Effect_Value > 0");
-            MaxSeconds = FurnitureStat.Effect_Value;
-            Debug.Log($"MaxSeconds set to {MaxSeconds}");
-            Debug.Log($"{FurnitureStat.Effect_Type}/{FurnitureStat.Effect_Value}");
-            await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
-            Debug.Log("UtilityTime.Seconds > 0");
+            return;
+        }
 
-            buildings = new Building[currencyTypes.Count];
-            Debug.Log("Buildings array initialized");
-
-            CurrArray = new BigNumber[currencyTypes.Count];
-            Debug.Log("CurrArray initialized");
-
-            values = new BigNumber[currencyTypes.Count];
-            Debug.Log("Values array initialized");
-
-            LoadDataOnStart();
-            Debug.Log("Data loaded on start");
-
-            if (MaxSeconds == 0)
+        currentTotalSeconds += UtilityTime.Seconds;
+        if (maxSeconds > currentTotalSeconds)
+        {
+            offLineSeconds = UtilityTime.Seconds / 3;
+        }
+        else
+        {
+            var overSeconds = currentTotalSeconds - maxSeconds;
+            var overTime = UtilityTime.Seconds - overSeconds;
+            offLineSeconds = overTime / 3;
+            if (offLineSeconds <= 0)
             {
-                Debug.LogError("MaxSeconds is 0, which is invalid.");
+                offLineSeconds = 0;
+            }
+            currentTotalSeconds = maxSeconds;
+        }
+
+        await CheckStorage();
+
+        if (currentTotalSeconds > 0)
+        {
+            if (currentValue == null)
+            {
                 return;
             }
+            currentValue.gameObject.SetActive(true);
 
-            Debug.Log($"UtilityTime.Seconds: {UtilityTime.Seconds}");
-            currentTotalSeconds += UtilityTime.Seconds;
-
-            if (maxSeconds > currentTotalSeconds)
+            storageValue = currentValue.GetComponent<StorageValue>();
+            if (storageValue == null)
             {
-                offLineSeconds = UtilityTime.Seconds / 3;
+                return;
             }
-            else
+            currentValue.value = Mathf.Clamp01((float)currentTotalSeconds / maxSeconds);
+            await UniTask.WaitUntil(() => currentValue.gameObject.activeSelf);
+            storageValue.TotalValue = currentTotalSeconds;
+            if (storageValue.TotalValue <= 0 || workLoadValue == 0)
             {
-                var overSeconds = currentTotalSeconds - maxSeconds;
-                var overTime = UtilityTime.Seconds - overSeconds;
-                offLineSeconds = overTime / 3;
-                if (offLineSeconds <= 0)
-                {
-                    offLineSeconds = 0;
-                }
-                currentTotalSeconds = maxSeconds;
+                currentValue.gameObject.SetActive(false);
             }
-            Debug.Log($"offLineSeconds: {offLineSeconds}, UtilityTime.Seconds: {UtilityTime.Seconds}, currentTotalSeconds: {currentTotalSeconds}");
-
-            await CheckStorage();
-            Debug.Log("CheckStorage completed");
-
-            if (currentTotalSeconds > 0)
-            {
-                if (currentValue == null)
-                {
-                    Debug.LogError("currentValue is null");
-                    return;
-                }
-                currentValue.gameObject.SetActive(true);
-
-                storageValue = currentValue.GetComponent<StorageValue>();
-                if (storageValue == null)
-                {
-                    Debug.LogError("StorageValue component not found");
-                    return;
-                }
-                currentValue.value = Mathf.Clamp01((float)currentTotalSeconds / maxSeconds);
-                await UniTask.WaitUntil(() => currentValue.gameObject.activeSelf);
-                storageValue.TotalValue = currentTotalSeconds;
-                if (storageValue.TotalValue <= 0 || workLoadValue == 0)
-                {
-                    currentValue.gameObject.SetActive(false);
-                }
-            }
-            Debug.Log($"StorageChildTest: {storageValue?.TotalValue}");
         }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Exception in Start: {ex.Message}\n{ex.StackTrace}");
-        }
+
     }
 
     public async UniTask CheckStorage()

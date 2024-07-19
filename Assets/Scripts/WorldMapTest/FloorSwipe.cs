@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 
-public enum Dirs
+public enum Dirss
 {
     None,
     Up,
@@ -13,7 +13,7 @@ public class FloorSwipe : MonoBehaviour
 {
     public InputActionAsset inputActions;
     public bool Tap { get; set; }
-    public Dirs Swipe { get; set; }
+    public Dirss Swipe { get; set; }
 
     private bool isTouching = false;
     private float timeTap = 0.25f;
@@ -46,7 +46,7 @@ public class FloorSwipe : MonoBehaviour
         touchPositionAction.Enable();
         Tap = false;
         isTouching = false;
-        Swipe = Dirs.None;
+        Swipe = Dirss.None;
         primaryStartTime = 0f;
         primaryStartPos = Vector2.zero;
     }
@@ -89,7 +89,7 @@ public class FloorSwipe : MonoBehaviour
             {
                 if (Mathf.Abs(diff.x) < Mathf.Abs(diff.y))
                 {
-                    Swipe = diff.y > 0 ? Dirs.Up : Dirs.Down;
+                    Swipe = diff.y > 0 ? Dirss.Up : Dirss.Down;
                     Debug.Log($"Swipe detected: {Swipe}");
                 }
             }
@@ -101,7 +101,7 @@ public class FloorSwipe : MonoBehaviour
 
             await UniTask.Delay(100);
             Tap = false;
-            Swipe = Dirs.None;
+            Swipe = Dirss.None;
             Debug.Log("Reset Tap and Swipe");
         }
     }

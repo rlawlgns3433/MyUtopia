@@ -4,9 +4,9 @@ using UnityEngine.EventSystems;
 
 public class UiFocusOut : MonoBehaviour, IPointerClickHandler
 {
-    private Vector3 focusOutPosition = new Vector3(0, 15, -15);
+    private Vector3 defaultPosition = new Vector3(0, 15, -15);
     private Vector3 focusOutRotation = new Vector3(40, 0, 0);
-
+    private int offSet = 10;
     public CinemachineVirtualCamera vc;
     private CinemachineTransposer transposer;
 
@@ -28,7 +28,9 @@ public class UiFocusOut : MonoBehaviour, IPointerClickHandler
         }
 
         transposer.m_FollowOffset = new Vector3(0, 3, -2);
-        vc.transform.position = focusOutPosition;
+        var currentFloorIndex = FloorManager.Instance.CurrentFloorIndex - 1;
+        var movePosition = new Vector3(0, defaultPosition.y - currentFloorIndex * offSet, -15);
+        vc.transform.position = movePosition;
         vc.transform.rotation = Quaternion.Euler(focusOutRotation);
     }
 
