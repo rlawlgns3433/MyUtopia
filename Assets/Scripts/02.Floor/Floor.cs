@@ -122,6 +122,7 @@ public class Floor : Subject, IGrowable
         {
             if (floorStat.Unlock_Facility == building.BuildingStat.Building_ID)
             {
+                building.gameObject.SetActive(true);
                 building.isLock = false;
             }
         }

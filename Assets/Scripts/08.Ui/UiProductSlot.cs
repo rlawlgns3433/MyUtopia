@@ -9,6 +9,11 @@ public class UiProductSlot : MonoBehaviour
     public ItemStat itemStat;
     public Button buttonSale;
 
+    public void Awake()
+    {
+        buttonSale.onClick.AddListener(OnClickSale);
+    }
+
     public async void SetData(ItemStat itemStat)
     {
         if (itemStat == null)
@@ -17,7 +22,6 @@ public class UiProductSlot : MonoBehaviour
         this.itemStat = itemStat;
         imagePortrait.sprite = await itemStat.ItemData.GetImage();
         textProductName.text = itemStat.ItemData.GetName();
-        buttonSale.onClick.AddListener(OnClickSale);
     }
 
     public void ClearData()
