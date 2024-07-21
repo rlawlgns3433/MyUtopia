@@ -99,6 +99,12 @@ public class UiAnimalInventory : Observer
         uiAnimalSlots = new List<UiAnimalSlot>();
         for (int j = 0; j < animals.Count; ++j)
         {
+            if (animals[j].animalWork == null)
+            {
+                animals.Remove(animals[j]);
+                continue;
+            }
+
             if (animals[j].animalWork.gameObject.GetComponent<AnimalClick>() == null)
                 continue;
 

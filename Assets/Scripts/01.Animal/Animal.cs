@@ -34,26 +34,113 @@ public class Animal : IGrowable, IMovable
 
         if (animalClick == null)
             return;
-        var animals = FloorManager.Instance.GetFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor).animals;
 
         if (animalStat.Level == animalStat.Level_Max)
         {
-            if (animals.Count == 1)
-                return;
-            foreach(var a in animals)
+            // 머지 규칙 적용 
+            /*
+             1. B1에 위치한 머지 후보 동물이 있다면
+                1-1. 후보가 둘 이상이라면
+                    스테미나가 낮은 동물을 선택
+                1-2. 후보가 하나라면
+                    그 동물을 선택
+             2. B2 ~ B5에 있는 후보 동물 중 스테미나가 가장 낮은 동물을 선택 
+                2-1. 스테미나가 낮은 동물이 둘 이상이라면
+                    같은 층에 있는 동물 선택
+                2-2. 스테미나가 낮은 동물이 하나라면
+                    그 동물을 선택
+             */
+
+            AnimalWork target = null;
+            #region Rule1
+            var firstFloorAnimals = FloorManager.Instance.GetFloor("B1").animals;
+
+            foreach(var animal in firstFloorAnimals)
             {
-                if (animalWork.Equals(a.animalWork))
+                if(animal.animalWork.GetInstanceID() == animalWork.GetInstanceID())
                     continue;
-                if(a.animalStat.Level == a.animalStat.Level_Max)
+
+                if(animal.animalWork.Animal.animalStat.Animal_ID == animalWork.Animal.animalStat.Animal_ID)
                 {
-                    if (!animalWork.Merge(a.animalWork))
-                        continue;
+                    if(target == null)
+                    {
+                        target = animal.animalWork;
+                    }
                     else
-                        return;
+                    {
+                        target = animal.animalWork.Animal.animalStat.Stamina < target.Animal.animalStat.Stamina ? animal.animalWork : target;
+                    }
                 }
             }
+
+            if(target != null)
+            {
+                if(animalWork.Merge(target))
+                    return;
+            }
+            #endregion
+
+            #region Rule2
+
+            foreach(var floor in FloorManager.Instance.floors)
+            {
+                if(floor.Key == "B1")
+                    continue;
+
+                foreach(var animal in floor.Value.animals)
+                {
+                    if(target == null)
+                    {
+                        target = animal.animalWork;
+                    }
+                    else
+                    {
+                        if(animal.animalWork.Animal.animalStat.Stamina < target.Animal.animalStat.Stamina)
+                        {
+                            target = animal.animalWork;
+                        }
+                        else if(animal.animalWork.Animal.animalStat.Stamina == target.Animal.animalStat.Stamina)
+                        {
+                            if(animal.animalWork.Animal.animalStat.CurrentFloor == target.Animal.animalStat.CurrentFloor)
+                            {
+                                target = animal.animalWork;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(target != null)
+            {
+                if (animalWork.Merge(target))
+                    return;
+            }
+
+            #endregion
+
+            //if (firstFloorAnimals.Count == 0)
+            //    return;
+            //foreach(var a in animals)
+            //{
+            //    if (animalWork.Equals(a.animalWork))
+            //        continue;
+            //    if(a.animalStat.Level == a.animalStat.Level_Max)
+            //    {
+            //        if (!animalWork.Merge(a.animalWork))
+            //            continue;
+            //        else
+            //            return;
+            //    }
+            //}
+            //return;
+
+            Debug.LogError("Merge Fail");
+
             return;
         }
+
+        var animals = FloorManager.Instance.GetFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor).animals;
+
         BigNumber lvCoin = new BigNumber(animalStat.Level_Up_Coin_Value);
         if (CurrencyManager.currency[CurrencyType.Coin] < lvCoin) // 임시 코드
             return;

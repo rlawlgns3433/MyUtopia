@@ -18,6 +18,8 @@ public class UiCurrencies : MonoBehaviour
             maximumCount += floor.Value.FloorStat.Max_Population;
             foreach (var animal in floor.Value.animals)
             {
+                if (animal.animalWork == null)
+                    continue;
                 currentAnimalCount++;
             }
         }
