@@ -39,26 +39,12 @@ public class AnimalStat
     public string Prefab { get; set; }
     public string Profile { get; set; }
     public string CurrentFloor { get; set; }
-    public int InstanceId { get; set; }
 
     public AnimalStat() { }
     
-    public AnimalStat(int animalId) 
+    public AnimalStat(int aniamlId) 
     {
-        this.AnimalData = DataTableMgr.GetAnimalTable().Get(animalId);
-    }
-
-    public AnimalStat(int animalId, int instanceId)
-    {
-        this.AnimalData = DataTableMgr.GetAnimalTable().Get(animalId);
-        InstanceId = instanceId;
-    }
-
-    public AnimalStat(int animalId, string currentFloor, int instanceId)
-    {
-        this.AnimalData = DataTableMgr.GetAnimalTable().Get(animalId);
-        CurrentFloor = currentFloor;
-        InstanceId = instanceId;
+        this.AnimalData = DataTableMgr.GetAnimalTable().Get(aniamlId);
     }
 }
 

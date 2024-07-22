@@ -108,7 +108,6 @@ public class AnimalManager : Subject
             {
                 var animalWork = handle.Result.GetComponent<AnimalWork>();
                 animalWork.Animal = new Animal(animalWork.animalId);
-                animalWork.Animal.animalStat.InstanceId = animalWork.GetInstanceID();
                 animalWork.Animal.animalStat.CurrentFloor = floor.floorName;
                 Debug.Log($"{animalWork.Animal.animalStat.CurrentFloor}/{floor.floorName}");
                 animalWork.Animal.animalWork = animalWork;

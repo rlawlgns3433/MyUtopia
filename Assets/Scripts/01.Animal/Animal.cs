@@ -118,6 +118,22 @@ public class Animal : IGrowable, IMovable
 
             #endregion
 
+            //if (firstFloorAnimals.Count == 0)
+            //    return;
+            //foreach(var a in animals)
+            //{
+            //    if (animalWork.Equals(a.animalWork))
+            //        continue;
+            //    if(a.animalStat.Level == a.animalStat.Level_Max)
+            //    {
+            //        if (!animalWork.Merge(a.animalWork))
+            //            continue;
+            //        else
+            //            return;
+            //    }
+            //}
+            //return;
+
             Debug.LogError("Merge Fail");
 
             return;
@@ -129,7 +145,18 @@ public class Animal : IGrowable, IMovable
         if (CurrencyManager.currency[CurrencyType.Coin] < lvCoin) // 임시 코드
             return;
 
-        animalStat = new AnimalStat(animalStat.Animal_ID + 1, animalStat.CurrentFloor, animalWork.GetInstanceID());
+        animalStat.AnimalData = DataTableMgr.GetAnimalTable().Get(animalStat.Animal_ID + 1);
+
+        foreach(var a in animals)
+        {
+            if(a.animalWork.gameObject.GetInstanceID() == animalClick.gameObject.GetInstanceID())
+            {
+                CurrencyManager.currency[CurrencyType.Coin] -= lvCoin;
+                a.animalStat = animalStat;
+                
+                break;
+            }
+        }
     }
 
 

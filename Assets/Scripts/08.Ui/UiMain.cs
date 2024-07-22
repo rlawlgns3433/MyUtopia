@@ -17,6 +17,5 @@ public class UiMain : MonoBehaviour
     public void Refresh()
     {
         addSlot.GetComponent<Transform>().SetAsLastSibling();
-        animalInventoryUi.UpdateInventory(false);
     }
 }

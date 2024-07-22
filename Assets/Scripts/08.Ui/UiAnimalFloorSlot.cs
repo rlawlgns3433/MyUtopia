@@ -14,6 +14,7 @@ public class UiAnimalFloorSlot : Observer
             return;
         animalClick = animClick;
         animalData = animClick.AnimalWork.Animal.animalStat.AnimalData;
+        Debug.Log($"UiAnimalFloorSlot : {animClick.GetInstanceID()}");
 
         imagePortrait.sprite = await animalData.GetProfile();
 
