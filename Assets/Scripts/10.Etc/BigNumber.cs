@@ -79,6 +79,21 @@ public struct BigNumber
         }
     }
 
+    public string ToFullString()
+    {
+        if (bigNumber == null || bigNumber.Count == 0)
+            return "0";
+
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = bigNumber.Count - 1; i >= 0; --i)
+        {
+            sb.Append(bigNumber[i].ToString("D3"));
+        }
+
+        return sb.ToString();
+    }
+
     public override string ToString()
     {
         if (bigNumber == null || bigNumber.Count == 0)

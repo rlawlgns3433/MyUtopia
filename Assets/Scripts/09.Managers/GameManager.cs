@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -31,12 +32,56 @@ public class GameManager : Singleton<GameManager>
         CurrencyManager.Init();
     }
 
+    private void OnApplicationQuit()
+    {
+
+        var saveData = new SaveDataV1();
+        var saveCurrencyData = new SaveCurrencyDataV1();
+
+        for(int i = 0; i < FloorManager.Instance.floors.Count; ++i)
+        {
+            string format = $"B{i + 1}";
+            var floor = FloorManager.Instance.floors[format];
+            saveData.floors.Add(new FloorSaveData(floor));
+            foreach(var animal in floor.animals)
+            {
+                saveData.floors[saveData.floors.Count - 1].animalSaveDatas.Add(new AnimalSaveData(animal.animalStat));
+            }
+
+            foreach(var building in floor.buildings)
+            {
+                saveData.floors[saveData.floors.Count - 1].buildingSaveDatas.Add(new BuildingSaveData(building.BuildingStat));
+            }
+
+            if(floor.storage != null)
+                saveData.floors[saveData.floors.Count - 1].furnitureSaveDatas.Add(new FurnitureSaveData(floor.storage.FurnitureStat)); // Ã¢°í
+        }
+
+
+        SaveLoadSystem.Save(saveData);
+
+        for (int i = 0; i < CurrencyManager.currencyTypes.Length; ++i)
+        {
+            saveCurrencyData.currencySaveData.Add(new CurrencySaveData(CurrencyManager.currencyTypes[i], CurrencyManager.currency[CurrencyManager.currencyTypes[i]]));
+        }
+
+        SaveLoadSystem.Save(saveCurrencyData, 1);
+    }
+
     void Start()
     {
         //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
 
         CurrentSceneId = SceneIds.WorldLandOfHope;
+
+        //var saveData = SaveLoadSystem.Load();
+        SaveCurrencyDataV1 saveCurrencyData = SaveLoadSystem.Load(1) as SaveCurrencyDataV1;
+
+        for (int i = 0; i < CurrencyManager.currencyTypes.Length; ++i)
+        {
+            CurrencyManager.currency[CurrencyManager.currencyTypes[i]] = saveCurrencyData.currencySaveData[i].value;
+        }
     }
 
     public void RegisterSceneManager(SceneIds sceneName, SceneController sceneManager)
