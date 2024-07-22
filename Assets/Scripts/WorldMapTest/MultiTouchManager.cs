@@ -72,7 +72,6 @@ public class MultiTouchManager : MonoBehaviour
                         primayFinger = touch.finger;
                         primayStartTime = Time.time;
                         primayStartPos = touch.screenPosition;
-                        Debug.Log("Primary touch began at: " + primayStartPos);
                     }
                     break;
                 case TouchPhase.Moved:
@@ -98,14 +97,12 @@ public class MultiTouchManager : MonoBehaviour
                                 {
                                     Swipe = diff.y > 0 ? Dirs.Up : Dirs.Down;
                                 }
-                                Debug.Log("Swipe detected: " + Swipe);
                             }
                         }
 
                         if (duration < timeTap)
                         {
                             Tap = true;
-                            Debug.Log("Tap detected");
 
                             if (isFirstTap && Time.time - firstTapTime > timeDoubleTap)
                             {
@@ -120,7 +117,6 @@ public class MultiTouchManager : MonoBehaviour
                             else
                             {
                                 DoubleTap = Time.time - firstTapTime < timeDoubleTap;
-                                if (DoubleTap) Debug.Log("Double Tap detected");
                                 isFirstTap = false;
                             }
                         }
@@ -128,7 +124,6 @@ public class MultiTouchManager : MonoBehaviour
                         if (duration > timeLongTap)
                         {
                             LongTap = true;
-                            Debug.Log("Long Tap detected");
                         }
                     }
                     break;
