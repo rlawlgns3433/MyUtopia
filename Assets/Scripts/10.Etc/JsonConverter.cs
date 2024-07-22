@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using Unity.VisualScripting;
 
 public class QuitTimeConverter : JsonConverter<TimeData>
 {
@@ -63,60 +66,86 @@ public class WorkLoadConverter : JsonConverter<StorageData>
         writer.WriteEndObject();
     }
 }
-
-
-public class WorldConverter : JsonConverter<SaveDataV1>
+public class WorldConverter : JsonConverter<List<FloorSaveData>>
 {
-    public override SaveDataV1 ReadJson(JsonReader reader, Type objectType, SaveDataV1 existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override List<FloorSaveData> ReadJson(JsonReader reader, Type objectType, List<FloorSaveData> existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
-        SaveDataV1 saveDataV1 = new SaveDataV1();
+        while (!DataTableMgr.GetAnimalTable().IsLoaded) continue;
+        while (!DataTableMgr.GetFloorTable().IsLoaded) continue;
+        while (!DataTableMgr.GetBuildingTable().IsLoaded) continue;
+        while (!DataTableMgr.GetFurnitureTable().IsLoaded) continue;
 
-        saveDataV1.floors = new List<FloorSaveData>();
+        JObject jsonObject = JObject.Load(reader);
+        var floorsToken = jsonObject["floors"];
 
-        JObject jObj = JObject.Load(reader);
-
-        for (int i = 0; i < existingValue.floors.Count; ++i)
+        if (floorsToken == null)
         {
-            saveDataV1.floors[i].floor = jObj[$"B{i + 1}"].ToObject<Floor>(); // 각 계층
-
-            for (int j = 0; j < existingValue.floors[i].animalSaveDatas.Count; ++j)
-            {
-                saveDataV1.floors[i].animalSaveDatas[j].animalStat = jObj[$"B{i + 1}"]["Animal{j + 1}"].ToObject<AnimalStat>(); // 각 동물
-            }
-
-            for (int j = 0; j < existingValue.floors[i].buildingSaveDatas.Count; ++j)
-            {
-                saveDataV1.floors[i].buildingSaveDatas[j].buildingStat = jObj[$"B{i + 1}"]["Building{j + 1}"].ToObject<BuildingStat>(); // 각 건물
-            }
-
-            for (int j = 0; j < existingValue.floors[i].furnitureSaveDatas.Count; ++j)
-            {
-                saveDataV1.floors[i].furnitureSaveDatas[j].furnitureStat = jObj[$"B{i + 1}"]["Furniture{j + 1}"].ToObject<FurnitureStat>(); // 각 가구
-            }
+            return new List<FloorSaveData>();
         }
 
-        return saveDataV1;
+        List<FloorSaveData> floorSaveDataList = new List<FloorSaveData>();
+
+        foreach (var floor in floorsToken.Children<JProperty>())
+        {
+            var floorProperties = floor.Value;
+            FloorSaveData floorData = new FloorSaveData((int)floorProperties["Id"]);
+
+            var animals = floorProperties["Animals"];
+            foreach (var animal in animals)
+            {
+                AnimalSaveData animalSaveData;
+                var animalStat = new AnimalStat((int)animal["Id"]);
+                animalStat.Animal_ID = (int)animal["Id"];
+                animalStat.Stamina = (float)animal["Stamina"];
+                animalStat.CurrentFloor = $"B{floorData.floorStat.Floor_Num}";
+                animalSaveData = new AnimalSaveData(animalStat);
+
+                floorData.animalSaveDatas.Add(animalSaveData);
+            }
+
+            var buildings = floorProperties["Buildings"];
+            foreach (var building in buildings)
+            {
+                BuildingSaveData buildingData = new BuildingSaveData
+                {
+                    buildingStat = new BuildingStat
+                    (
+                        (int)building["Id"]
+                    )
+                };
+                floorData.buildingSaveDatas.Add(buildingData);
+            }
+            floorSaveDataList.Add(floorData);
+        }
+
+        return floorSaveDataList;
     }
 
-    public override void WriteJson(JsonWriter writer, SaveDataV1 value, JsonSerializer serializer)
+
+    public override void WriteJson(JsonWriter writer, List<FloorSaveData> value, JsonSerializer serializer)
     {
         writer.WriteStartObject();
+        writer.WritePropertyName("floors");
+        writer.WriteStartObject();
 
-        for (int i = 0; i < value.floors.Count; ++i)
+        for (int i = 0; i < value.Count; ++i)
         {
             writer.WritePropertyName($"B{i + 1}");
             writer.WriteStartObject();
 
+            writer.WritePropertyName("Id");
+            writer.WriteValue(value[i].floorStat.Floor_ID);
+
             // Write animal data
             writer.WritePropertyName("Animals");
             writer.WriteStartArray();
-            for (int j = 0; j < value.floors[i].animalSaveDatas.Count; ++j)
+            for (int j = 0; j < value[i].animalSaveDatas.Count; ++j)
             {
                 writer.WriteStartObject();
-                writer.WritePropertyName($"Animal{j + 1} Id");
-                writer.WriteValue(value.floors[i].animalSaveDatas[j].animalStat.Animal_ID);
-                writer.WritePropertyName($"Animal{j + 1} Stamina");
-                writer.WriteValue(value.floors[i].animalSaveDatas[j].animalStat.Stamina);
+                writer.WritePropertyName("Id");
+                writer.WriteValue(value[i].animalSaveDatas[j].animalStat.Animal_ID);
+                writer.WritePropertyName("Stamina");
+                writer.WriteValue(value[i].animalSaveDatas[j].animalStat.Stamina);
                 writer.WriteEndObject();
             }
             writer.WriteEndArray();
@@ -124,11 +153,11 @@ public class WorldConverter : JsonConverter<SaveDataV1>
             // Write building data
             writer.WritePropertyName("Buildings");
             writer.WriteStartArray();
-            for (int j = 0; j < value.floors[i].buildingSaveDatas.Count; ++j)
+            for (int j = 0; j < value[i].buildingSaveDatas.Count; ++j)
             {
                 writer.WriteStartObject();
-                writer.WritePropertyName($"Building{j + 1} Id");
-                writer.WriteValue(value.floors[i].buildingSaveDatas[j].buildingStat.Building_ID);
+                writer.WritePropertyName("Id");
+                writer.WriteValue(value[i].buildingSaveDatas[j].buildingStat.Building_ID);
                 writer.WriteEndObject();
             }
             writer.WriteEndArray();
@@ -136,6 +165,7 @@ public class WorldConverter : JsonConverter<SaveDataV1>
             writer.WriteEndObject();
         }
 
+        writer.WriteEndObject();
         writer.WriteEndObject();
     }
 }

@@ -32,6 +32,16 @@ public class Floor : Subject, IGrowable
     protected BigNumber autoWorkload;
     public string floorName;
 
+    public Floor() { }
+    public Floor(int floorId)
+    {
+        if(floorStat == null || floorStat.Floor_ID == 0)
+        {
+            floorStat = new FloorStat(floorId);
+        }
+    }
+
+
     public virtual async void OnEnable()
     {
         await UniWaitFloorTable();

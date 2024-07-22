@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public abstract class Subject : MonoBehaviour
 {
-    private readonly List<Observer> observers = new List<Observer>();
+    private List<Observer> observers = new List<Observer>();
 
     protected void Attach(Observer observer)
     {

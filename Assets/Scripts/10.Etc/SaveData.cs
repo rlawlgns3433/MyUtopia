@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -11,6 +12,7 @@ public abstract class SaveData
 public class AnimalSaveData
 {
     public AnimalStat animalStat;
+    public AnimalSaveData() { }
 
     public AnimalSaveData(AnimalStat animalStat)
     {
@@ -22,6 +24,7 @@ public class BuildingSaveData
 {
     public BuildingStat buildingStat;
 
+    public BuildingSaveData() { }
     public BuildingSaveData(BuildingStat buildingStat)
     {
         this.buildingStat = buildingStat;
@@ -40,14 +43,23 @@ public class FurnitureSaveData
 
 public class FloorSaveData
 {
-    public Floor floor;
+    public FloorStat floorStat;
     public List<AnimalSaveData> animalSaveDatas;
     public List<BuildingSaveData> buildingSaveDatas;
     public List<FurnitureSaveData> furnitureSaveDatas;
 
-    public FloorSaveData(Floor floor)
+    public FloorSaveData() { }
+
+    public FloorSaveData(int floorId) 
     {
-        this.floor = floor;
+        floorStat = new FloorStat(floorId);
+        animalSaveDatas = new List<AnimalSaveData>();
+        buildingSaveDatas = new List<BuildingSaveData>();
+        furnitureSaveDatas = new List<FurnitureSaveData>();
+    }
+    public FloorSaveData(FloorStat floorStat)
+    {
+        this.floorStat = floorStat;
         animalSaveDatas = new List<AnimalSaveData>();
         buildingSaveDatas = new List<BuildingSaveData>();
         furnitureSaveDatas = new List<FurnitureSaveData>();
@@ -59,10 +71,7 @@ public class CurrencySaveData
     public CurrencyType currencyType;
     public BigNumber value;
 
-    public CurrencySaveData()
-    {
-
-    }
+    public CurrencySaveData() { }
     public CurrencySaveData(CurrencyType key, BigNumber value)
     {
         currencyType = key;

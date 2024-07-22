@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ public class GameManager : Singleton<GameManager>
         {
             string format = $"B{i + 1}";
             var floor = FloorManager.Instance.floors[format];
-            saveData.floors.Add(new FloorSaveData(floor));
+            saveData.floors.Add(new FloorSaveData(floor.FloorStat));
             foreach(var animal in floor.animals)
             {
                 saveData.floors[saveData.floors.Count - 1].animalSaveDatas.Add(new AnimalSaveData(animal.animalStat));
@@ -68,14 +69,30 @@ public class GameManager : Singleton<GameManager>
         SaveLoadSystem.Save(saveCurrencyData, 1);
     }
 
-    void Start()
+    private async void Start()
     {
         //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
-
+        await UniWaitTables();
         CurrentSceneId = SceneIds.WorldLandOfHope;
 
-        //var saveData = SaveLoadSystem.Load();
+        SaveDataV1 saveWorldData = SaveLoadSystem.Load() as SaveDataV1;
+        // 데이터대로 동물, 건물, 가구 생성
+
+        for(int i = 0; i < saveWorldData.floors.Count; ++i)
+        {
+            var floorSaveData = saveWorldData.floors[i];
+            var animals = floorSaveData.animalSaveDatas;
+            var buildings = floorSaveData.buildingSaveDatas;
+
+            foreach(var animal in animals)
+            {
+                var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
+                GetAnimalManager().Create(floor.transform.position, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
+            }
+        }
+
+
         SaveCurrencyDataV1 saveCurrencyData = SaveLoadSystem.Load(1) as SaveCurrencyDataV1;
 
         for (int i = 0; i < CurrencyManager.currencyTypes.Length; ++i)
@@ -128,6 +145,36 @@ public class GameManager : Singleton<GameManager>
             return animalManager;
         }
         throw new Exception("AnimalManager is not in the current scene");
+    }
+
+    public async UniTask UniWaitTables()
+    {
+        while (!DataTableMgr.GetAnimalTable().IsLoaded)
+        {
+            await UniTask.Yield();
+        }
+        
+        while (!DataTableMgr.GetFloorTable().IsLoaded)
+        {
+            await UniTask.Yield();
+        }
+        
+        while (!DataTableMgr.GetBuildingTable().IsLoaded)
+        {
+            await UniTask.Yield();
+        }
+        
+        while (!DataTableMgr.GetFurnitureTable().IsLoaded)
+        {
+            await UniTask.Yield();
+        }
+        
+        while (!DataTableMgr.GetItemTable().IsLoaded)
+        {
+            await UniTask.Yield();
+        }
+
+        return;
     }
 }
 
