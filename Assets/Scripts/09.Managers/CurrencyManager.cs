@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public static class CurrencyManager
 {
-    private static CurrencyType[] currencyTypes =
+    public static CurrencyType[] currencyTypes =
     {
         CurrencyType.Diamond,
         CurrencyType.Coin,
