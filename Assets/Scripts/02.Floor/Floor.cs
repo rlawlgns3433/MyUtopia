@@ -25,6 +25,10 @@ public class Floor : Subject, IGrowable
         set
         {
             floorStat = value;
+            if (buildings.Count > 0)
+            {
+                Set();
+            }
         }
     }
     public Storage storage;
@@ -109,10 +113,6 @@ public class Floor : Subject, IGrowable
         }
 
         FloorStat = new FloorStat(floorStat.Floor_ID + 1);
-        if(buildings.Count > 0)
-        {
-            Set();
-        }
     }
 
     public virtual void RemoveAnimal(Animal animal)

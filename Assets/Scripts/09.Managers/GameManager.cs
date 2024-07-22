@@ -85,13 +85,19 @@ public class GameManager : Singleton<GameManager>
             var animals = floorSaveData.animalSaveDatas;
             var buildings = floorSaveData.buildingSaveDatas;
 
-            foreach(var animal in animals)
+            var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
+            floor.FloorStat = floorSaveData.floorStat;
+
+            foreach (var animal in animals)
             {
-                var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
                 GetAnimalManager().Create(floor.transform.position, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
             }
-        }
 
+            for(int j = 0; j < floor.buildings.Count; ++j)
+            {
+                floor.buildings[j].BuildingStat = buildings[j].buildingStat;
+            }
+        }
 
         SaveCurrencyDataV1 saveCurrencyData = SaveLoadSystem.Load(1) as SaveCurrencyDataV1;
 
