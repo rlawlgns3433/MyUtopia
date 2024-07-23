@@ -8,21 +8,21 @@ using Unity.VisualScripting;
 public class UiFloorInformation : MonoBehaviour
 {
     private static readonly string levelFormat = "{0} / {1}";
-    private static readonly string exchangeFormat = "{0} -> {1}";
 
     public UiBuildingInfo buildingInfoPrefab;
+    public UiFurnitureInfo furnitureInfoPrefab;
+    public Transform furnitureParent;
     public Transform buildingParent;
 
     public TextMeshProUGUI textFloorName;
-    public TextMeshProUGUI textFloorLevel;
     public TextMeshProUGUI textSynergyName;
     public TextMeshProUGUI textFacilityEffectName;
-    public List<UiBuildingInfo> uiBuildings;
-    public List<Image> imageProduction;
 
-    private int unlockBuildingCount = 0;
+    public UiFloorInfoBlock uiFloorInfoBlock;
+    public List<UiBuildingInfo> uiBuildings;
+    public List<UiFurnitureInfo> uiFurnitures;
+
     private ResourceTable resourceTable;
-    //public List<UiBuildingInfo> uiFacilities;
 
     public Floor currentFloor;
 
@@ -32,7 +32,7 @@ public class UiFloorInformation : MonoBehaviour
     {
         uiBuildings = new List<UiBuildingInfo>();
         resourceTable = DataTableMgr.GetResourceTable();
-        //uiFacilities = new List<UiBuildingInfo>();
+        uiFurnitures = new List<UiFurnitureInfo>();
     }
 
     public void SetFloorData()
@@ -66,16 +66,23 @@ public class UiFloorInformation : MonoBehaviour
             Destroy(uiBuilding.gameObject);
         }
         uiBuildings.Clear();
+
+        foreach(var uiFurniture in uiFurnitures)
+        {
+            Destroy(uiFurniture.gameObject);
+        }
+        uiFurnitures.Clear();
     }
 
     public void SetFloorUi()
     {
         textFloorName.text = floorStat.FloorData.GetFloorName();
-        textFloorLevel.text = string.Format(levelFormat, floorStat.Grade, floorStat.Grade_Max);
+
+        uiFloorInfoBlock.Set(currentFloor);
 
         foreach (var building in currentFloor.buildings)
         {
-            if(!building.isLock)
+            if(!building.BuildingStat.IsLock)
             {
                 if(ValidateBuildingData(building))
                 {
@@ -85,8 +92,23 @@ public class UiFloorInformation : MonoBehaviour
                     if (isSucceed)
                     {
                         uiBuildings.Add(uiBuildingInfo);
-                        //imageProduction[unlockBuildingCount++].sprite = resourceTable.Get(building.BuildingData.Resource_Type).GetImage();
                     }
+                }
+            }
+        }
+
+        // 여기서 건물과 같이 시설물 추가
+
+        foreach (var furniture in currentFloor.furnitures)
+        {
+            if(ValidateFurnitureData(furniture))
+            {
+                UiFurnitureInfo uiFurnitureInfo = Instantiate(furnitureInfoPrefab, furnitureParent);
+                bool isSucceed = uiFurnitureInfo.Set(furniture);
+
+                if (isSucceed)
+                {
+                    uiFurnitures.Add(uiFurnitureInfo);
                 }
             }
         }
@@ -97,6 +119,16 @@ public class UiFloorInformation : MonoBehaviour
         foreach (var uiBuilding in uiBuildings)
         {
             if (uiBuilding.building.BuildingStat.BuildingData.GetName().Equals(newBuilding.BuildingStat.BuildingData.GetName()))
+                return false;
+        }
+        return true;
+    }
+
+    public bool ValidateFurnitureData(Furniture newFurniture)
+    {
+        foreach (var uiFurniture in uiFurnitures)
+        {
+            if (uiFurniture.furniture.FurnitureStat.FurnitureData.GetName().Equals(newFurniture.FurnitureStat.FurnitureData.GetName()))
                 return false;
         }
         return true;

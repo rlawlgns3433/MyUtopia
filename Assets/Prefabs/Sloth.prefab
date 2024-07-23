@@ -386,7 +386,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
 --- !u!114 &871560290842323989
 MonoBehaviour:
@@ -400,6 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2202eab06883c6442be4f7a21b528565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floorMoveGo: {fileID: 0}
   animalWork: {fileID: 5603049845815571040}
   isClicked: 0
   duration: 0

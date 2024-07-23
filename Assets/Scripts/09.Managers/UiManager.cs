@@ -14,6 +14,7 @@ public class UiManager : Singleton<UiManager>
     public FloorMove floorMove;
     public StorageValueUi b4StorageValueUi;
     public StorageValueUi b5StorageValueUi;
+    public UiInvitation uiInvitation;
 
     public bool isAnimalList = false;
     public bool isAnimalMove = false;
@@ -54,6 +55,7 @@ public class UiManager : Singleton<UiManager>
         FloorManager.Instance.multiTouchOff = true;
         b4StorageValueUi.gameObject.SetActive(false);
         b5StorageValueUi.gameObject.SetActive(false);
+        uiInvitation.gameObject.SetActive(false);
     }
 
     public void ShowMainUi()
@@ -69,6 +71,7 @@ public class UiManager : Singleton<UiManager>
         FloorManager.Instance.multiTouchOff = false;
         b4StorageValueUi.gameObject.SetActive(false);
         b5StorageValueUi.gameObject.SetActive(false);
+        uiInvitation.gameObject.SetActive(false);
         OffAnimalList();
     }
 
@@ -85,6 +88,7 @@ public class UiManager : Singleton<UiManager>
         FloorManager.Instance.multiTouchOff = true;
         b4StorageValueUi.gameObject.SetActive(false);
         b5StorageValueUi.gameObject.SetActive(false);
+        uiInvitation.gameObject.SetActive(false);
     }
 
     public void ShowSellUi()
@@ -100,6 +104,7 @@ public class UiManager : Singleton<UiManager>
         FloorManager.Instance.multiTouchOff = true;
         b4StorageValueUi.gameObject.SetActive(false);
         b5StorageValueUi.gameObject.SetActive(false);
+        uiInvitation.gameObject.SetActive(false);
     }
 
     public void ShowFloorInformationUi()
@@ -115,6 +120,7 @@ public class UiManager : Singleton<UiManager>
         FloorManager.Instance.multiTouchOff = true;
         b4StorageValueUi.gameObject.SetActive(false);
         b5StorageValueUi.gameObject.SetActive(false);
+        uiInvitation.gameObject.SetActive(false);
     }
 
     public void ShowAnimalListUi()
@@ -130,6 +136,7 @@ public class UiManager : Singleton<UiManager>
         FloorManager.Instance.multiTouchOff = true;
         b4StorageValueUi.gameObject.SetActive(false);
         b5StorageValueUi.gameObject.SetActive(false);
+        uiInvitation.gameObject.SetActive(false);
     }
 
     public void ShowProductsUi()
@@ -145,6 +152,7 @@ public class UiManager : Singleton<UiManager>
         FloorManager.Instance.multiTouchOff = true;
         b4StorageValueUi.gameObject.SetActive(false);
         b5StorageValueUi.gameObject.SetActive(false);
+        uiInvitation.gameObject.SetActive(false);
     }
 
     public void ShowCraftTableUi()
@@ -160,6 +168,23 @@ public class UiManager : Singleton<UiManager>
         FloorManager.Instance.multiTouchOff = true;
         b4StorageValueUi.gameObject.SetActive(false);
         b5StorageValueUi.gameObject.SetActive(false);
+        uiInvitation.gameObject.SetActive(false);
+    }
+
+    public void ShowInvitationUi()
+    {
+        uiCurrencies.gameObject.SetActive(true);
+        mainUi.gameObject.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
+        productsUi.gameObject.SetActive(false);
+        craftTableUi.gameObject.SetActive(true);
+        floorMove.GetComponent<FloorMove>().enabled = false;
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
+        uiInvitation.gameObject.SetActive(true);
     }
 
     public void SetProductCapacity(int capacity)

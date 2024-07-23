@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -31,6 +32,7 @@ public class GameManager : Singleton<GameManager>
     private void Awake()
     {
         CurrencyManager.Init();
+        CurrentSceneId = SceneIds.WorldLandOfHope;
     }
 
     private void OnApplicationQuit()
@@ -74,36 +76,63 @@ public class GameManager : Singleton<GameManager>
         //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
         await UniWaitTables();
-        CurrentSceneId = SceneIds.WorldLandOfHope;
 
         SaveDataV1 saveWorldData = SaveLoadSystem.Load() as SaveDataV1;
+
         // 데이터대로 동물, 건물, 가구 생성
-
-        for(int i = 0; i < saveWorldData.floors.Count; ++i)
+        if (saveWorldData != null)
         {
-            var floorSaveData = saveWorldData.floors[i];
-            var animals = floorSaveData.animalSaveDatas;
-            var buildings = floorSaveData.buildingSaveDatas;
-
-            var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
-            floor.FloorStat = floorSaveData.floorStat;
-
-            foreach (var animal in animals)
+            for (int i = 0; i < saveWorldData.floors.Count; ++i)
             {
-                GetAnimalManager().Create(floor.transform.position, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
+                var floorSaveData = saveWorldData.floors[i];
+                var animals = floorSaveData.animalSaveDatas;
+                var buildings = floorSaveData.buildingSaveDatas;
+
+                var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
+                floor.FloorStat = floorSaveData.floorStat;
+
+                foreach (var animal in animals)
+                {
+                    var pos = floor.transform.position;
+                    pos.z -= 5;
+                    GetAnimalManager().Create(pos, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
+                }
+
+                for (int j = 0; j < floor.buildings.Count; ++j)
+                {
+                    floor.buildings[j].BuildingStat = buildings[j].buildingStat;
+                    if(!floor.buildings[j].BuildingStat.IsLock)
+                    {
+                        floor.buildings[j].gameObject.SetActive(true);
+                    }
+                }
             }
+        }
+        else
+        {
+            // 첫 접속일 때 Unlock된 건물 Unlock
+            var floors = FloorManager.Instance.floors;
 
-            for(int j = 0; j < floor.buildings.Count; ++j)
+            foreach(var floor in floors.Values)
             {
-                floor.buildings[j].BuildingStat = buildings[j].buildingStat;
+                foreach(var building in floor.buildings)
+                {
+                    if(building.BuildingStat.Building_ID == floor.FloorStat.Unlock_Facility)
+                    {
+                        building.BuildingStat.IsLock = false;
+                        break;
+                    }
+                }
             }
         }
 
         SaveCurrencyDataV1 saveCurrencyData = SaveLoadSystem.Load(1) as SaveCurrencyDataV1;
-
-        for (int i = 0; i < CurrencyManager.currencyTypes.Length; ++i)
+        if (saveCurrencyData != null)
         {
-            CurrencyManager.currency[CurrencyManager.currencyTypes[i]] = saveCurrencyData.currencySaveData[i].value;
+            for (int i = 0; i < CurrencyManager.currencyTypes.Length; ++i)
+            {
+                CurrencyManager.currency[CurrencyManager.currencyTypes[i]] = saveCurrencyData.currencySaveData[i].value;
+            }
         }
     }
 
@@ -176,6 +205,11 @@ public class GameManager : Singleton<GameManager>
         }
         
         while (!DataTableMgr.GetItemTable().IsLoaded)
+        {
+            await UniTask.Yield();
+        }   
+
+        while (!DataTableMgr.GetInvitationTable().IsLoaded)
         {
             await UniTask.Yield();
         }

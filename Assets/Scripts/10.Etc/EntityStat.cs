@@ -310,6 +310,7 @@ public class BuildingStat
     public int Level_Up_Resource_3 { get; set; }
     public string Resource_3_Value { get; set; }
     public string Prefab { get; set; }
+    public bool IsLock { get; set; } = true;
 
     public BuildingStat() { }
 

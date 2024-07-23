@@ -1,4 +1,5 @@
 using CsvHelper;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -33,10 +34,20 @@ public class BuildingData
         return DataTableMgr.GetStringTable().Get(Building_Name_ID);
     }
 
-    public Sprite GetPrefab()
+    public async UniTask<Sprite> GetPrefab()
     {
-        //return Addressables.LoadAssetAsync<Sprite>(Prefab).Result;
-        return null;
+        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(Prefab);
+        await handle.Task;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            return handle.Result;
+        }
+        else
+        {
+            Debug.LogError("Failed to load image.");
+            return null;
+        }
     }
 
 }

@@ -1,25 +1,30 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UiBuildingInfo : MonoBehaviour
 {
-    private static readonly string levelFormat = "{0} / {1}";
-    private static readonly string exchangeFormat = "{0} -> {1}";
-
+    private static readonly string lvFormat = "Lv.{0}";
     public TextMeshProUGUI textBuildingLevel;
     public Image buildingProfile;
     public TextMeshProUGUI textBuildingName;
-    public TextMeshProUGUI textProceeds;
-    public TextMeshProUGUI textExchange;
-    public TextMeshProUGUI textCurrentExchangeRate;
-    public TextMeshProUGUI textNextExchangeRate;
+    public TextMeshProUGUI textDescription;
     public Button buttonLevelUp;
     public Building building;
+    public List<UiUpgradeCurrency> uiUpgradeCurrencies = new List<UiUpgradeCurrency>();
+    public UiUpgradeCurrency uiBuildingUpgradeCurrency;
+    public Transform contents; // 하위에 업그레이드 시 재화가 얼마나 필요한 지
 
     public bool Set(Building building)
     {
-        var uiFloorInformation = GameObject.FindWithTag(Tags.FloorInformation).GetComponentInParent<UiFloorInformation>();
+        foreach (var currency in uiUpgradeCurrencies)
+        {
+            Destroy(currency.gameObject);
+        }
+        uiUpgradeCurrencies.Clear();
+
+        var uiFloorInformation = UiManager.Instance.floorInformationUi;
 
         if(uiFloorInformation == null)
             return false;
@@ -32,33 +37,60 @@ public class UiBuildingInfo : MonoBehaviour
 
         if (building.BuildingStat.BuildingData.Building_ID == 0)
             return false;
+        buttonLevelUp.onClick.RemoveAllListeners();
 
         this.building = building;
 
         buttonLevelUp.onClick.AddListener(building.LevelUp);
         buttonLevelUp.onClick.AddListener(SetBuildingUi);
-
         SetBuildingUi();
 
         return true;
     }
 
-    public void SetBuildingUi()
+    public async void SetBuildingUi()
     {
-        textBuildingLevel.text = string.Format(levelFormat, building.BuildingStat.BuildingData.Level, building.BuildingStat.BuildingData.Level_Max);
+        textBuildingLevel.text = string.Format(lvFormat, building.BuildingStat.Level);
         textBuildingName.text = building.BuildingStat.BuildingData.GetName();
-        //uiBuildingInfo.buildingProfile.sprite = building.BuildingData.GetProfile();
-        textProceeds.text = ((CurrencyType)building.BuildingStat.Resource_Type).ToString();
-        textExchange.text = string.Format(exchangeFormat, ((CurrencyType)building.BuildingStat.Materials_Type), ((CurrencyType)building.BuildingStat.Resource_Type));
-        textCurrentExchangeRate.text = building.BuildingStat.Conversion_rate.ToString();
 
-        if (building.BuildingStat.Level < building.BuildingStat.Level_Max)
+        if(building.BuildingStat.Level_Up_Coin_Value != "0")
         {
-            textNextExchangeRate.text = DataTableMgr.GetBuildingTable().Get(building.BuildingStat.Building_ID + 100).Conversion_rate.ToString();
+            var currency = Instantiate(uiBuildingUpgradeCurrency, contents);
+            var sprite = await DataTableMgr.GetResourceTable().Get((int)CurrencyType.Coin).GetImage();
+            var value = building.BuildingStat.Level_Up_Coin_Value.ToBigNumber();
+            currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
         }
-        else
+
+        if(building.BuildingStat.Level_Up_Resource_1 != 0)
         {
-            textNextExchangeRate.text = string.Empty;
+            var currency = Instantiate(uiBuildingUpgradeCurrency, contents);
+            var sprite = await DataTableMgr.GetResourceTable().Get(building.BuildingStat.Level_Up_Resource_1).GetImage();
+            var value = building.BuildingStat.Resource_1_Value.ToBigNumber();
+            currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
         }
+
+        if (building.BuildingStat.Level_Up_Resource_2 != 0)
+        {
+            var currency = Instantiate(uiBuildingUpgradeCurrency, contents);
+            var sprite = await DataTableMgr.GetResourceTable().Get(building.BuildingStat.Level_Up_Resource_2).GetImage();
+            var value = building.BuildingStat.Resource_2_Value.ToBigNumber();
+            currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
+        }
+
+        if (building.BuildingStat.Level_Up_Resource_3 != 0)
+        {
+            var currency = Instantiate(uiBuildingUpgradeCurrency, contents);
+            var sprite = await DataTableMgr.GetResourceTable().Get(building.BuildingStat.Level_Up_Resource_3).GetImage();
+            var value = building.BuildingStat.Resource_3_Value.ToBigNumber();
+            currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
+        }
+
+
+        //uiBuildingInfo.buildingProfile.sprite = building.BuildingData.GetProfile();
+        //textDescription.text = 건물 설명
     }
 }

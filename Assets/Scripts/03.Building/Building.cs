@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowable
+public class Building : MonoBehaviour, IClickable
 {
     [SerializeField]
     private float duration = 0f;
@@ -13,7 +13,6 @@ public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowab
     public Vector3 clickedScale;
     public CurrencyType buildingType;
     public int buildingId;
-    public bool isLock = true;
 
     private BuildingStat buildingStat;
     public BuildingStat BuildingStat
@@ -123,6 +122,6 @@ public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowab
         }
 
         BuildingStat = new BuildingStat(BuildingStat.Building_ID + 100);
+        BuildingStat.IsLock = false;
     }
-
 }

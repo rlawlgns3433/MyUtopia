@@ -1,8 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.EventSystems;
 
 [Serializable]
 public class StorageData
@@ -45,62 +43,11 @@ public class StorageData
     }
 }
 
-public class Storage : MonoBehaviour, IClickable
+public class Storage : Furniture
 {
-    [SerializeField]
-    private int facilityId;
-
-    private FurnitureStat furnitureStat;
-    public FurnitureStat FurnitureStat
-    {
-        get
-        {
-            if(furnitureStat == null)
-                furnitureStat = new FurnitureStat(facilityId);
-
-            return furnitureStat;
-        }
-        set
-        {
-            furnitureStat = value;
-        }
-    }
-
-    public event Action clickEvent;
-
-    [SerializeField]
-    private bool isClicked;
-    public bool IsClicked
-    {
-        get
-        {
-            return isClicked;
-        }
-
-        set
-        {
-            isClicked = value;
-            if (isClicked)
-            {
-                clickEvent?.Invoke();
-                ClickableManager.OnClicked(this);
-            }
-        }
-    }
-
     private void Awake()
     {
         clickEvent += OpenProductStorage;
-    }
-
-    public void RegisterClickable()
-    {
-        ClickableManager.AddClickable(this);
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        IsClicked = true;
     }
 
     public void OpenProductStorage()

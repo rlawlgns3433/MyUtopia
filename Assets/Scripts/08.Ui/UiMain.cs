@@ -7,13 +7,6 @@ public class UiMain : MonoBehaviour
     public UiAnimalInventory animalInventoryUi;
     public GameObject addSlot;
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            Refresh();
-        }
-    }
     public void Refresh()
     {
         addSlot.GetComponent<Transform>().SetAsLastSibling();

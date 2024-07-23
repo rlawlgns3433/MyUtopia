@@ -1,4 +1,5 @@
 using CsvHelper;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -22,9 +23,20 @@ public struct ResourceData
         return DataTableMgr.GetStringTable().Get(Resource_Name_ID);
     }
 
-    public Sprite GetImage()
+    public async UniTask<Sprite> GetImage()
     {
-        return Addressables.LoadAssetAsync<Sprite>(Image).Result;
+        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(Image);
+        await handle.Task;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            return handle.Result;
+        }
+        else
+        {
+            Debug.LogError("Failed to load image.");
+            return null;
+        }
     }
 }
 
