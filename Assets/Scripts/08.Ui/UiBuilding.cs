@@ -11,7 +11,7 @@ public class UiBuildingInfo : MonoBehaviour
     public TextMeshProUGUI textDescription;
     public Button buttonLevelUp;
     public Building building;
-    public UiBuildingUpgradeCurrency uiBuildingUpgradeCurrency;
+    public UiUpgradeCurrency uiBuildingUpgradeCurrency;
     public Transform contents; // 하위에 업그레이드 시 재화가 얼마나 필요한 지
 
     public bool Set(Building building)
@@ -34,7 +34,6 @@ public class UiBuildingInfo : MonoBehaviour
 
         buttonLevelUp.onClick.AddListener(building.LevelUp);
         buttonLevelUp.onClick.AddListener(SetBuildingUi);
-
         SetBuildingUi();
 
         return true;

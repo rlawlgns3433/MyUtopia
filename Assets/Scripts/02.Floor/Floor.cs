@@ -7,7 +7,9 @@ public class Floor : Subject, IGrowable
 {
     public List<Animal> animals = new List<Animal>();
     public List<Building> buildings = new List<Building>();
+    public List<Furniture> furnitures = new List<Furniture>();
     public List<Observer> uiCurrencies = new List<Observer>();
+
     [SerializeField]
     protected int floorId;
 

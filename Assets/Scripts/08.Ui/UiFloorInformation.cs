@@ -8,9 +8,10 @@ using Unity.VisualScripting;
 public class UiFloorInformation : MonoBehaviour
 {
     private static readonly string levelFormat = "{0} / {1}";
-    private static readonly string exchangeFormat = "{0} -> {1}";
 
     public UiBuildingInfo buildingInfoPrefab;
+    public UiFurnitureInfo furnitureInfoPrefab;
+    public Transform furnitureParent;
     public Transform buildingParent;
 
     public TextMeshProUGUI textFloorName;
@@ -18,11 +19,10 @@ public class UiFloorInformation : MonoBehaviour
     public TextMeshProUGUI textSynergyName;
     public TextMeshProUGUI textFacilityEffectName;
     public List<UiBuildingInfo> uiBuildings;
+    public List<UiFurnitureInfo> uiFurnitures;
     public List<Image> imageProduction;
 
-    private int unlockBuildingCount = 0;
     private ResourceTable resourceTable;
-    //public List<UiBuildingInfo> uiFacilities;
 
     public Floor currentFloor;
 
@@ -32,7 +32,7 @@ public class UiFloorInformation : MonoBehaviour
     {
         uiBuildings = new List<UiBuildingInfo>();
         resourceTable = DataTableMgr.GetResourceTable();
-        //uiFacilities = new List<UiBuildingInfo>();
+        uiFurnitures = new List<UiFurnitureInfo>();
     }
 
     public void SetFloorData()
@@ -66,6 +66,12 @@ public class UiFloorInformation : MonoBehaviour
             Destroy(uiBuilding.gameObject);
         }
         uiBuildings.Clear();
+
+        foreach(var uiFurniture in uiFurnitures)
+        {
+            Destroy(uiFurniture.gameObject);
+        }
+        uiFurnitures.Clear();
     }
 
     public void SetFloorUi()
@@ -88,6 +94,19 @@ public class UiFloorInformation : MonoBehaviour
                         //imageProduction[unlockBuildingCount++].sprite = resourceTable.Get(building.BuildingData.Resource_Type).GetImage();
                     }
                 }
+            }
+        }
+
+        // 여기서 건물과 같이 시설물 추가
+
+        foreach (var furniture in currentFloor.furnitures)
+        {
+            UiFurnitureInfo uiFurnitureInfo = Instantiate(furnitureInfoPrefab, furnitureParent);
+            bool isSucceed = uiFurnitureInfo.Set(furniture);
+
+            if (isSucceed)
+            {
+                uiFurnitures.Add(uiFurnitureInfo);
             }
         }
     }
