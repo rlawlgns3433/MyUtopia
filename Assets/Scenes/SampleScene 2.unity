@@ -26316,7 +26316,7 @@ GameObject:
   - component: {fileID: 1502321751}
   m_Layer: 0
   m_Name: Floors
-  m_TagString: Untagged
+  m_TagString: Floors
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26358,6 +26358,7 @@ MonoBehaviour:
   moveDuration: 0.5
   floorCount: 5
   uiAnimalInventory: {fileID: 1627572079}
+  vc: {fileID: 0}
 --- !u!1 &1510368314
 GameObject:
   m_ObjectHideFlags: 0
@@ -29244,6 +29245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1649666679}
   - component: {fileID: 1649666680}
+  - component: {fileID: 1649666681}
   m_Layer: 0
   m_Name: MultiTouch
   m_TagString: Untagged
@@ -29280,6 +29282,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSwipeDistanceInch: 0.25
   zoomMaxInch: 1
+--- !u!114 &1649666681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649666677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8337f71f93864aa40b2cb1ba045f8572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  touchManager: {fileID: 1649666680}
+  zoomSpeed: 1
+  zoomDuration: 0.5
+  dragSpeed: 0.1
 --- !u!1001 &1663976879
 PrefabInstance:
   m_ObjectHideFlags: 0

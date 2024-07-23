@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase;
@@ -7,7 +6,7 @@ using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 public enum Dirs
 {
     None,
-    Up, Down, Left, Right
+    Up, Down
 }
 
 public class MultiTouchManager : MonoBehaviour
@@ -18,9 +17,10 @@ public class MultiTouchManager : MonoBehaviour
 
     public Dirs Swipe { get; set; }
     public float Zoom { get; private set; }
-    public float Rotation { get; private set; }
+    public float DragX { get; private set; }
 
     private Finger primayFinger = null;
+    private bool isZooming = false;
 
     private float timeTap = 0.25f;
     private float timeLongTap = 0.5f;
@@ -28,6 +28,7 @@ public class MultiTouchManager : MonoBehaviour
 
     private float primayStartTime = 0f;
     private Vector2 primayStartPos;
+    private Vector2 previousPos;
 
     private bool isFirstTap = false;
     private float firstTapTime = 0f;
@@ -60,8 +61,22 @@ public class MultiTouchManager : MonoBehaviour
         DoubleTap = false;
         Swipe = Dirs.None;
         Zoom = 0f;
-        Rotation = 0f;
+        DragX = 0f;
 
+        if (Touch.activeTouches.Count == 2)
+        {
+            isZooming = true;
+            HandleZoom();
+        }
+        else
+        {
+            isZooming = false;
+            HandleSingleTouch();
+        }
+    }
+
+    private void HandleSingleTouch()
+    {
         foreach (var touch in Touch.activeTouches)
         {
             switch (touch.phase)
@@ -72,10 +87,16 @@ public class MultiTouchManager : MonoBehaviour
                         primayFinger = touch.finger;
                         primayStartTime = Time.time;
                         primayStartPos = touch.screenPosition;
-                        Debug.Log("Primary touch began at: " + primayStartPos);
+                        previousPos = touch.screenPosition;
                     }
                     break;
                 case TouchPhase.Moved:
+                    if (primayFinger == touch.finger)
+                    {
+                        DragX = touch.screenPosition.x - previousPos.x;
+                        previousPos = touch.screenPosition;
+                    }
+                    break;
                 case TouchPhase.Stationary:
                     break;
                 case TouchPhase.Ended:
@@ -85,27 +106,9 @@ public class MultiTouchManager : MonoBehaviour
                         primayFinger = null;
                         var duration = Time.time - primayStartTime;
 
-                        if (duration < swipeTime)
-                        {
-                            var diff = (touch.screenPosition - primayStartPos);
-                            if (diff.magnitude > minSwipeDistancePixels)
-                            {
-                                if (Mathf.Abs(diff.x) > Mathf.Abs(diff.y))
-                                {
-                                    Swipe = diff.x > 0 ? Dirs.Right : Dirs.Left;
-                                }
-                                else
-                                {
-                                    Swipe = diff.y > 0 ? Dirs.Up : Dirs.Down;
-                                }
-                                Debug.Log("Swipe detected: " + Swipe);
-                            }
-                        }
-
                         if (duration < timeTap)
                         {
                             Tap = true;
-                            Debug.Log("Tap detected");
 
                             if (isFirstTap && Time.time - firstTapTime > timeDoubleTap)
                             {
@@ -120,7 +123,6 @@ public class MultiTouchManager : MonoBehaviour
                             else
                             {
                                 DoubleTap = Time.time - firstTapTime < timeDoubleTap;
-                                if (DoubleTap) Debug.Log("Double Tap detected");
                                 isFirstTap = false;
                             }
                         }
@@ -128,41 +130,30 @@ public class MultiTouchManager : MonoBehaviour
                         if (duration > timeLongTap)
                         {
                             LongTap = true;
-                            Debug.Log("Long Tap detected");
                         }
                     }
                     break;
             }
         }
+    }
 
-        if (Input.touchCount == 2)
+    private void HandleZoom()
+    {
+        var first = Touch.activeTouches[0];
+        var second = Touch.activeTouches[1];
+
+        if ((first.phase == TouchPhase.Moved || first.phase == TouchPhase.Stationary) &&
+            (second.phase == TouchPhase.Moved || second.phase == TouchPhase.Stationary))
         {
-            var first = Touch.activeTouches[0];
-            var second = Touch.activeTouches[1];
+            var firstPrevPos = first.screenPosition - first.delta;
+            var secondPrevPos = second.screenPosition - second.delta;
 
-            if ((first.phase == TouchPhase.Moved || first.phase == TouchPhase.Stationary) &&
-                (second.phase == TouchPhase.Moved || second.phase == TouchPhase.Stationary))
-            {
-                var firstPrevPos = first.screenPosition - first.delta;
-                var secondPrevPos = second.screenPosition - second.delta;
+            var prevDiff = (firstPrevPos - secondPrevPos).magnitude;
+            var diff = (first.screenPosition - second.screenPosition).magnitude;
 
-                var prevDiff = (firstPrevPos - secondPrevPos).magnitude;
-                var diff = (first.screenPosition - second.screenPosition).magnitude;
-
-                Zoom = diff - prevDiff;
-                Zoom /= zoomMaxPixel;
-                Zoom = Mathf.Clamp(Zoom, -10, 1f);
-                Debug.Log("Zoom detected: " + Zoom);
-
-                var prevDot = Vector2.Dot(Vector2.up, (firstPrevPos - secondPrevPos).normalized);
-                var prevDegree = Mathf.Acos(prevDot) * Mathf.Rad2Deg;
-
-                var dot = Vector2.Dot(Vector2.up, (first.screenPosition - second.screenPosition).normalized);
-                var degree = Mathf.Acos(dot) * Mathf.Rad2Deg;
-
-                Rotation = Mathf.Clamp(degree - prevDegree, -180, 180);
-                Debug.Log("Rotation detected: " + Rotation);
-            }
+            Zoom = diff - prevDiff;
+            Zoom /= zoomMaxPixel;
+            Zoom = Mathf.Clamp(Zoom, -10, 1f);
         }
     }
 }
