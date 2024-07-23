@@ -133,6 +133,7 @@ public class AnimalClick : MonoBehaviour, IClickable
         VirtualCamera.LookAt = transform;
         Transposer.m_FollowOffset = followOffset;
         FloorManager.Instance.SetFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor);
+        FloorManager.Instance.MoveToCurrentFloor().Forget();
     }
 
     public void FocusIn()

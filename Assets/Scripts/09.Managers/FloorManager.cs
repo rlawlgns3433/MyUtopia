@@ -1,3 +1,6 @@
+using Cinemachine;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,7 +8,7 @@ using UnityEngine;
 public class FloorManager : Singleton<FloorManager>
 {
     public Dictionary<string, Floor> floors = new Dictionary<string, Floor>();
-    private int currentFloorIndex;
+    private int currentFloorIndex = 1;
     public int CurrentFloorIndex
     {
         get
@@ -17,20 +20,217 @@ public class FloorManager : Singleton<FloorManager>
             currentFloorIndex = value;
         }
     }
-    private FloorMove floorMove;
-    public FloorMove FloorMove
+    public MultiTouchManager touchManager;
+    private CinemachineVirtualCamera vc;
+    public float zoomSpeed = 5f;
+    public float dragSpeed = 0.15f;
+    private float maxZoomOut = 15f;
+    private float maxZoomIn = 10f;
+    public float zoomOutMaxValueZ = -9f;
+    private bool isDragging = false;
+    public int moveDistance = 10;
+    public float moveDuration = 0.5f;
+    public int floorCount = 5;
+    public bool isMoving = false;
+    public bool multiTouchOff = false;
+    private Vector3 targetPosition;
+    private Vector3 defaultPosition;
+    private Vector3 zoomPosition;
+    public UiAnimalInventory uiAnimalInventory;
+    private void Awake()
     {
-        get
+        vc = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
+    }
+
+    private void Start()
+    {
+        if (touchManager == null)
         {
-            if(floorMove == null)
+            touchManager = FindObjectOfType<MultiTouchManager>();
+        }
+
+        zoomPosition = defaultPosition = targetPosition = vc.transform.position;
+    }
+
+    private void Update()
+    {
+        if (!multiTouchOff)
+        { 
+            if (!isMoving && !touchManager.Tap)
             {
-                floorMove = GameObject.FindWithTag(Tags.Floors).GetComponent<FloorMove>();
+                if (touchManager.Zoom != 0 && !isDragging)
+                {
+                    if (touchManager.Zoom < 0 && vc.transform.position.y <= maxZoomOut)
+                    {
+                        ZoomOut();
+                    }
+                    else if (touchManager.Zoom > 0 && vc.transform.position.y >= maxZoomIn)
+                    {
+                        ZoomIn();
+                    }
+                }
+
+                if (touchManager.DragX != 0 && !touchManager.isZooming && touchManager.Swipe == Dirs.None)
+                {
+                    Drag();
+                }
+                else if (touchManager.DragX == 0)
+                {
+                    isDragging = false;
+                }
             }
 
-            return floorMove;
+            if (!isMoving && touchManager.Swipe != Dirs.None && !touchManager.isZooming && !isDragging)
+            {
+                if (touchManager.Swipe == Dirs.Up)
+                {
+                    MoveUp();
+                }
+                else if (touchManager.Swipe == Dirs.Down)
+                {
+                    MoveDown();
+                }
+                touchManager.Swipe = Dirs.None;
+            }
         }
     }
 
+    private async UniTask MoveFloor(Vector3 moveVector)
+    {
+        targetPosition += moveVector;
+        zoomPosition = targetPosition;
+        maxZoomOut = targetPosition.y;
+        maxZoomIn = targetPosition.y - 5;
+        await vc.transform.DOMove(targetPosition, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+        Debug.Log($"CurrentFloor-MoveFloor{CurrentFloorIndex}/{targetPosition}");
+    }
+
+    public async UniTask MoveToCurrentFloor()
+    {
+        var distance = CurrentFloorIndex - 1;
+        distance *= moveDistance;
+        var movePosition = new Vector3(0, defaultPosition.y - distance, defaultPosition.z);
+        maxZoomOut = movePosition.y;
+        maxZoomIn = movePosition.y - 5;
+        await vc.transform.DOMove(movePosition, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+        targetPosition = vc.transform.position;
+        zoomPosition = targetPosition;
+    }
+
+    public async void MoveUp()
+    {
+        if (isMoving || CurrentFloorIndex == floorCount)
+            return;
+        else if(CurrentFloorIndex < floorCount - 1)
+        {
+            Debug.Log($"Swipe Up:{CurrentFloorIndex}");
+            isMoving = true;
+            CurrentFloorIndex++;
+            uiAnimalInventory.UpdateInventory(false);
+            await MoveFloor(new Vector3(0, -moveDistance, 0));
+            isMoving = false;
+        }
+
+    }
+
+    public async void MoveDown()
+    {
+        if (isMoving || CurrentFloorIndex == 1)
+            return;
+        else if(CurrentFloorIndex > 1)
+        {
+            Debug.Log($"Swipe Down:/{CurrentFloorIndex}");
+            isMoving = true;
+            CurrentFloorIndex--;
+            uiAnimalInventory.UpdateInventory(false);
+            await MoveFloor(new Vector3(0, moveDistance, 0));
+            isMoving = false;
+        }
+    }
+
+    private void ZoomIn()
+    {
+        if (vc.transform.position.y >= maxZoomIn || vc.transform.position.z >= zoomOutMaxValueZ)
+        {
+            Debug.Log($"ZoomIn{CurrentFloorIndex}-->/{maxZoomIn}//{maxZoomOut}");
+            var forwardDirection = vc.transform.forward * zoomSpeed * Time.deltaTime;
+            zoomPosition += forwardDirection;
+            var zoomTargetPosition = new Vector3(zoomPosition.x, maxZoomIn, zoomOutMaxValueZ);
+            vc.transform.position = Vector3.MoveTowards(vc.transform.position, zoomTargetPosition, zoomSpeed * Time.deltaTime);
+            if (Vector3.Distance(vc.transform.position, zoomTargetPosition) < 0.01f)
+            {
+                zoomPosition = zoomTargetPosition;
+            }
+        }
+    }
+
+    private void ZoomOut()
+    {
+        if (vc.transform.position.y <= maxZoomOut || vc.transform.position.z >= defaultPosition.z)
+        {
+            Debug.Log($"ZoomOut{CurrentFloorIndex}-->/{maxZoomIn}//{maxZoomOut}");
+            var backwardDirection = -vc.transform.forward * zoomSpeed * Time.deltaTime;
+            zoomPosition += backwardDirection;
+            var zoomTargetPosition = targetPosition;
+            vc.transform.position = Vector3.MoveTowards(vc.transform.position, zoomTargetPosition, zoomSpeed * Time.deltaTime);
+            if (Vector3.Distance(vc.transform.position, zoomTargetPosition) < 0.01f)
+            {
+                zoomPosition = targetPosition;
+            }
+        }
+    }
+
+    private void Drag()
+    {
+        switch (CurrentFloorIndex)
+        {
+            case 1:
+                dragSpeed = 0.3f;
+                if (Mathf.Abs(vc.transform.position.x) <= 10)
+                {
+                    isDragging = true;
+                    zoomPosition.x -= touchManager.DragX * dragSpeed * Time.deltaTime;
+                    vc.transform.position = zoomPosition;
+                }
+                else
+                {
+                    if (vc.transform.position.x < 0)
+                    {
+                        zoomPosition.x = -10;
+                        vc.transform.position = zoomPosition;
+                    }
+                    else
+                    {
+                        zoomPosition.x = 10;
+                        vc.transform.position = zoomPosition;
+                    }
+                }
+                break;
+            default:
+                dragSpeed = 0.15f;
+                if (Mathf.Abs(vc.transform.position.x) <= 5)
+                {
+                    isDragging = true;
+                    zoomPosition.x -= touchManager.DragX * dragSpeed * Time.deltaTime;
+                    vc.transform.position = zoomPosition;
+                }
+                else
+                {
+                    if (vc.transform.position.x < 0)
+                    {
+                        zoomPosition.x = -5;
+                        vc.transform.position = zoomPosition;
+                    }
+                    else
+                    {
+                        zoomPosition.x = 5;
+                        vc.transform.position = zoomPosition;
+                    }
+                }
+                break;
+        }
+
+    }
     public void AddFloor(string floorId, Floor floor)
     {
         if (floors.ContainsKey(floorId))
@@ -69,7 +269,6 @@ public class FloorManager : Singleton<FloorManager>
     public void SetFloor(string floorId)
     {
         CurrentFloorIndex = int.Parse(floorId[1].ToString());
-        FloorMove.UpCount = CurrentFloorIndex;
     }
 
     public Floor GetCurrentFloor()

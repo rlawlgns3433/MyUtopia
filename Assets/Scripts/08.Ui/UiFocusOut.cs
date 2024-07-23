@@ -1,4 +1,5 @@
 using Cinemachine;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -32,9 +33,8 @@ public class UiFocusOut : MonoBehaviour, IPointerClickHandler
         var movePosition = new Vector3(0, defaultPosition.y - currentFloorIndex * offSet, -15);
         vc.transform.position = movePosition;
         vc.transform.rotation = Quaternion.Euler(focusOutRotation);
-
-        var floorMove = FloorManager.Instance.FloorMove;
-        await floorMove.MoveToCurrentFloor();
+        //var floorMove = FloorManager.Instance.FloorMove;
+        //await floorMove.MoveToCurrentFloor();
 
     }
 

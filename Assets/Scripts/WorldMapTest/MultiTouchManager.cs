@@ -86,9 +86,6 @@ public class MultiTouchManager : MonoBehaviour
                 case TouchPhase.Moved:
                     if (primaryFinger == touch.finger)
                     {
-                        DragX = touch.screenPosition.x - previousPos.x;
-                        previousPos = touch.screenPosition;
-
                         float swipeDistance = (touch.screenPosition - primaryStartPos).magnitude;
                         float swipeDuration = Time.time - primaryStartTime;
 
@@ -100,6 +97,11 @@ public class MultiTouchManager : MonoBehaviour
                                 Swipe = direction.y > 0 ? Dirs.Up : Dirs.Down;
                             }
                         }
+                        else
+                        {
+                            DragX = touch.screenPosition.x - previousPos.x;
+                        }
+                        previousPos = touch.screenPosition;
                     }
                     break;
                 case TouchPhase.Stationary:

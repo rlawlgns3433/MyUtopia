@@ -55,6 +55,7 @@ public class StorageValue : MonoBehaviour, IClickable
     public void OnPointerClick(PointerEventData eventData)
     {
         IsClicked = true;
+        Debug.Log("StorageClick");
     }
 
     public void RegisterClickable()

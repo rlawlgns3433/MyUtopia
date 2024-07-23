@@ -85,8 +85,11 @@ public class UiAnimalInventory : Observer
     {
         if (isMerged)
             return;
-        SetFloor(FloorManager.Instance.GetCurrentFloor());
-        FloorManager.Instance.SetFloor(currentFloor.floorName);
+        if(FloorManager.Instance.CurrentFloorIndex <= maxSlot)
+        {
+            SetFloor(FloorManager.Instance.GetCurrentFloor());
+            FloorManager.Instance.SetFloor(currentFloor.floorName);
+        }
 
         for (int j = 0; j < uiAnimalSlots.Count; ++j)
         {

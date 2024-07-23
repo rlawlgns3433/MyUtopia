@@ -150,20 +150,28 @@ public class StorageConduct : Storage
                 currentValue.gameObject.SetActive(false);
             }
         }
-
     }
 
     public async UniTask CheckStorage()
     {
         await UniTask.WaitUntil(() => buildings.Length > 0 && buildings[0] != null);
-
+        bool isEmpty = true;
         for (int i = 0; i < buildings.Length; i++)
         {
             var workRequire = buildings[i].BuildingStat.Work_Require;
             values[i] = workLoadValue / workRequire;
             var tempValue = values[i] * offLineSeconds;
             CurrArray[i] += tempValue;
+            if (CurrArray[i] != 0)
+            {
+                isEmpty = false;
+            }
             Debug.Log($"Building {i}: workRequire = {workRequire}, values[i] = {values[i]}, tempValue = {tempValue}");
+        }
+        if(isEmpty)
+        {
+            currentValue.gameObject.SetActive(false);
+            //활동량 못채울시 시간초기화 or 누적
         }
         await UniTask.Yield();
     }
