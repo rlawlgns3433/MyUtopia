@@ -99,6 +99,10 @@ public class GameManager : Singleton<GameManager>
                 for (int j = 0; j < floor.buildings.Count; ++j)
                 {
                     floor.buildings[j].BuildingStat = buildings[j].buildingStat;
+                    if(!floor.buildings[j].BuildingStat.IsLock)
+                    {
+                        floor.buildings[j].gameObject.SetActive(true);
+                    }
                 }
             }
         }
