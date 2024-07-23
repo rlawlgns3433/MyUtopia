@@ -15,12 +15,12 @@ public class UiFloorInformation : MonoBehaviour
     public Transform buildingParent;
 
     public TextMeshProUGUI textFloorName;
-    public TextMeshProUGUI textFloorLevel;
     public TextMeshProUGUI textSynergyName;
     public TextMeshProUGUI textFacilityEffectName;
+
+    public UiFloorInfoBlock uiFloorInfoBlock;
     public List<UiBuildingInfo> uiBuildings;
     public List<UiFurnitureInfo> uiFurnitures;
-    public List<Image> imageProduction;
 
     private ResourceTable resourceTable;
 
@@ -77,7 +77,8 @@ public class UiFloorInformation : MonoBehaviour
     public void SetFloorUi()
     {
         textFloorName.text = floorStat.FloorData.GetFloorName();
-        textFloorLevel.text = string.Format(levelFormat, floorStat.Grade, floorStat.Grade_Max);
+
+        uiFloorInfoBlock.Set(currentFloor);
 
         foreach (var building in currentFloor.buildings)
         {
@@ -91,7 +92,6 @@ public class UiFloorInformation : MonoBehaviour
                     if (isSucceed)
                     {
                         uiBuildings.Add(uiBuildingInfo);
-                        //imageProduction[unlockBuildingCount++].sprite = resourceTable.Get(building.BuildingData.Resource_Type).GetImage();
                     }
                 }
             }
