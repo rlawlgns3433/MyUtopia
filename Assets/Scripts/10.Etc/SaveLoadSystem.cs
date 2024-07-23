@@ -83,6 +83,11 @@ public static class SaveLoadSystem
             data = serializer.Deserialize<SaveData>(reader);
         }
 
+        if(data == null)
+        {
+            return null;
+        }
+
         while (data.Version < SaveDataVersion)
         {
             data = data.VersionUp();
