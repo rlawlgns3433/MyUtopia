@@ -72,14 +72,6 @@ public class AnimalManager : Subject
         Attach(uiAnimalInventory);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-                NotifyObservers();
-        }
-    }
-
     public void CreateAnimal()
     {
         NotifyObservers();
