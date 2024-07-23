@@ -50,19 +50,17 @@ public class FloorMove : MonoBehaviour
 
     private void Update()
     {
-        if (touchManager == null)
+        if (!isMoving && touchManager.Swipe != Dirs.None && !touchManager.isZooming)
         {
-            Debug.LogError("MultiTouchManager is not assigned.");
-            return;
-        }
-
-        if (touchManager.Swipe == Dirs.Up)
-        {
-            MoveUp();
-        }
-        else if (touchManager.Swipe == Dirs.Down)
-        {
-            MoveDown();
+            if (touchManager.Swipe == Dirs.Up)
+            {
+                MoveUp();
+            }
+            else if (touchManager.Swipe == Dirs.Down)
+            {
+                MoveDown();
+            }
+            touchManager.Swipe = Dirs.None;
         }
     }
 
@@ -88,7 +86,6 @@ public class FloorMove : MonoBehaviour
             return;
         Debug.Log($"Swipe Up: {upCount}/{FloorManager.Instance.CurrentFloorIndex}");
         isMoving = true;
-        touchManager.Swipe = Dirs.None;
         upCount++;
         FloorManager.Instance.CurrentFloorIndex = upCount;
         uiAnimalInventory.UpdateInventory(false);
@@ -102,7 +99,6 @@ public class FloorMove : MonoBehaviour
             return;
         Debug.Log($"Swipe Down: {upCount}/{FloorManager.Instance.CurrentFloorIndex}");
         isMoving = true;
-        touchManager.Swipe = Dirs.None;
         upCount--;
         FloorManager.Instance.CurrentFloorIndex = upCount;
         uiAnimalInventory.UpdateInventory(false);

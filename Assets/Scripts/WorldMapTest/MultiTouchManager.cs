@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase;
@@ -6,39 +7,33 @@ using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 public enum Dirs
 {
     None,
-    Up, Down
+    Up, Down, Left, Right
 }
 
 public class MultiTouchManager : MonoBehaviour
 {
     public bool Tap { get; private set; }
-    public bool LongTap { get; private set; }
-    public bool DoubleTap { get; private set; }
-
     public Dirs Swipe { get; set; }
     public float Zoom { get; private set; }
     public float DragX { get; private set; }
 
-    private Finger primayFinger = null;
-    private bool isZooming = false;
+    private Finger primaryFinger = null;
+    public bool isZooming = false;
 
     private float timeTap = 0.25f;
-    private float timeLongTap = 0.5f;
-    private float timeDoubleTap = 0.25f;
 
-    private float primayStartTime = 0f;
-    private Vector2 primayStartPos;
+    private float primaryStartTime = 0f;
+    private Vector2 primaryStartPos;
     private Vector2 previousPos;
 
     private bool isFirstTap = false;
-    private float firstTapTime = 0f;
 
-    public float minSwipeDistanceInch = 0.25f; // Inch
+    public float minSwipeDistanceInch = 0.25f;
     private float minSwipeDistancePixels;
 
     private float swipeTime = 0.25f;
 
-    public float zoomMaxInch = 1f; // Inch
+    public float zoomMaxInch = 1f;
     private float zoomMaxPixel;
 
     private void Awake()
@@ -57,8 +52,6 @@ public class MultiTouchManager : MonoBehaviour
     private void Update()
     {
         Tap = false;
-        LongTap = false;
-        DoubleTap = false;
         Swipe = Dirs.None;
         Zoom = 0f;
         DragX = 0f;
@@ -82,61 +75,50 @@ public class MultiTouchManager : MonoBehaviour
             switch (touch.phase)
             {
                 case TouchPhase.Began:
-                    if (primayFinger == null)
+                    if (primaryFinger == null)
                     {
-                        primayFinger = touch.finger;
-                        primayStartTime = Time.time;
-                        primayStartPos = touch.screenPosition;
+                        primaryFinger = touch.finger;
+                        primaryStartTime = Time.time;
+                        primaryStartPos = touch.screenPosition;
                         previousPos = touch.screenPosition;
                     }
                     break;
                 case TouchPhase.Moved:
-                    if (primayFinger == touch.finger)
+                    if (primaryFinger == touch.finger)
                     {
                         DragX = touch.screenPosition.x - previousPos.x;
                         previousPos = touch.screenPosition;
+
+                        float swipeDistance = (touch.screenPosition - primaryStartPos).magnitude;
+                        float swipeDuration = Time.time - primaryStartTime;
+
+                        if (swipeDuration < swipeTime && swipeDistance > minSwipeDistancePixels)
+                        {
+                            Vector2 direction = touch.screenPosition - primaryStartPos;
+                            if (Mathf.Abs(direction.x) < Mathf.Abs(direction.y))
+                            {
+                                Swipe = direction.y > 0 ? Dirs.Up : Dirs.Down;
+                            }
+                        }
                     }
                     break;
                 case TouchPhase.Stationary:
                     break;
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
-                    if (primayFinger == touch.finger)
+                    if (primaryFinger == touch.finger)
                     {
-                        primayFinger = null;
-                        var duration = Time.time - primayStartTime;
-
+                        primaryFinger = null;
+                        var duration = Time.time - primaryStartTime;
                         if (duration < timeTap)
                         {
                             Tap = true;
-
-                            if (isFirstTap && Time.time - firstTapTime > timeDoubleTap)
-                            {
-                                isFirstTap = false;
-                            }
-
-                            if (!isFirstTap)
-                            {
-                                isFirstTap = true;
-                                firstTapTime = Time.time;
-                            }
-                            else
-                            {
-                                DoubleTap = Time.time - firstTapTime < timeDoubleTap;
-                                isFirstTap = false;
-                            }
-                        }
-
-                        if (duration > timeLongTap)
-                        {
-                            LongTap = true;
                         }
                     }
                     break;
             }
         }
     }
-
     private void HandleZoom()
     {
         var first = Touch.activeTouches[0];

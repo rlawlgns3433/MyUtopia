@@ -6,13 +6,14 @@ public class ZoomCamera : MonoBehaviour
 {
     public MultiTouchManager touchManager;
     private CinemachineVirtualCamera vc;
-    public float zoomSpeed = 1f;
+    public float zoomSpeed = 0.1f;
     public float zoomDuration = 0.5f;
     public float dragSpeed = 0.1f;
     private Vector3 targetPosition;
-
     private float minY = 10f;
     private float maxY = 15f;
+    private bool isDragging = false;
+    private bool isZooming = false;
 
     private void Awake()
     {
@@ -22,21 +23,21 @@ public class ZoomCamera : MonoBehaviour
 
     private void Update()
     {
-        if (!touchManager.Tap && !touchManager.LongTap && !touchManager.DoubleTap)
+        if (!touchManager.Tap)
         {
-            if (touchManager.Zoom != 0)
+            if (touchManager.Zoom != 0 && !isDragging)
             {
-                if (touchManager.Zoom < 0 && vc.transform.position.y > minY)
+                if (touchManager.Zoom < 0 && vc.transform.position.y < maxY)
                 {
                     ZoomOut();
                 }
-                else if (touchManager.Zoom > 0 && vc.transform.position.y <= maxY)
+                else if (touchManager.Zoom > 0 && vc.transform.position.y >= minY)
                 {
                     ZoomIn();
                 }
             }
 
-            if (touchManager.DragX != 0)
+            if (touchManager.DragX != 0 && !isZooming)
             {
                 Drag();
             }
@@ -45,39 +46,48 @@ public class ZoomCamera : MonoBehaviour
 
     private void ZoomIn()
     {
-        if (vc.transform.position.y <= maxY)
+        if (vc.transform.position.y >= 10)
         {
+            isZooming = true;
             Debug.Log("ZoomIn");
             Vector3 forwardDirection = vc.transform.forward * zoomSpeed;
             targetPosition += forwardDirection;
-            targetPosition.y = Mathf.Min(targetPosition.y, maxY);
-            targetPosition.y = Mathf.Clamp(targetPosition.y, minY, maxY);
-            Debug.Log($"New Position: {targetPosition}");
+            targetPosition.y = Mathf.Min(targetPosition.y, minY);
+            //targetPosition.y = Mathf.Clamp(targetPosition.y, minY, maxY);
             vc.transform.DOMove(targetPosition, zoomDuration).SetEase(Ease.InOutQuad);
+            isZooming = false;
+        }
+        else
+        {
+            targetPosition.y = Mathf.Min(targetPosition.y, minY);
         }
     }
 
     private void ZoomOut()
     {
-        if (vc.transform.position.y > minY)
+        if (vc.transform.position.y <= 15)
         {
+            isZooming = true;
             Debug.Log("ZoomOut");
             Vector3 forwardDirection = vc.transform.forward * zoomSpeed;
             targetPosition -= forwardDirection;
-            targetPosition.y = Mathf.Max(targetPosition.y, minY);
-            targetPosition.y = Mathf.Clamp(targetPosition.y, minY, maxY);
-            Debug.Log($"New Position: {targetPosition}");
+            targetPosition.y = Mathf.Max(targetPosition.y, maxY);
+            //targetPosition.y = Mathf.Clamp(targetPosition.y, minY, maxY);
             vc.transform.DOMove(targetPosition, zoomDuration).SetEase(Ease.InOutQuad);
+            isZooming=false;
+        }
+        else
+        {
+            targetPosition.y = Mathf.Max(targetPosition.y, maxY);
         }
     }
 
     private void Drag()
     {
-        Debug.Log("Drag");
+        isDragging = true;
         Vector3 rightDirection = vc.transform.right * touchManager.DragX * dragSpeed;
         targetPosition += rightDirection;
-        targetPosition.y = Mathf.Clamp(targetPosition.y, minY, maxY);
-        Debug.Log($"New Position: {targetPosition}");
         vc.transform.DOMove(targetPosition, zoomDuration).SetEase(Ease.InOutQuad);
+        isDragging = false;
     }
 }
