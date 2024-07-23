@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowable
+public class Building : MonoBehaviour, IClickable
 {
     [SerializeField]
     private float duration = 0f;

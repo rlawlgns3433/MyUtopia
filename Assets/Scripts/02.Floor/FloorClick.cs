@@ -51,7 +51,7 @@ public class FloorClick : MonoBehaviour, IClickable, IPointerClickHandler
 
     public void RegisterClickable()
     {
-        ClickableManager.AddClickable(this, UnFollow, FocusOut, UiManager.Instance.ShowMainUi);
+        ClickableManager.AddClickable(this, UnFollow, UiManager.Instance.ShowMainUi);
     }
 
     private void UnFollow()

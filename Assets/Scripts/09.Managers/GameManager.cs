@@ -207,6 +207,11 @@ public class GameManager : Singleton<GameManager>
         while (!DataTableMgr.GetItemTable().IsLoaded)
         {
             await UniTask.Yield();
+        }   
+
+        while (!DataTableMgr.GetInvitationTable().IsLoaded)
+        {
+            await UniTask.Yield();
         }
 
         return;
