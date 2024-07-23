@@ -122,6 +122,6 @@ public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowab
         }
 
         BuildingStat = new BuildingStat(BuildingStat.Building_ID + 100);
+        BuildingStat.IsLock = false;
     }
-
 }

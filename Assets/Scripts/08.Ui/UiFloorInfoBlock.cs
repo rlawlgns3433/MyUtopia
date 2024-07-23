@@ -39,6 +39,7 @@ public class UiFloorInfoBlock : MonoBehaviour
 
         if (floor.FloorStat.FloorData.Floor_ID == 0)
             return false;
+        buttonLevelUp.onClick.RemoveAllListeners();
 
         buttonLevelUp.onClick.AddListener(floor.LevelUp);
         buttonLevelUp.onClick.AddListener(UiManager.Instance.floorInformationUi.SetFloorData);

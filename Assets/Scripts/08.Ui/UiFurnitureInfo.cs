@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,6 @@ public class UiFurnitureInfo : MonoBehaviour
     public List<UiUpgradeCurrency> uiUpgradeCurrencies = new List<UiUpgradeCurrency>();
     public UiUpgradeCurrency uiUpgradeCurrency;
     public Transform contents; // 하위에 업그레이드 시 재화가 얼마나 필요한 지
-
     public bool Set(Furniture furniture)
     {
         foreach (var currency in uiUpgradeCurrencies)
@@ -39,6 +39,8 @@ public class UiFurnitureInfo : MonoBehaviour
             return false;
 
         this.furniture = furniture;
+
+        buttonLevelUp.onClick.RemoveAllListeners();
 
         buttonLevelUp.onClick.AddListener(furniture.LevelUp);
         buttonLevelUp.onClick.AddListener(SetFurnitureUi);

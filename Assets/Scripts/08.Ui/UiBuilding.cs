@@ -37,6 +37,7 @@ public class UiBuildingInfo : MonoBehaviour
 
         if (building.BuildingStat.BuildingData.Building_ID == 0)
             return false;
+        buttonLevelUp.onClick.RemoveAllListeners();
 
         this.building = building;
 
