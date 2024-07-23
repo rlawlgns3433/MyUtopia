@@ -126,4 +126,47 @@ public class AnimalManager : Subject
             UiManager.Instance.animalFocusUi.Set();
         };
     }
+
+    public void Create(Vector3 position, Floor floor, int animalId, int slotId, AnimalStat animalStat, bool isMerged = false)
+    {
+        if (!isMerged)
+        {
+            if (floor.animals.Count >= floor.FloorStat.Max_Population)
+                return;
+        }
+
+        if (animalDictionary.Count == 0)
+        {
+            foreach (var animal in AnimalTable.GetKeyValuePairs)
+            {
+                animalDictionary.Add(animal.Key, new AssetReference(animal.Value.Prefab));
+            }
+        }
+
+        animalDictionary[animalId].InstantiateAsync(position, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
+        {
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                var animalWork = handle.Result.GetComponent<AnimalWork>();
+                animalWork.Animal = new Animal(animalWork.animalId);
+                animalWork.Animal.animalStat.CurrentFloor = floor.floorName;
+                Debug.Log($"{animalWork.Animal.animalStat.CurrentFloor}/{floor.floorName}");
+                animalWork.Animal.animalWork = animalWork;
+                animalWork.Animal.animalStat = animalStat;
+
+                animalWork.Animal.SetAnimal();
+
+                floor.animals.Add(animalWork.Animal);
+
+                if (isMerged)
+                {
+                    var animalClick = handle.Result.GetComponent<AnimalClick>();
+                    animalClick.IsClicked = true;
+                }
+                uiAnimalInventory.UpdateInventory(isMerged);
+                uiCurrencies.SetAllAnimals();
+            }
+            UiManager.Instance.animalFocusUi.Set();
+        };
+    }
 }
