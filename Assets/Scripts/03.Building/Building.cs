@@ -13,7 +13,6 @@ public class Building : MonoBehaviour, IClickable, IPointerClickHandler, IGrowab
     public Vector3 clickedScale;
     public CurrencyType buildingType;
     public int buildingId;
-    public bool isLock = true;
 
     private BuildingStat buildingStat;
     public BuildingStat BuildingStat

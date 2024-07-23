@@ -82,7 +82,7 @@ public class UiFloorInformation : MonoBehaviour
 
         foreach (var building in currentFloor.buildings)
         {
-            if(!building.isLock)
+            if(!building.BuildingStat.IsLock)
             {
                 if(ValidateBuildingData(building))
                 {
@@ -101,12 +101,15 @@ public class UiFloorInformation : MonoBehaviour
 
         foreach (var furniture in currentFloor.furnitures)
         {
-            UiFurnitureInfo uiFurnitureInfo = Instantiate(furnitureInfoPrefab, furnitureParent);
-            bool isSucceed = uiFurnitureInfo.Set(furniture);
-
-            if (isSucceed)
+            if(ValidateFurnitureData(furniture))
             {
-                uiFurnitures.Add(uiFurnitureInfo);
+                UiFurnitureInfo uiFurnitureInfo = Instantiate(furnitureInfoPrefab, furnitureParent);
+                bool isSucceed = uiFurnitureInfo.Set(furniture);
+
+                if (isSucceed)
+                {
+                    uiFurnitures.Add(uiFurnitureInfo);
+                }
             }
         }
     }
@@ -116,6 +119,16 @@ public class UiFloorInformation : MonoBehaviour
         foreach (var uiBuilding in uiBuildings)
         {
             if (uiBuilding.building.BuildingStat.BuildingData.GetName().Equals(newBuilding.BuildingStat.BuildingData.GetName()))
+                return false;
+        }
+        return true;
+    }
+
+    public bool ValidateFurnitureData(Furniture newFurniture)
+    {
+        foreach (var uiFurniture in uiFurnitures)
+        {
+            if (uiFurniture.furniture.FurnitureStat.FurnitureData.GetName().Equals(newFurniture.FurnitureStat.FurnitureData.GetName()))
                 return false;
         }
         return true;

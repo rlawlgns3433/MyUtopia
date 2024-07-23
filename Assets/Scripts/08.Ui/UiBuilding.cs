@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,11 +12,18 @@ public class UiBuildingInfo : MonoBehaviour
     public TextMeshProUGUI textDescription;
     public Button buttonLevelUp;
     public Building building;
+    public List<UiUpgradeCurrency> uiUpgradeCurrencies = new List<UiUpgradeCurrency>();
     public UiUpgradeCurrency uiBuildingUpgradeCurrency;
     public Transform contents; // 하위에 업그레이드 시 재화가 얼마나 필요한 지
 
     public bool Set(Building building)
     {
+        foreach (var currency in uiUpgradeCurrencies)
+        {
+            Destroy(currency.gameObject);
+        }
+        uiUpgradeCurrencies.Clear();
+
         var uiFloorInformation = UiManager.Instance.floorInformationUi;
 
         if(uiFloorInformation == null)
@@ -50,6 +58,7 @@ public class UiBuildingInfo : MonoBehaviour
             var sprite = await DataTableMgr.GetResourceTable().Get((int)CurrencyType.Coin).GetImage();
             var value = building.BuildingStat.Level_Up_Coin_Value.ToBigNumber();
             currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
         }
 
         if(building.BuildingStat.Level_Up_Resource_1 != 0)
@@ -58,22 +67,25 @@ public class UiBuildingInfo : MonoBehaviour
             var sprite = await DataTableMgr.GetResourceTable().Get(building.BuildingStat.Level_Up_Resource_1).GetImage();
             var value = building.BuildingStat.Resource_1_Value.ToBigNumber();
             currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
         }
-        
-        if(building.BuildingStat.Level_Up_Resource_2 != 0)
+
+        if (building.BuildingStat.Level_Up_Resource_2 != 0)
         {
             var currency = Instantiate(uiBuildingUpgradeCurrency, contents);
             var sprite = await DataTableMgr.GetResourceTable().Get(building.BuildingStat.Level_Up_Resource_2).GetImage();
             var value = building.BuildingStat.Resource_2_Value.ToBigNumber();
             currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
         }
-        
-        if(building.BuildingStat.Level_Up_Resource_3 != 0)
+
+        if (building.BuildingStat.Level_Up_Resource_3 != 0)
         {
             var currency = Instantiate(uiBuildingUpgradeCurrency, contents);
             var sprite = await DataTableMgr.GetResourceTable().Get(building.BuildingStat.Level_Up_Resource_3).GetImage();
             var value = building.BuildingStat.Resource_3_Value.ToBigNumber();
             currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
         }
 
 

@@ -10,13 +10,26 @@ public class UiFloorInfoBlock : MonoBehaviour
     private static readonly string lvFormat = "Lv.{0} / Lv.{1}";
     public List<Image> imageProductions = new List<Image>();
     public TextMeshProUGUI textLevel;
+    public TextMeshProUGUI textMax;
     public UiUpgradeCurrency uiUpgradeCurrency;
+    public List<UiUpgradeCurrency> uiUpgradeCurrencies = new List<UiUpgradeCurrency>();
     public Button buttonLevelUp;
     public Floor floor;
     public Transform contents;
 
     public bool Set(Floor floor)
     {
+        foreach(var production in imageProductions)
+        {
+            production.sprite = null;
+        }
+
+        foreach (var currency in uiUpgradeCurrencies)
+        {
+            Destroy(currency.gameObject);
+        }
+        uiUpgradeCurrencies.Clear();
+
         var uiFloorInformation = UiManager.Instance.floorInformationUi;
 
         if (uiFloorInformation == null)
@@ -41,13 +54,19 @@ public class UiFloorInfoBlock : MonoBehaviour
         for (int i = 0; i < floor.buildings.Count; i++)
         {
             var building = floor.buildings[i];
-            if (building.isLock)
+            if (building.BuildingStat.IsLock)
                 continue;
 
             imageProductions[i].sprite = await building.BuildingStat.BuildingData.GetPrefab(); // 빌딩 이미지 추가 예정
             imageProductions[i].type = Image.Type.Sliced;
         }
 
+        if(floor.FloorStat.Grade == floor.FloorStat.Grade_Max)
+        {
+            textMax.gameObject.SetActive(true);
+            return;
+        }
+        textMax.gameObject.SetActive(false);
 
         if (floor.FloorStat.Level_Up_Coin_Value != "0")
         {
@@ -55,6 +74,7 @@ public class UiFloorInfoBlock : MonoBehaviour
             var sprite = await DataTableMgr.GetResourceTable().Get((int)CurrencyType.Coin).GetImage();
             var value = floor.FloorStat.Level_Up_Coin_Value.ToBigNumber();
             currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
         }
 
         if (floor.FloorStat.Level_Up_Resource_1 != 0)
@@ -63,6 +83,7 @@ public class UiFloorInfoBlock : MonoBehaviour
             var sprite = await DataTableMgr.GetResourceTable().Get(floor.FloorStat.Level_Up_Resource_1).GetImage();
             var value = floor.FloorStat.Resource_1_Value.ToBigNumber();
             currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
         }
 
         if (floor.FloorStat.Level_Up_Resource_2 != 0)
@@ -71,6 +92,7 @@ public class UiFloorInfoBlock : MonoBehaviour
             var sprite = await DataTableMgr.GetResourceTable().Get(floor.FloorStat.Level_Up_Resource_2).GetImage();
             var value = floor.FloorStat.Resource_2_Value.ToBigNumber();
             currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
         }
 
         if (floor.FloorStat.Level_Up_Resource_3 != 0)
@@ -79,6 +101,7 @@ public class UiFloorInfoBlock : MonoBehaviour
             var sprite = await DataTableMgr.GetResourceTable().Get(floor.FloorStat.Level_Up_Resource_3).GetImage();
             var value = floor.FloorStat.Resource_3_Value.ToBigNumber();
             currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
         }
 
         //textDescription.text = 건물 설명

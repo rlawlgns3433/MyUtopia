@@ -48,7 +48,7 @@ public class BuildingFloor : Floor
             {
                 foreach (var b in buildings)
                 {
-                    if (b.isLock)
+                    if (b.BuildingStat.IsLock)
                         continue;
                     if (b.BuildingStat.Level == 0)
                         continue;

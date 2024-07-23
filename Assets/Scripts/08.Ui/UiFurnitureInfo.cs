@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,11 +12,18 @@ public class UiFurnitureInfo : MonoBehaviour
     public TextMeshProUGUI textDescription;
     public Button buttonLevelUp;
     public Furniture furniture;
+    public List<UiUpgradeCurrency> uiUpgradeCurrencies = new List<UiUpgradeCurrency>();
     public UiUpgradeCurrency uiUpgradeCurrency;
     public Transform contents; // 하위에 업그레이드 시 재화가 얼마나 필요한 지
 
     public bool Set(Furniture furniture)
     {
+        foreach (var currency in uiUpgradeCurrencies)
+        {
+            Destroy(currency.gameObject);
+        }
+        uiUpgradeCurrencies.Clear();
+
         var uiFloorInformation = UiManager.Instance.floorInformationUi;
 
         if (uiFloorInformation == null)
@@ -50,6 +58,7 @@ public class UiFurnitureInfo : MonoBehaviour
             var sprite = await DataTableMgr.GetResourceTable().Get((int)CurrencyType.Coin).GetImage();
             var value = furniture.FurnitureStat.Level_Up_Coin_Value.ToBigNumber();
             currency.SetCurrency(sprite, value);
+            uiUpgradeCurrencies.Add(currency);
         }
 
         //uiBuildingInfo.buildingProfile.sprite = building.FurnitureData.GetProfile();
