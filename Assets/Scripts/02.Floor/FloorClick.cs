@@ -40,7 +40,6 @@ public class FloorClick : MonoBehaviour, IClickable, IPointerClickHandler
     private void OnDisable()
     {
         ClickableManager.RemoveClickable(this);
-        clickEvent -= FocusOut;
         clickEvent -= UnFollow;
         //clickEvent -= UiManager.Instance.ShowMainUi;
     }
