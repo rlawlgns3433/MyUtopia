@@ -32,6 +32,7 @@ public class GameManager : Singleton<GameManager>
     private void Awake()
     {
         CurrencyManager.Init();
+        CurrentSceneId = SceneIds.WorldLandOfHope;
     }
 
     private void OnApplicationQuit()
@@ -75,7 +76,6 @@ public class GameManager : Singleton<GameManager>
         //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
         await UniWaitTables();
-        CurrentSceneId = SceneIds.WorldLandOfHope;
 
         SaveDataV1 saveWorldData = SaveLoadSystem.Load() as SaveDataV1;
 
@@ -93,7 +93,9 @@ public class GameManager : Singleton<GameManager>
 
                 foreach (var animal in animals)
                 {
-                    GetAnimalManager().Create(floor.transform.position, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
+                    var pos = floor.transform.position;
+                    pos.z -= 5;
+                    GetAnimalManager().Create(pos, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
                 }
 
                 for (int j = 0; j < floor.buildings.Count; ++j)
