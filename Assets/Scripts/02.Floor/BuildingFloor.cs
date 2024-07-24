@@ -64,7 +64,9 @@ public class BuildingFloor : Floor
                             {
                                 BigNumber c = b.accumWorkLoad / b.BuildingStat.Work_Require;
                                 CurrencyManager.currency[b.buildingType] += c;
-                                b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingStat.Work_Require;
+                                //b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingStat.Work_Require; 기존
+                                b.accumWorkLoad = BigNumber.Zero;
+
                                 var pos = b.transform.position;
                                 pos.y += 1;
 
@@ -81,14 +83,15 @@ public class BuildingFloor : Floor
                             {
                                 if (CurrencyManager.currency[(CurrencyType)b.BuildingStat.Materials_Type] < b.BuildingStat.Conversion_rate)
                                 {
-                                    b.accumWorkLoad = new BigNumber(0);
+                                    b.accumWorkLoad = BigNumber.Zero;
                                     break;
                                 }
 
                                 BigNumber c = b.accumWorkLoad / b.BuildingStat.Work_Require;
                                 CurrencyManager.currency[b.buildingType] += c;
                                 CurrencyManager.currency[(CurrencyType)b.BuildingStat.Materials_Type] -= c * b.BuildingStat.Conversion_rate;
-                                b.accumWorkLoad -= c * b.BuildingStat.Work_Require;
+                                //b.accumWorkLoad -= c * b.BuildingStat.Work_Require; 기존
+                                b.accumWorkLoad = BigNumber.Zero;
                             }
                             else
                             {
