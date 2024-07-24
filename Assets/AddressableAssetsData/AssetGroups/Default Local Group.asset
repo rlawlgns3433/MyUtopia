@@ -27,8 +27,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f77565e81e5c1c34880f15a69ce238c3
-    m_Address: MergeTable
+  - m_GUID: 6008996f7d0b6944182bf61d8eadb8bf
+    m_Address: FloorTable
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -52,38 +52,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6008996f7d0b6944182bf61d8eadb8bf
-    m_Address: FloorTable
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1bc43ff27237ec44cb598c220b62c1d0
     m_Address: AnimalTable
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f02f41159129eed4589100cb223c6140
-    m_Address: BuildingTable
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8d769373569679a498a5390822ecf638
-    m_Address: StringTableKr
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 73266931bbe82e14aa1a06cd2a8c9999
-    m_Address: ResourceTable
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 80650aeccb5c70c4f8b76dda835e9c1d
-    m_Address: WorldTable
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 924b66f38353cbf42ac9faa2839d0344
-    m_Address: RecipeTable
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -92,8 +62,38 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73266931bbe82e14aa1a06cd2a8c9999
+    m_Address: ResourceTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f77565e81e5c1c34880f15a69ce238c3
+    m_Address: MergeTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f02f41159129eed4589100cb223c6140
+    m_Address: BuildingTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 924b66f38353cbf42ac9faa2839d0344
+    m_Address: RecipeTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 70425fa1dc6db6f499cdb310824b0cf1
     m_Address: FurnitureTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80650aeccb5c70c4f8b76dda835e9c1d
+    m_Address: WorldTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d769373569679a498a5390822ecf638
+    m_Address: StringTableKr
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -314,6 +314,216 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ff6cc41ae7b39f64bb3cd0ef2ab3e168
     m_Address: InvitationTable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 08c5c4daffc629e429654cb9e4109894
+    m_Address: Peacock
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b654352311603c747869a031da6e4027
+    m_Address: Mouse
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36ed5b5431247844db80ea8bc299fed7
+    m_Address: Raccoon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e89af568673828e4d82b4f3618e0aeff
+    m_Address: Ostrich
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: daa78140671b7ef409370ed930a60234
+    m_Address: Flamingo
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6b0d9346535b7c143ae10319bfa69e22
+    m_Address: Chick
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d709096d128352a42afceca41c57ecae
+    m_Address: Husky
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0ea1367d4ddbcfd4bb8266bf8fe151f0
+    m_Address: Rooster
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e2b708a5b312ae144a0356c6ec86d367
+    m_Address: Goat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97a28e9fc55644d4fa56a7a93da15c97
+    m_Address: Wolf
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c93e53bb6c7f6f240a39a74be3786d97
+    m_Address: Crocodile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 542e34bb6c19e6645b79b37db8fcd0a2
+    m_Address: Tiger
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2c1341686ad0d874997fa025aba40300
+    m_Address: Cobra
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3176a842f36712e4a94462d16c4a722e
+    m_Address: Serval
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 910b6d17bd025a946a552f7d47e002c4
+    m_Address: Bear
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5cc8dd1c7ae6324aa51de354f817ed4
+    m_Address: Fox
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 38689e7b7cd59d34c91784033a313eb8
+    m_Address: Cat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90516ea36f8118042b3cb4abe07447bb
+    m_Address: SnappingTurtle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a057c0d737866a4a90d8fc4350e7935
+    m_Address: Chameleon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb88c820a475dce43b008f71f19e1ca1
+    m_Address: Bighorn
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 060e50d395e90a84b83b585e485252a6
+    m_Address: SnowWeasel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13cd886fcc511e04b857ac803f70bc29
+    m_Address: Lion
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5d805e00bf79914baf193dd63db01e6
+    m_Address: Reindeer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0b78e55c1a44c942978df3052f4323d
+    m_Address: Moose
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af3af72b21be7c946b5c87371ba88e2b
+    m_Address: Buffalo
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f949e4ddd892ec745b163f3d5b6b5397
+    m_Address: Bed_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8cdaa330e23a9534b8b94794d92fbbbc
+    m_Address: Cafe_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9d2957d2a032dd84aa229763ff183f00
+    m_Address: CoinMine_profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3cacd9f4568c9174cbe0a13244b16651
+    m_Address: CopperFurnace_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b682ba021493aea4f94e272011e4d186
+    m_Address: CopperMine_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44a33ba51c34c0549941555ae702273f
+    m_Address: CraftingTable_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac8691cc382acaf4180b8284b8cde806
+    m_Address: GardenShop_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0ae30fe0edb2a149acfd4e5e2a32eed
+    m_Address: GoldFurnace_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6fc26d93ad401a54a803abc9b25eebbd
+    m_Address: GoldMine_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1531fe56d6d85304eaaf0c5a055d22e3
+    m_Address: House_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 58df006821ab45e479bd094229ff7261
+    m_Address: IcecreamShop_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd89fae7047b646438591d7319f11d59
+    m_Address: Restaurant_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f5796e1ac6d8b049a4cdfeb8800aedb
+    m_Address: SilverFurnace_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46114d846e64a0746b8a8949ae951e5d
+    m_Address: SilverMine_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80939173e7d088746ad0fa8e57ca389b
+    m_Address: StorageB3_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73d0c05fd7417df4189314ed25960504
+    m_Address: StorageB4_Profile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 94f30a3df6195794cb03f3d36948cd08
+    m_Address: StorageB5_Profile
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

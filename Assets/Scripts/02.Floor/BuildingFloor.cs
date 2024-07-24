@@ -34,9 +34,9 @@ public class BuildingFloor : Floor
             foreach (var animal in animals)
             {
                 if (animal.animalStat.Stamina <= 0)
-                    autoWorkload += animal.animalStat.Workload / 2;
+                    autoWorkload += new BigNumber(animal.animalStat.Workload) / 2;
                 else
-                    autoWorkload += animal.animalStat.Workload;
+                    autoWorkload += new BigNumber(animal.animalStat.Workload);
 
                 if (storage != null)
                     storageConduct.CurrWorkLoad = autoWorkload;
@@ -64,7 +64,13 @@ public class BuildingFloor : Floor
                             {
                                 BigNumber c = b.accumWorkLoad / b.BuildingStat.Work_Require;
                                 CurrencyManager.currency[b.buildingType] += c;
-                                b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingStat.Work_Require;
+                                //b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingStat.Work_Require; 기존
+                                b.accumWorkLoad = BigNumber.Zero;
+
+                                var pos = b.transform.position;
+                                pos.y += 1;
+
+                                DynamicTextManager.CreateText(pos, c.ToString(), DynamicTextManager.autoWorkData, 2, 0.5f);
                             }
                             else
                                 b.accumWorkLoad += autoWorkload;
@@ -77,43 +83,25 @@ public class BuildingFloor : Floor
                             {
                                 if (CurrencyManager.currency[(CurrencyType)b.BuildingStat.Materials_Type] < b.BuildingStat.Conversion_rate)
                                 {
-                                    b.accumWorkLoad = new BigNumber(0);
+                                    b.accumWorkLoad = BigNumber.Zero;
                                     break;
                                 }
 
                                 BigNumber c = b.accumWorkLoad / b.BuildingStat.Work_Require;
                                 CurrencyManager.currency[b.buildingType] += c;
                                 CurrencyManager.currency[(CurrencyType)b.BuildingStat.Materials_Type] -= c * b.BuildingStat.Conversion_rate;
-                                b.accumWorkLoad -= c * b.BuildingStat.Work_Require;
+                                //b.accumWorkLoad -= c * b.BuildingStat.Work_Require; 기존
+                                b.accumWorkLoad = BigNumber.Zero;
                             }
                             else
                             {
                                 b.accumWorkLoad += autoWorkload;
                             }
                             break;
-                            //case 7:
-                            //    if (b.accumWorkLoad > b.BuildingData.Work_Require)
-                            //    {
-                            //        // 레시피 정보 불러오기
-                            //        if (CurrencyManager.currency[CurrencyType.Coin] > 10 && CurrencyManager.currency[CurrencyType.CopperStone] > 10)
-                            //        {
-                            //            CurrencyManager.currency[CurrencyType.Coin] -= 10;
-                            //            CurrencyManager.currency[CurrencyType.CopperStone] -= 10;
-                            //            //CurrencyManager.currency[CurrencyType.Craft] += 1;
-
-                            //            b.accumWorkLoad -= b.BuildingData.Work_Require;
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        b.accumWorkLoad += autoWorkload;
-                            //    }
-                            //    break;
                     }
                 }
             }
             NotifyObservers();
         }
     }
-
 }

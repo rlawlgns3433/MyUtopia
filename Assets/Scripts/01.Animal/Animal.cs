@@ -75,6 +75,9 @@ public class Animal : IGrowable, IMovable
 
             if(target != null)
             {
+                if (animalStat.AnimalData.Animal_Grade == 5)
+                    return;
+
                 if(animalWork.Merge(target))
                     return;
             }
@@ -112,27 +115,13 @@ public class Animal : IGrowable, IMovable
 
             if(target != null)
             {
+                if (animalStat.AnimalData.Animal_Grade == 5)
+                    return;
+
                 if (animalWork.Merge(target))
                     return;
             }
-
             #endregion
-
-            //if (firstFloorAnimals.Count == 0)
-            //    return;
-            //foreach(var a in animals)
-            //{
-            //    if (animalWork.Equals(a.animalWork))
-            //        continue;
-            //    if(a.animalStat.Level == a.animalStat.Level_Max)
-            //    {
-            //        if (!animalWork.Merge(a.animalWork))
-            //            continue;
-            //        else
-            //            return;
-            //    }
-            //}
-            //return;
 
             Debug.LogError("Merge Fail");
 

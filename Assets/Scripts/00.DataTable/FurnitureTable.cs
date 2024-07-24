@@ -1,4 +1,5 @@
 using CsvHelper;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -19,15 +20,32 @@ public class FunitureData
     public int Level_Up_Coin_ID{  get; set; }
     public string Level_Up_Coin_Value { get; set; }
     public string Prefab {  get; set; }
+    public string Profile { get; set; }
 
     public string GetName()
     {
         return DataTableMgr.GetStringTable().Get(Furniture_Name_ID);
     }
 
-    public Sprite GetPrefab()
+    public string GetDescription()
     {
-        return Addressables.LoadAssetAsync<Sprite>(Prefab).Result;
+        return DataTableMgr.GetStringTable().Get(Furniture_Desc_ID);
+    }
+
+    public async UniTask<Sprite> GetProfile()
+    {
+        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(Profile);
+        await handle.Task;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            return handle.Result;
+        }
+        else
+        {
+            Debug.LogError("Failed to load image.");
+            return null;
+        }
     }
 }
 

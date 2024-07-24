@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 
 public class AnimalWork : Subject, IMergable
@@ -8,6 +9,8 @@ public class AnimalWork : Subject, IMergable
     public Observer uiSlot;
     public Observer uiAnimalFloorSlot;
 
+    public Canvas canvasSpeech;
+    public TextMeshProUGUI textSpeech;
     private AnimalManager animalManager;
     private CancellationTokenSource cts = new CancellationTokenSource();
     public int animalId;
@@ -98,24 +101,27 @@ public class AnimalWork : Subject, IMergable
         switch (animal.animalStat.CurrentFloor)
         {
             case "B1":
+                textSpeech.text = "식당";
                 NotifyObservers();
                 break;
             case "B2":
+                textSpeech.text = "휴식중";
                 Debug.Log("B2Start");
                 while (Animal.animalStat.Stamina < Animal.animalStat.AnimalData.Stamina)
                 {
                     Animal.animalStat.Stamina += 1;
                     NotifyObservers();
-                    await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
+                    await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
                 }
                 break;
             default:
+                textSpeech.text = "작업중";
                 Debug.Log("else");
                 while (Animal.animalStat.Stamina > 0)
                 {
                     Animal.animalStat.Stamina -= 1;
                     NotifyObservers();
-                    await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
+                    await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
                 }
                 break;
         }

@@ -10,6 +10,7 @@ public class UiBuildingInfo : MonoBehaviour
     public Image buildingProfile;
     public TextMeshProUGUI textBuildingName;
     public TextMeshProUGUI textDescription;
+    public TextMeshProUGUI textMax;
     public Button buttonLevelUp;
     public Building building;
     public List<UiUpgradeCurrency> uiUpgradeCurrencies = new List<UiUpgradeCurrency>();
@@ -50,10 +51,29 @@ public class UiBuildingInfo : MonoBehaviour
 
     public async void SetBuildingUi()
     {
+        foreach (var currency in uiUpgradeCurrencies)
+        {
+            Destroy(currency.gameObject);
+        }
+        uiUpgradeCurrencies.Clear();
+
+        if(building.BuildingStat.Level == building.BuildingStat.Level_Max)
+        {
+            textMax.gameObject.SetActive(true);
+            buttonLevelUp.interactable = false;
+        }
+        else
+        {
+            textMax.gameObject.SetActive(false);
+            buttonLevelUp.interactable = true;
+        }
+
         textBuildingLevel.text = string.Format(lvFormat, building.BuildingStat.Level);
         textBuildingName.text = building.BuildingStat.BuildingData.GetName();
+        textDescription.text = building.BuildingStat.BuildingData.GetDescription();
+        buildingProfile.sprite = await building.BuildingStat.BuildingData.GetProfile();
 
-        if(building.BuildingStat.Level_Up_Coin_Value != "0")
+        if (building.BuildingStat.Level_Up_Coin_Value != "0")
         {
             var currency = Instantiate(uiBuildingUpgradeCurrency, contents);
             var sprite = await DataTableMgr.GetResourceTable().Get((int)CurrencyType.Coin).GetImage();

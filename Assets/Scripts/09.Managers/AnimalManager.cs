@@ -11,6 +11,7 @@ public class AnimalManager : Subject
     public UiAnimalInventory uiAnimalInventory;
     public UiAnimalList uiAnimalList;
     public UiCurrencies uiCurrencies;
+    public Observer uiWorldAnimalCount;
 
     private AnimalTable animalTable;
     public AnimalTable AnimalTable
@@ -35,7 +36,7 @@ public class AnimalManager : Subject
         {
             animalClick.gameObject.SetActive(false);
             animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
-            animalClick.gameObject.transform.localPosition = Vector3.zero;
+            animalClick.gameObject.transform.localPosition = -Vector3.forward * 3f;
             animalClick.gameObject.SetActive(true);
         }
     }
@@ -69,13 +70,12 @@ public class AnimalManager : Subject
     private void Start()
     {
         DataTableMgr.GetStringTable();
-        Attach(uiAnimalInventory);
+        Attach(uiWorldAnimalCount);
     }
 
     public void CreateAnimal()
     {
         NotifyObservers();
-
     }
 
     public void Create(Vector3 position, Floor floor, int animalId, int slotId, bool isMerged = false)
@@ -86,7 +86,7 @@ public class AnimalManager : Subject
                 return;
         }
 
-        if (animalDictionary.Count == 0)
+        while (animalDictionary.Count == 0)
         {
             foreach (var animal in AnimalTable.GetKeyValuePairs)
             {
@@ -99,10 +99,11 @@ public class AnimalManager : Subject
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
                 var animalWork = handle.Result.GetComponent<AnimalWork>();
-                animalWork.Animal = new Animal(animalWork.animalId);
+                animalWork.Animal = new Animal(animalId);
                 animalWork.Animal.animalStat.CurrentFloor = floor.floorName;
                 Debug.Log($"{animalWork.Animal.animalStat.CurrentFloor}/{floor.floorName}");
                 animalWork.Animal.animalWork = animalWork;
+
                 animalWork.Animal.SetAnimal();
 
                 floor.animals.Add(animalWork.Animal);
@@ -113,7 +114,8 @@ public class AnimalManager : Subject
                     animalClick.IsClicked = true;
                 }
                 uiAnimalInventory.UpdateInventory(isMerged);
-                uiCurrencies.SetAllAnimals();
+                //uiCurrencies.SetAllAnimals();
+                NotifyObservers();
             }
             UiManager.Instance.animalFocusUi.Set();
         };
@@ -127,7 +129,7 @@ public class AnimalManager : Subject
                 return;
         }
 
-        if (animalDictionary.Count == 0)
+        while (animalDictionary.Count == 0)
         {
             foreach (var animal in AnimalTable.GetKeyValuePairs)
             {
@@ -156,7 +158,8 @@ public class AnimalManager : Subject
                     animalClick.IsClicked = true;
                 }
                 uiAnimalInventory.UpdateInventory(isMerged);
-                uiCurrencies.SetAllAnimals();
+                //uiCurrencies.SetAllAnimals();
+                NotifyObservers();
             }
             UiManager.Instance.animalFocusUi.Set();
         };

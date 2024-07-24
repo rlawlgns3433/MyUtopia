@@ -1,4 +1,5 @@
 using CsvHelper;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -28,11 +29,28 @@ public class FloorData
     public string Resource_2_Value { get; set; }
     public int Level_Up_Resource_3 { get; set; }
     public string Resource_3_Value { get; set; }
-
+    public string Prefab { get; set; }
+    public string Icon { get; set; }
 
     public string GetFloorName()
     {
         return DataTableMgr.GetStringTable().Get(Floor_Name_ID);
+    }
+
+    public async UniTask<Sprite> GetIcon()
+    {
+        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(Icon);
+        await handle.Task;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            return handle.Result;
+        }
+        else
+        {
+            Debug.LogError("Failed to load image.");
+            return null;
+        }
     }
 }
 

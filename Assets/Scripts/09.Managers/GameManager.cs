@@ -91,6 +91,8 @@ public class GameManager : Singleton<GameManager>
                 var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
                 floor.FloorStat = floorSaveData.floorStat;
 
+
+
                 foreach (var animal in animals)
                 {
                     var pos = floor.transform.position;
@@ -98,13 +100,18 @@ public class GameManager : Singleton<GameManager>
                     GetAnimalManager().Create(pos, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
                 }
 
+                int index = floorSaveData.floorStat.Floor_ID % 10 - 1;
+                for (int j = 0; j <= index; ++j)
+                {
+                    if (buildings.Count == 0)
+                        break;
+                    floor.buildings[j].BuildingStat.IsLock = false;
+                    floor.buildings[j].gameObject.SetActive(true);
+                }
+
                 for (int j = 0; j < floor.buildings.Count; ++j)
                 {
                     floor.buildings[j].BuildingStat = buildings[j].buildingStat;
-                    if(!floor.buildings[j].BuildingStat.IsLock)
-                    {
-                        floor.buildings[j].gameObject.SetActive(true);
-                    }
                 }
             }
         }
