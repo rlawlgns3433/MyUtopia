@@ -27,6 +27,11 @@ public class FunitureData
         return DataTableMgr.GetStringTable().Get(Furniture_Name_ID);
     }
 
+    public string GetDescription()
+    {
+        return DataTableMgr.GetStringTable().Get(Furniture_Desc_ID);
+    }
+
     public async UniTask<Sprite> GetProfile()
     {
         AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(Profile);

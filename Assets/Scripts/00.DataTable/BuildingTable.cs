@@ -36,6 +36,11 @@ public class BuildingData
         return DataTableMgr.GetStringTable().Get(Building_Name_ID);
     }
 
+    public string GetDescription()
+    {
+        return DataTableMgr.GetStringTable().Get(Building_Desc_ID);
+    }
+
     public async UniTask<GameObject> GetPrefab()
     {
         AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(Prefab);

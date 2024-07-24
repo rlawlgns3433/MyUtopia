@@ -27,7 +27,7 @@ public class ItemData
         return DataTableMgr.GetStringTable().Get(Item_Name_ID);
     }
 
-    public string GetDesc()
+    public string GetDescription()
     {
         return DataTableMgr.GetStringTable().Get(Item_Desc_ID);
     }
