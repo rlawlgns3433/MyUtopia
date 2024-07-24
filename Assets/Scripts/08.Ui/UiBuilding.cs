@@ -10,6 +10,7 @@ public class UiBuildingInfo : MonoBehaviour
     public Image buildingProfile;
     public TextMeshProUGUI textBuildingName;
     public TextMeshProUGUI textDescription;
+    public TextMeshProUGUI textMax;
     public Button buttonLevelUp;
     public Building building;
     public List<UiUpgradeCurrency> uiUpgradeCurrencies = new List<UiUpgradeCurrency>();
@@ -55,6 +56,17 @@ public class UiBuildingInfo : MonoBehaviour
             Destroy(currency.gameObject);
         }
         uiUpgradeCurrencies.Clear();
+
+        if(building.BuildingStat.Level == building.BuildingStat.Level_Max)
+        {
+            textMax.gameObject.SetActive(true);
+            buttonLevelUp.interactable = false;
+        }
+        else
+        {
+            textMax.gameObject.SetActive(false);
+            buttonLevelUp.interactable = true;
+        }
 
         textBuildingLevel.text = string.Format(lvFormat, building.BuildingStat.Level);
         textBuildingName.text = building.BuildingStat.BuildingData.GetName();
