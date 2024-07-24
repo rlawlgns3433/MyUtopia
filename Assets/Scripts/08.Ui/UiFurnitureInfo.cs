@@ -52,6 +52,8 @@ public class UiFurnitureInfo : MonoBehaviour
     {
         textFurnitureLevel.text = string.Format(lvFormat, furniture.FurnitureStat.Level);
         textFurnitureName.text = furniture.FurnitureStat.FurnitureData.GetName();
+        textDescription.text = furniture.FurnitureStat.FurnitureData.GetDescription();
+        furnitureProfile.sprite = await furniture.FurnitureStat.FurnitureData.GetProfile();
 
         if (furniture.FurnitureStat.Level_Up_Coin_Value != "0")
         {
