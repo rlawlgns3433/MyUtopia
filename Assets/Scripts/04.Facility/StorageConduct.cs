@@ -179,7 +179,6 @@ public class StorageConduct : Storage
 
     private void SaveDataOnQuit()
     {
-        Debug.Log("Application quitting, saving data...");
         SaveData();
     }
 
@@ -221,6 +220,7 @@ public class StorageConduct : Storage
     public void OpenStorage()
     {
         currentValue.gameObject.SetActive(false);
+        UiManager.Instance.ShowMainUi();
         if (!isClick)
         {
             isClick = true;
@@ -302,7 +302,6 @@ public class StorageConduct : Storage
     {
         if (pauseStatus)
         {
-            Debug.Log("Application paused, saving data...");
             SaveData();
         }
     }
@@ -312,7 +311,6 @@ public class StorageConduct : Storage
         {
             await UniTask.Yield();
         }
-        Debug.Log("FurnitureTable IsLoaded!!");
         return;
     }
 }
