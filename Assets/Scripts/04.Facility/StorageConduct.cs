@@ -81,6 +81,7 @@ public class StorageConduct : Storage
     private StorageValue storageValue;
     private bool isAddQuitEvent = false;
     private BigNumber workLoadValue;
+    private int count = 0;
     private void Awake()
     {
         clickEvent += OpenStorage;
@@ -230,21 +231,28 @@ public class StorageConduct : Storage
                     if (CurrArray[i] > BigNumber.Zero)
                     {
                         Debug.Log($"Emitting particle for currency index {i}, value {CurrArray[i]}");
-                        ParticleSystemEmit(particleSystems[i]).Forget();
+                        ParticleSystemEmit(particleSystems[i], i).Forget();
+                        Debug.Log($"{particleSystems[i].name}/{i}");
                     }
                 }
             }
         }
     }
 
-    public async UniTask ParticleSystemEmit(ParticleSystem ps)
+    public async UniTask ParticleSystemEmit(ParticleSystem ps, int index)
     {
         if (ps != null)
         {
             var worldPosition = transform.position;
             var screenPos = Camera.main.WorldToScreenPoint(worldPosition);
             ps.transform.position = screenPos;
-
+            var sprite = await DataTableMgr.GetResourceTable().Get((int)currencyTypes[index]).GetImage();
+            Debug.Log($"index => {index}/{(int)currencyTypes[index]}/{currencyTypes[index]}");
+            var psSetTexture = particleSystems[index].textureSheetAnimation;
+            if (psSetTexture.mode == ParticleSystemAnimationMode.Sprites && sprite != null)
+            {
+                psSetTexture.SetSprite(0, sprite);
+            }
             ps.Emit(1);
             await UniTask.WaitUntil(() => !ps.IsAlive(true));
             if (isClick)

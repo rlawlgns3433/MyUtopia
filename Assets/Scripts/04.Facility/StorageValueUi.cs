@@ -1,5 +1,7 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +10,7 @@ using UnityEngine.UI;
 public class StorageValueUi : MonoBehaviour
 {
     public List<CurrencyType> currencyTypes;
+    public Image[] currencyImages;
     private BigNumber[] currentValue;
     private BigNumber[] currentWorkLoads;
     public GameObject[] currencyValues;
@@ -21,6 +24,7 @@ public class StorageValueUi : MonoBehaviour
         storage = GetComponentInParent<StorageConduct>();
         currentValue = new BigNumber[storage.CurrArray.Length];
         currentWorkLoads = new BigNumber[storage.CurrArray.Length];
+        currencyTypes = storage.currencyTypes;
         maxValue = storage.MaxSeconds;
         totalValue = storage.CurrentTotalSeconds;
         var maxValueText = ConvertSecondsToHours(maxValue);
@@ -34,6 +38,7 @@ public class StorageValueUi : MonoBehaviour
         for (int i = 0; i < storage.CurrArray.Length; i++)
         {
             currencyValues[i].gameObject.SetActive(true);
+            SetSprite(i).Forget();
             var currencyValueText = currencyValues[i].GetComponentInChildren<TextMeshProUGUI>();
             currencyValueText.text = currentValue[i].ToString();
             var currencyValueSlider = currencyValues[i].GetComponentInChildren<Slider>();
@@ -53,6 +58,11 @@ public class StorageValueUi : MonoBehaviour
         }
     }
 
+    private async UniTask SetSprite(int index)
+    {
+        var currencySprite = await DataTableMgr.GetResourceTable().Get((int)currencyTypes[index]).GetImage();
+        currencyImages[index].sprite = currencySprite;
+    }
     public void ExitUi()
     {
         UiManager.Instance.ShowMainUi();
