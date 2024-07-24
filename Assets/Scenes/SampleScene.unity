@@ -1624,8 +1624,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   uiAnimalInventory: {fileID: 1627572079}
-  uiAnimalList: {fileID: 0}
+  uiAnimalList: {fileID: 119100615}
   uiCurrencies: {fileID: 1629027200}
+  uiWorldAnimalCount: {fileID: 1769729409}
 --- !u!1 &58512781
 GameObject:
   m_ObjectHideFlags: 0
@@ -8158,7 +8159,7 @@ GameObject:
   - component: {fileID: 273424845}
   - component: {fileID: 273424847}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14658,7 +14659,7 @@ GameObject:
   - component: {fileID: 577120818}
   - component: {fileID: 577120819}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextGoldIngot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18669,7 +18670,7 @@ GameObject:
   - component: {fileID: 733283589}
   - component: {fileID: 733283590}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextCopperIngot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19843,7 +19844,7 @@ GameObject:
   - component: {fileID: 784281088}
   - component: {fileID: 784281089}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextGoldStone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23537,7 +23538,7 @@ GameObject:
   - component: {fileID: 940670843}
   - component: {fileID: 940670844}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextSliverStone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27851,6 +27852,7 @@ MonoBehaviour:
   - {fileID: 2010210246}
   - {fileID: 784281088}
   - {fileID: 577120818}
+  - {fileID: 273424847}
   floorId: 2010401
   storage: {fileID: 1990668701}
   floorName: B4
@@ -38552,6 +38554,7 @@ MonoBehaviour:
   - {fileID: 2010210246}
   - {fileID: 784281088}
   - {fileID: 577120818}
+  - {fileID: 273424847}
   floorId: 2010501
   storage: {fileID: 1785102573}
   floorName: B5
@@ -40986,7 +40989,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd31c60b2c12fe44aa9043a91b81522d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textWorldAnimals: {fileID: 1769729407}
 --- !u!1 &1629433470
 GameObject:
   m_ObjectHideFlags: 0
@@ -44055,6 +44057,7 @@ GameObject:
   - component: {fileID: 1769729406}
   - component: {fileID: 1769729408}
   - component: {fileID: 1769729407}
+  - component: {fileID: 1769729409}
   m_Layer: 5
   m_Name: TextWorldAnimals
   m_TagString: Untagged
@@ -44101,7 +44104,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 99/99
+  m_text: 0 / 16
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 998dce097f880c74ea7b2c31849dc582, type: 2}
   m_sharedMaterial: {fileID: -5373349635961847333, guid: 998dce097f880c74ea7b2c31849dc582, type: 2}
@@ -44178,6 +44181,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1769729405}
   m_CullTransparentMesh: 1
+--- !u!114 &1769729409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769729405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e2522409248ed441bf5601790a04145, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textWorldAnimals: {fileID: 1769729407}
 --- !u!1 &1771343198
 GameObject:
   m_ObjectHideFlags: 0
@@ -52014,7 +52030,7 @@ GameObject:
   - component: {fileID: 2010210246}
   - component: {fileID: 2010210247}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextSliverIngot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53352,7 +53368,7 @@ GameObject:
   - component: {fileID: 2083659082}
   - component: {fileID: 2083659083}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextCopperStone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

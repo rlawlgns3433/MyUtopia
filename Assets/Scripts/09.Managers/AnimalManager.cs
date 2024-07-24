@@ -11,6 +11,7 @@ public class AnimalManager : Subject
     public UiAnimalInventory uiAnimalInventory;
     public UiAnimalList uiAnimalList;
     public UiCurrencies uiCurrencies;
+    public Observer uiWorldAnimalCount;
 
     private AnimalTable animalTable;
     public AnimalTable AnimalTable
@@ -69,13 +70,12 @@ public class AnimalManager : Subject
     private void Start()
     {
         DataTableMgr.GetStringTable();
-        Attach(uiAnimalInventory);
+        Attach(uiWorldAnimalCount);
     }
 
     public void CreateAnimal()
     {
         NotifyObservers();
-
     }
 
     public void Create(Vector3 position, Floor floor, int animalId, int slotId, bool isMerged = false)
@@ -114,7 +114,8 @@ public class AnimalManager : Subject
                     animalClick.IsClicked = true;
                 }
                 uiAnimalInventory.UpdateInventory(isMerged);
-                uiCurrencies.SetAllAnimals();
+                //uiCurrencies.SetAllAnimals();
+                NotifyObservers();
             }
             UiManager.Instance.animalFocusUi.Set();
         };
@@ -157,7 +158,8 @@ public class AnimalManager : Subject
                     animalClick.IsClicked = true;
                 }
                 uiAnimalInventory.UpdateInventory(isMerged);
-                uiCurrencies.SetAllAnimals();
+                //uiCurrencies.SetAllAnimals();
+                NotifyObservers();
             }
             UiManager.Instance.animalFocusUi.Set();
         };
