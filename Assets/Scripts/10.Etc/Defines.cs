@@ -17,6 +17,7 @@ public static class DataTableIds
     public static readonly string Recipe = "RecipeTable";
     public static readonly string Item = "ItemTable";
     public static readonly string Invitation = "InvitationTable";
+    public static readonly string World = "WorldTable";
 
     public static string CurrString
     {

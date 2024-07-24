@@ -54,6 +54,11 @@ public static class DataTableMgr
         DataTable invitationTable = new InvitationTable();
         invitationTable.Load(DataTableIds.Invitation);
         tables.Add(DataTableIds.Invitation, invitationTable);
+
+        // 테이블 완료 시 주석 해제
+        DataTable worldTable = new WorldTable();
+        worldTable.Load(DataTableIds.World);
+        tables.Add(DataTableIds.World, worldTable);
     }
 
     public static StringTable GetStringTable()
@@ -105,7 +110,10 @@ public static class DataTableMgr
         return Get<InvitationTable>(DataTableIds.Invitation);
     }
 
-
+    public static WorldTable GetWorldTable()
+    {
+        return Get<WorldTable>(DataTableIds.World);
+    }
 
     public static T Get<T>(string id) where T : DataTable
     {

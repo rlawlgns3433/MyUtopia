@@ -1,22 +1,38 @@
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-public class CubeRotator : MonoBehaviour
+public class WorldMapMoveTest : MonoBehaviour
 {
+    public GameObject titlePanel;
+    public GameObject infoPanel;
     public float speed = 5f;
+    public float offsetY = 1.5f;
     private Vector2 mouseDelta;
     private bool isDragging = false;
     private InputAction dragAction;
     private InputAction moveAction;
-    private WorldMapMove playerInput;
+    private InputAction touchAction;
+    private WorldMapMove worldMapMove;
     public Transform rayOrigin;
-
+    private Vector3 defaultCameraPosition;
+    public TextMeshProUGUI worldName;
+    private bool isRotate = false;
     private void Awake()
     {
-        playerInput = new WorldMapMove();
-        dragAction = playerInput.WorldMap.Drag;
-        moveAction = playerInput.WorldMap.Move;
+        worldMapMove = new WorldMapMove();
+        dragAction = worldMapMove.WorldMap.Drag;
+        moveAction = worldMapMove.WorldMap.Move;
+        touchAction = worldMapMove.WorldMap.Touch;
+        if(!titlePanel.gameObject.activeSelf)
+            titlePanel.gameObject.SetActive(true);
+        if(infoPanel.gameObject.activeSelf)
+            infoPanel.gameObject.SetActive(false);
+        defaultCameraPosition = Camera.main.transform.position;
     }
 
     private void OnEnable()
@@ -24,9 +40,11 @@ public class CubeRotator : MonoBehaviour
         dragAction.started += OnDragStarted;
         dragAction.canceled += OnDragCanceled;
         moveAction.performed += OnMouseMove;
+        touchAction.started += OnTouchTitlePanel;
 
         dragAction.Enable();
         moveAction.Enable();
+        touchAction.Enable();
     }
 
     private void OnDisable()
@@ -34,20 +52,45 @@ public class CubeRotator : MonoBehaviour
         dragAction.started -= OnDragStarted;
         dragAction.canceled -= OnDragCanceled;
         moveAction.performed -= OnMouseMove;
+        touchAction.started -= OnTouchTitlePanel;
 
         dragAction.Disable();
         moveAction.Disable();
+        touchAction.Disable();
+    }
+
+    private void OnTouchTitlePanel(InputAction.CallbackContext context)
+    {
+        if (titlePanel.gameObject.activeSelf)
+        {
+            titlePanel.gameObject.SetActive(false);
+            infoPanel.gameObject.SetActive(true);
+            var camera = Camera.main;
+            defaultCameraPosition.y = offsetY;
+            camera.transform.position = defaultCameraPosition;
+            //SetWorldInfo();
+        }
+    }
+
+    private void SetWorldInfo()
+    {
+        worldName.text = DataTableMgr.GetWorldTable().Get(int.Parse("101")).GetWorldName();
+        //그외 정보들 출력
     }
 
     private void OnDragStarted(InputAction.CallbackContext context)
     {
-        isDragging = true;
+        if(!titlePanel.gameObject.activeSelf || isRotate)
+            isDragging = true;
     }
 
     private void OnDragCanceled(InputAction.CallbackContext context)
     {
-        isDragging = false;
-        MoveToCurrentRotation();
+        if (!titlePanel.gameObject.activeSelf)
+        {
+            isDragging = false;
+            MoveToCurrentRotation();
+        }
     }
 
     private void OnMouseMove(InputAction.CallbackContext context)
@@ -64,24 +107,48 @@ public class CubeRotator : MonoBehaviour
 
     private void MoveToCurrentRotation()
     {
+        isRotate = true;
         Vector3 currentRotation = transform.rotation.eulerAngles;
         float closestX = Mathf.Round(currentRotation.x / 90) * 90;
         float closestY = Mathf.Round(currentRotation.y / 90) * 90;
         float closestZ = Mathf.Round(currentRotation.z / 90) * 90;
         Quaternion targetRotation = Quaternion.Euler(closestX, closestY, closestZ);
-        StartCoroutine(RotateToTargetRotation(targetRotation));
+        RotateToTargetRotation(targetRotation);
     }
 
-    private IEnumerator RotateToTargetRotation(Quaternion targetRotation)
+    private void RotateToTargetRotation(Quaternion targetRotation)
     {
-        float time = 0f;
-        Quaternion startRotation = transform.rotation;
-        while (time < 1f)
+        transform.DORotateQuaternion(targetRotation, 1f).OnComplete(() =>
         {
-            time += Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, time);
-            yield return null;
+            PerformRaycast();
+            isRotate = false;
+        });
+    }
+
+    private void PerformRaycast()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(rayOrigin.position, -Vector3.up, out hit))
+        {
+            if (hit.collider.CompareTag("Worlds"))
+            {
+                Debug.Log("Worlds Name: " + hit.collider.gameObject.name);
+            }
+            else
+            {
+                Debug.Log("Hit Fail");
+            }
         }
-        transform.rotation = targetRotation;
+        else
+        {
+            Debug.Log("No object hit.");
+        }
+    }
+    public void OpenWorld()
+    {
+        if(!isRotate)
+        {
+            SceneManager.LoadScene("StorageParticle");
+        }
     }
 }

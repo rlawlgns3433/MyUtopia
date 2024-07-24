@@ -44,6 +44,15 @@ public partial class @WorldMapMove: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Touch"",
+                    ""type"": ""Button"",
+                    ""id"": ""9b3140ea-c81b-4ab6-9ede-1b9c334fd012"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -90,6 +99,28 @@ public partial class @WorldMapMove: IInputActionCollection2, IDisposable
                     ""action"": ""Drag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""591599d6-2755-4d1e-b4b3-a2b03123ee99"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Touch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a72df9a6-c2d6-416e-918e-76d1871b0333"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Touch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -100,6 +131,7 @@ public partial class @WorldMapMove: IInputActionCollection2, IDisposable
         m_WorldMap = asset.FindActionMap("WorldMap", throwIfNotFound: true);
         m_WorldMap_Move = m_WorldMap.FindAction("Move", throwIfNotFound: true);
         m_WorldMap_Drag = m_WorldMap.FindAction("Drag", throwIfNotFound: true);
+        m_WorldMap_Touch = m_WorldMap.FindAction("Touch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -163,12 +195,14 @@ public partial class @WorldMapMove: IInputActionCollection2, IDisposable
     private List<IWorldMapActions> m_WorldMapActionsCallbackInterfaces = new List<IWorldMapActions>();
     private readonly InputAction m_WorldMap_Move;
     private readonly InputAction m_WorldMap_Drag;
+    private readonly InputAction m_WorldMap_Touch;
     public struct WorldMapActions
     {
         private @WorldMapMove m_Wrapper;
         public WorldMapActions(@WorldMapMove wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_WorldMap_Move;
         public InputAction @Drag => m_Wrapper.m_WorldMap_Drag;
+        public InputAction @Touch => m_Wrapper.m_WorldMap_Touch;
         public InputActionMap Get() { return m_Wrapper.m_WorldMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -184,6 +218,9 @@ public partial class @WorldMapMove: IInputActionCollection2, IDisposable
             @Drag.started += instance.OnDrag;
             @Drag.performed += instance.OnDrag;
             @Drag.canceled += instance.OnDrag;
+            @Touch.started += instance.OnTouch;
+            @Touch.performed += instance.OnTouch;
+            @Touch.canceled += instance.OnTouch;
         }
 
         private void UnregisterCallbacks(IWorldMapActions instance)
@@ -194,6 +231,9 @@ public partial class @WorldMapMove: IInputActionCollection2, IDisposable
             @Drag.started -= instance.OnDrag;
             @Drag.performed -= instance.OnDrag;
             @Drag.canceled -= instance.OnDrag;
+            @Touch.started -= instance.OnTouch;
+            @Touch.performed -= instance.OnTouch;
+            @Touch.canceled -= instance.OnTouch;
         }
 
         public void RemoveCallbacks(IWorldMapActions instance)
@@ -215,5 +255,6 @@ public partial class @WorldMapMove: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnDrag(InputAction.CallbackContext context);
+        void OnTouch(InputAction.CallbackContext context);
     }
 }
