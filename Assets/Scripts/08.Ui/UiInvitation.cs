@@ -20,7 +20,7 @@ public class UiInvitation : MonoBehaviour
 
     public void SetUi()
     {
-        invitationData = DataTableMgr.GetInvitationTable().Get(floorStat.Floor_Num);
+        invitationData = DataTableMgr.GetInvitationTable().Get(11100+ floorStat.Floor_Num);
 
         textConfirm.text = string.Format(format, invitationData.Level_Up_Coin_Value);
     }

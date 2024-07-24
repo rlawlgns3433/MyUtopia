@@ -10,7 +10,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class InvitationData
 {
     public int Invite_ID { get; set; }
-    public int Invite_Name { get; set; }
+    public string Invite_Name { get; set; } // 개발 확인용
     public int Floor_Grade { get; set; }
     public string World_Type { get; set; }
     public int Level_Up_Coin_ID { get; set; }

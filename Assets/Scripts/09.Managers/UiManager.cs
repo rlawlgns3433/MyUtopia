@@ -84,7 +84,6 @@ public class UiManager : Singleton<UiManager>
                 animal.animalWork.canvasSpeech.gameObject.SetActive(true);
             }
         }
-
     }
 
     public void ShowAnimalFocusUi()

@@ -86,7 +86,7 @@ public class AnimalManager : Subject
                 return;
         }
 
-        if (animalDictionary.Count == 0)
+        while (animalDictionary.Count == 0)
         {
             foreach (var animal in AnimalTable.GetKeyValuePairs)
             {
@@ -99,10 +99,11 @@ public class AnimalManager : Subject
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
                 var animalWork = handle.Result.GetComponent<AnimalWork>();
-                animalWork.Animal = new Animal(animalWork.animalId);
+                animalWork.Animal = new Animal(animalId);
                 animalWork.Animal.animalStat.CurrentFloor = floor.floorName;
                 Debug.Log($"{animalWork.Animal.animalStat.CurrentFloor}/{floor.floorName}");
                 animalWork.Animal.animalWork = animalWork;
+
                 animalWork.Animal.SetAnimal();
 
                 floor.animals.Add(animalWork.Animal);
@@ -127,7 +128,7 @@ public class AnimalManager : Subject
                 return;
         }
 
-        if (animalDictionary.Count == 0)
+        while (animalDictionary.Count == 0)
         {
             foreach (var animal in AnimalTable.GetKeyValuePairs)
             {

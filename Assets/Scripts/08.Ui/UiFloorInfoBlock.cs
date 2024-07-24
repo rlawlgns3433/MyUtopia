@@ -58,7 +58,7 @@ public class UiFloorInfoBlock : MonoBehaviour
             if (building.BuildingStat.IsLock)
                 continue;
 
-            imageProductions[i].sprite = await building.BuildingStat.BuildingData.GetPrefab(); // 빌딩 이미지 추가 예정
+            imageProductions[i].sprite = await building.BuildingStat.BuildingData.GetProfile(); // 빌딩 이미지 추가 예정
             imageProductions[i].type = Image.Type.Sliced;
         }
 

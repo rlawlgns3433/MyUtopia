@@ -10,16 +10,18 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class AnimalData
 {
     public int Animal_ID { get; set; }
+    public int World_type { get; set; }
     public int Animal_Type { get; set; }
     public int Animal_Grade { get; set; }
     public string Animal_Name_ID { get; set; }
     public int Level { get; set; }
     public int Level_Max { get; set; }
-    public int Workload { get; set; }
+    public string Workload { get; set; }
     public float Stamina { get; set; }
     public int Merge_ID { get; set; }
+    public int Sale_Coin_ID { get; set; }
     public string Sale_Coin { get; set; }
-    public string Level_Up_Coin_ID { get; set; }
+    public int Level_Up_Coin_ID { get; set; }
     public string Level_Up_Coin_Value { get; set; }
     public string Prefab { get; set; }
     public string Profile { get; set; }
@@ -30,9 +32,20 @@ public class AnimalData
         return DataTableMgr.GetStringTable().Get(Animal_Name_ID);
     }
 
-    public Sprite GetPrefab()
+    public async UniTask<AssetReference> GetPrefab()
     {
-        return Addressables.LoadAssetAsync<Sprite>(Prefab).Result;
+        AsyncOperationHandle<AssetReference> handle = Addressables.LoadAssetAsync<AssetReference>(Prefab);
+        await handle.Task;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            return handle.Result;
+        }
+        else
+        {
+            Debug.LogError("Failed to load image.");
+            return null;
+        }
     }
 
     public async UniTask<Sprite> GetProfile()

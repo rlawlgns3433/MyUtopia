@@ -12,6 +12,7 @@ public class BuildingData
     public int Building_ID { get; set; }
     public int Floor_Type { get; set; }
     public string Building_Name_ID { get; set; }
+    public string Building_Desc_ID { get; set; }
     public int Level { get; set; }
     public int Level_Max { get; set; }
     public int Materials_Type { get; set; }
@@ -28,15 +29,32 @@ public class BuildingData
     public int Level_Up_Resource_3 { get; set; }
     public string Resource_3_Value { get; set; }
     public string Prefab { get; set; }
+    public string Profile { get; set; }
 
     public string GetName()
     {
         return DataTableMgr.GetStringTable().Get(Building_Name_ID);
     }
 
-    public async UniTask<Sprite> GetPrefab()
+    public async UniTask<GameObject> GetPrefab()
     {
-        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(Prefab);
+        AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(Prefab);
+        await handle.Task;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            return handle.Result;
+        }
+        else
+        {
+            Debug.LogError("Failed to load image.");
+            return null;
+        }
+    }
+
+    public async UniTask<Sprite> GetProfile()
+    {
+        AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(Profile);
         await handle.Task;
 
         if (handle.Status == AsyncOperationStatus.Succeeded)

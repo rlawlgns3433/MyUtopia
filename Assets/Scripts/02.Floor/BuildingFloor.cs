@@ -34,9 +34,9 @@ public class BuildingFloor : Floor
             foreach (var animal in animals)
             {
                 if (animal.animalStat.Stamina <= 0)
-                    autoWorkload += animal.animalStat.Workload / 2;
+                    autoWorkload += new BigNumber(animal.animalStat.Workload) / 2;
                 else
-                    autoWorkload += animal.animalStat.Workload;
+                    autoWorkload += new BigNumber(animal.animalStat.Workload);
 
                 if (storage != null)
                     storageConduct.CurrWorkLoad = autoWorkload;
