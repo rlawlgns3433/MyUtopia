@@ -1,7 +1,10 @@
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ConductBuilding : Building
 {
+    private BigNumber touchProduce;
+    public float dur;
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -11,6 +14,7 @@ public class ConductBuilding : Building
     public override void OnPointerClick(PointerEventData eventData)
     {
         base.OnPointerClick(eventData);
+        DisplayFloatingText(touchProduce);
     }
 
     protected override void Start()
@@ -28,7 +32,10 @@ public class ConductBuilding : Building
             case CurrencyType.GoldStone:
                 if (BuildingStat.IsLock)
                     return;
-                CurrencyManager.currency[buildingType] += new BigNumber(BuildingStat.Touch_Produce);
+
+                var touchProduce = new BigNumber(BuildingStat.Touch_Produce);
+                CurrencyManager.currency[buildingType] += touchProduce;
+                this.touchProduce = touchProduce; // 플로팅 텍스트용
                 break;
             case CurrencyType.CopperIngot:
             case CurrencyType.SilverIngot:
@@ -42,5 +49,13 @@ public class ConductBuilding : Building
                 }
                 break;
         }
+    }
+
+    private void DisplayFloatingText(BigNumber bigNumber)
+    {
+        var pos = transform.position;
+        pos.y += 1;
+
+        DynamicTextManager.CreateText(pos, bigNumber.ToString(), DynamicTextManager.defaultData, 2, dur);
     }
 }
