@@ -6,7 +6,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using static UnityEditor.AddressableAssets.Build.Layout.BuildLayout;
 
 // 데이터 테이블 변경에 따른 수정 필요
 
