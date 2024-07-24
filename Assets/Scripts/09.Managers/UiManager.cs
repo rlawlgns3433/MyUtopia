@@ -181,7 +181,7 @@ public class UiManager : Singleton<UiManager>
         animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(true);
-        floorMove.GetComponent<FloorMove>().enabled = false;
+        FloorManager.Instance.multiTouchOff = true;
         b4StorageValueUi.gameObject.SetActive(false);
         b5StorageValueUi.gameObject.SetActive(false);
         uiInvitation.gameObject.SetActive(true);

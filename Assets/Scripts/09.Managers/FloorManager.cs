@@ -121,7 +121,7 @@ public class FloorManager : Singleton<FloorManager>
     {
         if (isMoving || CurrentFloorIndex == floorCount)
             return;
-        else if(CurrentFloorIndex < floorCount - 1)
+        else if(CurrentFloorIndex < floorCount)
         {
             Debug.Log($"Swipe Up:{CurrentFloorIndex}");
             isMoving = true;
