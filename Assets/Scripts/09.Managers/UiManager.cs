@@ -11,7 +11,6 @@ public class UiManager : Singleton<UiManager>
     public UiAnimalList animalListUi;
     public UiProducts productsUi;
     public UiCraftTable craftTableUi;
-    public FloorMove floorMove;
     public StorageValueUi b4StorageValueUi;
     public StorageValueUi b5StorageValueUi;
     public UiInvitation uiInvitation;
