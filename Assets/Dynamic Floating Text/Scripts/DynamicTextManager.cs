@@ -8,20 +8,23 @@ using Cysharp.Threading.Tasks;
 public class DynamicTextManager : MonoBehaviour
 {
 
-    public static DynamicTextData defaultData;
+    public static DynamicTextData clickData;
+    public static DynamicTextData autoWorkData;
     public static GameObject canvasPrefab;
     public static Transform mainCamera;
 
     public static List<GameObject> usingText = new List<GameObject>();
     public static List<GameObject> unusingText = new List<GameObject>();
 
-    [SerializeField] private DynamicTextData _defaultData;
+    [SerializeField] private DynamicTextData _clickData;
+    [SerializeField] private DynamicTextData _autoWorkData;
     [SerializeField] private GameObject _canvasPrefab;
     [SerializeField] private Transform _mainCamera;
 
     private void Awake()
     {
-        defaultData = _defaultData;
+        clickData = _clickData;
+        autoWorkData = _autoWorkData;
         mainCamera = _mainCamera;
         canvasPrefab = _canvasPrefab;
     }

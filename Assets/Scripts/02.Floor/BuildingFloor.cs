@@ -65,6 +65,10 @@ public class BuildingFloor : Floor
                                 BigNumber c = b.accumWorkLoad / b.BuildingStat.Work_Require;
                                 CurrencyManager.currency[b.buildingType] += c;
                                 b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingStat.Work_Require;
+                                var pos = b.transform.position;
+                                pos.y += 1;
+
+                                DynamicTextManager.CreateText(pos, c.ToString(), DynamicTextManager.autoWorkData, 2, 0.5f);
                             }
                             else
                                 b.accumWorkLoad += autoWorkload;
@@ -91,29 +95,10 @@ public class BuildingFloor : Floor
                                 b.accumWorkLoad += autoWorkload;
                             }
                             break;
-                            //case 7:
-                            //    if (b.accumWorkLoad > b.BuildingData.Work_Require)
-                            //    {
-                            //        // 레시피 정보 불러오기
-                            //        if (CurrencyManager.currency[CurrencyType.Coin] > 10 && CurrencyManager.currency[CurrencyType.CopperStone] > 10)
-                            //        {
-                            //            CurrencyManager.currency[CurrencyType.Coin] -= 10;
-                            //            CurrencyManager.currency[CurrencyType.CopperStone] -= 10;
-                            //            //CurrencyManager.currency[CurrencyType.Craft] += 1;
-
-                            //            b.accumWorkLoad -= b.BuildingData.Work_Require;
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        b.accumWorkLoad += autoWorkload;
-                            //    }
-                            //    break;
                     }
                 }
             }
             NotifyObservers();
         }
     }
-
 }
