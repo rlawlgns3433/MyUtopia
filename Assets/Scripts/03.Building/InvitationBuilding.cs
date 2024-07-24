@@ -13,6 +13,6 @@ public class InvitationBuilding : Building
     {
         base.Start();
         clickEvent += UiManager.Instance.ShowInvitationUi;
-        clickEvent += UiManager.Instance.uiInvitation.Set;
+        clickEvent += UiManager.Instance.invitationUi.Set;
     }
 }
