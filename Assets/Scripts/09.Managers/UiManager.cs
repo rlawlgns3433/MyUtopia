@@ -75,6 +75,16 @@ public class UiManager : Singleton<UiManager>
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         OffAnimalList();
+
+        // 모든 동물의 말풍선 켜기
+        foreach(var floor in FloorManager.Instance.floors.Values)
+        {
+            foreach(var animal in floor.animals)
+            {
+                animal.animalWork.canvasSpeech.gameObject.SetActive(true);
+            }
+        }
+
     }
 
     public void ShowAnimalFocusUi()
@@ -92,6 +102,15 @@ public class UiManager : Singleton<UiManager>
         b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
+
+        // 모든 동물의 말풍선 끄기
+        foreach (var floor in FloorManager.Instance.floors.Values)
+        {
+            foreach (var animal in floor.animals)
+            {
+                animal.animalWork.canvasSpeech.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void ShowSellUi()
