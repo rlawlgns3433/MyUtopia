@@ -35,7 +35,7 @@ public class AnimalManager : Subject
         {
             animalClick.gameObject.SetActive(false);
             animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
-            animalClick.gameObject.transform.localPosition = Vector3.zero;
+            animalClick.gameObject.transform.localPosition = -Vector3.forward * 3f;
             animalClick.gameObject.SetActive(true);
         }
     }
