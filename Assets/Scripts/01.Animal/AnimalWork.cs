@@ -111,7 +111,7 @@ public class AnimalWork : Subject, IMergable
                 {
                     Animal.animalStat.Stamina += 1;
                     NotifyObservers();
-                    await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
+                    await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
                 }
                 break;
             default:
@@ -121,7 +121,7 @@ public class AnimalWork : Subject, IMergable
                 {
                     Animal.animalStat.Stamina -= 1;
                     NotifyObservers();
-                    await UniTask.Delay(30, false, PlayerLoopTiming.Update, cts);
+                    await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
                 }
                 break;
         }
