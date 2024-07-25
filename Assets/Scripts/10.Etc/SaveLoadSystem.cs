@@ -20,7 +20,10 @@ public static class SaveLoadSystem
     {
         "SaveWorld.sav",
         "SaveCurrency.sav",
-        "SaveEmpty.sav",
+        "SaveEmptyWorld.sav",
+        "SaveEmptyCurrency.sav",
+        "SavePlayingWorld.sav",
+        "SavePlayingCurrency.sav",
         "Save3.sav"
     };
 

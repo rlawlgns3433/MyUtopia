@@ -81,7 +81,7 @@ public class UiAnimalInventory : Observer
         }
     }
 
-    public void UpdateInventory(bool isMerged)
+    public void UpdateInventory(bool isMerged = false)
     {
         if (isMerged)
             return;

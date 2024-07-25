@@ -128,6 +128,15 @@ public class Floor : Subject, IGrowable
         Destroy(animal.animalWork.gameObject);
     }
 
+    public virtual void RemoveAllAnimals()
+    {
+        foreach(var animal in animals)
+        {
+            Destroy(animal.animalWork.gameObject);
+        }
+        animals.Clear();
+    }
+
     public virtual void Set()
     {
         foreach (var building in buildings)

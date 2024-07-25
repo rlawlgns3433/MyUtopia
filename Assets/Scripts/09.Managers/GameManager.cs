@@ -29,6 +29,8 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public bool isPlayingData;
+
     private void Awake()
     {
         CurrencyManager.Init();
@@ -37,38 +39,7 @@ public class GameManager : Singleton<GameManager>
 
     private void OnApplicationQuit()
     {
-
-        var saveData = new SaveDataV1();
-        var saveCurrencyData = new SaveCurrencyDataV1();
-
-        for(int i = 0; i < FloorManager.Instance.floors.Count; ++i)
-        {
-            string format = $"B{i + 1}";
-            var floor = FloorManager.Instance.floors[format];
-            saveData.floors.Add(new FloorSaveData(floor.FloorStat));
-            foreach(var animal in floor.animals)
-            {
-                saveData.floors[saveData.floors.Count - 1].animalSaveDatas.Add(new AnimalSaveData(animal.animalStat));
-            }
-
-            foreach(var building in floor.buildings)
-            {
-                saveData.floors[saveData.floors.Count - 1].buildingSaveDatas.Add(new BuildingSaveData(building.BuildingStat));
-            }
-
-            if(floor.storage != null)
-                saveData.floors[saveData.floors.Count - 1].furnitureSaveDatas.Add(new FurnitureSaveData(floor.storage.FurnitureStat)); // 창고
-        }
-
-
-        SaveLoadSystem.Save(saveData);
-
-        for (int i = 0; i < CurrencyManager.currencyTypes.Length; ++i)
-        {
-            saveCurrencyData.currencySaveData.Add(new CurrencySaveData(CurrencyManager.currencyTypes[i], CurrencyManager.currency[CurrencyManager.currencyTypes[i]]));
-        }
-
-        SaveLoadSystem.Save(saveCurrencyData, 1);
+        SetPlayerData();
     }
 
     private async void Start()
@@ -90,8 +61,6 @@ public class GameManager : Singleton<GameManager>
 
                 var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
                 floor.FloorStat = floorSaveData.floorStat;
-
-
 
                 foreach (var animal in animals)
                 {
@@ -120,11 +89,11 @@ public class GameManager : Singleton<GameManager>
             // 첫 접속일 때 Unlock된 건물 Unlock
             var floors = FloorManager.Instance.floors;
 
-            foreach(var floor in floors.Values)
+            foreach (var floor in floors.Values)
             {
-                foreach(var building in floor.buildings)
+                foreach (var building in floor.buildings)
                 {
-                    if(building.BuildingStat.Building_ID == floor.FloorStat.Unlock_Facility)
+                    if (building.BuildingStat.Building_ID == floor.FloorStat.Unlock_Facility)
                     {
                         building.BuildingStat.IsLock = false;
                         break;
@@ -178,7 +147,7 @@ public class GameManager : Singleton<GameManager>
 
     public AnimalManager GetAnimalManager()
     {
-        if(CurrentSceneId == SceneIds.WorldLandOfHope)
+        if (CurrentSceneId == SceneIds.WorldLandOfHope)
         {
             if (animalManager == null)
             {
@@ -195,26 +164,26 @@ public class GameManager : Singleton<GameManager>
         {
             await UniTask.Yield();
         }
-        
+
         while (!DataTableMgr.GetFloorTable().IsLoaded)
         {
             await UniTask.Yield();
         }
-        
+
         while (!DataTableMgr.GetBuildingTable().IsLoaded)
         {
             await UniTask.Yield();
         }
-        
+
         while (!DataTableMgr.GetFurnitureTable().IsLoaded)
         {
             await UniTask.Yield();
         }
-        
+
         while (!DataTableMgr.GetItemTable().IsLoaded)
         {
             await UniTask.Yield();
-        }   
+        }
 
         while (!DataTableMgr.GetInvitationTable().IsLoaded)
         {
@@ -222,6 +191,41 @@ public class GameManager : Singleton<GameManager>
         }
 
         return;
+    }
+
+    public void SetPlayerData()
+    {
+        var saveData = new SaveDataV1();
+        var saveCurrencyData = new SaveCurrencyDataV1();
+
+        for (int i = 0; i < FloorManager.Instance.floors.Count; ++i)
+        {
+            string format = $"B{i + 1}";
+            var floor = FloorManager.Instance.floors[format];
+            saveData.floors.Add(new FloorSaveData(floor.FloorStat));
+            foreach (var animal in floor.animals)
+            {
+                saveData.floors[saveData.floors.Count - 1].animalSaveDatas.Add(new AnimalSaveData(animal.animalStat));
+            }
+
+            foreach (var building in floor.buildings)
+            {
+                saveData.floors[saveData.floors.Count - 1].buildingSaveDatas.Add(new BuildingSaveData(building.BuildingStat));
+            }
+
+            if (floor.storage != null)
+                saveData.floors[saveData.floors.Count - 1].furnitureSaveDatas.Add(new FurnitureSaveData(floor.storage.FurnitureStat)); // 창고
+        }
+
+
+        SaveLoadSystem.Save(saveData);
+
+        for (int i = 0; i < CurrencyManager.currencyTypes.Length; ++i)
+        {
+            saveCurrencyData.currencySaveData.Add(new CurrencySaveData(CurrencyManager.currencyTypes[i], CurrencyManager.currency[CurrencyManager.currencyTypes[i]]));
+        }
+
+        SaveLoadSystem.Save(saveCurrencyData, 1);
     }
 }
 

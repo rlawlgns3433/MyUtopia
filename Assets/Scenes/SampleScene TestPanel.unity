@@ -3377,6 +3377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82ae2fc768b275846a84c70a2a09fee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayingData: 0
 --- !u!1 &131073076
 GameObject:
   m_ObjectHideFlags: 0
@@ -32480,6 +32481,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1586852434}
+        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
+        m_MethodName: ShowMainUi
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1627572079}
+        m_TargetAssemblyTypeName: UiAnimalInventory, Assembly-CSharp
+        m_MethodName: UpdateInventory
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1295598255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33491,6 +33516,7 @@ GameObject:
   - component: {fileID: 1332030598}
   - component: {fileID: 1332030597}
   - component: {fileID: 1332030596}
+  - component: {fileID: 1332030599}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -33575,6 +33601,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332030594}
   m_CullTransparentMesh: 1
+--- !u!114 &1332030599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332030594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e81117561044c0418d47952b0be9563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vc: {fileID: 1579680827}
 --- !u!1001 &1333139167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40037,6 +40076,7 @@ MonoBehaviour:
   b5StorageValueUi: {fileID: 1826063021}
   tutorialUi: {fileID: 1344145509}
   invitationUi: {fileID: 750853649}
+  testPanelUi: {fileID: 1852205915}
   isAnimalList: 0
   isAnimalMove: 0
 --- !u!1 &1589053506
@@ -51990,7 +52030,43 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1987911337}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1852205915}
+        m_TargetAssemblyTypeName: TestPanel, Assembly-CSharp
+        m_MethodName: SetPlayingData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1586852434}
+        m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
+        m_MethodName: ShowMainUi
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1627572079}
+        m_TargetAssemblyTypeName: UiAnimalInventory, Assembly-CSharp
+        m_MethodName: UpdateInventory
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1987911337
 MonoBehaviour:
   m_ObjectHideFlags: 0
