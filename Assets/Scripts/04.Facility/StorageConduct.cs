@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -82,6 +83,7 @@ public class StorageConduct : Storage
     private bool isAddQuitEvent = false;
     private BigNumber workLoadValue;
     private int count = 0;
+    private Sprite[] sprites;
     private void Awake()
     {
         clickEvent += OpenStorage;
@@ -96,21 +98,17 @@ public class StorageConduct : Storage
 
     private async void Start()
     {
-
         await UniWaitFurnitureTable();
         MaxSeconds = FurnitureStat.Effect_Value;
         await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
         buildings = new Building[currencyTypes.Count];
         CurrArray = new BigNumber[currencyTypes.Count];
         values = new BigNumber[currencyTypes.Count];
-
         LoadDataOnStart();
-
         if (MaxSeconds == 0)
         {
             return;
         }
-
         currentTotalSeconds += UtilityTime.Seconds;
         if (maxSeconds > currentTotalSeconds)
         {
@@ -151,6 +149,8 @@ public class StorageConduct : Storage
                 currentValue.gameObject.SetActive(false);
             }
         }
+        sprites = new Sprite[particleSystems.Count];
+        SetParticleImage().Forget();
     }
 
     public async UniTask CheckStorage()
@@ -239,6 +239,16 @@ public class StorageConduct : Storage
         }
     }
 
+    private async UniTask SetParticleImage()
+    {
+        for(int i = 0; i < particleSystems.Count; ++i)
+        {
+            sprites[i] = await DataTableMgr.GetResourceTable().Get((int)currencyTypes[i]).GetImage();
+            Debug.Log($"{particleSystems[i].name}/{sprites[i].name}");
+        }
+
+    }
+
     public async UniTask ParticleSystemEmit(ParticleSystem ps, int index)
     {
         if (ps != null)
@@ -246,12 +256,11 @@ public class StorageConduct : Storage
             var worldPosition = transform.position;
             var screenPos = Camera.main.WorldToScreenPoint(worldPosition);
             ps.transform.position = screenPos;
-            var sprite = await DataTableMgr.GetResourceTable().Get((int)currencyTypes[index]).GetImage();
-            Debug.Log($"index => {index}/{(int)currencyTypes[index]}/{currencyTypes[index]}");
             var psSetTexture = particleSystems[index].textureSheetAnimation;
-            if (psSetTexture.mode == ParticleSystemAnimationMode.Sprites && sprite != null)
+            if (psSetTexture.mode == ParticleSystemAnimationMode.Sprites && sprites[index] != null)
             {
-                psSetTexture.SetSprite(0, sprite);
+                psSetTexture.SetSprite(0, sprites[index]);
+                Debug.Log($"{particleSystems[index].name}/{sprites[index].name}");
             }
             ps.Emit(1);
             await UniTask.WaitUntil(() => !ps.IsAlive(true));
