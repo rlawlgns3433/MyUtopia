@@ -126,7 +126,7 @@ public class TestPanel : MonoBehaviour
 
         for(int i = 0; i < emptyCurrency.currencySaveData.Count; ++i)
         {
-            CurrencyManager.currency[CurrencyManager.currencyTypes[i]] = emptyCurrency.currencySaveData[i].value;
+            CurrencyManager.currency[CurrencyManager.currencyTypes[i]] = BigNumber.Zero;
         }
     }
 }

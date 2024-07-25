@@ -16,7 +16,7 @@ public static class SaveLoadSystem
     public static int SaveDataVersion { get; private set; } = 1;
 
     // 0 (ÀÚµ¿), 1, 2, 3 ...
-    private static readonly string[] SaveFileName =
+    public static readonly string[] SaveFileName =
     {
         "SaveWorld.sav",
         "SaveCurrency.sav",
