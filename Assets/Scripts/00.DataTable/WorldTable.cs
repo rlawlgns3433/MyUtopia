@@ -25,6 +25,14 @@ public class WorldData
     public int Product_2_Value { get; set; }
     public int Product_3 { get; set; }
     public int Product_3_Value { get; set; }
+    public int Diamond { get; set; }
+    public int Coin { get; set; }
+    public int Use_Resource_1 { get; set; }
+    public int Use_Resource_2 { get; set; }
+    public int Use_Resource_3 { get; set; }
+    public int Use_Resource_4 { get; set; }
+    public int Use_Resource_5 { get; set; }
+    public int Use_Resource_6 { get; set; }
     public string Prefab { get; set; }
 
 

@@ -74,7 +74,7 @@ public class WorldMapMoveTest : MonoBehaviour
 
     private void SetWorldInfo()
     {
-        worldName.text = DataTableMgr.GetWorldTable().Get(int.Parse("101")).GetWorldName();
+        //worldName.text = DataTableMgr.GetWorldTable().Get(int.Parse("101")).GetWorldName();
         //그외 정보들 출력
     }
 

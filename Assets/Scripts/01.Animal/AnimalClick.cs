@@ -8,20 +8,6 @@ using UnityEngine.EventSystems;
 public class AnimalClick : MonoBehaviour, IClickable
 {
     [SerializeField]
-    private FloorMove floorMoveGo;
-    public FloorMove FloorMoveGo
-    {
-        get
-        {
-            if (floorMoveGo == null)
-            {
-                floorMoveGo = GameObject.Find("Floors").GetComponent<FloorMove>();
-            }
-
-            return floorMoveGo;
-        }
-    }
-    [SerializeField]
     private AnimalWork animalWork;
     public AnimalWork AnimalWork
     {
@@ -108,7 +94,6 @@ public class AnimalClick : MonoBehaviour, IClickable
     {
         VirtualCamera = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
         Transposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-        floorMoveGo = GameObject.Find("Floors").GetComponent<FloorMove>();
         clickEvent += Bump;
         clickEvent += UiManager.Instance.ShowAnimalFocusUi;
         clickEvent += UiManager.Instance.animalFocusUi.Set;

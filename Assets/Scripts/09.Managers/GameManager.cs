@@ -221,10 +221,10 @@ public class GameManager : Singleton<GameManager>
             await UniTask.Yield();
         }
 
-        while (!DataTableMgr.GetWorldTable().IsLoaded)
-        {
-            await UniTask.Yield();
-        }
+        //while (!DataTableMgr.GetWorldTable().IsLoaded)
+        //{
+        //    await UniTask.Yield();
+        //}
         return;
     }
 }
