@@ -51,21 +51,27 @@ public class UiFurnitureInfo : MonoBehaviour
 
     public async void SetFurnitureUi()
     {
-        textFurnitureLevel.text = string.Format(lvFormat, furniture.FurnitureStat.Level);
-        textFurnitureName.text = furniture.FurnitureStat.FurnitureData.GetName();
-        textDescription.text = furniture.FurnitureStat.FurnitureData.GetDescription();
-        furnitureProfile.sprite = await furniture.FurnitureStat.FurnitureData.GetProfile();
-
+        foreach (var currency in uiUpgradeCurrencies)
+        {
+            Destroy(currency.gameObject);
+        }
+        uiUpgradeCurrencies.Clear();
         if(furniture.FurnitureStat.Level == furniture.FurnitureStat.Level_Max)
         {
             textMax.gameObject.SetActive(true);
             buttonLevelUp.interactable = false;
+            return;
         }
         else
         {
             textMax.gameObject.SetActive(false);
             buttonLevelUp.interactable = true;
         }
+        textFurnitureLevel.text = string.Format(lvFormat, furniture.FurnitureStat.Level);
+        textFurnitureName.text = furniture.FurnitureStat.FurnitureData.GetName();
+        textDescription.text = furniture.FurnitureStat.FurnitureData.GetDescription();
+        furnitureProfile.sprite = await furniture.FurnitureStat.FurnitureData.GetProfile();
+
 
         if (furniture.FurnitureStat.Level_Up_Coin_Value != "0")
         {
