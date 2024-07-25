@@ -24,7 +24,7 @@ public class UiInvitation : MonoBehaviour
     {
         invitationData = DataTableMgr.GetInvitationTable().Get(11100+ floorStat.Grade);
 
-        textConfirm.text = string.Format(format, invitationData.Level_Up_Coin_Value);
+        textConfirm.text = string.Format(format, new BigNumber(invitationData.Level_Up_Coin_Value));
     }
 
     public void OnClickConfirm()

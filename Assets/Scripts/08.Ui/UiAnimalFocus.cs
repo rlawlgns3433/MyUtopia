@@ -78,12 +78,12 @@ public class UiAnimalFocus : Observer
         textAnimalName.text = animalData.GetName();
         textAnimalLevel.text = string.Format(levelFormat, animalData.Level, animalData.Level_Max);
         textCurrentFloor.text = string.Format(currentFloorFormat, animalWork.Animal.animalStat.CurrentFloor);
-        textAnimalWorkload.text = string.Format(workloadFormat, animalData.Workload);
+        textAnimalWorkload.text = string.Format(workloadFormat, animalData.Workload.ToBigNumber().ToString());
     }
 
     public void SetSaleUi()
     {
-        UiManager.Instance.sellUi.textCoinForSale.text = currentAnimal.Animal.animalStat.Sale_Coin;
+        UiManager.Instance.sellUi.textCoinForSale.text = currentAnimal.Animal.animalStat.Sale_Coin.ToBigNumber().ToString();
     }
 
     public override void Notify(Subject subject)
