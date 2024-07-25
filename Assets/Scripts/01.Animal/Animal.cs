@@ -92,6 +92,9 @@ public class Animal : IGrowable, IMovable
 
                 foreach (var animal in floor.Value.animals)
                 {
+                    if (animal.animalWork.Equals(animalWork))
+                        continue;
+
                     if (animal.animalWork.Animal.animalStat.Animal_ID == animalWork.Animal.animalStat.Animal_ID)
                     {
                         if (target == null)
