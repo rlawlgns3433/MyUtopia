@@ -184,7 +184,7 @@ public class FloorManager : Singleton<FloorManager>
 
     private async UniTask Drag()
     {
-        float dragAmount = touchManager.DragX > 0 ? dragSpeed : -dragSpeed;
+        float dragAmount = touchManager.DragX < 0 ? dragSpeed : -dragSpeed;
 
         switch (CurrentFloorIndex)
         {
