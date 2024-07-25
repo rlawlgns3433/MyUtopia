@@ -10,11 +10,13 @@ public class UiInvitation : MonoBehaviour
     public Button buttonConfirm;
 
     public FloorStat floorStat;
+    public Floor floor;
     public InvitationData invitationData;
 
     public void Set()
     {
-        floorStat = FloorManager.Instance.floors["B1"].FloorStat;
+        floor = FloorManager.Instance.floors["B1"];
+        floorStat = floor.FloorStat;
         SetUi();
     }
 
@@ -28,6 +30,22 @@ public class UiInvitation : MonoBehaviour
     public void OnClickConfirm()
     {
         if (CurrencyManager.currency[(CurrencyType)invitationData.Level_Up_Coin_ID] < invitationData.Level_Up_Coin_Value)
+            return;
+
+        // 전체 동물수와 1층의 max와 동일하거나 크면 리턴
+        int maximumCount = floorStat.Max_Population;
+        int currentCount = 0;
+        foreach (var currentFloor in FloorManager.Instance.floors.Values)
+        {
+            foreach(var animal in currentFloor.animals)
+            {
+                if(animal.animalWork == null)
+                    continue;
+                currentCount++;
+            }
+        }
+
+        if(currentCount >= maximumCount)
             return;
 
         CurrencyManager.currency[(CurrencyType)invitationData.Level_Up_Coin_ID] -= invitationData.Level_Up_Coin_Value;

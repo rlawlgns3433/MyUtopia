@@ -13,6 +13,7 @@ public class UiCraftingList : MonoBehaviour
         {
             Destroy(craftingSlots[i]);
         }
+        craftingSlots.Clear();
     }
 
     public UiCraftingSlot Add(RecipeStat recipeStat) // 레시피로 변경

@@ -18,6 +18,8 @@ public class UiCraftTable : MonoBehaviour
     {
         await UniWaitBuildingTable();
 
+        craftingBuilding = ClickableManager.CurrentClicked as CraftingBuilding;
+
         int level = craftingBuilding.BuildingStat.Level;
         var recipes = GetRecipes(level);
 
@@ -42,6 +44,7 @@ public class UiCraftTable : MonoBehaviour
         {
             Destroy(uiRecipeList.recipeSlots[i]);
         }
+        craftingBuilding = null;
     }
 
     private List<int> GetRecipes(int buildingLevel)

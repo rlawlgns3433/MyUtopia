@@ -47,8 +47,8 @@ public class Building : MonoBehaviour, IClickable
             isClicked = value;
             if (isClicked)
             {
-                clickEvent?.Invoke();
                 ClickableManager.OnClicked(this);
+                clickEvent?.Invoke();
             }
         }
     }

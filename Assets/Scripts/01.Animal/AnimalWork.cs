@@ -12,7 +12,7 @@ public class AnimalWork : Subject, IMergable
     public Canvas canvasSpeech;
     public TextMeshProUGUI textSpeech;
     private AnimalManager animalManager;
-    private CancellationTokenSource cts = new CancellationTokenSource();
+    public CancellationTokenSource cts = new CancellationTokenSource();
     public int animalId;
     public bool isHealing = false;
     private Animal animal;
@@ -109,6 +109,8 @@ public class AnimalWork : Subject, IMergable
                 Debug.Log("B2Start");
                 while (Animal.animalStat.Stamina < Animal.animalStat.AnimalData.Stamina)
                 {
+                    if (cts.IsCancellationRequested)
+                        break;
                     Animal.animalStat.Stamina += 1;
                     NotifyObservers();
                     await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
@@ -119,6 +121,8 @@ public class AnimalWork : Subject, IMergable
                 Debug.Log("else");
                 while (Animal.animalStat.Stamina > 0)
                 {
+                    if (cts.IsCancellationRequested)
+                        break;
                     Animal.animalStat.Stamina -= 1;
                     NotifyObservers();
                     await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
