@@ -150,7 +150,7 @@ public class StorageConduct : Storage
             }
         }
         sprites = new Sprite[particleSystems.Count];
-        SetParticleImage().Forget();
+        //SetParticleImage().Forget();
     }
 
     public async UniTask CheckStorage()
@@ -239,15 +239,15 @@ public class StorageConduct : Storage
         }
     }
 
-    private async UniTask SetParticleImage()
-    {
-        for(int i = 0; i < particleSystems.Count; ++i)
-        {
-            sprites[i] = await DataTableMgr.GetResourceTable().Get((int)currencyTypes[i]).GetImage();
-            Debug.Log($"{particleSystems[i].name}/{sprites[i].name}");
-        }
+    //private async UniTask SetParticleImage()
+    //{
+    //    for(int i = 0; i < particleSystems.Count; ++i)
+    //    {
+    //        sprites[i] = await DataTableMgr.GetResourceTable().Get((int)currencyTypes[i]).GetImage();
+    //        Debug.Log($"{particleSystems[i].name}/{sprites[i].name}");
+    //    }
 
-    }
+    //}
 
     public async UniTask ParticleSystemEmit(ParticleSystem ps, int index)
     {
@@ -256,12 +256,12 @@ public class StorageConduct : Storage
             var worldPosition = transform.position;
             var screenPos = Camera.main.WorldToScreenPoint(worldPosition);
             ps.transform.position = screenPos;
-            var psSetTexture = particleSystems[index].textureSheetAnimation;
-            if (psSetTexture.mode == ParticleSystemAnimationMode.Sprites && sprites[index] != null)
-            {
-                psSetTexture.SetSprite(0, sprites[index]);
-                Debug.Log($"{particleSystems[index].name}/{sprites[index].name}");
-            }
+            //var psSetTexture = particleSystems[index].textureSheetAnimation;
+            //if (psSetTexture.mode == ParticleSystemAnimationMode.Sprites && sprites[index] != null)
+            //{
+            //    psSetTexture.SetSprite(0, sprites[index]);
+            //    Debug.Log($"{particleSystems[index].name}/{sprites[index].name}");
+            //}
             ps.Emit(1);
             await UniTask.WaitUntil(() => !ps.IsAlive(true));
             if (isClick)
