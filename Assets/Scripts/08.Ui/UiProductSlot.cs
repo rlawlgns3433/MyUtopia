@@ -49,6 +49,14 @@ public class UiProductSlot : MonoBehaviour
 
         ClearData();
 
-        UiManager.Instance.productsUi.Refresh();
+        var uiProduct = UiManager.Instance.productsUi;
+
+        for (int i = 0; i < uiProduct.uiProducts.Count; i++)
+        {
+            Destroy(uiProduct. uiProducts[i].gameObject);
+        }
+        uiProduct.uiProducts.Clear();
+
+        uiProduct.Refresh();
     }
 }

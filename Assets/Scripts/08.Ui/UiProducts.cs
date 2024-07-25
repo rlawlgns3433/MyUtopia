@@ -11,12 +11,6 @@ public class UiProducts : MonoBehaviour
 
     private void OnEnable()
     {
-        for (int i = 0; i < capacity; i++)
-        {
-            var uiProduct = Instantiate(uiProductPrefab, parent);
-            uiProduct.ClearData();
-            uiProducts.Add(uiProduct);
-        }
         Refresh();
     }
 
@@ -36,7 +30,14 @@ public class UiProducts : MonoBehaviour
 
     public void Refresh()
     {
-        int size = CurrencyManager.currency[CurrencyType.Craft].ToInt();
+        for (int i = 0; i < capacity; i++)
+        {
+            var uiProduct = Instantiate(uiProductPrefab, parent);
+            uiProduct.ClearData();
+            uiProducts.Add(uiProduct);
+        }
+
+        int size = CurrencyManager.currency[CurrencyType.Craft].ToInt() > capacity ? capacity : CurrencyManager.currency[CurrencyType.Craft].ToInt();
 
         for (int i = 0; i < size; ++i)
         {
