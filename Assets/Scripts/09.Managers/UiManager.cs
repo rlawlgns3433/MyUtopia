@@ -15,6 +15,7 @@ public class UiManager : Singleton<UiManager>
     public StorageValueUi b5StorageValueUi;
     public UiTutorial tutorialUi;
     public UiInvitation invitationUi;
+    public TestPanel testPanelUi;
 
     public bool isAnimalList = false;
     public bool isAnimalMove = false;
@@ -25,7 +26,7 @@ public class UiManager : Singleton<UiManager>
     }
 
     public void IsAnimalList(bool condition)
-    {
+    { 
         isAnimalList = condition;
         isAnimalMove = !condition;
     }
@@ -74,6 +75,7 @@ public class UiManager : Singleton<UiManager>
         b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
+        testPanelUi.gameObject.SetActive(false);
         OffAnimalList();
 
         // 모든 동물의 말풍선 켜기

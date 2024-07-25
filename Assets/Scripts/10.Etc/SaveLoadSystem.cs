@@ -16,11 +16,14 @@ public static class SaveLoadSystem
     public static int SaveDataVersion { get; private set; } = 1;
 
     // 0 (ÀÚµ¿), 1, 2, 3 ...
-    private static readonly string[] SaveFileName =
+    public static readonly string[] SaveFileName =
     {
         "SaveWorld.sav",
         "SaveCurrency.sav",
-        "Save2.sav",
+        "SaveEmptyWorld.sav",
+        "SaveEmptyCurrency.sav",
+        "SavePlayingWorld.sav",
+        "SavePlayingCurrency.sav",
         "Save3.sav"
     };
 
@@ -94,5 +97,17 @@ public static class SaveLoadSystem
         }
 
         return data;
+    }
+    public static void Delete(int slot)
+    {
+        if (slot < 0 ||  slot >= SaveFileName.Length)
+        {
+            return;
+        }
+        var path = Path.Combine(SaveDirectory, SaveFileName[slot]);
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
     }
 }

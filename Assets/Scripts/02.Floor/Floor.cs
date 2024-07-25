@@ -56,6 +56,8 @@ public class Floor : Subject, IGrowable
         {
             FloorStat = new FloorStat(floorId);
         }
+
+        FloorManager.Instance.AddFloor(floorName, this);
     }
 
     protected virtual void Start()
@@ -67,8 +69,6 @@ public class Floor : Subject, IGrowable
                 Attach(c);
             }
         }
-
-        FloorManager.Instance.AddFloor(floorName, this);
     }
 
     public virtual void LevelUp()
@@ -126,6 +126,15 @@ public class Floor : Subject, IGrowable
 
         animals.Remove(animal);
         Destroy(animal.animalWork.gameObject);
+    }
+
+    public virtual void RemoveAllAnimals()
+    {
+        foreach(var animal in animals)
+        {
+            Destroy(animal.animalWork.gameObject);
+        }
+        animals.Clear();
     }
 
     public virtual void Set()

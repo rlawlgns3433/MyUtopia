@@ -20,6 +20,8 @@ public static class CurrencyManager
     {
         for(int i = 0; i < currencyTypes.Length; i++)
         {
+            if (currency.ContainsKey(currencyTypes[i]))
+                continue;
             currency.Add(currencyTypes[i], BigNumber.Zero);
         }
     }
