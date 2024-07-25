@@ -4,7 +4,6 @@ using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 
-// GameManger로 이동 필요
 public class FloorManager : Singleton<FloorManager>
 {
     public Dictionary<string, Floor> floors = new Dictionary<string, Floor>();
@@ -32,6 +31,7 @@ public class FloorManager : Singleton<FloorManager>
     public float moveDuration = 0.5f;
     public int floorCount = 5;
     public bool isMoving = false;
+    private bool isZoomIn = false;
     public bool multiTouchOff = false;
     private Vector3 targetPosition;
     private Vector3 defaultPosition;
@@ -55,7 +55,7 @@ public class FloorManager : Singleton<FloorManager>
     private void Update()
     {
         if (!multiTouchOff)
-        { 
+        {
             if (!isMoving && !touchManager.Tap)
             {
                 if (touchManager.Zoom != 0 && !isDragging)
@@ -72,7 +72,7 @@ public class FloorManager : Singleton<FloorManager>
 
                 if (touchManager.DragX != 0 && !touchManager.isZooming && touchManager.Swipe == Dirs.None)
                 {
-                    Drag();
+                    Drag().Forget();
                 }
                 else if (touchManager.DragX == 0)
                 {
@@ -121,7 +121,7 @@ public class FloorManager : Singleton<FloorManager>
     {
         if (isMoving || CurrentFloorIndex == floorCount)
             return;
-        else if(CurrentFloorIndex < floorCount)
+        else if (CurrentFloorIndex < floorCount)
         {
             Debug.Log($"Swipe Up:{CurrentFloorIndex}");
             isMoving = true;
@@ -137,7 +137,7 @@ public class FloorManager : Singleton<FloorManager>
     {
         if (isMoving || CurrentFloorIndex == 1)
             return;
-        else if(CurrentFloorIndex > 1)
+        else if (CurrentFloorIndex > 1)
         {
             Debug.Log($"Swipe Down:/{CurrentFloorIndex}");
             isMoving = true;
@@ -152,6 +152,7 @@ public class FloorManager : Singleton<FloorManager>
     {
         if (vc.transform.position.y >= maxZoomIn || vc.transform.position.z >= zoomOutMaxValueZ)
         {
+            isZoomIn = true;
             Debug.Log($"ZoomIn{CurrentFloorIndex}-->/{maxZoomIn}//{maxZoomOut}");
             var forwardDirection = vc.transform.forward * zoomSpeed * Time.deltaTime;
             zoomPosition += forwardDirection;
@@ -176,61 +177,35 @@ public class FloorManager : Singleton<FloorManager>
             if (Vector3.Distance(vc.transform.position, zoomTargetPosition) < 0.01f)
             {
                 zoomPosition = targetPosition;
+                isZoomIn = false;
             }
         }
     }
 
-    private void Drag()
+    private async UniTask Drag()
     {
+        float dragAmount = touchManager.DragX > 0 ? dragSpeed : -dragSpeed;
+
         switch (CurrentFloorIndex)
         {
             case 1:
-                dragSpeed = 0.3f;
-                if (Mathf.Abs(vc.transform.position.x) <= 10)
-                {
-                    isDragging = true;
-                    zoomPosition.x -= touchManager.DragX * dragSpeed * Time.deltaTime;
-                    vc.transform.position = zoomPosition;
-                }
-                else
-                {
-                    if (vc.transform.position.x < 0)
-                    {
-                        zoomPosition.x = -10;
-                        vc.transform.position = zoomPosition;
-                    }
-                    else
-                    {
-                        zoomPosition.x = 10;
-                        vc.transform.position = zoomPosition;
-                    }
-                }
+                dragSpeed = isZoomIn ? 0.5f : 1;
+                zoomPosition.x = Mathf.Clamp(zoomPosition.x + dragAmount, -10f, 10f);
                 break;
             default:
-                dragSpeed = 0.15f;
-                if (Mathf.Abs(vc.transform.position.x) <= 5)
-                {
-                    isDragging = true;
-                    zoomPosition.x -= touchManager.DragX * dragSpeed * Time.deltaTime;
-                    vc.transform.position = zoomPosition;
-                }
-                else
-                {
-                    if (vc.transform.position.x < 0)
-                    {
-                        zoomPosition.x = -5;
-                        vc.transform.position = zoomPosition;
-                    }
-                    else
-                    {
-                        zoomPosition.x = 5;
-                        vc.transform.position = zoomPosition;
-                    }
-                }
+                dragSpeed = isZoomIn ? 0.25f : 0.5f;
+                zoomPosition.x = Mathf.Clamp(zoomPosition.x + dragAmount, -5f, 5f);
                 break;
         }
 
+        if (!isDragging)
+        {
+            isDragging = true;
+            await vc.transform.DOMove(new Vector3(zoomPosition.x, zoomPosition.y, zoomPosition.z), 0.1f).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+            isDragging = false;
+        }
     }
+
     public void AddFloor(string floorId, Floor floor)
     {
         if (floors.ContainsKey(floorId))
@@ -288,7 +263,7 @@ public class FloorManager : Singleton<FloorManager>
 
     public void LevelUp()
     {
-        if(GetCurrentFloor() != null)
+        if (GetCurrentFloor() != null)
         {
             floors[$"B{CurrentFloorIndex}"].LevelUp();
         }

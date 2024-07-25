@@ -36,6 +36,9 @@ public class MultiTouchManager : MonoBehaviour
     public float zoomMaxInch = 1f;
     private float zoomMaxPixel;
 
+    private float dragThreshold = 0.2f;
+    private bool isDragging = false;
+
     private void Awake()
     {
         EnhancedTouchSupport.Enable();
@@ -81,6 +84,7 @@ public class MultiTouchManager : MonoBehaviour
                         primaryStartTime = Time.time;
                         primaryStartPos = touch.screenPosition;
                         previousPos = touch.screenPosition;
+                        isDragging = false;
                     }
                     break;
                 case TouchPhase.Moved:
@@ -97,10 +101,16 @@ public class MultiTouchManager : MonoBehaviour
                                 Swipe = direction.y > 0 ? Dirs.Up : Dirs.Down;
                             }
                         }
-                        else
+                        else if (!isDragging && swipeDuration > timeTap && swipeDistance > dragThreshold)
+                        {
+                            isDragging = true;
+                        }
+
+                        if (isDragging)
                         {
                             DragX = touch.screenPosition.x - previousPos.x;
                         }
+
                         previousPos = touch.screenPosition;
                     }
                     break;
@@ -112,7 +122,7 @@ public class MultiTouchManager : MonoBehaviour
                     {
                         primaryFinger = null;
                         var duration = Time.time - primaryStartTime;
-                        if (duration < timeTap)
+                        if (duration < timeTap && !isDragging)
                         {
                             Tap = true;
                         }
@@ -121,6 +131,7 @@ public class MultiTouchManager : MonoBehaviour
             }
         }
     }
+
     private void HandleZoom()
     {
         var first = Touch.activeTouches[0];
