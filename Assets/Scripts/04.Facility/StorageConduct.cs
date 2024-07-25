@@ -184,7 +184,7 @@ public class StorageConduct : Storage
 
     private void LoadDataOnStart()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, $"{FurnitureStat.Furniture_ID}.json");
+        string filePath = Path.Combine(Application.persistentDataPath, $"B{FurnitureStat.FurnitureData.Floor_Type}.json");
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
@@ -285,7 +285,7 @@ public class StorageConduct : Storage
         {
             currentTotalSeconds = 0;
         }
-        string filePath = Path.Combine(Application.persistentDataPath, $"{FurnitureStat.Furniture_ID}.json");
+        string filePath = Path.Combine(Application.persistentDataPath, $"B{FurnitureStat.FurnitureData.Floor_Type}.json");
         StorageData storageData = new StorageData
         {
             CurrentWorkLoad = CurrWorkLoad,

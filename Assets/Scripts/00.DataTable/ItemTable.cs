@@ -21,6 +21,7 @@ public class ItemData
     public string Sell_Price { get; set; }
     public int Effect_ID { get; set; }
     public string Image { get; set; }
+    public string Item_prefab { get; set; }
 
     public string GetName()
     {
