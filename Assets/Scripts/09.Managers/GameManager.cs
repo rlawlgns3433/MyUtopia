@@ -30,14 +30,23 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
+        Application.quitting += SetPlayerData;
         CurrencyManager.Init();
         CurrentSceneId = SceneIds.WorldLandOfHope;
     }
 
-    private void OnApplicationQuit()
+    private void OnApplicationPause(bool pause)
     {
-        SetPlayerData();
+        if (pause)
+        {
+            SetPlayerData();
+        }
     }
+
+    //private void OnApplicationQuit()
+    //{
+    //    SetPlayerData();
+    //}
 
     private async void Start()
     {
