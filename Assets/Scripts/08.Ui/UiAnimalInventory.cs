@@ -104,7 +104,7 @@ public class UiAnimalInventory : Observer
         {
             if (animals[j].animalWork == null)
             {
-                animals.Remove(animals[j]);
+                animals.Remove(animals[j--]);
                 continue;
             }
 
