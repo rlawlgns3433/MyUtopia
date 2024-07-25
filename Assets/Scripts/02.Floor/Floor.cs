@@ -56,6 +56,8 @@ public class Floor : Subject, IGrowable
         {
             FloorStat = new FloorStat(floorId);
         }
+
+        FloorManager.Instance.AddFloor(floorName, this);
     }
 
     protected virtual void Start()
@@ -67,8 +69,6 @@ public class Floor : Subject, IGrowable
                 Attach(c);
             }
         }
-
-        FloorManager.Instance.AddFloor(floorName, this);
     }
 
     public virtual void LevelUp()

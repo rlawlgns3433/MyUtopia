@@ -20,7 +20,7 @@ public static class SaveLoadSystem
     {
         "SaveWorld.sav",
         "SaveCurrency.sav",
-        "Save2.sav",
+        "SaveEmpty.sav",
         "Save3.sav"
     };
 
@@ -94,5 +94,17 @@ public static class SaveLoadSystem
         }
 
         return data;
+    }
+    public static void Delete(int slot)
+    {
+        if (slot < 0 ||  slot >= SaveFileName.Length)
+        {
+            return;
+        }
+        var path = Path.Combine(SaveDirectory, SaveFileName[slot]);
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
     }
 }
