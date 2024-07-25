@@ -14,6 +14,8 @@ public class UiFloorAnimal : MonoBehaviour
 
         for (int j = 0; j < animals.Count; ++j)
         {
+            if (animals[j].animalWork == null || animals[j] == null)
+                continue;
             var animalClick = animals[j].animalWork.gameObject.GetComponent<AnimalClick>();
             animals[j].animalWork.uiAnimalFloorSlot = Add(animalClick);
             animals[j].animalWork.SetUiAnimalFloorSlot(animals[j].animalWork.uiAnimalFloorSlot);
@@ -82,6 +84,8 @@ public class UiFloorAnimal : MonoBehaviour
         for (int j = 0; j < animals.Count; ++j)
         {
             var animalClick = animals[j].animalWork.gameObject.GetComponent<AnimalClick>();
+            if (animalClick == null)
+                continue;
             animals[j].animalWork.uiAnimalFloorSlot = Add(animalClick);
             animals[j].animalWork.SetUiAnimalFloorSlot(animals[j].animalWork.uiAnimalFloorSlot);
         }

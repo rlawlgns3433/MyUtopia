@@ -94,7 +94,10 @@ public class AnimalManager : Subject
             }
         }
 
-        animalDictionary[animalId].InstantiateAsync(position, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
+        var pos = position;
+        pos.z -= 3;
+
+        animalDictionary[animalId].InstantiateAsync(pos, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
         {
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
@@ -136,8 +139,10 @@ public class AnimalManager : Subject
                 animalDictionary.Add(animal.Key, new AssetReference(animal.Value.Prefab));
             }
         }
+        var pos = position;
+        pos.z -= 3;
 
-        animalDictionary[animalId].InstantiateAsync(position, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
+        animalDictionary[animalId].InstantiateAsync(pos, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
         {
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {

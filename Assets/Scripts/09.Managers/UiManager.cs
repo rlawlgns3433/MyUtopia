@@ -83,6 +83,8 @@ public class UiManager : Singleton<UiManager>
         {
             foreach(var animal in floor.animals)
             {
+                if (animal.animalWork.canvasSpeech == null)
+                    continue;
                 animal.animalWork.canvasSpeech.gameObject.SetActive(true);
             }
         }
@@ -109,6 +111,8 @@ public class UiManager : Singleton<UiManager>
         {
             foreach (var animal in floor.animals)
             {
+                if (animal.animalWork.canvasSpeech == null)
+                    continue;
                 animal.animalWork.canvasSpeech.gameObject.SetActive(false);
             }
         }

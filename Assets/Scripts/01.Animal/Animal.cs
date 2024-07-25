@@ -10,7 +10,7 @@ public class Animal : IGrowable, IMovable
     public Animal() { }
     public Animal(int animalId)
     {
-        if(animalStat == null)
+        if (animalStat == null)
         {
             animalStat = new AnimalStat(animalId);
         }
@@ -55,14 +55,14 @@ public class Animal : IGrowable, IMovable
             #region Rule1
             var firstFloorAnimals = FloorManager.Instance.GetFloor("B1").animals;
 
-            foreach(var animal in firstFloorAnimals)
+            foreach (var animal in firstFloorAnimals)
             {
-                if(animal.animalWork.GetInstanceID() == animalWork.GetInstanceID())
+                if (animal.animalWork.Equals(animalWork))
                     continue;
 
-                if(animal.animalWork.Animal.animalStat.Animal_ID == animalWork.Animal.animalStat.Animal_ID)
+                if (animal.animalWork.Animal.animalStat.Animal_ID == animalWork.Animal.animalStat.Animal_ID)
                 {
-                    if(target == null)
+                    if (target == null)
                     {
                         target = animal.animalWork;
                     }
@@ -73,47 +73,50 @@ public class Animal : IGrowable, IMovable
                 }
             }
 
-            if(target != null)
+            if (target != null)
             {
                 if (animalStat.AnimalData.Animal_Grade == 5)
                     return;
 
-                if(animalWork.Merge(target))
+                if (animalWork.Merge(target))
                     return;
             }
             #endregion
 
             #region Rule2
 
-            foreach(var floor in FloorManager.Instance.floors)
+            foreach (var floor in FloorManager.Instance.floors)
             {
-                if(floor.Key == "B1")
+                if (floor.Key == "B1")
                     continue;
 
-                foreach(var animal in floor.Value.animals)
+                foreach (var animal in floor.Value.animals)
                 {
-                    if(target == null)
+                    if (animal.animalWork.Animal.animalStat.Animal_ID == animalWork.Animal.animalStat.Animal_ID)
                     {
-                        target = animal.animalWork;
-                    }
-                    else
-                    {
-                        if(animal.animalWork.Animal.animalStat.Stamina < target.Animal.animalStat.Stamina)
+                        if (target == null)
                         {
                             target = animal.animalWork;
                         }
-                        else if(animal.animalWork.Animal.animalStat.Stamina == target.Animal.animalStat.Stamina)
+                        else
                         {
-                            if(animal.animalWork.Animal.animalStat.CurrentFloor == target.Animal.animalStat.CurrentFloor)
+                            if (animal.animalWork.Animal.animalStat.Stamina < target.Animal.animalStat.Stamina)
                             {
                                 target = animal.animalWork;
+                            }
+                            else if (animal.animalWork.Animal.animalStat.Stamina == target.Animal.animalStat.Stamina)
+                            {
+                                if (animal.animalWork.Animal.animalStat.CurrentFloor == target.Animal.animalStat.CurrentFloor)
+                                {
+                                    target = animal.animalWork;
+                                }
                             }
                         }
                     }
                 }
             }
 
-            if(target != null)
+            if (target != null)
             {
                 if (animalStat.AnimalData.Animal_Grade == 5)
                     return;
@@ -136,13 +139,13 @@ public class Animal : IGrowable, IMovable
 
         animalStat.AnimalData = DataTableMgr.GetAnimalTable().Get(animalStat.Animal_ID + 1);
 
-        foreach(var a in animals)
+        foreach (var a in animals)
         {
-            if(a.animalWork.gameObject.GetInstanceID() == animalClick.gameObject.GetInstanceID())
+            if (a.animalWork.gameObject.GetInstanceID() == animalClick.gameObject.GetInstanceID())
             {
                 CurrencyManager.currency[CurrencyType.Coin] -= lvCoin;
                 a.animalStat = animalStat;
-                
+
                 break;
             }
         }
