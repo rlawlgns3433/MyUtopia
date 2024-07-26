@@ -45,7 +45,13 @@ public class UiProductSlot : MonoBehaviour
 
         CurrencyManager.currency[type] += price;
 
-        CurrencyManager.currency[CurrencyType.Craft] -= 1;
+        //CurrencyManager.currency[CurrencyType.Craft] -= 1;
+
+        // 3층의 저장소에 접근
+
+        var storage = FloorManager.Instance.floors["B3"].storage as StorageProduct;
+
+        storage.DecreaseProduct(itemStat.Item_ID);
 
         ClearData();
 

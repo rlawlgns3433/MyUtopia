@@ -37,11 +37,36 @@ public class UiProducts : MonoBehaviour
             uiProducts.Add(uiProduct);
         }
 
-        int size = CurrencyManager.currency[CurrencyType.Craft].ToInt() > capacity ? capacity : CurrencyManager.currency[CurrencyType.Craft].ToInt();
+        //int size = CurrencyManager.currency[CurrencyType.Craft].ToInt() > capacity ? capacity : CurrencyManager.currency[CurrencyType.Craft].ToInt();
 
-        for (int i = 0; i < size; ++i)
+        int size = 0;
+        var kvProducts = (FloorManager.Instance.floors["B3"].storage as StorageProduct).products;
+        foreach (var kv in kvProducts)
         {
-            uiProducts[i].SetData(new ItemStat(801101));
+            size += kv.Value;
         }
+
+        size = size > capacity ? capacity : size;
+
+        // 종류별로 아이템
+
+        int currentCount = 0;
+
+        foreach (var kv in kvProducts)
+        {
+            for (int i = currentCount; i < kv.Value + currentCount; i++)
+            {
+                if(i >= capacity)
+                    break;
+
+                uiProducts[i].SetData(new ItemStat(kv.Key));
+            }
+            currentCount+= kv.Value;
+        }
+
+        //for (int i = 0; i < size; ++i)
+        //{
+        //    uiProducts[i].SetData(new ItemStat(801101));
+        //}
     }
 }

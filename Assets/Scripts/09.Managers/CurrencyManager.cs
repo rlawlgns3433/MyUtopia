@@ -24,5 +24,6 @@ public static class CurrencyManager
                 continue;
             currency.Add(currencyTypes[i], BigNumber.Zero);
         }
+        currency[CurrencyType.Coin] = new BigNumber(1000);
     }
 }
