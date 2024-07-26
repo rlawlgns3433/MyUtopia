@@ -154,6 +154,8 @@ public class FloorManager : Singleton<FloorManager>
 
     public async void MoveUp()
     {
+        UiManager.Instance.mainUi.OffSwipeTutorial();
+
         if (isMoving || CurrentFloorIndex == floorCount)
             return;
         else if (CurrentFloorIndex < floorCount)

@@ -24,7 +24,7 @@ public static class SaveLoadSystem
         "SaveEmptyCurrency.sav",
         "SavePlayingWorld.sav",
         "SavePlayingCurrency.sav",
-        "Save3.sav"
+        "SaveProduct.sav"
     };
 
     private static string SaveDirectory

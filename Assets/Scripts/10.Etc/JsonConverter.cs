@@ -218,3 +218,30 @@ public class CurrencyConverter : JsonConverter<List<CurrencySaveData>>
         writer.WriteEndObject();
     }
 }
+
+public class ProductConverter : JsonConverter<List<ProductSaveData>>
+{
+    public override List<ProductSaveData> ReadJson(JsonReader reader, Type objectType, List<ProductSaveData> existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        JObject jObj = JObject.Load(reader);
+        JArray productArray = (JArray)jObj["Products"];
+        return productArray.ToObject<List<ProductSaveData>>();
+    }
+
+
+    public override void WriteJson(JsonWriter writer, List<ProductSaveData> value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+        writer.WritePropertyName("Products");
+        writer.WriteStartArray();
+        for (int i = 0; i < value.Count; ++i)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName($"{value[i].productId}");
+            writer.WriteValue(value[i].productValue);
+            writer.WriteEndObject();
+        }
+        writer.WriteEndArray();
+        writer.WriteEndObject();
+    }
+}

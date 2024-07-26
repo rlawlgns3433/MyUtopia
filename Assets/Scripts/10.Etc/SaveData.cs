@@ -79,6 +79,19 @@ public class CurrencySaveData
     }
 }
 
+public class ProductSaveData
+{
+    public int productId;
+    public int productValue;
+
+    public ProductSaveData() { }
+    public ProductSaveData(int productId, int productValue)
+    {
+        this.productId = productId;
+        this.productValue = productValue;
+    }
+}
+
 public class SaveDataV1 : SaveData
 {
     public List<FloorSaveData> floors;
@@ -107,7 +120,19 @@ public class SaveCurrencyDataV1 : SaveData
     }
 }
 
-
+public class SaveProductDataV1 : SaveData
+{
+    public List<ProductSaveData> productSaveData;
+    public SaveProductDataV1()
+    {
+        productSaveData = new List<ProductSaveData>();
+        Version = 1;
+    }
+    public override SaveData VersionUp()
+    {
+        return null;
+    }
+}
 
 public class SaveDataV2 : SaveData
 {

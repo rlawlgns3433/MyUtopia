@@ -79,6 +79,14 @@ public class UiRecipeSlot : MonoBehaviour
 
     public void OnCraftButtonClicked()
     {
+        var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
+
+        if(storageProduct.Count >= UiManager.Instance.productsUi.capacity)
+        {
+            Debug.Log("창고가 가득 찼습니다.");
+            return;
+        }
+
         /*
          1. 제작중 UI를 생성 & 추가 o
          2. 제작중 UI에 정보를 출력

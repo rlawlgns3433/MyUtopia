@@ -116,6 +116,16 @@ public class GameManager : Singleton<GameManager>
                 CurrencyManager.currency[CurrencyManager.currencyTypes[i]] = saveCurrencyData.currencySaveData[i].value;
             }
         }
+
+        SaveProductDataV1 saveProductData = SaveLoadSystem.Load(6) as SaveProductDataV1;
+        if(saveProductData != null)
+        {
+            var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
+            for (int i = 0; i < saveProductData.productSaveData.Count; ++i)
+            {
+                storageProduct.IncreaseProduct(saveProductData.productSaveData[i].productId, saveProductData.productSaveData[i].productValue);
+            }
+        }
     }
 
     public void RegisterSceneManager(SceneIds sceneName, SceneController sceneManager)
@@ -207,6 +217,7 @@ public class GameManager : Singleton<GameManager>
     {
         var saveData = new SaveDataV1();
         var saveCurrencyData = new SaveCurrencyDataV1();
+        var saveProductData = new SaveProductDataV1();
 
         for (int i = 0; i < FloorManager.Instance.floors.Count; ++i)
         {
@@ -236,6 +247,13 @@ public class GameManager : Singleton<GameManager>
         }
 
         SaveLoadSystem.Save(saveCurrencyData, 1);
+
+        var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
+        for (int i = 0; i < storageProduct.products.Count; ++i)
+        {
+            saveProductData.productSaveData.Add(new ProductSaveData(storageProduct.products.ElementAt(i).Key, storageProduct.products.ElementAt(i).Value));
+        }
+        SaveLoadSystem.Save(saveProductData, 6);
     }
 }
 
