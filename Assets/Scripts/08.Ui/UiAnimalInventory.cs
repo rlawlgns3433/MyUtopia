@@ -83,8 +83,8 @@ public class UiAnimalInventory : Observer
 
     public void UpdateInventory(bool isMerged = false)
     {
-        if (isMerged)
-            return;
+        //if (isMerged)
+        //    return;
         if(FloorManager.Instance.CurrentFloorIndex <= maxSlot)
         {
             SetFloor(FloorManager.Instance.GetCurrentFloor());
@@ -104,7 +104,7 @@ public class UiAnimalInventory : Observer
         {
             if (animals[j].animalWork == null)
             {
-                animals.Remove(animals[j]);
+                animals.Remove(animals[j--]);
                 continue;
             }
 
