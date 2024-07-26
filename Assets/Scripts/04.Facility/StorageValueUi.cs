@@ -32,7 +32,7 @@ public class StorageValueUi : MonoBehaviour
         timeDifferenceText.text = $"{totalValueText} / {maxValueText}";
         for(int i = 0; i < storage.CurrArray.Length; i++)
         {
-            currentValue[i] = storage.CurrArray[i];
+            currentValue[i] = storage.Values[i] * totalValue;
             currentWorkLoads[i] = storage.Values[i];
         }
         for (int i = 0; i < storage.CurrArray.Length; i++)
@@ -42,14 +42,14 @@ public class StorageValueUi : MonoBehaviour
             var currencyValueText = currencyValues[i].GetComponentInChildren<TextMeshProUGUI>();
             currencyValueText.text = currentValue[i].ToString();
             var currencyValueSlider = currencyValues[i].GetComponentInChildren<Slider>();
-            var maxSeconds = maxValue / 3;
+            var maxSeconds = maxValue;
             if(currentValue[i] > 0)
             {
                 currentWorkLoads[i] *= maxSeconds;
                 var clampValue = BigNumber.ToFloatClamped01(currentValue[i], currentWorkLoads[i]);
-                
                 currencyValueSlider.value = clampValue;
-                Debug.Log("test" + currencyValueSlider.value);
+                Debug.Log("testStorageValue" + currentValue[i].ToSimpleString());
+                Debug.Log("testStorageValue" + currentWorkLoads[i].ToSimpleString());
             }
             else
             {
