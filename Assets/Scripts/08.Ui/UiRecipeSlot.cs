@@ -87,6 +87,12 @@ public class UiRecipeSlot : MonoBehaviour
             return;
         }
 
+        if(UiManager.Instance.craftTableUi.craftingBuilding.isCrafting)
+        {
+            Debug.Log("제작중입니다.");
+            return;
+        }
+
         /*
          1. 제작중 UI를 생성 & 추가 o
          2. 제작중 UI에 정보를 출력

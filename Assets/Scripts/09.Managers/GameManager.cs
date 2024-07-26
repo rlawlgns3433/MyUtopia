@@ -106,6 +106,7 @@ public class GameManager : Singleton<GameManager>
                     }
                 }
             }
+            UiManager.Instance.productsUi.capacity = 6;
         }
 
         SaveCurrencyDataV1 saveCurrencyData = SaveLoadSystem.Load(1) as SaveCurrencyDataV1;
@@ -125,6 +126,7 @@ public class GameManager : Singleton<GameManager>
             {
                 storageProduct.IncreaseProduct(saveProductData.productSaveData[i].productId, saveProductData.productSaveData[i].productValue);
             }
+            UiManager.Instance.productsUi.capacity = storageProduct.FurnitureStat.Effect_Value;
         }
     }
 
