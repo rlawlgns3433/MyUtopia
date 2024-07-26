@@ -63,6 +63,10 @@ public class CraftingFloor : Floor
                     if (b.accumWorkLoad >= (b as CraftingBuilding).recipeStat.Workload)
                     {
                         // »ý¼º
+                        (storage as StorageProduct).IncreaseProduct((b as CraftingBuilding).recipeStat.Product_ID);
+
+                        //(b as CraftingBuilding).recipeStat.Product_ID
+
                         CurrencyManager.currency[CurrencyType.Craft] += 1;
                         (b as CraftingBuilding).isCrafting = false;
                         b.accumWorkLoad = BigNumber.Zero;
