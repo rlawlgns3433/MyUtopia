@@ -57,21 +57,22 @@ public class UiBuildingInfo : MonoBehaviour
         }
         uiUpgradeCurrencies.Clear();
 
-        if(building.BuildingStat.Level == building.BuildingStat.Level_Max)
+        textBuildingLevel.text = string.Format(lvFormat, building.BuildingStat.Level);
+        textBuildingName.text = building.BuildingStat.BuildingData.GetName();
+        textDescription.text = building.BuildingStat.BuildingData.GetDescription();
+        buildingProfile.sprite = await building.BuildingStat.BuildingData.GetProfile();
+
+        if (building.BuildingStat.Level == building.BuildingStat.Level_Max)
         {
             textMax.gameObject.SetActive(true);
             buttonLevelUp.interactable = false;
+            return;
         }
         else
         {
             textMax.gameObject.SetActive(false);
             buttonLevelUp.interactable = true;
         }
-
-        textBuildingLevel.text = string.Format(lvFormat, building.BuildingStat.Level);
-        textBuildingName.text = building.BuildingStat.BuildingData.GetName();
-        textDescription.text = building.BuildingStat.BuildingData.GetDescription();
-        buildingProfile.sprite = await building.BuildingStat.BuildingData.GetProfile();
 
         if (building.BuildingStat.Level_Up_Coin_Value != "0")
         {
