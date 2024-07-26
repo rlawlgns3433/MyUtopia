@@ -90,11 +90,45 @@ public class FloorManager : Singleton<FloorManager>
                 {
                     MoveDown();
                 }
+                else if(touchManager.Swipe == Dirs.Left)
+                {
+                    Debug.Log("SwipeLeft");
+                    SwipeHorizontal(moveDistance/2).Forget();
+                }
+                else if( touchManager.Swipe == Dirs.Right)
+                {
+                    Debug.Log("SwipeRight");
+                    SwipeHorizontal(-moveDistance / 2).Forget();
+                }
                 touchManager.Swipe = Dirs.None;
             }
         }
     }
+    private async UniTask SwipeHorizontal(float distance)
+    {
+        if (isMoving)
+            return;
 
+        isMoving = true;
+
+        float minX, maxX;
+        if (CurrentFloorIndex == 1)
+        {
+            minX = -10f;
+            maxX = 10f;
+            distance *= 2;
+        }
+        else
+        {
+            minX = -5f;
+            maxX = 5f;
+        }
+
+        float targetX = Mathf.Clamp(zoomPosition.x + distance, minX, maxX);
+        zoomPosition.x = targetX;
+        await vc.transform.DOMoveX(targetX, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+        isMoving = false;
+    }
     private async UniTask MoveFloor(Vector3 moveVector)
     {
         targetPosition += moveVector;

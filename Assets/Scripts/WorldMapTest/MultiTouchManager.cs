@@ -100,6 +100,10 @@ public class MultiTouchManager : MonoBehaviour
                             {
                                 Swipe = direction.y > 0 ? Dirs.Up : Dirs.Down;
                             }
+                            else if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+                            {
+                                Swipe = direction.x > 0 ? Dirs.Right : Dirs.Left;
+                            }
                         }
                         else if (!isDragging && swipeDuration > timeTap && swipeDistance > dragThreshold)
                         {
