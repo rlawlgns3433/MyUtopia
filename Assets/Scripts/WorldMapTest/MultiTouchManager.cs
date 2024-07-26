@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.UI;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 
@@ -39,6 +40,8 @@ public class MultiTouchManager : MonoBehaviour
     private float dragThreshold = 0.2f;
     private bool isDragging = false;
 
+    public RectTransform scrollRectTransform;
+
     private void Awake()
     {
         EnhancedTouchSupport.Enable();
@@ -75,6 +78,11 @@ public class MultiTouchManager : MonoBehaviour
     {
         foreach (var touch in Touch.activeTouches)
         {
+            if (IsTouchInsideScrollRect(touch))
+            {
+                continue;
+            }
+
             switch (touch.phase)
             {
                 case TouchPhase.Began:
@@ -154,5 +162,13 @@ public class MultiTouchManager : MonoBehaviour
             Zoom /= zoomMaxPixel;
             Zoom = Mathf.Clamp(Zoom, -10, 1f);
         }
+    }
+
+    private bool IsTouchInsideScrollRect(Touch touch)
+    {
+        if (scrollRectTransform == null)
+            return false;
+
+        return RectTransformUtility.RectangleContainsScreenPoint(scrollRectTransform, touch.screenPosition, null);
     }
 }

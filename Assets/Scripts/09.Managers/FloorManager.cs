@@ -37,6 +37,7 @@ public class FloorManager : Singleton<FloorManager>
     private Vector3 defaultPosition;
     private Vector3 zoomPosition;
     public UiAnimalInventory uiAnimalInventory;
+    public RectTransform scrollRectTransform;
     private void Awake()
     {
         vc = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
@@ -48,7 +49,7 @@ public class FloorManager : Singleton<FloorManager>
         {
             touchManager = FindObjectOfType<MultiTouchManager>();
         }
-
+        touchManager.scrollRectTransform = scrollRectTransform;
         zoomPosition = defaultPosition = targetPosition = vc.transform.position;
     }
 
