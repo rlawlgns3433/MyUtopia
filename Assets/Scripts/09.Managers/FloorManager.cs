@@ -2,7 +2,10 @@ using Cinemachine;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class FloorManager : Singleton<FloorManager>
 {
@@ -38,6 +41,9 @@ public class FloorManager : Singleton<FloorManager>
     private Vector3 zoomPosition;
     public UiAnimalInventory uiAnimalInventory;
     public RectTransform scrollRectTransform;
+    public Button[] floorButtons;
+    private GameObject currentButton;
+    public TextMeshProUGUI currentFloorText;
     private void Awake()
     {
         vc = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
@@ -138,18 +144,32 @@ public class FloorManager : Singleton<FloorManager>
         maxZoomIn = targetPosition.y - 5;
         await vc.transform.DOMove(targetPosition, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
         Debug.Log($"CurrentFloor-MoveFloor{CurrentFloorIndex}/{targetPosition}");
+        SetCurrentFloorText();
     }
 
     public async UniTask MoveToCurrentFloor()
     {
+        isMoving = true;
         var distance = CurrentFloorIndex - 1;
         distance *= moveDistance;
         var movePosition = new Vector3(0, defaultPosition.y - distance, defaultPosition.z);
         maxZoomOut = movePosition.y;
         maxZoomIn = movePosition.y - 5;
+        uiAnimalInventory.UpdateInventory(false);
         await vc.transform.DOMove(movePosition, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+        SetCurrentFloorText();
         targetPosition = vc.transform.position;
         zoomPosition = targetPosition;
+        isMoving = false;
+    }
+
+    public void MoveToSelectFloor()
+    {
+        currentButton = EventSystem.current.currentSelectedGameObject;
+        var currentSelectFloor = currentButton.name;
+        SetFloor(currentSelectFloor);
+        SetCurrentFloorText();
+        MoveToCurrentFloor().Forget();
     }
 
     public async void MoveUp()
@@ -268,6 +288,7 @@ public class FloorManager : Singleton<FloorManager>
         animal.animalWork.MoveFloor();
         floors[fromFloor].animals.Remove(animal);
         UiManager.Instance.animalFocusUi.Set();
+        SetCurrentFloorText();
         return true;
     }
 
@@ -281,6 +302,15 @@ public class FloorManager : Singleton<FloorManager>
     public void SetFloor(string floorId)
     {
         CurrentFloorIndex = int.Parse(floorId[1].ToString());
+    }
+
+    private void SetCurrentFloorText()
+    {
+        if (GetCurrentFloor() != null)
+        {
+            var currentFloor = GetCurrentFloor();
+            currentFloorText.text = $"{currentFloor.animals.Count}/{currentFloor.FloorStat.Max_Population}";
+        }
     }
 
     public Floor GetCurrentFloor()
