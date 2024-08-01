@@ -89,6 +89,7 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
         {
             var floorProperties = floor.Value;
             FloorSaveData floorData = new FloorSaveData((int)floorProperties["Id"]);
+            floorData.floorStat.IsLock = (bool)floorProperties["IsLock"];
 
             var animals = floorProperties["Animals"];
             foreach (var animal in animals)
@@ -133,6 +134,8 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
             writer.WritePropertyName("Id");
             writer.WriteValue(value[i].floorStat.Floor_ID);
 
+            writer.WritePropertyName("IsLock");
+            writer.WriteValue(value[i].floorStat.IsLock);
             // Write animal data
             writer.WritePropertyName("Animals");
             writer.WriteStartArray();

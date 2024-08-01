@@ -147,7 +147,7 @@ public class FloorStat
     public string Resource_2_Value { get; set; }
     public int Level_Up_Resource_3 { get; set; }
     public string Resource_3_Value { get; set; }
-
+    public bool IsLock { get; set; }
     public FloorStat() { }
 
     public FloorStat(int floorId)
