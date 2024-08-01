@@ -1,15 +1,14 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Unity.VisualScripting;
 
 public class UiAnimalFocus : Observer
 {
-    private static readonly string levelFormat = "Level : {0} / {1}";
-    private static readonly string workloadFormat = "Workload : {0} / s"; // xxx / s
-    private static readonly string currentFloorFormat = "Floor : {0}"; // xxx / s
-    private static readonly string levelUpText = "LevelUp"; 
-    private static readonly string mergeText = "Merge";
+    private static readonly string levelFormat = "레벨 : {0} / {1}";
+    private static readonly string workloadFormat = "업무량 : {0} / s"; // xxx / s
+    private static readonly string currentFloorFormat = "현재층 : {0}"; //
+    private static readonly string levelUpText = "레벨업"; 
+    private static readonly string mergeText = "머지";
 
     [SerializeField]
     private Image imageAnimalPotrait;
@@ -23,10 +22,15 @@ public class UiAnimalFocus : Observer
     private TextMeshProUGUI textCurrentFloor;
     [SerializeField]
     private TextMeshProUGUI textAnimalWorkload;
+    [SerializeField]
+    private TextMeshProUGUI textLevelUpCost;
+    [SerializeField]
+    private TextMeshProUGUI textSellCost;
     public Button buttonLevelUp;
     public Button buttonSell;
 
     private AnimalWork currentAnimal;
+    public GameObject levelUpCostGo;
 
     private void Start()
     {
@@ -79,6 +83,19 @@ public class UiAnimalFocus : Observer
         textAnimalLevel.text = string.Format(levelFormat, animalData.Level, animalData.Level_Max);
         textCurrentFloor.text = string.Format(currentFloorFormat, animalWork.Animal.animalStat.CurrentFloor);
         textAnimalWorkload.text = string.Format(workloadFormat, animalData.Workload.ToBigNumber().ToString());
+
+        if(animalWork.Animal.animalStat.Level_Up_Coin_Value.ToBigNumber().IsZero)
+        {
+            levelUpCostGo.SetActive(false);
+            textLevelUpCost.gameObject.SetActive(false);
+        }
+        else
+        {
+            levelUpCostGo.SetActive(true);
+            textLevelUpCost.gameObject.SetActive(true);
+            textLevelUpCost.text = animalWork.Animal.animalStat.Level_Up_Coin_Value.ToBigNumber().ToString();
+        }
+        textSellCost.text = animalWork.Animal.animalStat.Sale_Coin.ToBigNumber().ToString();
     }
 
     public void SetSaleUi()

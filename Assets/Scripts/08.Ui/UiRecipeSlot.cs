@@ -23,6 +23,39 @@ public class UiRecipeSlot : MonoBehaviour
     public Button buttonCraft;
 
     public RecipeStat recipeStat;
+    private StringTable stringTable;
+    public StringTable StringTable
+    {
+        get
+        {
+            if(stringTable == null)
+                stringTable = DataTableMgr.GetStringTable();
+
+            return stringTable;
+        }
+
+        set
+        {
+            stringTable = value;
+        }
+    }
+
+    private ResourceTable resourceTable;
+    public ResourceTable ResourceTable
+    {
+        get
+        {
+            if (resourceTable == null)
+                resourceTable = DataTableMgr.GetResourceTable();
+
+            return resourceTable;
+        }
+
+        set
+        {
+            resourceTable = value;
+        }
+    }
 
     private void OnDestroy()
     {
@@ -61,16 +94,21 @@ public class UiRecipeSlot : MonoBehaviour
         switch(count)
         {
             case 0:
-                    textRequireCurrency.text = string.Format(format[count], ((CurrencyType)recipeStat.RecipeData.Resource_1).ToString(), recipeStat.Resource_1_Value);
+                    textRequireCurrency.text = string.Format(format[count],
+                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), 
+                        recipeStat.Resource_1_Value);
                 break;
             case 1:
-                textRequireCurrency.text = string.Format(format[count], ((CurrencyType)recipeStat.RecipeData.Resource_1).ToString(), recipeStat.Resource_1_Value,
-                    ((CurrencyType)recipeStat.RecipeData.Resource_2).ToString(), recipeStat.Resource_2_Value);
+                    textRequireCurrency.text = string.Format(format[count],
+                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), recipeStat.Resource_1_Value,
+                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), recipeStat.Resource_2_Value);
                 break;
             case 2:
-                    textRequireCurrency.text = string.Format(format[count], ((CurrencyType)recipeStat.RecipeData.Resource_1).ToString(), recipeStat.Resource_1_Value,
-                    ((CurrencyType)recipeStat.RecipeData.Resource_2).ToString(), recipeStat.Resource_2_Value, ((CurrencyType)recipeStat.RecipeData.Resource_3).ToString(), recipeStat.Resource_3_Value);
-                break;
+                    textRequireCurrency.text = string.Format(format[count],
+                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), recipeStat.Resource_1_Value,
+                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), recipeStat.Resource_2_Value,
+                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_3).Resource_Name_ID), recipeStat.Resource_1_Value);
+                break;                                                                                
         }
 
         textRequireWorkload.text = recipeStat.RecipeData.Workload.ToString();
