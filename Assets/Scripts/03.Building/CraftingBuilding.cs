@@ -6,7 +6,6 @@ public class CraftingBuilding : Building
     public bool isCrafting = false;
     public RecipeStat recipeStat;
     public Slider craftingSlider;
-    public float craftingAccumLoad;
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -23,7 +22,10 @@ public class CraftingBuilding : Building
         if (isCrafting)
         {
             craftingSlider.value = craftingSlider.maxValue - accumWorkLoad.ToFloat();
-
+        }
+        else
+        {
+            craftingSlider.gameObject.SetActive(false);
         }
     }
 

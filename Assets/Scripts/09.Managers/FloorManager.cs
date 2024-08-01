@@ -163,6 +163,8 @@ public class FloorManager : Singleton<FloorManager>
 
     public void MoveToSelectFloor()
     {
+        if (isMoving)
+            return;
         currentButton = EventSystem.current.currentSelectedGameObject;
         var currentSelectFloor = currentButton.name;
         SetFloor(currentSelectFloor);
