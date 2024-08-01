@@ -12,7 +12,7 @@ public class InvitationBuilding : Building
     protected override void Start()
     {
         base.Start();
-        clickEvent += UiManager.Instance.ShowInvitationUi;
-        clickEvent += UiManager.Instance.invitationUi.Set;
+        //clickEvent += UiManager.Instance.ShowInvitationUi;
+        //clickEvent += UiManager.Instance.invitationUi.Set;
     }
 }
