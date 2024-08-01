@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,7 @@ public class UiAnimalFloorSlot : Observer
 {
     public Image imagePortrait;
     public Slider sliderStamina;
+    public TextMeshProUGUI textLevel;
     public AnimalData animalData;
     public AnimalClick animalClick;
     public bool IsEmpty { get; set; }
@@ -20,6 +22,7 @@ public class UiAnimalFloorSlot : Observer
 
         imagePortrait.sprite = await animalData.GetProfile();
 
+        textLevel.text = animalData.Level.ToString();
         sliderStamina.minValue = 0f;
         sliderStamina.maxValue = DataTableMgr.GetAnimalTable().Get(animalData.Animal_ID).Stamina;
         sliderStamina.value = animClick.AnimalWork.Animal.animalStat.Stamina;
