@@ -111,3 +111,11 @@ public enum SceneIds
     WorldSelect,
     WorldLandOfHope,
 }
+
+public enum AnimalListMode
+{
+    None = -1,
+    AnimalList,
+    Exchange,
+    Eliminate,
+}

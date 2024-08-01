@@ -1,9 +1,12 @@
+using Spine;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UiAnimalSlot : UiAnimalFloorSlot
 {
     public int SlotIndex;
+
     public bool IsEmpty
     {
         get
@@ -50,12 +53,50 @@ public class UiAnimalSlot : UiAnimalFloorSlot
         else 
         //if (UiManager.Instance.isAnimalList) + ¹Ù´Ú
         {
-            animalClick.IsClicked = true;
-            if(animalClick != null)
+            var slots = UiManager.Instance.animalListUi.slots;
+
+            switch (UiManager.Instance.animalListUi.mode)
             {
-                FloorManager.Instance.SetFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor);
-                Debug.Log($"slotClick{FloorManager.Instance.CurrentFloorIndex}");
+                case AnimalListMode.AnimalList:
+                    animalClick.IsClicked = true;
+                    if (animalClick != null)
+                    {
+                        FloorManager.Instance.SetFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor);
+                        Debug.Log($"slotClick{FloorManager.Instance.CurrentFloorIndex}");
+                    }
+
+                    break;
+                case AnimalListMode.Exchange:
+                    IsClicked = true;
+
+                    if (slots.Count == 0)
+                    {
+                        slots.Add(this);
+                        break;
+                    }
+
+                    if (slots.Contains(this))
+                        break;
+
+                    slots.Add(this);
+                    UiManager.Instance.animalListUi.ExchangeAnimal();
+
+                    break;
+                case AnimalListMode.Eliminate:
+                    if(animalClick.AnimalWork.Animal.animalStat.CurrentFloor == "B1")
+                    {
+                        slots.Clear();
+                        break;
+                    }
+
+                    slots.Add(this);
+                    UiManager.Instance.animalListUi.EliminateAnimal();
+                    break;
+                default:
+                    break;
             }
+
+
         }
         UiManager.Instance.mainUi.animalInventoryUi.UpdateInventory(false);
     }

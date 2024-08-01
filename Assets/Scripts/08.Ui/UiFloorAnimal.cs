@@ -25,11 +25,7 @@ public class UiFloorAnimal : MonoBehaviour
     private void OnDisable()
     {
         var animals = floor.animals;
-
-        for (int j = 0; j < animals.Count; ++j)
-        {
-            Clear();
-        }
+        Clear();
     }
 
     public UiAnimalFloorSlot Add(AnimalClick animalClick)
@@ -57,16 +53,27 @@ public class UiFloorAnimal : MonoBehaviour
     public void Remove(UiAnimalFloorSlot slot)
     {
         if(uiAnimalFloorSlots.Contains(slot))
+        {
+            uiAnimalFloorSlots.Remove(slot);
+            Destroy(slot);
             Destroy(slot.gameObject);
+        }
     }
 
     public void Clear()
     {
         foreach(var slot in uiAnimalFloorSlots)
         {
+            if(slot == null)
+            {
+                uiAnimalFloorSlots.Remove(slot);
+                continue;
+            }
+
             if (slot.gameObject == null)
                 continue;
 
+            Destroy(slot);
             Destroy(slot.gameObject);
         }
         uiAnimalFloorSlots.Clear();
@@ -76,10 +83,7 @@ public class UiFloorAnimal : MonoBehaviour
     {
         var animals = floor.animals;
 
-        for (int j = 0; j < animals.Count; ++j)
-        {
-            Clear();
-        }
+        Clear();
 
         for (int j = 0; j < animals.Count; ++j)
         {

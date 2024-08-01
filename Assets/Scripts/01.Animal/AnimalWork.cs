@@ -111,7 +111,7 @@ public class AnimalWork : Subject, IMergable
                 {
                     if (cts.IsCancellationRequested)
                         break;
-                    Animal.animalStat.Stamina += 1;
+                    Animal.animalStat.Stamina += 1; // Furniture Table의 Effect_Value만큼 증가
                     NotifyObservers();
                     await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
                 }

@@ -7,6 +7,8 @@ public class UiAnimalFloorSlot : Observer
     public Slider sliderStamina;
     public AnimalData animalData;
     public AnimalClick animalClick;
+    public bool IsEmpty { get; set; }
+    public bool IsClicked { get; set; }
 
     public virtual async void SetData(AnimalClick animClick)
     {
@@ -32,6 +34,7 @@ public class UiAnimalFloorSlot : Observer
         sliderStamina.value = 0f;
         imagePortrait.gameObject.SetActive(false);
         sliderStamina.gameObject.SetActive(false);
+        IsEmpty = true;
     }
     public override void Notify(Subject subject)
     {
