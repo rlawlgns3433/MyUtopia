@@ -32,10 +32,6 @@ public class UiAnimalList : Observer
 
     public void MoveSlot(UiFloorAnimal from, UiFloorAnimal to, UiAnimalFloorSlot slot)
     {
-        /*
-        from에 있는 걸 지운다.
-        to에 넣는다
-         */
         to.Add(slot.animalClick);
         from.Remove(slot);
     }
@@ -43,17 +39,29 @@ public class UiAnimalList : Observer
     public void SetExchangeMode()
     {
         if (mode == AnimalListMode.Exchange)
+        {
             mode = AnimalListMode.AnimalList;
+            UiManager.Instance.IsAnimalList(true);
+        }
         else
+        {
+            UiManager.Instance.OffAnimalList();
             mode = AnimalListMode.Exchange;
+        }
     }
 
     public void SetEliminateMode()
     {
         if (mode == AnimalListMode.Eliminate)
+        {
             mode = AnimalListMode.AnimalList;
+            UiManager.Instance.IsAnimalList(true);
+        }
         else
+        {
             mode = AnimalListMode.Eliminate;
+            UiManager.Instance.OffAnimalList();
+        }
     }
 
     public void ExchangeAnimal()
@@ -69,13 +77,16 @@ public class UiAnimalList : Observer
             floors[i] = slots[i].animalClick.AnimalWork.Animal.animalStat.CurrentFloor;
         }
 
-        for (int i = 0; i < length; ++i)
+        if (!floors[0].Equals(floors[1]))
         {
-            var from = parents[int.Parse(floors[i].Substring(1)) - 1];
-            var to = parents[int.Parse(floors[length - i - 1].Substring(1)) - 1];
-            MoveSlot(from, to, slots[i]);
+            for (int i = 0; i < length; ++i)
+            {
+                var from = parents[int.Parse(floors[i].Substring(1)) - 1];
+                var to = parents[int.Parse(floors[length - i - 1].Substring(1)) - 1];
+                MoveSlot(from, to, slots[i]);
 
-            GameManager.Instance.GetAnimalManager().MoveAnimal(floors[i], floors[length - i - 1], slots[i].animalClick.AnimalWork.Animal);
+                GameManager.Instance.GetAnimalManager().MoveAnimal(floors[i], floors[length - i - 1], slots[i].animalClick.AnimalWork.Animal);
+            }
         }
 
         slots.Clear();

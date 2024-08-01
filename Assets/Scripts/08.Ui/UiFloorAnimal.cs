@@ -46,6 +46,7 @@ public class UiFloorAnimal : MonoBehaviour
 
         slot.SetData(animalClick);
         uiAnimalFloorSlots.Add(slot);
+        slot.GetComponent<Transform>().SetAsFirstSibling();
 
         return slot;
     }
