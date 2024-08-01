@@ -18,6 +18,7 @@ public class UiMain : MonoBehaviour
             return;
 
         currentFloorName.text = floor.FloorStat.FloorData.GetFloorName();
+        FloorManager.Instance.SetCurrentFloorText();
     }
 
     public void OffSwipeTutorial()

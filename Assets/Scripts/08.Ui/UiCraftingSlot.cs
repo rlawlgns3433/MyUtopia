@@ -49,6 +49,7 @@ public class UiCraftingSlot : Observer
         if (sliderProcess.value == 0f)
         {
             ReturnRecipe();
+            UiManager.Instance.craftTableUi.craftingBuilding.CancelCrafting();
         }
     }
 
@@ -56,6 +57,8 @@ public class UiCraftingSlot : Observer
     {
         var uiCraftingTable = UiManager.Instance.craftTableUi;
         uiCraftingTable.uiRecipeList.Add(recipeStat);
+        UiManager.Instance.craftTableUi.craftingBuilding.isCrafting = false;
+        UiManager.Instance.craftTableUi.craftingBuilding.CancelCrafting();
         Destroy(gameObject);
     }
 }
