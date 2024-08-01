@@ -41,6 +41,7 @@ public class MultiTouchManager : MonoBehaviour
     private bool isDragging = false;
 
     public RectTransform scrollRectTransform;
+    public RectTransform buttonsRectTransform;
 
     private void Awake()
     {
@@ -78,7 +79,7 @@ public class MultiTouchManager : MonoBehaviour
     {
         foreach (var touch in Touch.activeTouches)
         {
-            if (IsTouchInsideScrollRect(touch))
+            if (IsTouchInsideScrollRect(touch) || IsTouchInsideButtonsRect(touch))
             {
                 continue;
             }
@@ -170,5 +171,12 @@ public class MultiTouchManager : MonoBehaviour
             return false;
 
         return RectTransformUtility.RectangleContainsScreenPoint(scrollRectTransform, touch.screenPosition, null);
+    }
+
+    private bool IsTouchInsideButtonsRect(Touch touch)
+    {
+        if(buttonsRectTransform == null)
+            return false;
+        return RectTransformUtility.RectangleContainsScreenPoint(buttonsRectTransform, touch.screenPosition, null);
     }
 }

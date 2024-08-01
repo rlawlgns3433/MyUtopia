@@ -144,7 +144,6 @@ public class FloorManager : Singleton<FloorManager>
         maxZoomIn = targetPosition.y - 5;
         await vc.transform.DOMove(targetPosition, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
         Debug.Log($"CurrentFloor-MoveFloor{CurrentFloorIndex}/{targetPosition}");
-        SetCurrentFloorText();
     }
 
     public async UniTask MoveToCurrentFloor()
@@ -157,7 +156,6 @@ public class FloorManager : Singleton<FloorManager>
         maxZoomIn = movePosition.y - 5;
         uiAnimalInventory.UpdateInventory(false);
         await vc.transform.DOMove(movePosition, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
-        SetCurrentFloorText();
         targetPosition = vc.transform.position;
         zoomPosition = targetPosition;
         isMoving = false;
@@ -168,7 +166,6 @@ public class FloorManager : Singleton<FloorManager>
         currentButton = EventSystem.current.currentSelectedGameObject;
         var currentSelectFloor = currentButton.name;
         SetFloor(currentSelectFloor);
-        SetCurrentFloorText();
         MoveToCurrentFloor().Forget();
     }
 
@@ -288,7 +285,6 @@ public class FloorManager : Singleton<FloorManager>
         animal.animalWork.MoveFloor();
         floors[fromFloor].animals.Remove(animal);
         UiManager.Instance.animalFocusUi.Set();
-        SetCurrentFloorText();
         return true;
     }
 
@@ -304,7 +300,7 @@ public class FloorManager : Singleton<FloorManager>
         CurrentFloorIndex = int.Parse(floorId[1].ToString());
     }
 
-    private void SetCurrentFloorText()
+    public void SetCurrentFloorText()
     {
         if (GetCurrentFloor() != null)
         {
