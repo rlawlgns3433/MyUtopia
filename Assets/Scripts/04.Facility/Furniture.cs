@@ -53,6 +53,8 @@ public class Furniture : MonoBehaviour, IClickable
         if (CurrencyManager.currency[CurrencyType.Coin] < FurnitureStat.Level_Up_Coin_Value.ToBigNumber())
             return;
 
+        CurrencyManager.currency[CurrencyType.Coin] -= FurnitureStat.Level_Up_Coin_Value.ToBigNumber();
+
         FurnitureStat = new FurnitureStat(FurnitureStat.Furniture_ID + 1);
     }
 
