@@ -38,6 +38,7 @@ public class AnimalClick : MonoBehaviour, IClickable
             {
                 ClickableManager.OnClicked(this);
                 clickEvent?.Invoke();
+                Follow();
             }
         }
     }
@@ -95,9 +96,9 @@ public class AnimalClick : MonoBehaviour, IClickable
         VirtualCamera = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
         Transposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         clickEvent += Bump;
-        clickEvent += UiManager.Instance.ShowAnimalFocusUi;
-        clickEvent += UiManager.Instance.animalFocusUi.Set;
-        clickEvent += Follow;
+        clickEvent += UiManager.Instance.ShowMainUi;
+        //clickEvent += UiManager.Instance.animalFocusUi.Set;
+        //clickEvent += Follow;
 
         RegisterClickable();
     }
@@ -114,11 +115,11 @@ public class AnimalClick : MonoBehaviour, IClickable
         if (animalClick == null)
             return;
         Debug.Log($"moveTest{animalClick.AnimalWork.Animal.animalStat.CurrentFloor}");
-        VirtualCamera.Follow = transform;
-        VirtualCamera.LookAt = transform;
-        Transposer.m_FollowOffset = followOffset;
-        FloorManager.Instance.SetFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor);
-        FloorManager.Instance.MoveToCurrentFloor().Forget();
+
+        FloorManager.Instance.MoveToSelectFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor);
+        UniWaitForMoving().Forget();
+
+
     }
 
     public void FocusIn()
@@ -155,5 +156,17 @@ public class AnimalClick : MonoBehaviour, IClickable
         gameObject.SetActive(false);
         gameObject.transform.position = FloorManager.Instance.GetFloor(toFloor).transform.position;
         gameObject.SetActive(true); 
+    }
+
+    public async UniTaskVoid UniWaitForMoving()
+    {
+        while(FloorManager.Instance.isMoving)
+        {
+            await UniTask.Yield();
+        }
+        VirtualCamera.Follow = transform;
+        Transposer.m_FollowOffset = followOffset;
+        UiManager.Instance.ShowAnimalFocusUi();
+        UiManager.Instance.animalFocusUi.Set();
     }
 }
