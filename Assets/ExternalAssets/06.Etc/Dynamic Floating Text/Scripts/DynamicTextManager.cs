@@ -55,11 +55,23 @@ public class DynamicTextManager : MonoBehaviour
 
     public static void CreateText(Vector3 position, string text, DynamicTextData data, float moveDistance, float moveDuration)
     {
-        GameObject newText = Instantiate(canvasPrefab, position, Quaternion.identity);
+        GameObject newText;
+        if (unusingText.Count <= 0)
+        {
+            newText = Instantiate(canvasPrefab, position, Quaternion.identity);
+        }
+        else
+        {
+            newText = GetText();
+            newText.SetActive(true);
+            newText.transform.position = position;
+            newText.transform.rotation = Quaternion.identity;
+        }
+
         data.moveDistance = moveDistance;
         data.moveDuration = moveDuration;
         newText.transform.GetComponent<DynamicText>().Initialise(text, data);
-        newText.transform.DOMove(newText.transform.position + Vector3.up * moveDistance, moveDuration).OnComplete(() => Destroy(newText));
+        newText.transform.DOMove(newText.transform.position + Vector3.up * moveDistance, moveDuration).OnComplete(() => ReturnText(newText));
     }
 
     public static void CreateText(Vector3 position, string text, DynamicTextData data, Vector3 moveDelta, float moveDuration)
@@ -68,7 +80,7 @@ public class DynamicTextManager : MonoBehaviour
         data.moveDelta = moveDelta;
         data.moveDuration = moveDuration;
         newText.transform.GetComponent<DynamicText>().Initialise(text, data);
-        newText.transform.DOMove(newText.transform.position + data.moveDelta, data.moveDuration).OnComplete(() => Destroy(newText));
+        newText.transform.DOMove(newText.transform.position + data.moveDelta, data.moveDuration).OnComplete(() => ReturnText(newText));
     }
 
     public static void ReturnText(GameObject text)
@@ -86,5 +98,4 @@ public class DynamicTextManager : MonoBehaviour
 
         return text;
     }
-
 }

@@ -6,8 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Building : MonoBehaviour, IClickable
 {
-    [SerializeField]
-    private float duration = 0f;
+    public float duration = 0f;
     public BigNumber accumWorkLoad;
     public Vector3 initialScale;
     public Vector3 clickedScale;

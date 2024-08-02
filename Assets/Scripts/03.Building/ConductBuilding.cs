@@ -4,7 +4,6 @@ using UnityEngine.EventSystems;
 public class ConductBuilding : Building
 {
     private BigNumber touchProduce;
-    public float dur;
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -45,6 +44,7 @@ public class ConductBuilding : Building
                 if (CurrencyManager.currency[(CurrencyType)BuildingStat.Materials_Type] > BuildingStat.Conversion_rate)
                 {
                     CurrencyManager.currency[buildingType] += 1;
+                    this.touchProduce = new BigNumber(1);
                     CurrencyManager.currency[(CurrencyType)BuildingStat.Materials_Type] -= BuildingStat.Conversion_rate;
                 }
                 break;
@@ -56,6 +56,6 @@ public class ConductBuilding : Building
         var pos = transform.position;
         pos.y += 1;
 
-        DynamicTextManager.CreateText(pos, bigNumber.ToString(), DynamicTextManager.clickData, 2, dur);
+        DynamicTextManager.CreateText(pos, bigNumber.ToString(), DynamicTextManager.clickData, 2, 0.5f);
     }
 }
