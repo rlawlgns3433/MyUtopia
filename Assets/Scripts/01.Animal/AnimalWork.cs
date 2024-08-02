@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class AnimalWork : Subject, IMergable
 {
-    public Observer uiSlot;
     public Observer uiAnimalFloorSlot;
 
     public Canvas canvasSpeech;
@@ -47,11 +46,8 @@ public class AnimalWork : Subject, IMergable
         cts.Cancel();
         cts.Dispose();
 
-        Detach(uiSlot);
         Detach(uiAnimalFloorSlot);
 
-        if(uiSlot != null)
-            Destroy(uiSlot.gameObject);
         if(uiAnimalFloorSlot != null)
             Destroy(uiAnimalFloorSlot.gameObject);
     }

@@ -74,6 +74,18 @@ public class DynamicTextManager : MonoBehaviour
         newText.transform.DOMove(newText.transform.position + Vector3.up * moveDistance, moveDuration).OnComplete(() => ReturnText(newText));
     }
 
+    // Ç®¸µ Àü
+    //public static void CreateText(Vector3 position, string text, DynamicTextData data, float moveDistance, float moveDuration)
+    //{
+    //    GameObject newText = Instantiate(canvasPrefab, position, Quaternion.identity);
+
+    //    data.moveDistance = moveDistance;
+    //    data.moveDuration = moveDuration;
+    //    newText.transform.GetComponent<DynamicText>().Initialise(text, data);
+    //    newText.transform.DOMove(newText.transform.position + Vector3.up * moveDistance, moveDuration).OnComplete(() => ReturnText(newText));
+    //}
+
+
     public static void CreateText(Vector3 position, string text, DynamicTextData data, Vector3 moveDelta, float moveDuration)
     {
         GameObject newText = Instantiate(canvasPrefab, position, Quaternion.identity);

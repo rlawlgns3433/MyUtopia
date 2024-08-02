@@ -70,16 +70,16 @@ public class UiAnimalInventory : Observer
         uiAnimalSlots[currentIndex-1].SlotIndex = currentIndex-1;
     }
 
-    public void SetAnimal()
-    {
-        foreach (var slot in uiAnimalSlots)
-        {
-            if(slot.animalClick.AnimalWork.Animal.animalStat.CurrentFloor.Equals(currentFloor))
-            {
-                slot.SetData(slot.animalClick);
-            }
-        }
-    }
+    //public void SetAnimal()
+    //{
+    //    foreach (var slot in uiAnimalSlots)
+    //    {
+    //        if(slot.animalClick.AnimalWork.Animal.animalStat.CurrentFloor.Equals(currentFloor))
+    //        {
+    //            slot.SetData(slot.animalClick);
+    //        }
+    //    }
+    //}
 
     public void UpdateInventory(bool isMerged = false)
     {

@@ -7,14 +7,6 @@ public class UiAnimalSlot : UiAnimalFloorSlot
 {
     public int SlotIndex;
 
-    public bool IsEmpty
-    {
-        get
-        {
-            return animalData.Animal_ID == 0;
-        }
-    }
-
     private void OnDestroy()
     {
         Destroy(gameObject);

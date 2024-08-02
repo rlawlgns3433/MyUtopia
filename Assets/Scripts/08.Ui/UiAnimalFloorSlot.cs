@@ -20,6 +20,9 @@ public class UiAnimalFloorSlot : Observer
         animalData = animClick.AnimalWork.Animal.animalStat.AnimalData;
         Debug.Log($"UiAnimalFloorSlot : {animClick.GetInstanceID()}");
 
+        if (imagePortrait == null)
+            return;
+
         imagePortrait.sprite = await animalData.GetProfile();
 
         textLevel.text = animalData.Level.ToString();
