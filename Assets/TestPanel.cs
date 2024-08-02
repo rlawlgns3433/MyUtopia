@@ -94,6 +94,11 @@ public class TestPanel : MonoBehaviour
         foreach(var floor in floors.Values)
         {
             floor.RemoveAllAnimals();
+            if(floor.FloorStat.Floor_Num > 3)
+            {
+                var storageConduct = floor.storage as StorageConduct;
+                storageConduct.ResetStorageConduct();
+            }
         }
 
         for(int i = 0; i < emptyWorld.floors.Count; ++i)
@@ -129,6 +134,8 @@ public class TestPanel : MonoBehaviour
         {
             CurrencyManager.currency[CurrencyManager.currencyTypes[i]] = emptyCurrency.currencySaveData[i].value;
         }
+
+        
     }
 
     public void OnClickApplicationQuit()

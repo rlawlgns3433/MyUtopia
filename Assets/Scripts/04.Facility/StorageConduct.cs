@@ -144,10 +144,13 @@ public class StorageConduct : Storage
             {
                 tempOffLineValue = values[i] * offLineTime;
             }
-            CurrArray[i] += tempValue;
-            if(tempOffLineValue !=  0)
+            if(tempOffLineValue == 0)
             {
-                CurrArray[i] -= tempOffLineValue / 2;
+                CurrArray[i] += tempValue;
+            }
+            else
+            {
+                CurrArray[i] += tempValue - (tempOffLineValue / 2);
             }
             Debug.Log($"Floor =>{FurnitureStat.FurnitureData.Floor_Type}/value =>{tempValue.ToSimpleString()}");
             if (CurrArray[i] != 0)
@@ -335,5 +338,16 @@ public class StorageConduct : Storage
             await UniTask.Yield();
         }
         return;
+    }
+
+    public void ResetStorageConduct()
+    {
+        for(int i = 0; i< CurrArray.Length; i++)
+        {
+            CurrArray[i] = BigNumber.Zero;
+        }
+        CurrentTotalSeconds = 0;
+        currentValue.gameObject.SetActive(false);
+        CurrWorkLoad = BigNumber.Zero;
     }
 }
