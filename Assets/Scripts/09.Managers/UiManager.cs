@@ -22,7 +22,7 @@ public class UiManager : Singleton<UiManager>
 
     private void Start()
     {
-        ShowMainUi();
+        ShowTutorialUi();
     }
 
     public void IsAnimalList(bool condition)
