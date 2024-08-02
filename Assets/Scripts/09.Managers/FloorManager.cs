@@ -155,7 +155,8 @@ public class FloorManager : Singleton<FloorManager>
         maxZoomOut = movePosition.y;
         maxZoomIn = movePosition.y - 5;
         uiAnimalInventory.UpdateInventory(false);
-        await vc.transform.DOMove(movePosition, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+
+        await vc.transform.DOMove(movePosition, moveDuration).AsyncWaitForCompletion();
         targetPosition = vc.transform.position;
         zoomPosition = targetPosition;
         isMoving = false;
@@ -169,6 +170,17 @@ public class FloorManager : Singleton<FloorManager>
         var currentSelectFloor = currentButton.name;
         SetFloor(currentSelectFloor);
         MoveToCurrentFloor().Forget();
+    }
+
+    public async void MoveToSelectFloor(string id)
+    {
+        if (isMoving)
+            return;
+
+        if(id == $"B{CurrentFloorIndex}")
+            return;
+        SetFloor(id);
+        await MoveToCurrentFloor();
     }
 
     public async void MoveUp()
