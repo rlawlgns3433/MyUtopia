@@ -40,7 +40,7 @@ public class StorageValueUi : MonoBehaviour
             currencyValues[i].gameObject.SetActive(true);
             SetSprite(i).Forget();
             var currencyValueText = currencyValues[i].GetComponentInChildren<TextMeshProUGUI>();
-            currencyValueText.text = currentValue[i].ToString();
+            currencyValueText.text = storage.CurrArray[i].ToString();
             var currencyValueSlider = currencyValues[i].GetComponentInChildren<Slider>();
             var maxSeconds = maxValue;
             if(currentValue[i] > 0)

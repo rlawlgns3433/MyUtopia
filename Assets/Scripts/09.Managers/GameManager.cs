@@ -72,7 +72,7 @@ public class GameManager : Singleton<GameManager>
                 {
                     var pos = floor.transform.position;
                     pos.z -= 5;
-                    if(floorSaveData.floorStat.Floor_Type == 2)
+                    if(floorSaveData.floorStat.Floor_Num == 2)
                     {
                         animal.animalStat.Stamina += UtilityTime.Seconds;
                     }
