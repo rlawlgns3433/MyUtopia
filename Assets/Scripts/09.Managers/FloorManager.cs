@@ -77,14 +77,14 @@ public class FloorManager : Singleton<FloorManager>
                     }
                 }
 
-                if (touchManager.DragX != 0 && !touchManager.isZooming && touchManager.Swipe == Dirs.None)
-                {
-                    Drag().Forget();
-                }
-                else if (touchManager.DragX == 0)
-                {
-                    isDragging = false;
-                }
+                //if (touchManager.DragX != 0 && !touchManager.isZooming && touchManager.Swipe == Dirs.None)
+                //{
+                //    Drag().Forget();
+                //}
+                //else if (touchManager.DragX == 0)
+                //{
+                //    isDragging = false;
+                //}
             }
 
             if (!isMoving && touchManager.Swipe != Dirs.None && !touchManager.isZooming && !isDragging)
