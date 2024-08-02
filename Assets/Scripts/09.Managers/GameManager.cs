@@ -53,7 +53,7 @@ public class GameManager : Singleton<GameManager>
         //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
         await UniWaitTables();
-
+        await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
         SaveDataV1 saveWorldData = SaveLoadSystem.Load() as SaveDataV1;
 
         // 데이터대로 동물, 건물, 가구 생성
