@@ -31,7 +31,10 @@ public class UiInvitation : MonoBehaviour
     {
         if (CurrencyManager.currency[(CurrencyType)invitationData.Level_Up_Coin_ID] < invitationData.Level_Up_Coin_Value)
             return;
-
+        var floor = FloorManager.Instance.GetCurrentFloor();
+        //현재 계층 동물 최대치일때 리턴
+        if (floor.FloorStat.Max_Population <= floor.animals.Count)
+            return;
         // 전체 동물수와 1층의 max와 동일하거나 크면 리턴
         int maximumCount = floorStat.Max_Population;
         int currentCount = 0;
@@ -90,7 +93,7 @@ public class UiInvitation : MonoBehaviour
         // 확률에 따라 뽑기
 
         //var floor = FloorManager.Instance.GetFloor($"B{floorStat.Floor_Num}");
-        var floor = FloorManager.Instance.GetCurrentFloor();
+        floor = FloorManager.Instance.GetCurrentFloor();
         var pos = floor.transform.position;
         pos.z -= 5;
         GameManager.Instance.GetAnimalManager().Create(pos, floor, animalId, 0);
