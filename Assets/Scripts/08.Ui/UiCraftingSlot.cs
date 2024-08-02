@@ -32,7 +32,7 @@ public class UiCraftingSlot : Observer
         textRemainAmount.text = "0"; // 임시 코드
         textRemainProcess.text = string.Format(format, sliderProcess.value.ToString(), recipeStat.RecipeData.Workload);
         var floor = FloorManager.Instance.GetFloor("B3");
-        floor.observers.Add(this);
+        floor.runtimeObservers.Add(this);
         floor.AttachObserver(this);
     }
 

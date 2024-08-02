@@ -22,11 +22,14 @@ public class UiManager : Singleton<UiManager>
 
     private void Start()
     {
-        ShowTutorialUi();
+        if (PlayerPrefs.GetInt("TutorialCheck") == 1)
+            ShowMainUi();
+        else
+            ShowTutorialUi();
     }
 
     public void IsAnimalList(bool condition)
-    { 
+    {
         isAnimalList = condition;
         isAnimalMove = !condition;
     }
@@ -79,9 +82,9 @@ public class UiManager : Singleton<UiManager>
         OffAnimalList();
 
         // 모든 동물의 말풍선 켜기
-        foreach(var floor in FloorManager.Instance.floors.Values)
+        foreach (var floor in FloorManager.Instance.floors.Values)
         {
-            foreach(var animal in floor.animals)
+            foreach (var animal in floor.animals)
             {
                 if (animal.animalWork.canvasSpeech == null)
                     continue;
@@ -237,6 +240,7 @@ public class UiManager : Singleton<UiManager>
         b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(true);
+        testPanelUi.gameObject.SetActive(false);
     }
 
     public void SetProductCapacity(int capacity)

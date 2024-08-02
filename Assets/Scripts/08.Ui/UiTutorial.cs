@@ -34,11 +34,24 @@ public class UiTutorial : MonoBehaviour
         {
             // ´Ý±â
             UiManager.Instance.ShowMainUi();
+            ClearTutorial();
             index = 0;
             return;
         }
 
         window.sprite = sprites[++index];
         textPages.text = string.Format(formatPages, index + 1, sprites.Count);
+    }
+
+    public void ClearTutorial()
+    {
+        PlayerPrefs.SetInt("TutorialCheck", 1);
+    }
+
+    public void ResetTutorial()
+    {
+        PlayerPrefs.SetInt("TutorialCheck", 0);
+
+        UiManager.Instance.ShowTutorialUi();
     }
 }

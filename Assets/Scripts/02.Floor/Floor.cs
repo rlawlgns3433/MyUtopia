@@ -8,7 +8,7 @@ public class Floor : Subject, IGrowable
     public List<Animal> animals = new List<Animal>();
     public List<Building> buildings = new List<Building>();
     public List<Furniture> furnitures = new List<Furniture>();
-    public List<Observer> observers = new List<Observer>();
+    public List<Observer> runtimeObservers = new List<Observer>();
 
     [SerializeField]
     protected int floorId;
@@ -62,9 +62,9 @@ public class Floor : Subject, IGrowable
 
     protected virtual void Start()
     {
-        if(observers.Count != 0)
+        if(runtimeObservers.Count != 0)
         {
-            foreach (var c in observers)
+            foreach (var c in runtimeObservers)
             {
                 Attach(c);
             }
