@@ -76,7 +76,7 @@ public class GameManager : Singleton<GameManager>
                     {
                         animal.animalStat.Stamina += UtilityTime.Seconds;
                     }
-                    if(floorSaveData.floorStat.Floor_Num >= 3)
+                    if(floorSaveData.floorStat.Floor_Num > 3)
                     {
                         animal.animalStat.Stamina -= UtilityTime.Seconds;
                         Debug.Log($"AnimalStatTest{animal.animalStat.Stamina}");
