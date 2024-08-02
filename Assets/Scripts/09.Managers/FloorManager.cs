@@ -278,8 +278,10 @@ public class FloorManager : Singleton<FloorManager>
         if (!floors.ContainsKey(toFloor))
             return false;
 
-        var currentFloor = GetCurrentFloor();
-        if (currentFloor.animals.Count >= currentFloor.FloorStat.Max_Population)
+        //var currentFloor = GetCurrentFloor();
+        var targetFloor = GetFloor(toFloor);
+
+        if (targetFloor.animals.Count >= targetFloor.FloorStat.Max_Population)
             return false;
 
         animal.animalWork.Animal.animalStat.CurrentFloor = toFloor;

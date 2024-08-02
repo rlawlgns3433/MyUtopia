@@ -12,10 +12,15 @@ public class UiMain : MonoBehaviour
 
     public void Refresh()
     {
-        addSlot.GetComponent<Transform>().SetAsLastSibling();
+        addSlot.GetComponent<Transform>().SetAsFirstSibling();
         var floor = FloorManager.Instance.GetCurrentFloor();
         if (floor == null)
             return;
+
+        if (floor.animals.Count >= floor.FloorStat.Max_Population)
+            addSlot.SetActive(false);
+        else
+            addSlot.SetActive(true);
 
         currentFloorName.text = floor.FloorStat.FloorData.GetFloorName();
         FloorManager.Instance.SetCurrentFloorText();
