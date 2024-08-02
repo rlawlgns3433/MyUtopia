@@ -11,7 +11,6 @@ public class StorageConduct : Storage
 {
     public List<CurrencyType> currencyTypes;
     public BigNumber CurrWorkLoad;
-    private Building[] buildings;
     private bool isClick = false;
     private int currentTotalSeconds;
     public int CurrentTotalSeconds
@@ -54,17 +53,6 @@ public class StorageConduct : Storage
             values = value;
         }
     }
-    public Building[] Buildings
-    {
-        get
-        {
-            return buildings;
-        }
-        set
-        {
-            buildings = value;
-        }
-    }
     private int maxSeconds;
     public int MaxSeconds
     {
@@ -77,18 +65,6 @@ public class StorageConduct : Storage
             maxSeconds = value;
         }
     }
-    private float overOffLineValue;
-    public float OverOffLineValue
-    {
-        get
-        {
-            return overOffLineValue;
-        }
-        set
-        {
-            overOffLineValue = value;
-        }
-    }
     private int offLineSeconds;
 
     private StorageValue storageValue;
@@ -96,6 +72,19 @@ public class StorageConduct : Storage
     private BigNumber workLoadValue;
     private int count = 0;
     private Sprite[] sprites;
+    private Floor floor;
+    private float offLineWorkLoad;
+    public float OffLineWorkLoad
+    {
+        get
+        {
+            return offLineWorkLoad;
+        }
+        set
+        {
+            offLineWorkLoad = value;
+        }
+    }
     private void Awake()
     {
         clickEvent += OpenStorage;
@@ -108,12 +97,11 @@ public class StorageConduct : Storage
         }
     }
 
-    private async void Start()
+    public async UniTask CheckStorage()
     {
         await UniWaitFurnitureTable();
-        MaxSeconds = FurnitureStat.Effect_Value;
         await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
-        buildings = new Building[currencyTypes.Count];
+        MaxSeconds = FurnitureStat.Effect_Value;
         CurrArray = new BigNumber[currencyTypes.Count];
         values = new BigNumber[currencyTypes.Count];
         LoadDataOnStart();
@@ -137,16 +125,44 @@ public class StorageConduct : Storage
             }
             currentTotalSeconds = maxSeconds;
         }
-
-        await CheckStorage();
-
+        floor = FloorManager.Instance.GetFloor($"B{FurnitureStat.FurnitureData.Floor_Type}");
+        await UniTask.WaitUntil(() => floor.buildings.Count > 0 && floor.buildings[0] != null);
+        bool isEmpty = true;
+        var offLineTime = (int)offLineWorkLoad / 3;//int
+        if(offLineTime >= offLineSeconds)
+        {
+            offLineTime = offLineSeconds;
+        }
+        for (int i = 0; i < floor.buildings.Count; i++)
+        {
+            var workRequire = floor.buildings[i].BuildingStat.Work_Require;
+            values[i] = workLoadValue / workRequire;
+            var tempValue = values[i] * offLineSeconds;
+            var tempOffLineValue = tempValue;
+            Debug.Log($"Floor =>{FurnitureStat.FurnitureData.Floor_Type}/value =>{tempValue.ToSimpleString()}");
+            if(offLineTime >= 0)
+            {
+                tempOffLineValue = values[i] * offLineTime;
+            }
+            CurrArray[i] += tempValue;
+            if(tempOffLineValue !=  0)
+            {
+                CurrArray[i] -= tempOffLineValue / 2;
+            }
+            Debug.Log($"Floor =>{FurnitureStat.FurnitureData.Floor_Type}/value =>{tempValue.ToSimpleString()}");
+            if (CurrArray[i] != 0)
+            {
+                isEmpty = false;
+            }
+            Debug.Log($"Building {i}: workRequire = {workRequire}, values[i] = {values[i]}, tempValue = {tempValue}");
+        }
+        currentValue.gameObject.SetActive(true);
         if (currentTotalSeconds > 0)
         {
             if (currentValue == null)
             {
                 return;
             }
-            currentValue.gameObject.SetActive(true);
 
             storageValue = currentValue.GetComponent<StorageValue>();
             if (storageValue == null)
@@ -161,32 +177,12 @@ public class StorageConduct : Storage
                 currentValue.gameObject.SetActive(false);
             }
         }
-        sprites = new Sprite[particleSystems.Count];
-        //SetParticleImage().Forget();
-    }
-
-    public async UniTask CheckStorage()
-    {
-        await UniTask.WaitUntil(() => buildings.Length > 0 && buildings[0] != null);
-        bool isEmpty = true;
-        Debug.Log($"Floor->{FurnitureStat.FurnitureData.Floor_Type}/{OverOffLineValue}");
-        for (int i = 0; i < buildings.Length; i++)
-        {
-            var workRequire = buildings[i].BuildingStat.Work_Require;
-            values[i] = workLoadValue / workRequire;
-            var tempValue = values[i] * offLineSeconds;
-            CurrArray[i] += tempValue;
-            if (CurrArray[i] != 0)
-            {
-                isEmpty = false;
-            }
-            Debug.Log($"Building {i}: workRequire = {workRequire}, values[i] = {values[i]}, tempValue = {tempValue}");
-        }
-        if(isEmpty)
+        if (isEmpty)
         {
             currentValue.gameObject.SetActive(false);
             //활동량 못채울시 시간초기화 or 누적
         }
+        sprites = new Sprite[particleSystems.Count];
         await UniTask.Yield();
     }
 
@@ -294,6 +290,11 @@ public class StorageConduct : Storage
 
     private void SaveData()
     {
+        if(floor != null)
+        {
+            CurrWorkLoad = floor.autoWorkload;
+        }
+
         Debug.Log("Saving data...");
         if (CurrWorkLoad == 0 || CurrWorkLoad == default)
         {

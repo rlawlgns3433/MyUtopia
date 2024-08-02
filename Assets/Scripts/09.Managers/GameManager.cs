@@ -67,7 +67,7 @@ public class GameManager : Singleton<GameManager>
 
                 var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
                 floor.FloorStat = floorSaveData.floorStat;
-
+                var storageConduct = floor.storage as StorageConduct;
                 foreach (var animal in animals)
                 {
                     var pos = floor.transform.position;
@@ -78,6 +78,7 @@ public class GameManager : Singleton<GameManager>
                         Debug.Log($"AnimalStatTest{animal.animalStat.Stamina}");
                         if(animal.animalStat.Stamina <= 0)
                         {
+                            storageConduct.OffLineWorkLoad += Mathf.Abs(animal.animalStat.Stamina);
                             animal.animalStat.Stamina = 0;
                         }
                     }
@@ -96,6 +97,10 @@ public class GameManager : Singleton<GameManager>
                 for (int j = 0; j < floor.buildings.Count; ++j)
                 {
                     floor.buildings[j].BuildingStat = buildings[j].buildingStat;
+                }
+                if(storageConduct!=null)
+                {
+                    await storageConduct.CheckStorage();
                 }
             }
         }
