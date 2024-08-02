@@ -77,6 +77,18 @@ public class StorageConduct : Storage
             maxSeconds = value;
         }
     }
+    private float overOffLineValue;
+    public float OverOffLineValue
+    {
+        get
+        {
+            return overOffLineValue;
+        }
+        set
+        {
+            overOffLineValue = value;
+        }
+    }
     private int offLineSeconds;
 
     private StorageValue storageValue;
@@ -157,6 +169,7 @@ public class StorageConduct : Storage
     {
         await UniTask.WaitUntil(() => buildings.Length > 0 && buildings[0] != null);
         bool isEmpty = true;
+        Debug.Log($"Floor->{FurnitureStat.FurnitureData.Floor_Type}/{OverOffLineValue}");
         for (int i = 0; i < buildings.Length; i++)
         {
             var workRequire = buildings[i].BuildingStat.Work_Require;

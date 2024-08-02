@@ -89,7 +89,8 @@ public class UiInvitation : MonoBehaviour
 
         // È®·ü¿¡ µû¶ó »Ì±â
 
-        var floor = FloorManager.Instance.GetFloor($"B{floorStat.Floor_Num}");
+        //var floor = FloorManager.Instance.GetFloor($"B{floorStat.Floor_Num}");
+        var floor = FloorManager.Instance.GetCurrentFloor();
         var pos = floor.transform.position;
         pos.z -= 5;
         GameManager.Instance.GetAnimalManager().Create(pos, floor, animalId, 0);

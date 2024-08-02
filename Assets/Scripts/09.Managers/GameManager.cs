@@ -72,6 +72,15 @@ public class GameManager : Singleton<GameManager>
                 {
                     var pos = floor.transform.position;
                     pos.z -= 5;
+                    if(floorSaveData.floorStat.Floor_Num >= 3)
+                    {
+                        animal.animalStat.Stamina -= UtilityTime.Seconds;
+                        Debug.Log($"AnimalStatTest{animal.animalStat.Stamina}");
+                        if(animal.animalStat.Stamina <= 0)
+                        {
+                            animal.animalStat.Stamina = 0;
+                        }
+                    }
                     GetAnimalManager().Create(pos, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
                 }
 

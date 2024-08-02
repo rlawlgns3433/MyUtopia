@@ -75,6 +75,8 @@ public class AnimalManager : Subject
 
     public void CreateAnimal()
     {
+        UiManager.Instance.ShowInvitationUi();
+        UiManager.Instance.invitationUi.Set();
         NotifyObservers();
     }
 
