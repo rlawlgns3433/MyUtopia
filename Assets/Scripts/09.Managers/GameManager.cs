@@ -53,7 +53,7 @@ public class GameManager : Singleton<GameManager>
         //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
         await UniWaitTables();
-
+        await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
         SaveDataV1 saveWorldData = SaveLoadSystem.Load() as SaveDataV1;
 
         // 데이터대로 동물, 건물, 가구 생성
@@ -67,17 +67,22 @@ public class GameManager : Singleton<GameManager>
 
                 var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
                 floor.FloorStat = floorSaveData.floorStat;
-
+                var storageConduct = floor.storage as StorageConduct;
                 foreach (var animal in animals)
                 {
                     var pos = floor.transform.position;
                     pos.z -= 5;
+                    if(floorSaveData.floorStat.Floor_Type == 2)
+                    {
+                        animal.animalStat.Stamina += UtilityTime.Seconds;
+                    }
                     if(floorSaveData.floorStat.Floor_Num >= 3)
                     {
                         animal.animalStat.Stamina -= UtilityTime.Seconds;
                         Debug.Log($"AnimalStatTest{animal.animalStat.Stamina}");
                         if(animal.animalStat.Stamina <= 0)
                         {
+                            storageConduct.OffLineWorkLoad += Mathf.Abs(animal.animalStat.Stamina);
                             animal.animalStat.Stamina = 0;
                         }
                     }
@@ -96,6 +101,10 @@ public class GameManager : Singleton<GameManager>
                 for (int j = 0; j < floor.buildings.Count; ++j)
                 {
                     floor.buildings[j].BuildingStat = buildings[j].buildingStat;
+                }
+                if(storageConduct!=null)
+                {
+                    await storageConduct.CheckStorage();
                 }
             }
         }
