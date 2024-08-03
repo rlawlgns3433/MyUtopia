@@ -40,8 +40,25 @@ public class UiCraftingSlot : Observer
 
     public void OnClickCancel()
     {
-        ReturnRecipe();
         // 취소 재화 지급
+        if (recipeStat.Resource_1 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1] += recipeStat.Resource_1_Value.ToBigNumber() * amount;
+        }
+
+        if (recipeStat.Resource_2 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2] += recipeStat.Resource_2_Value.ToBigNumber() * amount;
+        }
+
+        if (recipeStat.Resource_3 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3] += recipeStat.Resource_3_Value.ToBigNumber() * amount;
+        }
+
+        amount = 0;
+        ReturnRecipe();
+        UiManager.Instance.craftTableUi.craftingBuilding.SetSlider();
     }
 
     public override void Notify(Subject subject)

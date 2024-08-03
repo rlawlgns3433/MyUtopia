@@ -158,7 +158,7 @@ public class UiRecipeSlot : MonoBehaviour
         }
 
         var uiCraftingTable = UiManager.Instance.craftTableUi;
-        uiCraftingTable.uiCraftingList.Add(recipeStat);
+        uiCraftingTable.uiCraftingList.Add(recipeStat, amount);
         uiCraftingTable.craftingBuilding.Set(recipeStat, amount);
         Destroy(gameObject);
     }

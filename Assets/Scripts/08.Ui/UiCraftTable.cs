@@ -26,7 +26,7 @@ public class UiCraftTable : MonoBehaviour
         // 제작 빌딩에서 제작중인 게 있다면 가져온다.
         if(craftingBuilding.isCrafting)
         {
-            uiCraftingList.Add(craftingBuilding.recipeStat);
+            uiCraftingList.Add(craftingBuilding.recipeStat, craftingBuilding.amount);
         }
 
         for (int i = 0; i < recipes.Count; ++i)

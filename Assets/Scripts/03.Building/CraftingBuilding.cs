@@ -40,6 +40,7 @@ public class CraftingBuilding : Building
     public void CancelCrafting()
     {
         craftingSlider.gameObject.SetActive(false);
+        accumWorkLoad = BigNumber.Zero;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
