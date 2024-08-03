@@ -100,11 +100,11 @@ public class UiAnimalInventory : MonoBehaviour
 
         var animals = currentFloor.animals;
         uiAnimalSlots = new List<UiAnimalSlot>();
-        for (int j = 0; j < animals.Count; ++j)
+        for (int j = animals.Count - 1; j >= 0; --j)
         {
             if (animals[j].animalWork == null)
             {
-                animals.Remove(animals[j--]);
+                animals.Remove(animals[j++]);
                 continue;
             }
 
