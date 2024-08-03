@@ -70,16 +70,21 @@ public class CraftingFloor : Floor
                         continue;
                     b.accumWorkLoad += autoWorkload;
 
-                    if (b.accumWorkLoad >= (b as CraftingBuilding).recipeStat.Workload)
+                    while (b.accumWorkLoad >= (b as CraftingBuilding).recipeStat.Workload && (b as CraftingBuilding).amount >= 1)
                     {
                         // 积己
                         (storage as StorageProduct).IncreaseProduct((b as CraftingBuilding).recipeStat.Product_ID);
 
-                        //(b as CraftingBuilding).recipeStat.Product_ID
-
-                        CurrencyManager.currency[CurrencyType.Craft] += 1;
-                        (b as CraftingBuilding).isCrafting = false;
+                        //CurrencyManager.currency[CurrencyType.Craft] += 1;
+                        (b as CraftingBuilding).amount--;
                         b.accumWorkLoad = BigNumber.Zero;
+                        if ((b as CraftingBuilding).amount != 0)
+                        {
+                            (b as CraftingBuilding).SetSlider();
+                            break;
+                        }
+
+                        (b as CraftingBuilding).isCrafting = false; // 力累 场
                     }
                 }
                 NotifyObservers();

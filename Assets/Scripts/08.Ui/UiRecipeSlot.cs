@@ -11,6 +11,8 @@ public class UiRecipeSlot : MonoBehaviour
         "{0} : {1} / {2} : {3} / {4} : {5}"
     };
 
+    private int amount = 1;
+
     public Image imagePortrait;
     public TextMeshProUGUI textName;
     public TextMeshProUGUI textRequireCurrency;
@@ -137,43 +139,74 @@ public class UiRecipeSlot : MonoBehaviour
          3. 현재 게임 오브젝트 삭제
          */
         // 재화가 충분하다면 실행
+        if (!CheckResource(amount))
+            return;
+
         if (recipeStat.Resource_1 != 0)
         {
-            if (recipeStat.Resource_1_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1])
-                return;
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1] -= recipeStat.Resource_1_Value.ToBigNumber() * amount;
         }
 
         if (recipeStat.Resource_2 != 0)
         {
-            if (recipeStat.Resource_2_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2])
-                return;
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2] -= recipeStat.Resource_2_Value.ToBigNumber() * amount;
         }
 
         if (recipeStat.Resource_3 != 0)
         {
-            if (recipeStat.Resource_3_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3])
-                return;
-        }
-
-        if (recipeStat.Resource_1 != 0)
-        {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1] -= recipeStat.Resource_1_Value.ToBigNumber();
-        }
-
-        if (recipeStat.Resource_2 != 0)
-        {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2] -= recipeStat.Resource_2_Value.ToBigNumber();
-        }
-
-        if (recipeStat.Resource_3 != 0)
-        {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3] -= recipeStat.Resource_3_Value.ToBigNumber();
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3] -= recipeStat.Resource_3_Value.ToBigNumber() * amount;
         }
 
         var uiCraftingTable = UiManager.Instance.craftTableUi;
         uiCraftingTable.uiCraftingList.Add(recipeStat);
-        // 즉시 생산 창고에 넣기
-        uiCraftingTable.craftingBuilding.Set(recipeStat);
+        uiCraftingTable.craftingBuilding.Set(recipeStat, amount);
         Destroy(gameObject);
+    }
+
+    public void OnClickIncreaseAmount()
+    {
+
+        if (!CheckResource(amount + 1))
+            return; // 재화 부족
+
+        amount += 1;
+        textAmount.text = amount.ToString();
+    }
+
+    public void OnClickDecreaseAmount()
+    {
+        if(amount <= 1)
+            return; // 최소 수량 체크
+        
+        amount -= 1;
+        textAmount.text = amount.ToString();
+    }
+
+    public void OnClickAutoCraft()
+    {
+
+    }
+
+    public bool CheckResource(int amount)
+    {
+        if (recipeStat.Resource_1 != 0)
+        {
+            if (recipeStat.Resource_1_Value.ToBigNumber() * amount > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1])
+                return false;
+        }
+
+        if (recipeStat.Resource_2 != 0)
+        {
+            if (recipeStat.Resource_2_Value.ToBigNumber() * amount > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2])
+                return false;
+        }
+
+        if (recipeStat.Resource_3 != 0)
+        {
+            if (recipeStat.Resource_3_Value.ToBigNumber() * amount > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3])
+                return false;
+        }
+
+        return true;
     }
 }

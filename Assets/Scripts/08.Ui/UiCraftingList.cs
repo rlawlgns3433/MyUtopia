@@ -16,10 +16,10 @@ public class UiCraftingList : MonoBehaviour
         craftingSlots.Clear();
     }
 
-    public UiCraftingSlot Add(RecipeStat recipeStat) // 레시피로 변경
+    public UiCraftingSlot Add(RecipeStat recipeStat, int amount = 1) // 레시피로 변경
     {
         var slot = Instantiate(slotPrefab, transform);
-        slot.SetData(recipeStat);
+        slot.SetData(recipeStat, amount);
         craftingSlots.Add(slot);
 
         return slot;
