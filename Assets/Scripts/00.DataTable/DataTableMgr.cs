@@ -59,6 +59,11 @@ public static class DataTableMgr
         //DataTable worldTable = new WorldTable();
         //worldTable.Load(DataTableIds.World);
         //tables.Add(DataTableIds.World, worldTable);
+
+        //테이블 완료 시 주석 해제
+        DataTable synergyTable = new SynergyTable();
+        synergyTable.Load(DataTableIds.Synergy);
+        tables.Add(DataTableIds.Synergy, synergyTable);
     }
 
     public static StringTable GetStringTable()
@@ -114,6 +119,11 @@ public static class DataTableMgr
     //{
     //    return Get<WorldTable>(DataTableIds.World);
     //}
+
+    public static SynergyTable GetSynergyTable()
+    {
+        return Get<SynergyTable>(DataTableIds.Synergy);
+    }
 
     public static T Get<T>(string id) where T : DataTable
     {
