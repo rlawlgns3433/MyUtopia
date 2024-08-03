@@ -135,29 +135,36 @@ public class StorageConduct : Storage
         }
         for (int i = 0; i < floor.buildings.Count; i++)
         {
-            var workRequire = floor.buildings[i].BuildingStat.Work_Require;
-            values[i] = workLoadValue / workRequire;
-            var tempValue = values[i] * offLineSeconds;
-            var tempOffLineValue = tempValue;
-            Debug.Log($"Floor =>{FurnitureStat.FurnitureData.Floor_Type}/value =>{tempValue.ToSimpleString()}");
-            if(offLineTime >= 0)
+            if (!floor.buildings[i].BuildingStat.IsLock)
             {
-                tempOffLineValue = values[i] * offLineTime;
-            }
-            if(tempOffLineValue == 0)
-            {
-                CurrArray[i] += tempValue;
+                var workRequire = floor.buildings[i].BuildingStat.Work_Require;
+                values[i] = workLoadValue / workRequire;
+                var tempValue = values[i] * offLineSeconds;
+                var tempOffLineValue = tempValue;
+                Debug.Log($"Floor =>{FurnitureStat.FurnitureData.Floor_Type}/value =>{tempValue.ToSimpleString()}");
+                if (offLineTime >= 0)
+                {
+                    tempOffLineValue = values[i] * offLineTime;
+                }
+                if (tempOffLineValue == 0)
+                {
+                    CurrArray[i] += tempValue;
+                }
+                else
+                {
+                    CurrArray[i] += tempValue - (tempOffLineValue / 2);
+                }
+                Debug.Log($"Floor =>{FurnitureStat.FurnitureData.Floor_Type}/value =>{tempValue.ToSimpleString()}");
+                if (CurrArray[i] != 0)
+                {
+                    isEmpty = false;
+                }
+                Debug.Log($"Building {i}: workRequire = {workRequire}, values[i] = {values[i]}, tempValue = {tempValue}");
             }
             else
             {
-                CurrArray[i] += tempValue - (tempOffLineValue / 2);
+                CurrArray[i] += BigNumber.Zero;
             }
-            Debug.Log($"Floor =>{FurnitureStat.FurnitureData.Floor_Type}/value =>{tempValue.ToSimpleString()}");
-            if (CurrArray[i] != 0)
-            {
-                isEmpty = false;
-            }
-            Debug.Log($"Building {i}: workRequire = {workRequire}, values[i] = {values[i]}, tempValue = {tempValue}");
         }
         currentValue.gameObject.SetActive(true);
         if (currentTotalSeconds > 0)
