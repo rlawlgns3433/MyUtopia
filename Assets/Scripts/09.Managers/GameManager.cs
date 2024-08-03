@@ -43,11 +43,6 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    //private void OnApplicationQuit()
-    //{
-    //    SetPlayerData();
-    //}
-
     private async void Start()
     {
         //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
@@ -146,6 +141,8 @@ public class GameManager : Singleton<GameManager>
             }
             UiManager.Instance.productsUi.capacity = storageProduct.FurnitureStat.Effect_Value;
         }
+
+        FloorManager.Instance.CheckEntireFloorSynergy();
     }
 
     public void RegisterSceneManager(SceneIds sceneName, SceneController sceneManager)
@@ -226,10 +223,16 @@ public class GameManager : Singleton<GameManager>
             await UniTask.Yield();
         }
 
+
         //while (!DataTableMgr.GetWorldTable().IsLoaded)
         //{
         //    await UniTask.Yield();
-        //}
+        //}        
+
+        while (!DataTableMgr.GetSynergyTable().IsLoaded)
+        {
+            await UniTask.Yield();
+        }
         return;
     }
 

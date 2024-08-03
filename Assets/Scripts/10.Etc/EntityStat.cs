@@ -319,3 +319,66 @@ public class BuildingStat
         this.BuildingData = DataTableMgr.GetBuildingTable().Get(buildingId);
     }
 }
+
+
+public class SynergyStat
+{
+    private SynergyData synergyData;
+    public SynergyData SynergyData
+    {
+        get
+        {
+            if (synergyData == null)
+            {
+                synergyData = new SynergyData();
+            }
+            return synergyData;
+        }
+        set
+        {
+            synergyData = value;
+            {
+                synergyData = value;
+                Synergy_ID = synergyData.Synergy_ID;
+                Synergy_Name_ID = synergyData.Synergy_Name_ID;
+                Synergy_Desc_ID = synergyData.Synergy_Desc_ID;
+                World_Type = synergyData.World_Type;
+                Animal1_Type = synergyData.Animal1_Type;
+                Animal2_Type = synergyData.Animal2_Type;
+                Animal3_Type = synergyData.Animal3_Type;
+                Animal4_Type = synergyData.Animal4_Type;
+                Animal5_Type = synergyData.Animal5_Type;
+                Animal1_Grade = synergyData.Animal1_Grade;
+                Animal2_Grade = synergyData.Animal2_Grade;
+                Animal3_Grade = synergyData.Animal3_Grade;
+                Animal4_Grade = synergyData.Animal4_Grade;
+                Animal5_Grade = synergyData.Animal5_Grade;
+                Synergy_Type = synergyData.Synergy_Type;
+                Synergy_Value = synergyData.Synergy_Value;
+            }
+        }
+    }
+    public int Synergy_ID { get; set; }
+    public int Synergy_Name_ID { get; set; }
+    public int Synergy_Desc_ID { get; set; }
+    public int World_Type { get; set; }
+    public int Animal1_Type { get; set; }
+    public int Animal2_Type { get; set; }
+    public int Animal3_Type { get; set; }
+    public int Animal4_Type { get; set; }
+    public int Animal5_Type { get; set; }
+    public int Animal1_Grade { get; set; }
+    public int Animal2_Grade { get; set; }
+    public int Animal3_Grade { get; set; }
+    public int Animal4_Grade { get; set; }
+    public int Animal5_Grade { get; set; }
+    public int Synergy_Type { get; set; }
+    public float Synergy_Value { get; set; }
+
+    public SynergyStat() { }
+
+    public SynergyStat(int synergyId)
+    {
+        this.SynergyData = DataTableMgr.GetSynergyTable().Get(synergyId);
+    }
+}

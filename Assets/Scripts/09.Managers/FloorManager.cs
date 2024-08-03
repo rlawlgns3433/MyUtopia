@@ -1,7 +1,9 @@
 using Cinemachine;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -345,6 +347,73 @@ public class FloorManager : Singleton<FloorManager>
         if (GetCurrentFloor() != null)
         {
             floors[$"B{CurrentFloorIndex}"].LevelUp();
+        }
+    }
+
+    public void CheckFloorSynergy(Floor floor)
+    {
+        var synergies = DataTableMgr.GetSynergyTable().GetAllSynergyAnimalData();
+
+        if (floor.FloorStat.Floor_Num <= 2)
+            return;
+
+        // 시너지들에 대해
+        foreach (var synergy in synergies)
+        {
+            var synergyID = synergy.Key;
+            var requiredAnimals = synergy.Value
+            .Where(animal => animal.Item1 != 0)
+            .ToList();
+
+            var availableAnimals = floor.animals.ToList();
+
+            bool synergyMatched = true;
+
+            foreach (var requiredAnimal in requiredAnimals)
+            {
+                var matchedAnimal = availableAnimals.FirstOrDefault(animal =>
+                    (animal.animalStat.AnimalData.Animal_Type == requiredAnimal.Item1 &&
+                    ((animal.animalStat.AnimalData.Animal_Grade == requiredAnimal.Item2) || (requiredAnimal.Item2 == 0)))
+                );
+
+                if (matchedAnimal != null)
+                {
+                    availableAnimals.Remove(matchedAnimal);
+                }
+                else
+                {
+                    synergyMatched = false;
+                    break;
+                }
+            }
+
+            if (synergyMatched)
+            {
+                (floor as BuildingFloor).synergyStats.Add(new SynergyStat(synergyID));
+            }
+        }
+    }
+
+    public void CheckEntireFloorSynergy()
+    {
+        // 모든 층 시너지 검사
+
+        //Dictionary<int, List<Tuple<int, int>>> synergies = synergyDatas.ToDictionary(
+        //    synergyData => synergyData.Synergy_ID,
+        //    synergyData => new List<Tuple<int, int>>
+        //    {
+        //    new Tuple<int, int>(synergyData.Animal1_Type, synergyData.Animal1_Grade),
+        //    new Tuple<int, int>(synergyData.Animal2_Type, synergyData.Animal2_Grade),
+        //    new Tuple<int, int>(synergyData.Animal3_Type, synergyData.Animal3_Grade),
+        //    new Tuple<int, int>(synergyData.Animal4_Type, synergyData.Animal4_Grade),
+        //    new Tuple<int, int>(synergyData.Animal5_Type, synergyData.Animal5_Grade)
+        //    }
+        //);
+
+        foreach (var floor in floors.Values)
+        {
+            // 층 번호가 2 이하면 건너뛰기
+            CheckFloorSynergy(floor);
         }
     }
 }
