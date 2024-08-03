@@ -94,5 +94,6 @@ public class UiInvitation : MonoBehaviour
         var pos = floor.transform.position;
         pos.z -= 5;
         GameManager.Instance.GetAnimalManager().Create(pos, floor, animalId, 0);
+        
     }
 }

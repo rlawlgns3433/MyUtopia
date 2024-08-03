@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,6 +50,13 @@ public class GameManager : Singleton<GameManager>
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
         await UniWaitTables();
         await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
+        await UniLoadWorldData();
+
+        FloorManager.Instance.CheckEntireFloorSynergy();
+    }
+
+    private async UniTask UniLoadWorldData()
+    {
         SaveDataV1 saveWorldData = SaveLoadSystem.Load() as SaveDataV1;
 
         // 데이터대로 동물, 건물, 가구 생성
@@ -67,15 +75,15 @@ public class GameManager : Singleton<GameManager>
                 {
                     var pos = floor.transform.position;
                     pos.z -= 5;
-                    if(floorSaveData.floorStat.Floor_Num == 2)
+                    if (floorSaveData.floorStat.Floor_Num == 2)
                     {
                         animal.animalStat.Stamina += UtilityTime.Seconds;
                     }
-                    if(floorSaveData.floorStat.Floor_Num > 3)
+                    if (floorSaveData.floorStat.Floor_Num > 3)
                     {
                         animal.animalStat.Stamina -= UtilityTime.Seconds;
                         Debug.Log($"AnimalStatTest{animal.animalStat.Stamina}");
-                        if(animal.animalStat.Stamina <= 0)
+                        if (animal.animalStat.Stamina <= 0)
                         {
                             storageConduct.OffLineWorkLoad += Mathf.Abs(animal.animalStat.Stamina);
                             animal.animalStat.Stamina = 0;
@@ -97,7 +105,7 @@ public class GameManager : Singleton<GameManager>
                 {
                     floor.buildings[j].BuildingStat = buildings[j].buildingStat;
                 }
-                if(storageConduct!=null)
+                if (storageConduct != null)
                 {
                     await storageConduct.CheckStorage();
                 }
@@ -132,7 +140,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         SaveProductDataV1 saveProductData = SaveLoadSystem.Load(6) as SaveProductDataV1;
-        if(saveProductData != null)
+        if (saveProductData != null)
         {
             var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
             for (int i = 0; i < saveProductData.productSaveData.Count; ++i)
@@ -141,8 +149,7 @@ public class GameManager : Singleton<GameManager>
             }
             UiManager.Instance.productsUi.capacity = storageProduct.FurnitureStat.Effect_Value;
         }
-
-        FloorManager.Instance.CheckEntireFloorSynergy();
+        await UniTask.WaitForSeconds(1);
     }
 
     public void RegisterSceneManager(SceneIds sceneName, SceneController sceneManager)

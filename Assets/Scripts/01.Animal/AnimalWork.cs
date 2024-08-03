@@ -73,6 +73,8 @@ public class AnimalWork : Subject, IMergable
             animalManager.Create(floor.gameObject.transform.position, floor, resultAnimalId, 0, true);
             FloorManager.Instance.GetFloor(animal.animalStat.CurrentFloor).RemoveAnimal(animal);
             FloorManager.Instance.GetFloor(animal.animalStat.CurrentFloor).RemoveAnimal(animalWork.animal);
+            FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(animal.animalStat.CurrentFloor));
+            FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(animalWork.animal.animalStat.CurrentFloor));
             Destroy(gameObject);
             Destroy(animalWork.gameObject);
             return true;

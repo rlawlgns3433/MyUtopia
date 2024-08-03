@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class BuildingFloor : Floor
 {
-    public List<SynergyStat> synergyStats = new List<SynergyStat>();
 
     protected override void Start()
     {

@@ -359,8 +359,8 @@ public class SynergyStat
         }
     }
     public int Synergy_ID { get; set; }
-    public int Synergy_Name_ID { get; set; }
-    public int Synergy_Desc_ID { get; set; }
+    public string Synergy_Name_ID { get; set; }
+    public string Synergy_Desc_ID { get; set; }
     public int World_Type { get; set; }
     public int Animal1_Type { get; set; }
     public int Animal2_Type { get; set; }

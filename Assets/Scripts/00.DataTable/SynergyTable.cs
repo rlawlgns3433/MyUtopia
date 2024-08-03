@@ -11,8 +11,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class SynergyData
 {
     public int Synergy_ID { get; set; }
-    public int Synergy_Name_ID { get; set; }
-    public int Synergy_Desc_ID { get; set; }
+    public string Synergy_Name_ID { get; set; }
+    public string Synergy_Desc_ID { get; set; }
     public int World_Type { get; set; }
     public int Animal1_Type { get; set; }
     public int Animal2_Type { get; set; }
@@ -26,6 +26,15 @@ public class SynergyData
     public int Animal5_Grade { get; set; }
     public int Synergy_Type { get; set; }
     public float Synergy_Value { get; set; }
+
+    public string GetName()
+    {
+        return DataTableMgr.GetStringTable().Get(Synergy_Name_ID);
+    }
+    public string GetDesc()
+    {
+        return DataTableMgr.GetStringTable().Get(Synergy_Desc_ID);
+    }
 }
 
 public class SynergyTable : DataTable

@@ -352,10 +352,10 @@ public class FloorManager : Singleton<FloorManager>
 
     public void CheckFloorSynergy(Floor floor)
     {
-        var synergies = DataTableMgr.GetSynergyTable().GetAllSynergyAnimalData();
-
         if (floor.FloorStat.Floor_Num <= 2)
             return;
+
+        var synergies = DataTableMgr.GetSynergyTable().GetAllSynergyAnimalData();
 
         // 시너지들에 대해
         foreach (var synergy in synergies)
@@ -386,33 +386,32 @@ public class FloorManager : Singleton<FloorManager>
                     break;
                 }
             }
+            var synergyStat = new SynergyStat(synergyID); // 현재 시너지 스텟
+
+            var floorSynergies = floor.synergyStats; // 현재 계층의 시너지 스텟들
 
             if (synergyMatched)
             {
-                (floor as BuildingFloor).synergyStats.Add(new SynergyStat(synergyID));
+                floorSynergies.Add(synergyStat);
+            }
+            else
+            {
+                foreach(var floorSynergy in floorSynergies)
+                {
+                    if(floorSynergy.Synergy_ID == synergyStat.Synergy_ID)
+                    {
+                        floorSynergies.Remove(floorSynergy);
+                        break;
+                    }
+                }
             }
         }
     }
 
     public void CheckEntireFloorSynergy()
     {
-        // 모든 층 시너지 검사
-
-        //Dictionary<int, List<Tuple<int, int>>> synergies = synergyDatas.ToDictionary(
-        //    synergyData => synergyData.Synergy_ID,
-        //    synergyData => new List<Tuple<int, int>>
-        //    {
-        //    new Tuple<int, int>(synergyData.Animal1_Type, synergyData.Animal1_Grade),
-        //    new Tuple<int, int>(synergyData.Animal2_Type, synergyData.Animal2_Grade),
-        //    new Tuple<int, int>(synergyData.Animal3_Type, synergyData.Animal3_Grade),
-        //    new Tuple<int, int>(synergyData.Animal4_Type, synergyData.Animal4_Grade),
-        //    new Tuple<int, int>(synergyData.Animal5_Type, synergyData.Animal5_Grade)
-        //    }
-        //);
-
         foreach (var floor in floors.Values)
         {
-            // 층 번호가 2 이하면 건너뛰기
             CheckFloorSynergy(floor);
         }
     }

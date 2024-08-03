@@ -11,16 +11,22 @@ public class UiFloorInformation : MonoBehaviour
 
     public UiBuildingInfo buildingInfoPrefab;
     public UiFurnitureInfo furnitureInfoPrefab;
+    public UiAnimalSynergyBlock synergyEffectInfoPrefab;
+    public UiFurnitureEffectBlock furnitureEffectPrefab;
+
     public Transform furnitureParent;
     public Transform buildingParent;
+    public Transform furnitureEffectParent;
+    public Transform synergyEffectParent;
 
     public TextMeshProUGUI textFloorName;
-    public TextMeshProUGUI textSynergyName;
-    public TextMeshProUGUI textFacilityEffectName;
 
     public UiFloorInfoBlock uiFloorInfoBlock;
+
     public List<UiBuildingInfo> uiBuildings;
     public List<UiFurnitureInfo> uiFurnitures;
+    public List<UiAnimalSynergyBlock> uiAnimalSynergyEffects;
+    public List<UiFurnitureEffectBlock> uiFurnitureEffects;
 
     private ResourceTable resourceTable;
 
@@ -72,6 +78,12 @@ public class UiFloorInformation : MonoBehaviour
             Destroy(uiFurniture.gameObject);
         }
         uiFurnitures.Clear();
+
+        foreach (var uiSynergyEffect in uiAnimalSynergyEffects)
+        {
+            Destroy(uiSynergyEffect.gameObject);
+        }
+        uiAnimalSynergyEffects.Clear();
     }
 
     public void SetFloorUi()
@@ -97,8 +109,6 @@ public class UiFloorInformation : MonoBehaviour
             }
         }
 
-        // 여기서 건물과 같이 시설물 추가
-
         foreach (var furniture in currentFloor.furnitures)
         {
             if(ValidateFurnitureData(furniture))
@@ -111,6 +121,16 @@ public class UiFloorInformation : MonoBehaviour
                     uiFurnitures.Add(uiFurnitureInfo);
                 }
             }
+        }
+
+        if (currentFloor.FloorStat.Floor_Num <= 2)
+            return;
+
+        foreach(var synergyEffect in currentFloor.synergyStats)
+        {
+            UiAnimalSynergyBlock uiAnimalSynergyBlock = Instantiate(synergyEffectInfoPrefab, synergyEffectParent);
+            uiAnimalSynergyBlock.Set(synergyEffect);
+            uiAnimalSynergyEffects.Add(uiAnimalSynergyBlock);
         }
     }
 
