@@ -140,9 +140,9 @@ public class Animal : IGrowable, IMovable
         if (CurrencyManager.currency[CurrencyType.Coin] < lvCoin) // 임시 코드
             return;
 
-        float currentStamina = animalStat.Stamina;
+        float currentStamina = animalStat.Stamina / animalStat.AnimalData.Stamina;
         animalStat.AnimalData = DataTableMgr.GetAnimalTable().Get(animalStat.Animal_ID + 1);
-        animalStat.Stamina = currentStamina;
+        animalStat.Stamina = animalStat.AnimalData.Stamina * currentStamina;
 
         foreach (var a in animals)
         {
