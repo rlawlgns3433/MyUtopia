@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
@@ -175,8 +176,9 @@ public class MultiTouchManager : MonoBehaviour
 
     private bool IsTouchInsideButtonsRect(Touch touch)
     {
-        if(buttonsRectTransform == null)
+        if (buttonsRectTransform == null)
             return false;
+
         return RectTransformUtility.RectangleContainsScreenPoint(buttonsRectTransform, touch.screenPosition, null);
     }
 }
