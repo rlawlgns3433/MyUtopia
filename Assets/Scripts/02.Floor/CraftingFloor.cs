@@ -68,23 +68,47 @@ public class CraftingFloor : Floor
                         continue;
                     if (!(b as CraftingBuilding).isCrafting)
                         continue;
+                    if ((storage as StorageProduct).IsFull)
+                    {
+                        (b as CraftingBuilding).isCrafting = false; // 力累 场
+                        (b as CraftingBuilding).autoCrafting = false;
+                        continue;
+                    }
+
                     b.accumWorkLoad += autoWorkload;
 
-                    while (b.accumWorkLoad >= (b as CraftingBuilding).recipeStat.Workload && (b as CraftingBuilding).amount >= 1)
+                    while (b.accumWorkLoad >= (b as CraftingBuilding).recipeStat.Workload && ((b as CraftingBuilding).autoCrafting || (b as CraftingBuilding).amount >= 1))
                     {
+                        if((storage as StorageProduct).IsFull || !(b as CraftingBuilding).autoCrafting)
+                        {
+                            (b as CraftingBuilding).isCrafting = false; // 力累 场
+                            break;
+                        }
+                        
                         // 积己
                         (storage as StorageProduct).IncreaseProduct((b as CraftingBuilding).recipeStat.Product_ID);
 
-                        //CurrencyManager.currency[CurrencyType.Craft] += 1;
                         (b as CraftingBuilding).amount--;
                         b.accumWorkLoad = BigNumber.Zero;
-                        if ((b as CraftingBuilding).amount != 0)
+                        if ((b as CraftingBuilding).amount != 0 || (b as CraftingBuilding).autoCrafting)
                         {
                             (b as CraftingBuilding).SetSlider();
                             break;
                         }
 
+                        if((b as CraftingBuilding).autoCrafting)
+                        {
+                            (b as CraftingBuilding).amount = 1;
+                        }
+
                         (b as CraftingBuilding).isCrafting = false; // 力累 场
+                    }
+
+                    if ((storage as StorageProduct).IsFull)
+                    {
+                        (b as CraftingBuilding).isCrafting = false; // 力累 场
+                        (b as CraftingBuilding).autoCrafting = false;
+                        continue;
                     }
                 }
                 NotifyObservers();

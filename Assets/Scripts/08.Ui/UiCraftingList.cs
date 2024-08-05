@@ -6,6 +6,7 @@ public class UiCraftingList : MonoBehaviour
 {
     public UiCraftingSlot slotPrefab;
     public List<UiCraftingSlot> craftingSlots = new List<UiCraftingSlot>();
+    public bool autoCraft = false;
 
     private void OnDisable()
     {
@@ -14,12 +15,18 @@ public class UiCraftingList : MonoBehaviour
             Destroy(craftingSlots[i]);
         }
         craftingSlots.Clear();
+        autoCraft = false;
     }
 
-    public UiCraftingSlot Add(RecipeStat recipeStat, int amount = 1) // 레시피로 변경
+    public UiCraftingSlot Add(RecipeStat recipeStat, bool autoCraft = false, int amount = 1) // 레시피로 변경
     {
+        if(this.autoCraft)
+            return null;
+
+        this.autoCraft = autoCraft;
+
         var slot = Instantiate(slotPrefab, transform);
-        slot.SetData(recipeStat, amount);
+        slot.SetData(recipeStat, autoCraft, amount);
         craftingSlots.Add(slot);
 
         return slot;

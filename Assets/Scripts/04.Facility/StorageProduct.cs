@@ -5,6 +5,13 @@ using UnityEngine;
 public class StorageProduct : Storage
 {
     public Dictionary<int, int> products = new Dictionary<int, int>();
+    public bool IsFull
+    {
+        get
+        {
+            return Count >= FurnitureStat.Effect_Value;
+        }
+    }
     public int Count
     {
         get

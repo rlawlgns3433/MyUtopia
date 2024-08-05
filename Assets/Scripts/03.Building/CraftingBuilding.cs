@@ -5,6 +5,7 @@ public class CraftingBuilding : Building
 {
     public bool isCrafting = false;
     public int amount = 1;
+    public bool autoCrafting = false;
     public RecipeStat recipeStat;
     public Slider craftingSlider;
     protected override void OnEnable()
@@ -48,10 +49,12 @@ public class CraftingBuilding : Building
         base.OnPointerClick(eventData);
     }
 
-    public void Set(RecipeStat recipeStat, int amount = 1)
+    public void Set(RecipeStat recipeStat, bool autoCraft, int amount = 1)
     {
         if(recipeStat == null)
             return;
+
+        this.autoCrafting = autoCraft;
         this.amount = amount;
         this.recipeStat = recipeStat;
         isCrafting = true;

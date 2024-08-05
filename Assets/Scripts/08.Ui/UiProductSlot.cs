@@ -40,6 +40,9 @@ public class UiProductSlot : MonoBehaviour
          4. 아이템의 리스트에서 개수를 하나 줄인다.
          5. 아이템을 삭제한다. ClearData
          */
+        if (itemStat == null)
+            return;
+
         CurrencyType type = (CurrencyType)itemStat.Sell_Resource_ID;
         BigNumber price = itemStat.Sell_Price.ToBigNumber();
 

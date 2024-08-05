@@ -9,8 +9,11 @@ public class UiRecipeList : MonoBehaviour
     public UiRecipeSlot slotPrefab;
     public List<UiRecipeSlot> recipeSlots = new List<UiRecipeSlot>();
 
-    public UiRecipeSlot Add(RecipeStat recipeStat) // 레시피로 변경
+    public UiRecipeSlot Add(RecipeStat recipeStat, bool autoCraft) // 레시피로 변경
     {
+        if(autoCraft)
+            return null;
+
         var slot = Instantiate(slotPrefab, transform);
         slot.SetData(recipeStat);
         recipeSlots.Add(slot);
