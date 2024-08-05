@@ -17,6 +17,9 @@ public class UiInvitation : MonoBehaviour
     public GameObject balloonObj;
     private float offSetY = 5f;
     private float targetPosOffset = 1f;
+    private List<GameObject> balloons = new List<GameObject>();
+    //private bool isCreating = false;
+    //private int createCount = 0;
     public void Set()
     {
         floor = FloorManager.Instance.floors["B1"];
@@ -51,10 +54,10 @@ public class UiInvitation : MonoBehaviour
                 currentCount++;
             }
         }
-
-        if(currentCount >= maximumCount)
+        if (FloorManager.Instance.IsCreating)
             return;
-
+        if (currentCount >= maximumCount)
+            return;
 
         float totalRate = invitationData.Get_Animal1_Rate + invitationData.Get_Animal2_Rate + invitationData.Get_Animal3_Rate + invitationData.Get_Animal4_Rate + invitationData.Get_Animal5_Rate + invitationData.Get_Animal6_Rate;
 
@@ -104,9 +107,11 @@ public class UiInvitation : MonoBehaviour
 
     public async UniTask CreateBalloon(Vector3 target, Floor floor, int id,int value)
     {
+        FloorManager.Instance.IsCreating = true;
         var balloonPos = target;
         balloonPos.y += offSetY;
         var balloon = Instantiate(balloonObj, balloonPos, Quaternion.identity);
+        balloons.Add(balloon);
         var targetPos = target;
         targetPos.y += targetPosOffset;
         await balloon.transform.DOMove(targetPos, 3).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
@@ -114,7 +119,9 @@ public class UiInvitation : MonoBehaviour
         Instantiate(ps, targetPos, Quaternion.identity);
         ps.Play();
         Destroy(balloon);
+        balloons.Remove(balloon);
         GameManager.Instance.GetAnimalManager().Create(target, floor, id, 0);
         CurrencyManager.currency[(CurrencyType)invitationData.Level_Up_Coin_ID] -= value;
+        FloorManager.Instance.IsCreating = false;
     }
 }

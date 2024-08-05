@@ -46,6 +46,18 @@ public class FloorManager : Singleton<FloorManager>
     public Button[] floorButtons;
     private GameObject currentButton;
     public TextMeshProUGUI currentFloorText;
+    private bool isCreating = false;
+    public bool IsCreating
+    {
+        get
+        {
+            return isCreating;
+        }
+        set
+        {
+            isCreating = value;
+        }
+    }
     private void Awake()
     {
         vc = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
@@ -286,6 +298,8 @@ public class FloorManager : Singleton<FloorManager>
 
     public bool MoveAnimal(string fromFloor, string toFloor, Animal animal)
     {
+        if (isCreating)
+            return false;
         if (!floors.ContainsKey(fromFloor))
             return false;
 
@@ -297,7 +311,8 @@ public class FloorManager : Singleton<FloorManager>
 
         if (targetFloor.animals.Count >= targetFloor.FloorStat.Max_Population)
             return false;
-
+        if (targetFloor.animals.Count >= targetFloor.FloorStat.Max_Population)
+            return false;
         animal.animalWork.Animal.animalStat.CurrentFloor = toFloor;
         floors[toFloor].animals.Add(animal);
         animal.animalWork.MoveFloor();
