@@ -46,6 +46,16 @@ public class CraftingFloor : Floor
                     autoWorkload += new BigNumber(animal.animalStat.Workload);
             }
 
+            // 시너지를 통해 업무량 증가 여부
+            if (synergyStats.Count != 0)
+            {
+                int synergyValue = 0;
+                foreach (var synergy in synergyStats)
+                {
+                    synergyValue += Mathf.FloorToInt(synergy.Synergy_Value * 100);
+                }
+                autoWorkload = autoWorkload + (autoWorkload * synergyValue) / 100;
+            }
 
             await UniTask.Delay(1000, cancellationToken: cts);
             if (!autoWorkload.IsZero)
@@ -60,16 +70,21 @@ public class CraftingFloor : Floor
                         continue;
                     b.accumWorkLoad += autoWorkload;
 
-                    if (b.accumWorkLoad >= (b as CraftingBuilding).recipeStat.Workload)
+                    while (b.accumWorkLoad >= (b as CraftingBuilding).recipeStat.Workload && (b as CraftingBuilding).amount >= 1)
                     {
                         // 생성
                         (storage as StorageProduct).IncreaseProduct((b as CraftingBuilding).recipeStat.Product_ID);
 
-                        //(b as CraftingBuilding).recipeStat.Product_ID
-
-                        CurrencyManager.currency[CurrencyType.Craft] += 1;
-                        (b as CraftingBuilding).isCrafting = false;
+                        //CurrencyManager.currency[CurrencyType.Craft] += 1;
+                        (b as CraftingBuilding).amount--;
                         b.accumWorkLoad = BigNumber.Zero;
+                        if ((b as CraftingBuilding).amount != 0)
+                        {
+                            (b as CraftingBuilding).SetSlider();
+                            break;
+                        }
+
+                        (b as CraftingBuilding).isCrafting = false; // 제작 끝
                     }
                 }
                 NotifyObservers();

@@ -6,7 +6,7 @@ using DG.Tweening;
 using Cysharp.Threading.Tasks;
 public class UiInvitation : MonoBehaviour
 {
-    private static readonly string format = "{0}¸¦ ÁöºÒÇÏ°í µ¿¹°À» ÃÊ´ëÇÒ±î¿ä?";
+    private static readonly string format = "{0}ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½Ò±ï¿½ï¿½?";
 
     public TextMeshProUGUI textConfirm;
     public Button buttonConfirm;
@@ -36,10 +36,10 @@ public class UiInvitation : MonoBehaviour
         if (CurrencyManager.currency[(CurrencyType)invitationData.Level_Up_Coin_ID] < invitationData.Level_Up_Coin_Value)
             return;
         var floor = FloorManager.Instance.GetCurrentFloor();
-        //ÇöÀç °èÃþ µ¿¹° ÃÖ´ëÄ¡ÀÏ¶§ ¸®ÅÏ
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½Ä¡ï¿½Ï¶ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (floor.FloorStat.Max_Population <= floor.animals.Count)
             return;
-        // ÀüÃ¼ µ¿¹°¼ö¿Í 1ÃþÀÇ max¿Í µ¿ÀÏÇÏ°Å³ª Å©¸é ¸®ÅÏ
+        // ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ maxï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°Å³ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         int maximumCount = floorStat.Max_Population;
         int currentCount = 0;
         foreach (var currentFloor in FloorManager.Instance.floors.Values)
@@ -78,12 +78,12 @@ public class UiInvitation : MonoBehaviour
             invitationData.Get_Animal_ID_6
         };
 
-        // ·£´ý °ª »ý¼º
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         float value = Random.Range(0, totalRate);
         float cumulativeRate = 0f;
         int animalId = 0;
 
-        // ·çÇÁ¸¦ ÅëÇÑ È®·ü Ã¼Å©
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ Ã¼Å©
         for (int i = 0; i < rates.Length; i++)
         {
             cumulativeRate += rates[i];
@@ -94,7 +94,7 @@ public class UiInvitation : MonoBehaviour
             }
         }
 
-        // È®·ü¿¡ µû¶ó »Ì±â
+        // È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì±ï¿½
         floor = FloorManager.Instance.GetCurrentFloor();
 
         var pos = floor.transform.position;

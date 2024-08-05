@@ -9,6 +9,7 @@ public class Floor : Subject, IGrowable
     public List<Building> buildings = new List<Building>();
     public List<Furniture> furnitures = new List<Furniture>();
     public List<Observer> runtimeObservers = new List<Observer>();
+    public List<SynergyStat> synergyStats = new List<SynergyStat>();
 
     [SerializeField]
     protected int floorId;

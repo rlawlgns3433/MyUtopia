@@ -189,7 +189,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 13.75
+  m_fontSize: 9.9
   m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -350,7 +350,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3618479650557726087}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -287024894390985599}
+        m_TargetAssemblyTypeName: UiRecipeSlot, Assembly-CSharp
+        m_MethodName: OnClickAutoCraft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1900249119833876669
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +455,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 13.75
+  m_fontSize: 10.5
   m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -594,10 +606,10 @@ RectTransform:
   - {fileID: 2602486646536732126}
   m_Father: {fileID: 4079655184773753221}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 180.68536, y: -15}
-  m_SizeDelta: {x: 72.27415, y: 30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2883324987084689375
 CanvasRenderer:
@@ -837,7 +849,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5879984691882585674
 RectTransform:
   m_ObjectHideFlags: 0
@@ -853,10 +865,10 @@ RectTransform:
   - {fileID: 4079655184773753221}
   m_Father: {fileID: 8960302562162751833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 113.411224, y: -85}
-  m_SizeDelta: {x: 216.82245, y: 30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9169716098300339067
 CanvasRenderer:
@@ -1048,10 +1060,10 @@ RectTransform:
   - {fileID: 3231434105273375058}
   m_Father: {fileID: 7495502311048348326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 69.16044, y: -15}
-  m_SizeDelta: {x: 6.2274146, y: 20}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1432742019849691329
 CanvasRenderer:
@@ -1134,7 +1146,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2388349249502990651}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -287024894390985599}
+        m_TargetAssemblyTypeName: UiRecipeSlot, Assembly-CSharp
+        m_MethodName: OnClickIncreaseAmount
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8998219493461276122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1650,7 +1674,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 13.75
+  m_fontSize: 10.5
   m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1856,10 +1880,10 @@ RectTransform:
   - {fileID: 7495502311048348326}
   m_Father: {fileID: 4079655184773753221}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 108.411224, y: -15}
-  m_SizeDelta: {x: 72.27415, y: 30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8735325031229522539
 CanvasRenderer:
@@ -2582,10 +2606,10 @@ RectTransform:
   - {fileID: 7283998329997188469}
   m_Father: {fileID: 7495502311048348326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 3.1137073, y: -15}
-  m_SizeDelta: {x: 6.2274146, y: 20}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7462456035814967532
 CanvasRenderer:
@@ -2668,7 +2692,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8383127305057779260}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -287024894390985599}
+        m_TargetAssemblyTypeName: UiRecipeSlot, Assembly-CSharp
+        m_MethodName: OnClickDecreaseAmount
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6116291818314863358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2940,10 +2976,10 @@ RectTransform:
   - {fileID: 3791336846598928922}
   m_Father: {fileID: 4079655184773753221}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 36.137074, y: -15}
-  m_SizeDelta: {x: 72.27415, y: 30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6343359441362675995
 CanvasRenderer:
@@ -3230,10 +3266,10 @@ RectTransform:
   - {fileID: 2254244902960015648}
   m_Father: {fileID: 7495502311048348326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 36.137074, y: -15}
-  m_SizeDelta: {x: 49.819317, y: 20}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5580842425946827649
 CanvasRenderer:
@@ -3385,7 +3421,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 27.5
+  m_fontSize: 19.8
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1

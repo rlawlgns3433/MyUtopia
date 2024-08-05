@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UiAnimalInventory : Observer
+public class UiAnimalInventory : MonoBehaviour
 {
     public List<UiAnimalSlot> uiAnimalSlots;
     public UiAnimalSlot slotPrefab;
@@ -57,18 +57,18 @@ public class UiAnimalInventory : Observer
         currentFloor = floor;
     }
 
-    public override void Notify(Subject subject)
-    {
-        if (currentFloor.animals.Count >= currentFloor.FloorStat.Max_Population)
-            return;
-        currentFloor = FloorManager.Instance.GetCurrentFloor();
-        UiAnimalSlot slot = Instantiate(slotPrefab, scrollRect.content);
-        var animalManager = GameObject.FindWithTag(Tags.AnimalManager).GetComponent<AnimalManager>();
-        slot.SlotIndex = currentIndex++;
-        animalManager.Create(currentFloor.transform.position, currentFloor, 10005001, slot.SlotIndex);
-        uiAnimalSlots.Add(slot);
-        uiAnimalSlots[currentIndex-1].SlotIndex = currentIndex-1;
-    }
+    //public override void Notify(Subject subject)
+    //{
+    //    if (currentFloor.animals.Count >= currentFloor.FloorStat.Max_Population)
+    //        return;
+    //    currentFloor = FloorManager.Instance.GetCurrentFloor();
+    //    UiAnimalSlot slot = Instantiate(slotPrefab, scrollRect.content);
+    //    var animalManager = GameObject.FindWithTag(Tags.AnimalManager).GetComponent<AnimalManager>();
+    //    slot.SlotIndex = currentIndex++;
+    //    animalManager.Create(currentFloor.transform.position, currentFloor, 10005001, slot.SlotIndex);
+    //    uiAnimalSlots.Add(slot);
+    //    uiAnimalSlots[currentIndex-1].SlotIndex = currentIndex-1;
+    //}
 
     //public void SetAnimal()
     //{
@@ -100,11 +100,11 @@ public class UiAnimalInventory : Observer
 
         var animals = currentFloor.animals;
         uiAnimalSlots = new List<UiAnimalSlot>();
-        for (int j = 0; j < animals.Count; ++j)
+        for (int j = animals.Count - 1; j >= 0; --j)
         {
             if (animals[j].animalWork == null)
             {
-                animals.Remove(animals[j--]);
+                animals.Remove(animals[j++]);
                 continue;
             }
 

@@ -1,18 +1,18 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
 public class BuildingFloor : Floor
 {
+
     protected override void Start()
     {
         base.Start();
         UniAutoWork(cts.Token).Forget();
     }
 
-    private async UniTaskVoid UniAutoWork(CancellationToken cts)
+    private async UniTask UniAutoWork(CancellationToken cts)
     {
         var storageConduct = storage as StorageConduct;
 
@@ -28,6 +28,16 @@ public class BuildingFloor : Floor
                     autoWorkload += new BigNumber(animal.animalStat.Workload);
             }
 
+            // 시너지를 통해 업무량 증가 여부
+            if (synergyStats.Count != 0)
+            {
+                int synergyValue = 0;
+                foreach (var synergy in synergyStats)
+                {
+                    synergyValue += Mathf.FloorToInt(synergy.Synergy_Value * 100);
+                }
+                autoWorkload = autoWorkload + (autoWorkload * synergyValue) / 100;
+            }
 
             await UniTask.Delay(1000, cancellationToken: cts);
             if (!autoWorkload.IsZero)

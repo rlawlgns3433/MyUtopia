@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class CraftingBuilding : Building
 {
     public bool isCrafting = false;
+    public int amount = 1;
     public RecipeStat recipeStat;
     public Slider craftingSlider;
     protected override void OnEnable()
@@ -39,6 +40,7 @@ public class CraftingBuilding : Building
     public void CancelCrafting()
     {
         craftingSlider.gameObject.SetActive(false);
+        accumWorkLoad = BigNumber.Zero;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
@@ -46,12 +48,14 @@ public class CraftingBuilding : Building
         base.OnPointerClick(eventData);
     }
 
-    public void Set(RecipeStat recipeStat)
+    public void Set(RecipeStat recipeStat, int amount = 1)
     {
         if(recipeStat == null)
             return;
+        this.amount = amount;
         this.recipeStat = recipeStat;
         isCrafting = true;
+
         SetSlider();
     }
 }

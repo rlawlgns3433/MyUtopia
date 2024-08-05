@@ -38,6 +38,9 @@ public class AnimalManager : Subject
             animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
             animalClick.gameObject.transform.localPosition = -Vector3.forward * 3f;
             animalClick.gameObject.SetActive(true);
+
+            FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(fromFloor));
+            FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(toFloor));
         }
     }
 
@@ -119,7 +122,8 @@ public class AnimalManager : Subject
                     animalClick.IsClicked = true;
                 }
                 uiAnimalInventory.UpdateInventory(isMerged);
-                //uiCurrencies.SetAllAnimals();
+
+                FloorManager.Instance.CheckFloorSynergy(floor);
                 NotifyObservers();
             }
             UiManager.Instance.animalFocusUi.Set();
