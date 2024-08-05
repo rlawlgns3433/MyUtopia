@@ -2,16 +2,20 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using DG.Tweening;
+using Cysharp.Threading.Tasks;
 public class UiInvitation : MonoBehaviour
 {
     private static readonly string format = "{0}를 지불하고 동물을 초대할까요?";
 
     public TextMeshProUGUI textConfirm;
     public Button buttonConfirm;
-
+    public ParticleSystem ps;
     public FloorStat floorStat;
     public Floor floor;
     public InvitationData invitationData;
+    public GameObject balloonObj;
+    private float offSetY = 5f;
 
     public void Set()
     {
@@ -91,11 +95,26 @@ public class UiInvitation : MonoBehaviour
         }
 
         // 확률에 따라 뽑기
-
-        //var floor = FloorManager.Instance.GetFloor($"B{floorStat.Floor_Num}");
         floor = FloorManager.Instance.GetCurrentFloor();
+
         var pos = floor.transform.position;
-        pos.z -= 5;
-        GameManager.Instance.GetAnimalManager().Create(pos, floor, animalId, 0);
+        pos.z -= 8;
+        CreateBalloon(pos,animalId, floor).Forget();
+        //GameManager.Instance.GetAnimalManager().Create(pos, floor, animalId, 0);
+    }
+
+    public async UniTask CreateBalloon(Vector3 target ,int id, Floor floor)
+    {
+        var balloonPos = target;
+        balloonPos.y += offSetY;
+        var balloon = Instantiate(balloonObj, balloonPos, Quaternion.identity);
+        var targetPos = target;
+        targetPos.y += 1;
+        await balloon.transform.DOMove(targetPos, 3).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+        targetPos.y += 1;
+        Instantiate(ps, targetPos, Quaternion.identity);
+        ps.Play();
+        Destroy(balloon);
+        GameManager.Instance.GetAnimalManager().Create(target, floor, id, 0);
     }
 }

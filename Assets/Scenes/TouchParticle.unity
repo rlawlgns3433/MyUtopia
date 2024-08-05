@@ -21447,7 +21447,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textConfirm: {fileID: 1331512104}
   buttonConfirm: {fileID: 1549621571}
+  ps: {fileID: 3486995333338238251, guid: 2b476f9cefd91514d84b1e756872c322, type: 3}
   floor: {fileID: 0}
+  balloonObj: {fileID: 2044272311201685410, guid: bcf4228d4e6ab4b40ba04169bdd9e7c2, type: 3}
 --- !u!114 &750853650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63001,6 +63003,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1349818315}
     m_Modifications:
+    - target: {fileID: 514488127236534938, guid: 5983fdb6a706dd94585d1106d88044d8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1191659130371151551, guid: 5983fdb6a706dd94585d1106d88044d8, type: 3}
       propertyPath: m_Name
       value: InvitationGate

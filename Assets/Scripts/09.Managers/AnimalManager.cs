@@ -97,7 +97,7 @@ public class AnimalManager : Subject
         }
 
         var pos = position;
-        pos.z -= 3;
+        //pos.z -= 3;
 
         animalDictionary[animalId].InstantiateAsync(pos, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
         {
