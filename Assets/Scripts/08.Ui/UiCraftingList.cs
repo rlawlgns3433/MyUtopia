@@ -18,12 +18,10 @@ public class UiCraftingList : MonoBehaviour
         autoCraft = false;
     }
 
-    public UiCraftingSlot Add(RecipeStat recipeStat, bool autoCraft = false, int amount = 1) // 레시피로 변경
+    public UiCraftingSlot Add(RecipeStat recipeStat, int amount = 1, bool autoCraft = false) // 레시피로 변경
     {
-        if(this.autoCraft)
-            return null;
-
-        this.autoCraft = autoCraft;
+        //if(autoCraft) // 이상
+        //    return null;
 
         var slot = Instantiate(slotPrefab, transform);
         slot.SetData(recipeStat, autoCraft, amount);

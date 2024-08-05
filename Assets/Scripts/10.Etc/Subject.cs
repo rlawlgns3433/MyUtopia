@@ -23,7 +23,9 @@ public abstract class Subject : MonoBehaviour
         foreach (Observer observer in observers)
         {
             if (observer == null)
+            {
                 continue;
+            }
 
             observer.Notify(this);
         }

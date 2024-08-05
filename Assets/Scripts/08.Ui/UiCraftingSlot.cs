@@ -33,7 +33,7 @@ public class UiCraftingSlot : Observer
         sliderProcess.minValue = 0f;
         sliderProcess.maxValue = recipeStat.RecipeData.Workload;
 
-        textRemainAmount.text = string.Format(formatRemainAmount, this.autoCraft ? 1 : amount);
+        textRemainAmount.text = string.Format(formatRemainAmount, amount <= 0 ? 1 : amount);
         textName.text = this.recipeStat.RecipeData.GetName();
         textRemainProcess.text = string.Format(format, sliderProcess.value.ToString(), recipeStat.RecipeData.Workload);
         var floor = FloorManager.Instance.GetFloor("B3");
@@ -43,22 +43,11 @@ public class UiCraftingSlot : Observer
     public void OnClickCancel()
     {
         // 취소 재화 지급
-        if (recipeStat.Resource_1 != 0)
-        {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1] += recipeStat.Resource_1_Value.ToBigNumber() * amount;
-        }
-
-        if (recipeStat.Resource_2 != 0)
-        {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2] += recipeStat.Resource_2_Value.ToBigNumber() * amount;
-        }
-
-        if (recipeStat.Resource_3 != 0)
-        {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3] += recipeStat.Resource_3_Value.ToBigNumber() * amount;
-        }
+        ReturnResources();
 
         amount = 0;
+        UiManager.Instance.craftTableUi.craftingBuilding.autoCrafting = false;
+
         ReturnRecipe();
         UiManager.Instance.craftTableUi.craftingBuilding.SetSlider();
     }
@@ -69,11 +58,20 @@ public class UiCraftingSlot : Observer
         textRemainProcess.text = sliderProcess.value.ToString();
         if (sliderProcess.value == 0f)
         {
-            if (UiManager.Instance.craftTableUi.craftingBuilding.autoCrafting)
-                return;
+            //if (UiManager.Instance.craftTableUi.craftingBuilding.autoCrafting)
+            //    return;
+            if ((FloorManager.Instance.GetFloor("B3").storage as StorageProduct).IsFull)
+            {
+                if(amount-- >= 1)
+                {
+                    ReturnResources();
+                }
+                amount = 0;
+            }
 
             amount--;
-            textRemainAmount.text = string.Format(formatRemainAmount, this.autoCraft ? 1 : amount);
+            textRemainAmount.text = string.Format(formatRemainAmount, amount <= 0 ? 1 : amount);
+
             ReturnRecipe();
         }
     }
@@ -82,6 +80,9 @@ public class UiCraftingSlot : Observer
     {
         if (!UiManager.Instance.craftTableUi.craftingBuilding.autoCrafting)
         {
+            if (amount >= 1)
+                return;
+
             var uiCraftingTable = UiManager.Instance.craftTableUi;
             UiManager.Instance.craftTableUi.craftingBuilding.isCrafting = false;
             UiManager.Instance.craftTableUi.craftingBuilding.CancelCrafting();
@@ -103,4 +104,25 @@ public class UiCraftingSlot : Observer
             return;
         }
     }
+
+
+    public void ReturnResources()
+    {
+        if (recipeStat.Resource_1 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1] += recipeStat.Resource_1_Value.ToBigNumber() * (amount <= 0 ? 1 : amount);
+        }
+
+        if (recipeStat.Resource_2 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2] += recipeStat.Resource_2_Value.ToBigNumber() * (amount <= 0 ? 1 : amount);
+        }
+
+        if (recipeStat.Resource_3 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3] += recipeStat.Resource_3_Value.ToBigNumber() * (amount <= 0 ? 1 : amount);
+        }
+    }
+
+
 }

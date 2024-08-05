@@ -33,7 +33,7 @@ public class UiRecipeSlot : MonoBehaviour
     {
         get
         {
-            if(stringTable == null)
+            if (stringTable == null)
                 stringTable = DataTableMgr.GetStringTable();
 
             return stringTable;
@@ -62,19 +62,12 @@ public class UiRecipeSlot : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        Destroy(imagePortrait);
-        Destroy(textName);
-        Destroy(textRequireCurrency);
-        Destroy(textRequireWorkload);
-        Destroy(textSaleCoin);
-        Destroy(textAmount);
-        Destroy(buttonDecreaseAmount);
-        Destroy(buttonIncreaseAmount);
-        Destroy(buttonAutoCraft);
-        Destroy(buttonCraft);
-
+        if (cts != null && !cts.IsCancellationRequested)
+        {
+            cts.Cancel();
+        }
         Destroy(gameObject);
     }
 
@@ -96,24 +89,24 @@ public class UiRecipeSlot : MonoBehaviour
         if (recipeStat.RecipeData.Resource_3 != 0)
             count++;
 
-        switch(count)
+        switch (count)
         {
             case 0:
-                    textRequireCurrency.text = string.Format(format[count],
-                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), 
-                        recipeStat.Resource_1_Value);
+                textRequireCurrency.text = string.Format(format[count],
+                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID),
+                    recipeStat.Resource_1_Value);
                 break;
             case 1:
-                    textRequireCurrency.text = string.Format(format[count],
-                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), recipeStat.Resource_1_Value,
-                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), recipeStat.Resource_2_Value);
+                textRequireCurrency.text = string.Format(format[count],
+                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), recipeStat.Resource_1_Value,
+                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), recipeStat.Resource_2_Value);
                 break;
             case 2:
-                    textRequireCurrency.text = string.Format(format[count],
-                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), recipeStat.Resource_1_Value,
-                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), recipeStat.Resource_2_Value,
-                        StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_3).Resource_Name_ID), recipeStat.Resource_1_Value);
-                break;                                                                                
+                textRequireCurrency.text = string.Format(format[count],
+                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), recipeStat.Resource_1_Value,
+                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), recipeStat.Resource_2_Value,
+                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_3).Resource_Name_ID), recipeStat.Resource_1_Value);
+                break;
         }
 
         textRequireWorkload.text = recipeStat.RecipeData.Workload.ToString();
@@ -124,13 +117,13 @@ public class UiRecipeSlot : MonoBehaviour
     {
         var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
 
-        if(storageProduct.IsFull)
+        if (storageProduct.IsFull)
         {
             Debug.Log("창고가 가득 찼습니다.");
             return;
         }
 
-        if(UiManager.Instance.craftTableUi.craftingBuilding.isCrafting)
+        if (UiManager.Instance.craftTableUi.craftingBuilding.isCrafting)
         {
             Debug.Log("제작중입니다.");
             return;
@@ -161,8 +154,9 @@ public class UiRecipeSlot : MonoBehaviour
         }
 
         var uiCraftingTable = UiManager.Instance.craftTableUi;
-        uiCraftingTable.uiCraftingList.Add(recipeStat, buttonAutoCraft.isOn, amount);
+        uiCraftingTable.uiCraftingList.Add(recipeStat, amount);
         uiCraftingTable.craftingBuilding.Set(recipeStat, buttonAutoCraft.isOn, amount);
+        uiCraftingTable.uiRecipeList.recipeSlots.Remove(this);
         Destroy(gameObject);
     }
 
@@ -178,9 +172,9 @@ public class UiRecipeSlot : MonoBehaviour
 
     public void OnClickDecreaseAmount()
     {
-        if(amount <= 1)
+        if (amount <= 1)
             return; // 최소 수량 체크
-        
+
         amount -= 1;
         textAmount.text = amount.ToString();
     }
@@ -195,11 +189,11 @@ public class UiRecipeSlot : MonoBehaviour
          특산품 생산 취소 버튼 클릭 시 1회 제작을 위한 재화 반환
          */
 
-        if(buttonAutoCraft.isOn)
+        if (buttonAutoCraft.isOn)
         {
             amount = 1;
 
-            if(cts == null || cts.IsCancellationRequested)
+            if (cts == null || cts.IsCancellationRequested)
             {
                 cts = new CancellationTokenSource();
             }
@@ -218,7 +212,15 @@ public class UiRecipeSlot : MonoBehaviour
         if (storageProduct.IsFull)
         {
             UiManager.Instance.craftTableUi.craftingBuilding.autoCrafting = false;
-            cts.Cancel();
+            if (cts != null)
+            {
+                cts.Cancel();
+            }
+        }
+
+        if(storageProduct.FurnitureStat.Effect_Value - storageProduct.Count < amount)
+        {
+            return false;
         }
 
         if (recipeStat.Resource_1 != 0)
