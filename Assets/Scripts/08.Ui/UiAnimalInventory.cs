@@ -102,6 +102,9 @@ public class UiAnimalInventory : MonoBehaviour
         uiAnimalSlots = new List<UiAnimalSlot>();
         for (int j = animals.Count - 1; j >= 0; --j)
         {
+            if (j < 0)
+                break;
+
             if (animals[j].animalWork == null)
             {
                 animals.Remove(animals[j++]);

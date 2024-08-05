@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 2602486646536732126}
   - component: {fileID: 2752182294050446231}
   - component: {fileID: 3618479650557726087}
-  - component: {fileID: 4457016039438813174}
+  - component: {fileID: 5471422209866570281}
   m_Layer: 5
   m_Name: ButtonAuto
   m_TagString: Untagged
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4457016039438813174
+--- !u!114 &5471422209866570281
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1677110110563555662}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -348,7 +348,10 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 3618479650557726087}
-  m_OnClick:
+  toggleTransition: 1
+  graphic: {fileID: 0}
+  m_Group: {fileID: 0}
+  onValueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: -287024894390985599}
@@ -363,6 +366,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_IsOn: 0
 --- !u!1 &1900249119833876669
 GameObject:
   m_ObjectHideFlags: 0
@@ -2843,7 +2847,7 @@ MonoBehaviour:
   textAmount: {fileID: 2350156855065325999}
   buttonDecreaseAmount: {fileID: 6633468777343999024}
   buttonIncreaseAmount: {fileID: 804287623051551320}
-  buttonAutoCraft: {fileID: 4457016039438813174}
+  buttonAutoCraft: {fileID: 5471422209866570281}
   buttonCraft: {fileID: 5191952115209665489}
 --- !u!1 &8502706935707115927
 GameObject:

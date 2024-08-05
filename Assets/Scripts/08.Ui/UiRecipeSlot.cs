@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class UiRecipeSlot : MonoBehaviour
 {
@@ -12,7 +14,8 @@ public class UiRecipeSlot : MonoBehaviour
     };
 
     private int amount = 1;
-
+    public CancellationTokenSource cts;
+    private UniTask uniAutoCraft;
     public Image imagePortrait;
     public TextMeshProUGUI textName;
     public TextMeshProUGUI textRequireCurrency;
@@ -21,7 +24,7 @@ public class UiRecipeSlot : MonoBehaviour
     public TextMeshProUGUI textAmount;
     public Button buttonDecreaseAmount;
     public Button buttonIncreaseAmount;
-    public Button buttonAutoCraft;
+    public Toggle buttonAutoCraft;
     public Button buttonCraft;
 
     public RecipeStat recipeStat;
@@ -121,7 +124,7 @@ public class UiRecipeSlot : MonoBehaviour
     {
         var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
 
-        if(storageProduct.Count >= UiManager.Instance.productsUi.capacity)
+        if(storageProduct.IsFull)
         {
             Debug.Log("창고가 가득 찼습니다.");
             return;
@@ -158,8 +161,8 @@ public class UiRecipeSlot : MonoBehaviour
         }
 
         var uiCraftingTable = UiManager.Instance.craftTableUi;
-        uiCraftingTable.uiCraftingList.Add(recipeStat, amount);
-        uiCraftingTable.craftingBuilding.Set(recipeStat, amount);
+        uiCraftingTable.uiCraftingList.Add(recipeStat, buttonAutoCraft.isOn, amount);
+        uiCraftingTable.craftingBuilding.Set(recipeStat, buttonAutoCraft.isOn, amount);
         Destroy(gameObject);
     }
 
@@ -184,11 +187,40 @@ public class UiRecipeSlot : MonoBehaviour
 
     public void OnClickAutoCraft()
     {
+        /*
+         특산품을 제작하기 위한 재화를 1회 단위로 체크
+         재화가 충분한 경우 생산 시작
+         재화가 충분하지 않은 경우 무한 생산 종료
+         
+         특산품 생산 취소 버튼 클릭 시 1회 제작을 위한 재화 반환
+         */
 
+        if(buttonAutoCraft.isOn)
+        {
+            amount = 1;
+
+            if(cts == null || cts.IsCancellationRequested)
+            {
+                cts = new CancellationTokenSource();
+            }
+            UniAutoCraft(cts.Token).Forget();
+        }
+        else
+        {
+            cts.Cancel();
+        }
     }
 
-    public bool CheckResource(int amount)
+    public bool CheckResource(int amount = 1)
     {
+        var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
+
+        if (storageProduct.IsFull)
+        {
+            UiManager.Instance.craftTableUi.craftingBuilding.autoCrafting = false;
+            cts.Cancel();
+        }
+
         if (recipeStat.Resource_1 != 0)
         {
             if (recipeStat.Resource_1_Value.ToBigNumber() * amount > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1])
@@ -208,5 +240,24 @@ public class UiRecipeSlot : MonoBehaviour
         }
 
         return true;
+    }
+
+    private async UniTask UniAutoCraft(CancellationToken cts)
+    {
+        while (CheckResource())
+        {
+            if (cts.IsCancellationRequested)
+                break;
+
+            if (UiManager.Instance.craftTableUi.craftingBuilding == null)
+                break;
+
+            if (!UiManager.Instance.craftTableUi.craftingBuilding.isCrafting)
+            {
+                OnCraftButtonClicked();
+            }
+
+            await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken: cts);
+        }
     }
 }
