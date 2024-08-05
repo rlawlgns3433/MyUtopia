@@ -64,6 +64,11 @@ public static class DataTableMgr
         DataTable synergyTable = new SynergyTable();
         synergyTable.Load(DataTableIds.Synergy);
         tables.Add(DataTableIds.Synergy, synergyTable);
+
+        //테이블 완료 시 주석 해제
+        DataTable missionTable = new MissionTable();
+        missionTable.Load(DataTableIds.Mission);
+        tables.Add(DataTableIds.Mission, missionTable);
     }
 
     public static StringTable GetStringTable()
@@ -113,6 +118,10 @@ public static class DataTableMgr
     public static InvitationTable GetInvitationTable()
     {
         return Get<InvitationTable>(DataTableIds.Invitation);
+    }
+    public static MissionTable GetMissionTable()
+    {
+        return Get<MissionTable>(DataTableIds.Mission);
     }
 
     //public static WorldTable GetWorldTable()

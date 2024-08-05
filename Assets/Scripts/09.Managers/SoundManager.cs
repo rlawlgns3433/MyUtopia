@@ -6,6 +6,8 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField]
     private AudioSource audioSource;
     [SerializeField]
+    private AudioSource sfxAudioSource;
+    [SerializeField]
     private AudioClip[] bgmClips;
     public List<AudioClip> sfxClips = new List<AudioClip>();
 
@@ -16,4 +18,10 @@ public class SoundManager : Singleton<SoundManager>
         audioSource.Play();
     }
 
+    public void OnClickButton()
+    {
+        sfxAudioSource.clip = sfxClips[0];
+        sfxAudioSource.loop = false;
+        sfxAudioSource.Play();
+    }
 }

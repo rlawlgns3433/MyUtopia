@@ -10,6 +10,9 @@ public class TimeData
 {
     public string EnterTime { get; set; }
     public float QuitTime { get; set; }
+    public string LastDaily { get; set; }
+    public string LastWeekly { get; set; }
+    public string LastMonthly { get; set; }
 }
 
 public class UtilityTime : MonoBehaviour
@@ -19,6 +22,13 @@ public class UtilityTime : MonoBehaviour
     public static int Seconds { get { return seconds; } private set { seconds = value; } }
 
     private static TimeData previousTimeData;
+
+    public static bool dailyMissionReset { get; private set; }
+    public static bool weeklyMissionReset { get; private set; }
+    public static bool monthlyMissionReset { get; private set; }
+
+    private static TimeSpan serverTimeOffset;
+    public bool isLoadComplete = false;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void OnApplicationStart()
@@ -30,25 +40,37 @@ public class UtilityTime : MonoBehaviour
 
     private async void Start()
     {
-        Debug.Log($"File path: {filePath}");
         await LoadPreviousTimeData();
         await CalculateElapsedTime();
         await SaveEnterTime();
+        await SyncServerTime();
+        CheckMissionsAvailability();
     }
 
     private void OnApplicationPause(bool pauseStatus)
     {
         if (pauseStatus)
         {
-            Debug.Log("Application paused. Saving data...");
             SaveQuitTimeSync();
         }
     }
 
     private void OnApplicationQuit()
     {
-        Debug.Log("Application quitting. Saving data...");
         SaveQuitTimeSync();
+    }
+
+    private static async UniTask SyncServerTime()
+    {
+        string serverTimeString = await GetServerTimeAsync();
+        DateTime serverTime = DateTime.Parse(serverTimeString);
+        DateTime localTime = DateTime.Now;
+        serverTimeOffset = serverTime - localTime;
+    }
+
+    private static DateTime GetCurrentTime()
+    {
+        return DateTime.Now + serverTimeOffset;
     }
 
     private static async UniTask<string> GetServerTimeAsync()
@@ -60,21 +82,11 @@ public class UtilityTime : MonoBehaviour
             if (op.result == UnityWebRequest.Result.Success)
             {
                 string serverTime = req.GetResponseHeader("Date");
-                Debug.Log($"Server time received: {serverTime}");
                 if (!string.IsNullOrEmpty(serverTime))
                 {
                     var localizedTime = ToLocalize(serverTime);
-                    Debug.Log($"Localized server time: {localizedTime}");
                     return localizedTime.ToString("o");
                 }
-                else
-                {
-                    Debug.LogError("Server time is null or empty.");
-                }
-            }
-            else
-            {
-                Debug.LogError($"Failed to get server time. Error: {req.error}");
             }
         }
         return DateTime.UtcNow.ToString("o");
@@ -92,36 +104,22 @@ public class UtilityTime : MonoBehaviour
     private static async UniTask SaveEnterTime()
     {
         string enterTimeString = await GetServerTimeAsync();
-        Debug.Log($"Enter time: {enterTimeString}");
         previousTimeData.EnterTime = enterTimeString;
         await SaveTimeDataAsync(previousTimeData);
-
-        TimeData timeData = await LoadTimeDataAsync();
-        Debug.Log($"Loaded Enter time after save: {timeData.EnterTime}");
     }
 
     private static async UniTask SaveQuitTime()
     {
-        Debug.Log("SaveQuitTime called.");
         float quitTimeFloat = Time.time;
-        Debug.Log($"Quit time (Time.time): {quitTimeFloat}");
         previousTimeData.QuitTime = quitTimeFloat;
         await SaveTimeDataAsync(previousTimeData);
-
-        TimeData timeData = await LoadTimeDataAsync();
-        Debug.Log($"Loaded Quit time after save: {timeData.QuitTime}");
     }
 
     private static void SaveQuitTimeSync()
     {
-        Debug.Log("SaveQuitTimeSync called.");
         float quitTimeFloat = Time.time;
-        Debug.Log($"Quit time (Time.time): {quitTimeFloat}");
         previousTimeData.QuitTime = quitTimeFloat;
         SaveTimeDataSync(previousTimeData);
-
-        TimeData timeData = LoadTimeDataSync();
-        Debug.Log($"Loaded Quit time after save: {timeData.QuitTime}");
     }
 
     private static async UniTask CalculateElapsedTime()
@@ -134,15 +132,9 @@ public class UtilityTime : MonoBehaviour
             float quitTime = previousTimeData.QuitTime;
 
             DateTime quitDateTime = enterTime.AddSeconds(quitTime);
-            Debug.Log($"Quit date time: {quitDateTime}");
 
             TimeSpan elapsedTime = serverTime - quitDateTime;
             Seconds = (int)elapsedTime.TotalSeconds;
-            Debug.Log($"Seconds since last quit: {Seconds}");
-        }
-        else
-        {
-            Debug.Log("No valid enter or quit time found.");
         }
     }
 
@@ -159,48 +151,29 @@ public class UtilityTime : MonoBehaviour
     {
         if (File.Exists(filePath))
         {
-            try
+            using (var sr = new StreamReader(filePath))
+            using (var jr = new JsonTextReader(sr))
             {
-                using (var sr = new StreamReader(filePath))
-                using (var jr = new JsonTextReader(sr))
-                {
-                    var deserializer = new JsonSerializer();
-                    deserializer.TypeNameHandling = TypeNameHandling.All;
-                    Debug.Log("Deserializing time data from file...");
-                    TimeData data = await UniTask.RunOnThreadPool(() => deserializer.Deserialize<TimeData>(jr));
-                    Debug.Log($"Deserialized time data: {JsonConvert.SerializeObject(data)}");
-                    return data;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Error reading file: {e.Message}");
+                var deserializer = new JsonSerializer();
+                deserializer.TypeNameHandling = TypeNameHandling.All;
+                TimeData data = await UniTask.RunOnThreadPool(() => deserializer.Deserialize<TimeData>(jr));
+                return data;
             }
         }
-        Debug.Log("No existing time data file found.");
         return new TimeData();
     }
 
     private static void SaveTimeDataSync(TimeData timeData)
     {
-        Debug.Log($"Saving time data: {JsonConvert.SerializeObject(timeData)}");
-        try
+        using (var sw = new StreamWriter(filePath))
+        using (var jw = new JsonTextWriter(sw))
         {
-            using (var sw = new StreamWriter(filePath))
-            using (var jw = new JsonTextWriter(sw))
+            var serializer = new JsonSerializer
             {
-                var serializer = new JsonSerializer
-                {
-                    Formatting = Formatting.Indented,
-                    TypeNameHandling = TypeNameHandling.All
-                };
-                serializer.Serialize(jw, timeData);
-            }
-            Debug.Log("Time data saved successfully.");
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Error writing file: {e.Message}");
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All
+            };
+            serializer.Serialize(jw, timeData);
         }
     }
 
@@ -208,48 +181,82 @@ public class UtilityTime : MonoBehaviour
     {
         if (File.Exists(filePath))
         {
-            try
+            using (var sr = new StreamReader(filePath))
+            using (var jr = new JsonTextReader(sr))
             {
-                using (var sr = new StreamReader(filePath))
-                using (var jr = new JsonTextReader(sr))
-                {
-                    var deserializer = new JsonSerializer();
-                    deserializer.TypeNameHandling = TypeNameHandling.All;
-                    Debug.Log("Deserializing time data from file...");
-                    TimeData data = deserializer.Deserialize<TimeData>(jr);
-                    Debug.Log($"Deserialized time data: {JsonConvert.SerializeObject(data)}");
-                    return data;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Error reading file: {e.Message}");
+                var deserializer = new JsonSerializer();
+                deserializer.TypeNameHandling = TypeNameHandling.All;
+                TimeData data = deserializer.Deserialize<TimeData>(jr);
+                return data;
             }
         }
-        Debug.Log("No existing time data file found.");
         return new TimeData();
     }
 
     private static async UniTask SaveTimeDataAsync(TimeData timeData)
     {
-        Debug.Log($"Saving time data: {JsonConvert.SerializeObject(timeData)}");
-        try
+        using (var sw = new StreamWriter(filePath))
+        using (var jw = new JsonTextWriter(sw))
         {
-            using (var sw = new StreamWriter(filePath))
-            using (var jw = new JsonTextWriter(sw))
+            var serializer = new JsonSerializer
             {
-                var serializer = new JsonSerializer
-                {
-                    Formatting = Formatting.Indented,
-                    TypeNameHandling = TypeNameHandling.All
-                };
-                await UniTask.RunOnThreadPool(() => serializer.Serialize(jw, timeData));
-            }
-            Debug.Log("Time data saved successfully.");
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All
+            };
+            await UniTask.RunOnThreadPool(() => serializer.Serialize(jw, timeData));
         }
-        catch (Exception e)
+    }
+
+    private void CheckMissionsAvailability()
+    {
+        DateTime currentDate = GetCurrentTime();
+
+        bool wasDailyReset = dailyMissionReset;
+        bool wasWeeklyReset = weeklyMissionReset;
+        bool wasMonthlyReset = monthlyMissionReset;
+
+        dailyMissionReset = previousTimeData.LastDaily == null || IsDateDifferent(currentDate, DateTime.Parse(previousTimeData.LastDaily), TimeSpan.FromDays(1));
+        weeklyMissionReset = previousTimeData.LastWeekly == null || IsDateDifferent(currentDate, DateTime.Parse(previousTimeData.LastWeekly), TimeSpan.FromDays(7));
+        monthlyMissionReset = previousTimeData.LastMonthly == null || IsDateDifferent(currentDate, DateTime.Parse(previousTimeData.LastMonthly), TimeSpan.FromDays(30));
+
+        if (dailyMissionReset)
         {
-            Debug.LogError($"Error writing file: {e.Message}");
+            previousTimeData.LastDaily = currentDate.ToString("o");
+            Debug.Log("Daily mission reset.");
         }
+        else
+        {
+            Debug.Log("Daily Not reset.");
+        }
+
+        if (weeklyMissionReset)
+        {
+            previousTimeData.LastWeekly = currentDate.ToString("o");
+            Debug.Log("Weekly mission reset.");
+        }
+        else
+        {
+            Debug.Log("Weekly Not reset.");
+        }
+
+        if (monthlyMissionReset)
+        {
+            previousTimeData.LastMonthly = currentDate.ToString("o");
+            Debug.Log("Monthly mission reset.");
+        }
+        else
+        {
+            Debug.Log("Monthly Not reset.");
+        }
+        isLoadComplete = true;
+        SaveTimeDataSync(previousTimeData);
+    }
+
+    private bool IsDateDifferent(DateTime currentDate, DateTime lastDate, TimeSpan interval)
+    {
+        DateTime currentDateAtMidnight = currentDate.Date;
+        DateTime lastDateAtMidnight = lastDate.Date;
+
+        return (currentDateAtMidnight - lastDateAtMidnight) >= interval;
     }
 }
