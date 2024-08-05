@@ -123,6 +123,10 @@ public class AnimalManager : Subject
                 NotifyObservers();
             }
             UiManager.Instance.animalFocusUi.Set();
+            if(uiAnimalList.gameObject.activeSelf)
+            {
+                uiAnimalList.Refresh();
+            }
         };
     }
 

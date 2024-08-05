@@ -16,7 +16,7 @@ public class UiInvitation : MonoBehaviour
     public InvitationData invitationData;
     public GameObject balloonObj;
     private float offSetY = 5f;
-
+    private float targetPosOffset = 1f;
     public void Set()
     {
         floor = FloorManager.Instance.floors["B1"];
@@ -55,7 +55,7 @@ public class UiInvitation : MonoBehaviour
         if(currentCount >= maximumCount)
             return;
 
-        CurrencyManager.currency[(CurrencyType)invitationData.Level_Up_Coin_ID] -= invitationData.Level_Up_Coin_Value;
+
         float totalRate = invitationData.Get_Animal1_Rate + invitationData.Get_Animal2_Rate + invitationData.Get_Animal3_Rate + invitationData.Get_Animal4_Rate + invitationData.Get_Animal5_Rate + invitationData.Get_Animal6_Rate;
 
         float[] rates = new float[]
@@ -99,22 +99,22 @@ public class UiInvitation : MonoBehaviour
 
         var pos = floor.transform.position;
         pos.z -= 8;
-        CreateBalloon(pos,animalId, floor).Forget();
-        //GameManager.Instance.GetAnimalManager().Create(pos, floor, animalId, 0);
+        CreateBalloon(pos, floor, animalId, invitationData.Level_Up_Coin_Value).Forget();
     }
 
-    public async UniTask CreateBalloon(Vector3 target ,int id, Floor floor)
+    public async UniTask CreateBalloon(Vector3 target, Floor floor, int id,int value)
     {
         var balloonPos = target;
         balloonPos.y += offSetY;
         var balloon = Instantiate(balloonObj, balloonPos, Quaternion.identity);
         var targetPos = target;
-        targetPos.y += 1;
+        targetPos.y += targetPosOffset;
         await balloon.transform.DOMove(targetPos, 3).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
-        targetPos.y += 1;
+        targetPos.y += targetPosOffset;
         Instantiate(ps, targetPos, Quaternion.identity);
         ps.Play();
         Destroy(balloon);
         GameManager.Instance.GetAnimalManager().Create(target, floor, id, 0);
+        CurrencyManager.currency[(CurrencyType)invitationData.Level_Up_Coin_ID] -= value;
     }
 }
