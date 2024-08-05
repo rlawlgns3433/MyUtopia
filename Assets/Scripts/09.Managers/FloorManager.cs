@@ -408,6 +408,13 @@ public class FloorManager : Singleton<FloorManager>
             if (synergyMatched)
             {
                 floorSynergies.Add(synergyStat);
+                if(synergyStat.Synergy_Type == 2)
+                {
+                    foreach(var animal in floor.animals)
+                    {
+                        animal.animalWork.staminaReductionRate = synergyStat.Synergy_Value;
+                    }
+                }
             }
             else
             {
@@ -415,6 +422,14 @@ public class FloorManager : Singleton<FloorManager>
                 {
                     if(floorSynergy.Synergy_ID == synergyStat.Synergy_ID)
                     {
+                        if(floorSynergy.Synergy_Type == 2)
+                        {
+                            foreach (var animal in floor.animals)
+                            {
+                                animal.animalWork.staminaReductionRate = 0;
+                            }
+                        }
+
                         floorSynergies.Remove(floorSynergy);
                         break;
                     }

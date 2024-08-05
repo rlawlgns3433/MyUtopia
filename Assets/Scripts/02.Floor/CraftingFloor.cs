@@ -52,7 +52,10 @@ public class CraftingFloor : Floor
                 int synergyValue = 0;
                 foreach (var synergy in synergyStats)
                 {
-                    synergyValue += Mathf.FloorToInt(synergy.Synergy_Value * 100);
+                    if(synergy.Synergy_Type == 1)
+                    {
+                        synergyValue += Mathf.FloorToInt(synergy.Synergy_Value * 100);
+                    }
                 }
                 autoWorkload = autoWorkload + (autoWorkload * synergyValue) / 100;
             }
