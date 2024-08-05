@@ -148,13 +148,11 @@ public class UtilityTime : MonoBehaviour
 
     private static async UniTask LoadPreviousTimeData()
     {
-        Debug.Log("Loading previous time data...");
         previousTimeData = await LoadTimeDataAsync();
         if (previousTimeData == null)
         {
             previousTimeData = new TimeData();
         }
-        Debug.Log($"Loaded previous time data: {JsonConvert.SerializeObject(previousTimeData)}");
     }
 
     private static async UniTask<TimeData> LoadTimeDataAsync()
