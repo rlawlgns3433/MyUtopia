@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public struct ResourceData
+public class ResourceData
 {
     public int Resource_ID { get; set; }
     public string Resource_Name_ID { get; set; }

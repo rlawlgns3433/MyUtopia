@@ -56,9 +56,9 @@ public static class DataTableMgr
         tables.Add(DataTableIds.Synergy, synergyTable);
 
         //테이블 완료 시 주석 해제
-        //DataTable exchangeTable = new ExchangeTable();
-        //exchangeTable.Load(DataTableIds.Exchange);
-        //tables.Add(DataTableIds.Exchange, exchangeTable);
+        DataTable exchangeTable = new ExchangeTable();
+        exchangeTable.Load(DataTableIds.Exchange);
+        tables.Add(DataTableIds.Exchange, exchangeTable);
     }
 
     public static StringTable GetStringTable()

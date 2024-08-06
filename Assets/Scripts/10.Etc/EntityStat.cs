@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using static ExchangeStat;
+
 public class AnimalStat
 {
     private AnimalData animalData;
@@ -382,3 +386,145 @@ public class SynergyStat
         this.SynergyData = DataTableMgr.GetSynergyTable().Get(synergyId);
     }
 }
+
+
+public class ExchangeStat
+{
+    public class RequireInfo
+    {
+        public int Type { get; set; }
+        public int ID { get; set; }
+        public string Value { get; set; }
+    }
+
+    private ExchangeData exchangeData;
+    public ExchangeData ExchangeData
+    {
+        get
+        {
+            if (exchangeData == null)
+            {
+                exchangeData = new ExchangeData();
+            }
+            return exchangeData;
+        }
+        set
+        {
+            exchangeData = value;
+            {
+                exchangeData = value;
+                Exchange_ID = exchangeData.Exchange_ID;
+                World_type = exchangeData.World_Type;
+                Exchange_Num = exchangeData.Exchange_Num;
+                Furniture_Type = exchangeData.Furniture_Type;
+                Exchange_Level = exchangeData.Exchange_Level;
+                Require_Resource1_Type = exchangeData.Require_Resource1_Type;
+                Require_Resource1_ID = exchangeData.Require_Resource1_ID;
+                Require_Resource1_Value = exchangeData.Require_Resource1_Value;
+                Require_Resource2_Type = exchangeData.Require_Resource2_Type;
+                Require_Resource2_ID = exchangeData.Require_Resource2_ID;
+                Require_Resource2_Value = exchangeData.Require_Resource2_Value;
+                Require_Resource3_Type = exchangeData.Require_Resource3_Type;
+                Require_Resource3_ID = exchangeData.Require_Resource3_ID;
+                Require_Resource3_Value = exchangeData.Require_Resource3_Value;
+                Reward_ID = exchangeData.Reward_ID;
+            }
+        }
+    }
+    public int Exchange_ID { get; set; }
+    public int World_type { get; set; }
+    public int Exchange_Num { get; set; }
+    public int Furniture_Type { get; set; }
+    public int Exchange_Level { get; set; }
+    public int Require_Resource1_Type { get; set; }
+    public int Require_Resource1_ID { get; set; }
+    public string Require_Resource1_Value { get; set; }
+    public int Require_Resource2_Type { get; set; }
+    public int Require_Resource2_ID { get; set; }
+    public string Require_Resource2_Value { get; set; }
+    public int Require_Resource3_Type { get; set; }
+    public int Require_Resource3_ID { get; set; }
+    public string Require_Resource3_Value { get; set; }
+    public int Reward_ID { get; set; }
+    public int RequireCount
+    {
+        get
+        {
+            int count = 0;
+
+            if (Require_Resource1_ID > 0)
+            {
+                requireInfos.Add(new RequireInfo() { Type = Require_Resource1_Type, ID = Require_Resource1_ID, Value = Require_Resource1_Value });
+                count++;
+            }
+
+            if (Require_Resource2_ID > 0)
+            {
+                requireInfos.Add(new RequireInfo() { Type = Require_Resource2_Type, ID = Require_Resource2_ID, Value = Require_Resource2_Value });
+                count++;
+            }
+
+            if (Require_Resource3_ID > 0)
+            {
+                requireInfos.Add(new RequireInfo() { Type = Require_Resource3_Type, ID = Require_Resource3_ID, Value = Require_Resource3_Value });
+                count++;
+            }
+
+            return count;
+        }
+    }
+    public List<RequireInfo> requireInfos = new List<RequireInfo>();
+
+    public ExchangeStat() { }
+
+    public ExchangeStat(int exchangeId)
+    {
+        this.ExchangeData = DataTableMgr.GetExchangeTable().Get(exchangeId);
+    }
+}
+
+
+public class ResourceStat
+{
+    private ResourceData resourceData;
+    public ResourceData ResourceData
+    {
+        get
+        {
+            if (resourceData == null)
+            {
+                resourceData = new ResourceData();
+            }
+            return resourceData;
+        }
+        set
+        {
+            resourceData = value;
+            {
+                resourceData = value;
+                Resource_ID = resourceData.Resource_ID;
+                Resource_Name_ID = resourceData.Resource_Name_ID;
+                World_Type = resourceData.World_Type;
+                Floor_Type = resourceData.Floor_Type;
+                Resource_Type = resourceData.Resource_Type;
+                Sale_Resource_ID = resourceData.Sale_Resource_ID;
+                Sale_Price = resourceData.Sale_Price;
+            }
+        }
+    }
+    public int Resource_ID { get; set; }
+    public string Resource_Name_ID { get; set; }
+    public int World_Type { get; set; }
+    public int Floor_Type { get; set; }
+    public int Resource_Type { get; set; }
+    public int Sale_Resource_ID { get; set; }
+    public string Sale_Price { get; set; }
+
+    public ResourceStat() { }
+
+    public ResourceStat(int resourceId)
+    {
+        this.ResourceData = DataTableMgr.GetResourceTable().Get(resourceId);
+    }
+}
+

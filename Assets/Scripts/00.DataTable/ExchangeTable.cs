@@ -10,7 +10,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class ExchangeData
 {
     public int Exchange_ID { get; set; }
-    public int World_type { get; set; }
+    public int World_Type { get; set; }
     public int Exchange_Num { get; set; }
     public int Furniture_Type { get; set; }
     public int Exchange_Level { get; set; }
@@ -54,7 +54,7 @@ public class ExchangeTable : DataTable
 
         table.Clear();
 
-        Addressables.LoadAssetAsync<TextAsset>(DataTableIds.Animal).Completed += (AsyncOperationHandle<TextAsset> handle) =>
+        Addressables.LoadAssetAsync<TextAsset>(DataTableIds.Exchange).Completed += (AsyncOperationHandle<TextAsset> handle) =>
         {
             if (handle.Result == null)
             {
