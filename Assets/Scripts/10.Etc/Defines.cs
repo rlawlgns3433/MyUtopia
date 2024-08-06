@@ -20,6 +20,7 @@ public static class DataTableIds
     public static readonly string World = "WorldTable";
     public static readonly string Synergy = "SynergyTable";
     public static readonly string Exchange = "ExchangeTable";
+    public static readonly string Mission = "MissionTable";
 
     public static string CurrString
     {
@@ -49,7 +50,12 @@ public static class Tags
     public static readonly string Floors = "Floors";
 
 }
-
+public static class ButtonText
+{
+    public static readonly string Move = "ÀÌµ¿";
+    public static readonly string Success = "È¹µæ";
+    public static readonly string Completed = "¿Ï·á";
+}
 public static class SortingLayers
 {
     public static readonly string Default = "Default";
@@ -106,7 +112,13 @@ public enum TableIdentifier
     Floor = 2,
     Building = 3,
 }
-
+public enum MissionTypes
+{
+    Daily = 1,
+    Weekly = 2,
+    Monthly = 3,
+    Event = 4,
+}
 public enum SceneIds
 {
     None = -1,

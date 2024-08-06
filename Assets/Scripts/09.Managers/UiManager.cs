@@ -17,6 +17,7 @@ public class UiManager : Singleton<UiManager>
     public UiInvitation invitationUi;
     public TestPanel testPanelUi;
     public UiPatronBoard patronBoardUi;
+    public UiMissionList uiMission;
 
     public bool isAnimalList = false;
     public bool isAnimalMove = false;
@@ -63,6 +64,7 @@ public class UiManager : Singleton<UiManager>
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
     }
 
     public void ShowMainUi()
@@ -82,6 +84,7 @@ public class UiManager : Singleton<UiManager>
         tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
         OffAnimalList();
 
         // 모든 동물의 말풍선 켜기
@@ -114,6 +117,7 @@ public class UiManager : Singleton<UiManager>
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
 
         // 모든 동물의 말풍선 끄기
         foreach (var floor in FloorManager.Instance.floors.Values)
@@ -143,6 +147,7 @@ public class UiManager : Singleton<UiManager>
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
     }
 
     public void ShowFloorInformationUi()
@@ -161,6 +166,7 @@ public class UiManager : Singleton<UiManager>
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
     }
 
     public void ShowAnimalListUi()
@@ -179,6 +185,7 @@ public class UiManager : Singleton<UiManager>
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
     }
 
     public void ShowProductsUi()
@@ -197,6 +204,7 @@ public class UiManager : Singleton<UiManager>
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
     }
 
     public void ShowCraftTableUi()
@@ -215,6 +223,7 @@ public class UiManager : Singleton<UiManager>
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
     }
 
     public void ShowInvitationUi()
@@ -233,6 +242,7 @@ public class UiManager : Singleton<UiManager>
         invitationUi.gameObject.SetActive(true);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
     }
 
     public void ShowTutorialUi()
@@ -271,6 +281,27 @@ public class UiManager : Singleton<UiManager>
         tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(true);
+        uiMission.gameObject.SetActive(false);
+    }
+
+    public void ShowMissionUi()
+    {
+        uiCurrencies.gameObject.SetActive(true);
+        mainUi.gameObject.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
+        productsUi.gameObject.SetActive(false);
+        craftTableUi.gameObject.SetActive(false);
+        FloorManager.Instance.multiTouchOff = true;
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
+        invitationUi.gameObject.SetActive(false);
+        tutorialUi.gameObject.SetActive(false);
+        testPanelUi.gameObject.SetActive(false);
+        patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(true);
     }
 
     public void SetProductCapacity(int capacity)
@@ -282,5 +313,9 @@ public class UiManager : Singleton<UiManager>
     public void SetSwipeDisable()
     {
         FloorManager.Instance.multiTouchOff = true;
+    }
+    public void SetSwipeEnable()
+    {
+        FloorManager.Instance.multiTouchOff = false;
     }
 }

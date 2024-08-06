@@ -59,6 +59,9 @@ public static class DataTableMgr
         DataTable exchangeTable = new ExchangeTable();
         exchangeTable.Load(DataTableIds.Exchange);
         tables.Add(DataTableIds.Exchange, exchangeTable);
+        DataTable missionTable = new MissionTable();
+        missionTable.Load(DataTableIds.Mission);
+        tables.Add(DataTableIds.Mission, missionTable);
     }
 
     public static StringTable GetStringTable()
@@ -108,6 +111,10 @@ public static class DataTableMgr
     public static InvitationTable GetInvitationTable()
     {
         return Get<InvitationTable>(DataTableIds.Invitation);
+    }
+    public static MissionTable GetMissionTable()
+    {
+        return Get<MissionTable>(DataTableIds.Mission);
     }
 
     //public static WorldTable GetWorldTable()

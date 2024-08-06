@@ -49,6 +49,8 @@ public class ConductBuilding : Building
                 }
                 break;
         }
+        MissionManager.Instance.AddMissionCount(buildingId);
+        Debug.Log($"missionCount =>>{MissionManager.Instance.GetMissionCount(buildingId)}");
     }
 
     private void DisplayFloatingText(BigNumber bigNumber)

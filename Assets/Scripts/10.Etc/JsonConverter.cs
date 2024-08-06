@@ -17,7 +17,9 @@ public class QuitTimeConverter : JsonConverter<TimeData>
         {
             timeData.QuitTime = jObj["quitTime"].ToObject<float>();
         }
-
+        timeData.LastDaily = jObj["lastDaily"]?.ToString();
+        timeData.LastWeekly = jObj["lastWeekly"]?.ToString();
+        timeData.LastMonthly = jObj["lastMonthly"]?.ToString();
         return timeData;
     }
 
@@ -25,9 +27,15 @@ public class QuitTimeConverter : JsonConverter<TimeData>
     {
         writer.WriteStartObject();
         writer.WritePropertyName("enterTime");
-        writer.WriteValue(value.EnterTime); // ISO 8601 형식으로 저장
+        writer.WriteValue(value.EnterTime);
         writer.WritePropertyName("quitTime");
         writer.WriteValue(value.QuitTime);
+        writer.WritePropertyName("lastDaily");
+        writer.WriteValue(value.LastDaily);
+        writer.WritePropertyName("lastWeekly");
+        writer.WriteValue(value.LastWeekly);
+        writer.WritePropertyName("lastMonthly");
+        writer.WriteValue(value.LastMonthly);
         writer.WriteEndObject();
     }
 }
