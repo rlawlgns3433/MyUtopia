@@ -26,7 +26,7 @@ public class UiCraftTable : MonoBehaviour
         // 제작 빌딩에서 제작중인 게 있다면 가져온다.
         if(craftingBuilding.isCrafting)
         {
-            uiCraftingList.Add(craftingBuilding.recipeStat, craftingBuilding.autoCrafting, craftingBuilding.amount);
+            uiCraftingList.Add(craftingBuilding.recipeStat, craftingBuilding.amount, craftingBuilding.autoCrafting);
         }
         for (int i = 0; i < recipes.Count; ++i)
         {
@@ -39,10 +39,11 @@ public class UiCraftTable : MonoBehaviour
 
     private void OnDisable()
     {
-        for (int i = 0; i < uiRecipeList.recipeSlots.Count; ++i)
+        foreach(var slot in uiRecipeList.recipeSlots)
         {
-            Destroy(uiRecipeList.recipeSlots[i]);
+            Destroy(slot.gameObject);
         }
+        uiRecipeList.recipeSlots.Clear();
         craftingBuilding = null;
     }
 

@@ -14,6 +14,7 @@ public class AnimalWork : Subject, IMergable
     public CancellationTokenSource cts = new CancellationTokenSource();
     public int animalId;
     public bool isHealing = false;
+    public float staminaReductionRate = 0f;
     private Animal animal;
     public Animal Animal
     {
@@ -121,7 +122,7 @@ public class AnimalWork : Subject, IMergable
                 {
                     if (cts.IsCancellationRequested)
                         break;
-                    Animal.animalStat.Stamina -= 1;
+                    Animal.animalStat.Stamina = Animal.animalStat.Stamina - 1 + staminaReductionRate;
                     NotifyObservers();
                     await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
                 }

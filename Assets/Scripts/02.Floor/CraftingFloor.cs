@@ -52,7 +52,10 @@ public class CraftingFloor : Floor
                 int synergyValue = 0;
                 foreach (var synergy in synergyStats)
                 {
-                    synergyValue += Mathf.FloorToInt(synergy.Synergy_Value * 100);
+                    if(synergy.Synergy_Type == 1)
+                    {
+                        synergyValue += Mathf.FloorToInt(synergy.Synergy_Value * 100);
+                    }
                 }
                 autoWorkload = autoWorkload + (autoWorkload * synergyValue) / 100;
             }
@@ -79,28 +82,35 @@ public class CraftingFloor : Floor
 
                     while (b.accumWorkLoad >= (b as CraftingBuilding).recipeStat.Workload && ((b as CraftingBuilding).autoCrafting || (b as CraftingBuilding).amount >= 1))
                     {
-                        if((storage as StorageProduct).IsFull || !(b as CraftingBuilding).autoCrafting)
+                        if ((storage as StorageProduct).IsFull)
                         {
                             (b as CraftingBuilding).isCrafting = false; // 力累 场
+                            (b as CraftingBuilding).amount = 0;
                             break;
                         }
-                        
+
                         // 积己
                         (storage as StorageProduct).IncreaseProduct((b as CraftingBuilding).recipeStat.Product_ID);
 
                         (b as CraftingBuilding).amount--;
                         b.accumWorkLoad = BigNumber.Zero;
-                        if ((b as CraftingBuilding).amount != 0 || (b as CraftingBuilding).autoCrafting)
+                        if ((b as CraftingBuilding).amount != 0)
                         {
                             (b as CraftingBuilding).SetSlider();
                             break;
                         }
 
-                        if((b as CraftingBuilding).autoCrafting)
+                        if ((b as CraftingBuilding).autoCrafting && !(storage as StorageProduct).IsFull)
                         {
+
+                            (b as CraftingBuilding).SetSlider();
                             (b as CraftingBuilding).amount = 1;
+                            (b as CraftingBuilding).UseResources();
+
+                            break;
                         }
 
+                        (b as CraftingBuilding).autoCrafting = false;
                         (b as CraftingBuilding).isCrafting = false; // 力累 场
                     }
 
@@ -115,4 +125,5 @@ public class CraftingFloor : Floor
             }
         }
     }
+
 }

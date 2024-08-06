@@ -61,4 +61,22 @@ public class CraftingBuilding : Building
 
         SetSlider();
     }
+
+    public void UseResources()
+    {
+        if (recipeStat.Resource_1 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1] -= recipeStat.Resource_1_Value.ToBigNumber();
+        }
+
+        if (recipeStat.Resource_2 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2] -= recipeStat.Resource_2_Value.ToBigNumber();
+        }
+
+        if (recipeStat.Resource_3 != 0)
+        {
+            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3] -= recipeStat.Resource_3_Value.ToBigNumber();
+        }
+    }
 }
