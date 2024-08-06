@@ -19,6 +19,7 @@ public static class DataTableIds
     public static readonly string Invitation = "InvitationTable";
     public static readonly string World = "WorldTable";
     public static readonly string Synergy = "SynergyTable";
+    public static readonly string Exchange = "ExchangeTable";
 
     public static string CurrString
     {

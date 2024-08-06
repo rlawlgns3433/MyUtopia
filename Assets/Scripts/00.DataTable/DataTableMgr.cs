@@ -10,47 +10,38 @@ public static class DataTableMgr
         stringTable.Load(DataTableIds.String[(int)Vars.currentLang]);
         tables.Add(DataTableIds.String[(int)Vars.currentLang], stringTable);
 
-        // 테이블 완료 시 주석 해제
         DataTable floorTable = new FloorTable();
         floorTable.Load(DataTableIds.Floor);
         tables.Add(DataTableIds.Floor, floorTable);
 
-        // 테이블 완료 시 주석 해제
         DataTable animalTable = new AnimalTable();
         animalTable.Load(DataTableIds.Animal);
         tables.Add(DataTableIds.Animal, animalTable);
 
-        // 테이블 완료 시 주석 해제
         DataTable buildingTable = new BuildingTable();
         buildingTable.Load(DataTableIds.Building);
         tables.Add(DataTableIds.Building, buildingTable);
 
-        // 테이블 완료 시 주석 해제
         DataTable mergeTable = new MergeTable();
         mergeTable.Load(DataTableIds.Merge);
         tables.Add(DataTableIds.Merge, mergeTable);
 
-        // 테이블 완료 시 주석 해제
         DataTable resourceTable = new ResourceTable();
         resourceTable.Load(DataTableIds.Resource);
         tables.Add(DataTableIds.Resource, resourceTable);
 
-        // 테이블 완료 시 주석 해제
         DataTable furnitureTable = new FurnitureTable();
         furnitureTable.Load(DataTableIds.Furniture);
         tables.Add(DataTableIds.Furniture, furnitureTable);
 
-        // 테이블 완료 시 주석 해제
         DataTable recipeTable = new RecipeTable();
         recipeTable.Load(DataTableIds.Recipe);
         tables.Add(DataTableIds.Recipe, recipeTable);
 
-        // 테이블 완료 시 주석 해제
         DataTable itemTable = new ItemTable();
         itemTable.Load(DataTableIds.Item);
         tables.Add(DataTableIds.Item, itemTable);
 
-        // 테이블 완료 시 주석 해제
         DataTable invitationTable = new InvitationTable();
         invitationTable.Load(DataTableIds.Invitation);
         tables.Add(DataTableIds.Invitation, invitationTable);
@@ -60,10 +51,14 @@ public static class DataTableMgr
         //worldTable.Load(DataTableIds.World);
         //tables.Add(DataTableIds.World, worldTable);
 
-        //테이블 완료 시 주석 해제
         DataTable synergyTable = new SynergyTable();
         synergyTable.Load(DataTableIds.Synergy);
         tables.Add(DataTableIds.Synergy, synergyTable);
+
+        //테이블 완료 시 주석 해제
+        //DataTable exchangeTable = new ExchangeTable();
+        //exchangeTable.Load(DataTableIds.Exchange);
+        //tables.Add(DataTableIds.Exchange, exchangeTable);
     }
 
     public static StringTable GetStringTable()
@@ -123,6 +118,11 @@ public static class DataTableMgr
     public static SynergyTable GetSynergyTable()
     {
         return Get<SynergyTable>(DataTableIds.Synergy);
+    }    
+    
+    public static ExchangeTable GetExchangeTable()
+    {
+        return Get<ExchangeTable>(DataTableIds.Exchange);
     }
 
     public static T Get<T>(string id) where T : DataTable
