@@ -59,9 +59,14 @@ public static class DataTableMgr
         DataTable exchangeTable = new ExchangeTable();
         exchangeTable.Load(DataTableIds.Exchange);
         tables.Add(DataTableIds.Exchange, exchangeTable);
+
         DataTable missionTable = new MissionTable();
         missionTable.Load(DataTableIds.Mission);
         tables.Add(DataTableIds.Mission, missionTable);
+
+        DataTable rewardTable = new RewardTable();
+        rewardTable.Load(DataTableIds.Reward);
+        tables.Add(DataTableIds.Reward, rewardTable);
     }
 
     public static StringTable GetStringTable()
@@ -130,6 +135,11 @@ public static class DataTableMgr
     public static ExchangeTable GetExchangeTable()
     {
         return Get<ExchangeTable>(DataTableIds.Exchange);
+    }
+
+    public static RewardTable GetRewardTable()
+    {
+        return Get<RewardTable>(DataTableIds.Reward);
     }
 
     public static T Get<T>(string id) where T : DataTable

@@ -21,6 +21,7 @@ public static class DataTableIds
     public static readonly string Synergy = "SynergyTable";
     public static readonly string Exchange = "ExchangeTable";
     public static readonly string Mission = "MissionTable";
+    public static readonly string Reward = "RewardTable";
 
     public static string CurrString
     {
