@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class UiPatronBoard : MonoBehaviour
 {
     public List<UiRequestInfo> requests = new List<UiRequestInfo>();
     public UiRequestInfo requestPrefab;
+    public TextMeshProUGUI textRefreshTimer;
     public Transform requestParent;
     public Furniture furniture;
     private StorageProduct storageProduct;
