@@ -23,6 +23,13 @@ public class UiPatronBoard : MonoBehaviour
 
     public void OnEnable()
     {
+        foreach(var request in requests)
+        {
+            Destroy(request.gameObject);
+        }
+
+        requests.Clear();
+
         SetRequests();
     }
 
@@ -45,5 +52,13 @@ public class UiPatronBoard : MonoBehaviour
                                       select request).ToList();
 
         return requests;
+    }
+
+    public void Refresh()
+    {
+        foreach(var request in requests)
+        {
+            request.Refresh();
+        }
     }
 }

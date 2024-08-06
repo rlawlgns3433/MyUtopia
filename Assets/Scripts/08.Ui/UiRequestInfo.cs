@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Resources;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,10 +22,6 @@ public class UiRequestInfo : MonoBehaviour
         this.exchangeStat = exchangeStat;
         for(int i = 0; i < exchangeStat.RequireCount; ++i)
         {
-            // 타입이 1이면 자원 2이면 아이템
-            // 아이디로 자원 또는 아이템 불러오기
-            // 교환 요구량
-            // 생성하기
             switch (exchangeStat.requireInfos[i].Type)
             {
                 case 1:
@@ -64,8 +58,26 @@ public class UiRequestInfo : MonoBehaviour
             }
         }
 
+        UiManager.Instance.patronBoardUi.Refresh();
+
         // 보상 지급
-        //DataTableMgr.GetRewardTable().Get(exchangeStat.Reward_ID);
+        var rewardStat = new RewardStat(exchangeStat.Reward_ID);
+        if (rewardStat == null)
+            return;
+
+        for(int i = 0; i < rewardStat.RequireCount; ++i)
+        {
+            switch (rewardStat.requireInfos[i].Type)
+            {
+                case 1:
+                    CurrencyManager.currency[(CurrencyType)rewardStat.requireInfos[i].Id] += rewardStat.requireInfos[i].Value.ToBigNumber();
+                    break;
+                case 2:
+                    UiManager.Instance.patronBoardUi.StorageProduct.IncreaseProduct(rewardStat.requireInfos[i].Id, rewardStat.requireInfos[i].Value.ToBigNumber().ToInt());
+                    break;
+            }
+        }
+
     }
 
     public void AddItem(ResourceStat resourceStat, string requireCount)
@@ -80,5 +92,21 @@ public class UiRequestInfo : MonoBehaviour
         var itemInfo = Instantiate(itemInfoPrefab, itemInfoParent);
         itemInfo.SetData(itemStat, new BigNumber(UiManager.Instance.patronBoardUi.StorageProduct.products[itemStat.Item_ID]), requireCount); // 부모 클래스에서 스토리지를 가져옴
         itemInfos.Add(itemInfo);
+    }
+
+    public void Refresh()
+    {
+        foreach (var itemInfo in itemInfos)
+        {
+            if (itemInfo.itemStat != null)
+            {
+                itemInfo.SetData(itemInfo.itemStat, new BigNumber(UiManager.Instance.patronBoardUi.StorageProduct.products[itemInfo.itemStat.Item_ID]), itemInfo.requireCount.ToSimpleString());
+
+            }
+            else if (itemInfo.resourceStat != null)
+            {
+                itemInfo.SetData(itemInfo.resourceStat, CurrencyManager.currency[(CurrencyType)itemInfo.resourceStat.Resource_ID], itemInfo.requireCount.ToSimpleString());
+            }
+        }
     }
 }

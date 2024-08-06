@@ -390,7 +390,7 @@ public class SynergyStat
 
 public class ExchangeStat
 {
-    public class RequireInfo
+    public class RequrieExchangeInfo
     {
         public int Type { get; set; }
         public int ID { get; set; }
@@ -454,26 +454,26 @@ public class ExchangeStat
 
             if (Require_Resource1_ID > 0)
             {
-                requireInfos.Add(new RequireInfo() { Type = Require_Resource1_Type, ID = Require_Resource1_ID, Value = Require_Resource1_Value });
+                requireInfos.Add(new RequrieExchangeInfo() { Type = Require_Resource1_Type, ID = Require_Resource1_ID, Value = Require_Resource1_Value });
                 count++;
             }
 
             if (Require_Resource2_ID > 0)
             {
-                requireInfos.Add(new RequireInfo() { Type = Require_Resource2_Type, ID = Require_Resource2_ID, Value = Require_Resource2_Value });
+                requireInfos.Add(new RequrieExchangeInfo() { Type = Require_Resource2_Type, ID = Require_Resource2_ID, Value = Require_Resource2_Value });
                 count++;
             }
 
             if (Require_Resource3_ID > 0)
             {
-                requireInfos.Add(new RequireInfo() { Type = Require_Resource3_Type, ID = Require_Resource3_ID, Value = Require_Resource3_Value });
+                requireInfos.Add(new RequrieExchangeInfo() { Type = Require_Resource3_Type, ID = Require_Resource3_ID, Value = Require_Resource3_Value });
                 count++;
             }
 
             return count;
         }
     }
-    public List<RequireInfo> requireInfos = new List<RequireInfo>();
+    public List<RequrieExchangeInfo> requireInfos = new List<RequrieExchangeInfo>();
 
     public ExchangeStat() { }
 
@@ -528,3 +528,91 @@ public class ResourceStat
     }
 }
 
+
+public class RewardStat
+{
+    public class RequrieRewardInfo
+    {
+        public int Type { get; set; }
+        public int Id { get; set; }
+        public string Value { get; set; }
+    }
+
+    private RewardData rewardData;
+    public RewardData RewardData
+    {
+        get
+        {
+            if (rewardData == null)
+            {
+                rewardData = new RewardData();
+            }
+            return rewardData;
+        }
+        set
+        {
+            rewardData = value;
+            {
+                rewardData = value;
+                Reward_ID = rewardData.Reward_ID;
+                World_Type = rewardData.World_Type;
+                Reward1_Type = rewardData.Reward1_Type;
+                Reward1_ID = rewardData.Reward1_ID;
+                Reward1_Value = rewardData.Reward1_Value;
+                Reward2_Type = rewardData.Reward2_Type;
+                Reward2_ID = rewardData.Reward2_ID;
+                Reward2_Value = rewardData.Reward2_Value;
+                Reward3_Type = rewardData.Reward3_Type;
+                Reward3_ID = rewardData.Reward3_ID;
+                Reward3_Value = rewardData.Reward3_Value;
+            }
+        }
+    }
+    public int Reward_ID { get; set; }
+    public int World_Type { get; set; }
+    public int Reward1_Type { get; set; }
+    public int Reward1_ID { get; set; }
+    public string Reward1_Value { get; set; }
+    public int Reward2_Type { get; set; }
+    public int Reward2_ID { get; set; }
+    public string Reward2_Value { get; set; }
+    public int Reward3_Type { get; set; }
+    public int Reward3_ID { get; set; }
+    public string Reward3_Value { get; set; }
+    public int RequireCount
+    {
+        get
+        {
+            int count = 0;
+
+            if (Reward1_ID > 0)
+            {
+                requireInfos.Add(new RequrieRewardInfo() { Type = Reward1_Type, Id = Reward1_ID, Value = Reward1_Value });
+                count++;
+            }
+
+            if (Reward2_ID > 0)
+            {
+                requireInfos.Add(new RequrieRewardInfo() { Type = Reward2_Type, Id = Reward2_ID, Value = Reward2_Value });
+                count++;
+            }
+
+            if (Reward3_ID > 0)
+            {
+                requireInfos.Add(new RequrieRewardInfo() { Type = Reward3_Type, Id = Reward3_ID, Value = Reward3_Value });
+                count++;
+            }
+
+            return count;
+        }
+    }
+
+    public List<RequrieRewardInfo> requireInfos = new List<RequrieRewardInfo>();
+
+    public RewardStat() { }
+
+    public RewardStat(int rewardId)
+    {
+        this.RewardData = DataTableMgr.GetRewardTable().Get(rewardId);
+    }
+}
