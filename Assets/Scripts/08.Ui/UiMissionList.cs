@@ -24,6 +24,10 @@ public class UiMissionList : MonoBehaviour
     private bool halfPointCheck = false;
     private bool twoThirdCheck = false;
     private bool maxPointCheck = false;
+    private float dailyPoint = 0f;
+    private float weeklyPoint = 0f;
+    private float monthlyPoint = 0f;
+    private MissionTypes missionType;
     private void Awake()
     {
         missionTable = DataTableMgr.GetMissionTable();
@@ -35,6 +39,7 @@ public class UiMissionList : MonoBehaviour
             Debug.Log($"missionDataLoad{i} = {missionData[i].Mission_ID}");
         }
         SetDailyMissionData();
+        missionType = MissionTypes.Daily;
     }
 
     private void OnEnable()
@@ -81,6 +86,7 @@ public class UiMissionList : MonoBehaviour
             {
                 missionList.Add(Instantiate(uiMissionPrefab, missionParent));
                 missionList[i].SetData(missionData[i]);
+                Debug.Log($"missionList[{i}].id =----{missionList[i].missionData.Mission_ID}");
             }
         }
         SetSliderCheckPoint();
@@ -96,8 +102,24 @@ public class UiMissionList : MonoBehaviour
 
     public void UpdateSliderValue(float value)
     {
-        missionSlider.value += value;
-        CheckMissionPoint();
+        if(missionType == MissionTypes.Daily)
+        {
+            dailyPoint += value;
+            missionSlider.value = dailyPoint;
+            CheckMissionPoint();
+        }
+        else if(missionType == MissionTypes.Weekly)
+        {
+            weeklyPoint += value;
+            missionSlider.value = weeklyPoint;
+            CheckMissionPoint();
+        }
+        else if(missionType == MissionTypes.Monthly)
+        {
+            monthlyPoint += value;
+            missionSlider.value = monthlyPoint;
+            CheckMissionPoint();
+        }
     }
 
     private void SetSliderCheckPoint()
@@ -152,5 +174,11 @@ public class UiMissionList : MonoBehaviour
     public void AddCurrencyValue()
     {
         Debug.Log($"Slider!!{missionSlider.value}");
+    }
+
+    public void SetMissionType(MissionTypes missionTypes)
+    {
+        this.missionType = missionTypes;
+        //주간 월간 추가시 변경예정
     }
 }
