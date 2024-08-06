@@ -58,7 +58,7 @@ public class UiMission : MonoBehaviour
 
     private void MissionClear()
     {
-        CurrencyManager.currency[CurrencyType.Coin] += new BigNumber(10000);
+        UiManager.Instance.uiMission.UpdateSliderValue(missionData.Today_Mission_Point);
         isComplete = true;
         SetButton();
     }

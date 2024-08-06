@@ -2,7 +2,9 @@ using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiMissionList : MonoBehaviour
 {
@@ -11,7 +13,17 @@ public class UiMissionList : MonoBehaviour
     public Transform missionParent;
     private List<UiMission> missionList;
     private List<MissionData> missionData;
-
+    public Slider missionSlider;
+    public float sliderMaxValue;
+    public GameObject checkPointHalf;
+    public GameObject checkPointTwoThird;
+    public GameObject checkPointMax;
+    private float halfPoint;
+    private float twoThirdPoint;
+    private float maxPoint;
+    private bool halfPointCheck = false;
+    private bool twoThirdCheck = false;
+    private bool maxPointCheck = false;
     private void Awake()
     {
         missionTable = DataTableMgr.GetMissionTable();
@@ -27,7 +39,7 @@ public class UiMissionList : MonoBehaviour
 
     private void OnEnable()
     {
-        if (missionList[0] == null)
+        if (missionList.Count == 0)
         {
             SetDailyMissionData();
         }
@@ -37,12 +49,10 @@ public class UiMissionList : MonoBehaviour
             {
                 mission.UpDateMission();
             }
+            CheckMissionPoint();
         }
     }
-    private void OnDisable()
-    {
-        
-    }
+
     private void SetDailyMissionData()
     {
         int missionCount = 0;
@@ -73,6 +83,7 @@ public class UiMissionList : MonoBehaviour
                 missionList[i].SetData(missionData[i]);
             }
         }
+        SetSliderCheckPoint();
     }
 
     private void ClearMissionList()
@@ -81,5 +92,65 @@ public class UiMissionList : MonoBehaviour
         {
             Destroy(mission.gameObject);
         }
+    }
+
+    public void UpdateSliderValue(float value)
+    {
+        missionSlider.value += value;
+        CheckMissionPoint();
+    }
+
+    private void SetSliderCheckPoint()
+    {
+        var halfText = checkPointHalf.GetComponentInChildren<TextMeshProUGUI>();
+        halfPoint = missionSlider.maxValue / 2;
+        halfText.text = ((int)halfPoint).ToString();
+        var twoThirdText = checkPointTwoThird.GetComponentInChildren<TextMeshProUGUI>();
+        twoThirdPoint = missionSlider.maxValue - (missionSlider.maxValue / 4);
+        twoThirdText.text = ((int)twoThirdPoint).ToString();
+        var maxText = checkPointMax.GetComponentInChildren<TextMeshProUGUI>();
+        maxPoint = missionSlider.maxValue;
+        maxText.text = maxPoint.ToString();
+    }
+
+    private void CheckMissionPoint()
+    {
+        if (halfPointCheck && twoThirdCheck && maxPointCheck)
+            return;
+        if (missionSlider != null)
+        {
+            if(!halfPointCheck&&missionSlider.value >= halfPoint)
+            {
+                var image = checkPointHalf.GetComponent<Image>();
+                image.color = Color.green;
+                var button = checkPointHalf.GetComponentInChildren<Button>();
+                button.interactable = true;
+                button.onClick.AddListener(AddCurrencyValue);
+                halfPointCheck = true;
+            }
+            if(!twoThirdCheck&&missionSlider.value >= twoThirdPoint)
+            {
+                var image = checkPointTwoThird.GetComponent<Image>();
+                image.color = Color.green;
+                var button = checkPointTwoThird.GetComponentInChildren<Button>();
+                button.interactable = true;
+                button.onClick.AddListener(AddCurrencyValue);
+                twoThirdCheck = true;
+            }
+            if(!maxPointCheck&&missionSlider.value >= missionSlider.maxValue)
+            {
+                var image = checkPointMax.GetComponent<Image>();
+                image.color = Color.green;
+                var button = checkPointMax.GetComponentInChildren<Button>();
+                button.interactable = true;
+                button.onClick.AddListener(AddCurrencyValue);
+                maxPointCheck = true;
+            }
+        }
+    }
+    
+    public void AddCurrencyValue()
+    {
+        Debug.Log($"Slider!!{missionSlider.value}");
     }
 }
