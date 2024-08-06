@@ -16,7 +16,7 @@ public class UiManager : Singleton<UiManager>
     public UiTutorial tutorialUi;
     public UiInvitation invitationUi;
     public TestPanel testPanelUi;
-    public UiMission uiMission;
+    public UiMissionList uiMission;
 
     public bool isAnimalList = false;
     public bool isAnimalMove = false;
@@ -281,5 +281,9 @@ public class UiManager : Singleton<UiManager>
     public void SetSwipeDisable()
     {
         FloorManager.Instance.multiTouchOff = true;
+    }
+    public void SetSwipeEnable()
+    {
+        FloorManager.Instance.multiTouchOff = false;
     }
 }

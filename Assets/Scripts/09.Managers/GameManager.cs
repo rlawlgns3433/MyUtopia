@@ -230,6 +230,10 @@ public class GameManager : Singleton<GameManager>
             await UniTask.Yield();
         }
 
+        while (!DataTableMgr.GetMissionTable().IsLoaded)
+        {
+            await UniTask.Yield();
+        }
 
         //while (!DataTableMgr.GetWorldTable().IsLoaded)
         //{

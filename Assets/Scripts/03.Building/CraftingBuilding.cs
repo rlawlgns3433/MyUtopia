@@ -23,7 +23,7 @@ public class CraftingBuilding : Building
     {
         if (isCrafting)
         {
-            craftingSlider.value = craftingSlider.maxValue - accumWorkLoad.ToFloat();
+            craftingSlider.value = accumWorkLoad.ToFloat();
         }
         else
         {
@@ -35,7 +35,7 @@ public class CraftingBuilding : Building
     {
         craftingSlider.gameObject.SetActive(true);
         craftingSlider.maxValue = recipeStat.Workload;
-        craftingSlider.value = recipeStat.Workload;
+        craftingSlider.value = craftingSlider.minValue;
     }
 
     public void CancelCrafting()

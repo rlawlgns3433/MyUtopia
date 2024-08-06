@@ -68,4 +68,9 @@ public class MissionTable : DataTable
             return defaultData;
         return table[id];
     }
+
+    public List<MissionData> GetAllMissions()
+    {
+        return new List<MissionData>(table.Values);
+    }
 }

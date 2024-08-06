@@ -154,12 +154,10 @@ public class StorageConduct : Storage
                 {
                     CurrArray[i] += tempValue - (tempOffLineValue / 2);
                 }
-                Debug.Log($"Floor =>{FurnitureStat.FurnitureData.Floor_Type}/value =>{tempValue.ToSimpleString()}");
                 if (CurrArray[i] != 0)
                 {
                     isEmpty = false;
                 }
-                Debug.Log($"Building {i}: workRequire = {workRequire}, values[i] = {values[i]}, tempValue = {tempValue}");
             }
             else
             {
