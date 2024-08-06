@@ -244,6 +244,16 @@ public class GameManager : Singleton<GameManager>
         {
             await UniTask.Yield();
         }
+
+        while (!DataTableMgr.GetRewardTable().IsLoaded)
+        {
+            await UniTask.Yield();
+        }
+
+        while (!DataTableMgr.GetExchangeTable().IsLoaded)
+        {
+            await UniTask.Yield();
+        }
         return;
     }
 

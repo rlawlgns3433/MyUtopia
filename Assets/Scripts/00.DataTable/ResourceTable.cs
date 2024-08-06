@@ -67,6 +67,7 @@ public class ResourceTable : DataTable
                     table.Add(record.Resource_ID, record);
                 }
             }
+            IsLoaded = true;
         };
     }
 
