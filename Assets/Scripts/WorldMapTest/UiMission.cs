@@ -1,6 +1,16 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
+[Serializable]
+public struct MissionSaveData
+{
+    public int missionId;
+    public int count;
+    public bool success;
+    public bool isComplete;
+}
 
 public class UiMission : MonoBehaviour
 {
@@ -70,6 +80,29 @@ public class UiMission : MonoBehaviour
             success = true;
         }
         countText.text = $"{count}/{missionData.Count}";
+        SetButton();
+    }
+
+    public MissionSaveData GetSaveData()
+    {
+        return new MissionSaveData
+        {
+            missionId = missionData.Mission_ID,
+            count = count,
+            success = success,
+            isComplete = isComplete
+        };
+    }
+
+    public void SetSaveData(MissionSaveData saveData)
+    {
+        count = saveData.count;
+        if(count >0)
+        {
+            MissionManager.Instance.SetMissionCount(missionData.Target_ID, count);
+        }
+        success = saveData.success;
+        isComplete = saveData.isComplete;
         SetButton();
     }
 }

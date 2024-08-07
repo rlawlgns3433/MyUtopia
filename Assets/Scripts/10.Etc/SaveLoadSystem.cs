@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
+using UnityEngine.Playables;
 
 public static class SaveLoadSystem 
 {
@@ -24,7 +25,8 @@ public static class SaveLoadSystem
         "SaveEmptyCurrency.sav",
         "SavePlayingWorld.sav",
         "SavePlayingCurrency.sav",
-        "SaveProduct.sav"
+        "SaveProduct.sav",
+        "SaveMissions.sav"
     };
 
     private static string SaveDirectory
@@ -108,6 +110,58 @@ public static class SaveLoadSystem
         if (File.Exists(path))
         {
             File.Delete(path);
+        }
+    }
+
+    public static bool Save(SaveMissionData data, int slot = 7)
+    {
+        if (slot < 0 || slot >= SaveFileName.Length)
+        {
+            return false;
+        }
+
+        if (!Directory.Exists(SaveDirectory))
+        {
+            Directory.CreateDirectory(SaveDirectory);
+        }
+
+        var path = Path.Combine(SaveDirectory, SaveFileName[slot]);
+
+        using (var writer = new JsonTextWriter(new StreamWriter(path)))
+        {
+            var serializer = new JsonSerializer
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All
+            };
+            serializer.Converters.Add(new MissionDataConverter());
+            serializer.Serialize(writer, data);
+        }
+        return true;
+    }
+
+    public static SaveMissionData MissionLoad(int slot = 7)
+    {
+        if (slot < 0 || slot >= SaveFileName.Length)
+        {
+            return default(SaveMissionData);
+        }
+        var path = Path.Combine(SaveDirectory, SaveFileName[slot]);
+        if (!File.Exists(path))
+        {
+            return default(SaveMissionData);
+        }
+
+        using (var reader = new JsonTextReader(new StreamReader(path)))
+        {
+            var serializer = new JsonSerializer
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All
+            };
+            serializer.Converters.Add(new MissionDataConverter());
+
+            return serializer.Deserialize<SaveMissionData>(reader);
         }
     }
 }

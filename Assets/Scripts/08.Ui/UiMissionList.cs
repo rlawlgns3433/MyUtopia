@@ -1,11 +1,20 @@
-using Cysharp.Threading.Tasks;
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
+[Serializable]
+public struct SaveMissionData
+{
+    public float dailyPoint;
+    public float weeklyPoint;
+    public float monthlyPoint;
+    public List<MissionSaveData> dailyMissions;
+    public List<MissionSaveData> weeklyMissions;
+    public List<MissionSaveData> monthlyMissions;
+}
 public class UiMissionList : MonoBehaviour
 {
     private MissionTable missionTable;
@@ -28,17 +37,13 @@ public class UiMissionList : MonoBehaviour
     private float weeklyPoint = 0f;
     private float monthlyPoint = 0f;
     private MissionTypes missionType;
+
     private void Awake()
     {
         missionTable = DataTableMgr.GetMissionTable();
         missionList = new List<UiMission>();
         missionData = new List<MissionData>();
         missionData = missionTable.GetAllMissions();
-        for (int i = 0; i < missionData.Count; i++)
-        {
-            Debug.Log($"missionDataLoad{i} = {missionData[i].Mission_ID}");
-        }
-        SetDailyMissionData();
         missionType = MissionTypes.Daily;
     }
 
@@ -58,63 +63,124 @@ public class UiMissionList : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        SaveGameData();
+        //임시
+    }
+    //private void OnApplicationPause(bool pauseStatus)
+    //{
+    //    if (pauseStatus)
+    //    {
+    //        Debug.Log("MissionSave....");
+
+    //    }
+    //}
+
     private void SetDailyMissionData()
     {
-        int missionCount = 0;
-        foreach(var mission in missionData)
+        ClearMissionList();
+        foreach (var mission in missionData)
         {
-            if(mission.Mission_Type == (int)MissionTypes.Daily)
+            if (mission.Mission_Type == (int)MissionTypes.Daily)
             {
-                missionCount++;
-            }
-        }
-        for(int i = 0; i<missionCount; i++)
-        {
-            bool create = false;
-            var floor = FloorManager.Instance.GetFloor($"B{missionData[i].Target_ID / 10000 % 100}");
-            foreach(var building in floor.buildings)
-            {
-                if (missionData[i].Target_ID == building.buildingId)
+                bool create = false;
+                var floor = FloorManager.Instance.GetFloor($"B{mission.Target_ID / 10000 % 100}");
+                foreach (var building in floor.buildings)
                 {
-                    if(!building.BuildingStat.IsLock)
+                    if (mission.Target_ID == building.buildingId && !building.BuildingStat.IsLock)
                     {
                         create = true;
+                        break;
                     }
                 }
-            }
-            if(create)
-            {
-                missionList.Add(Instantiate(uiMissionPrefab, missionParent));
-                missionList[i].SetData(missionData[i]);
-                Debug.Log($"missionList[{i}].id =----{missionList[i].missionData.Mission_ID}");
+                if (create)
+                {
+                    var missionInstance = Instantiate(uiMissionPrefab, missionParent);
+                    missionInstance.SetData(mission);
+                    missionList.Add(missionInstance);
+                }
             }
         }
         SetSliderCheckPoint();
     }
 
+    private void SetWeeklyMissionData()
+    {
+        foreach (var mission in missionData)
+        {
+            if (mission.Mission_Type == (int)MissionTypes.Weekly)
+            {
+                bool create = false;
+                var floor = FloorManager.Instance.GetFloor($"B{mission.Target_ID / 10000 % 100}");
+                foreach (var building in floor.buildings)
+                {
+                    if (mission.Target_ID == building.buildingId && !building.BuildingStat.IsLock)
+                    {
+                        create = true;
+                        break;
+                    }
+                }
+                if (create)
+                {
+                    var missionInstance = Instantiate(uiMissionPrefab, missionParent);
+                    missionInstance.SetData(mission);
+                    missionList.Add(missionInstance);
+                }
+            }
+        }
+    }
+
+    private void SetMonthlyMissionData()
+    {
+        foreach (var mission in missionData)
+        {
+            if (mission.Mission_Type == (int)MissionTypes.Monthly)
+            {
+                bool create = false;
+                var floor = FloorManager.Instance.GetFloor($"B{mission.Target_ID / 10000 % 100}");
+                foreach (var building in floor.buildings)
+                {
+                    if (mission.Target_ID == building.buildingId && !building.BuildingStat.IsLock)
+                    {
+                        create = true;
+                        break;
+                    }
+                }
+                if (create)
+                {
+                    var missionInstance = Instantiate(uiMissionPrefab, missionParent);
+                    missionInstance.SetData(mission);
+                    missionList.Add(missionInstance);
+                }
+            }
+        }
+    }
+
     private void ClearMissionList()
     {
-        foreach(var mission in missionList)
+        foreach (var mission in missionList)
         {
             Destroy(mission.gameObject);
         }
+        missionList.Clear();
     }
 
     public void UpdateSliderValue(float value)
     {
-        if(missionType == MissionTypes.Daily)
+        if (missionType == MissionTypes.Daily)
         {
             dailyPoint += value;
             missionSlider.value = dailyPoint;
             CheckMissionPoint();
         }
-        else if(missionType == MissionTypes.Weekly)
+        else if (missionType == MissionTypes.Weekly)
         {
             weeklyPoint += value;
             missionSlider.value = weeklyPoint;
             CheckMissionPoint();
         }
-        else if(missionType == MissionTypes.Monthly)
+        else if (missionType == MissionTypes.Monthly)
         {
             monthlyPoint += value;
             missionSlider.value = monthlyPoint;
@@ -124,61 +190,134 @@ public class UiMissionList : MonoBehaviour
 
     private void SetSliderCheckPoint()
     {
-        var halfText = checkPointHalf.GetComponentInChildren<TextMeshProUGUI>();
         halfPoint = missionSlider.maxValue / 2;
-        halfText.text = ((int)halfPoint).ToString();
-        var twoThirdText = checkPointTwoThird.GetComponentInChildren<TextMeshProUGUI>();
-        twoThirdPoint = missionSlider.maxValue - (missionSlider.maxValue / 4);
-        twoThirdText.text = ((int)twoThirdPoint).ToString();
-        var maxText = checkPointMax.GetComponentInChildren<TextMeshProUGUI>();
+        twoThirdPoint = missionSlider.maxValue * 2 / 3;
         maxPoint = missionSlider.maxValue;
-        maxText.text = maxPoint.ToString();
+
+        checkPointHalf.GetComponentInChildren<TextMeshProUGUI>().text = ((int)halfPoint).ToString();
+        checkPointTwoThird.GetComponentInChildren<TextMeshProUGUI>().text = ((int)twoThirdPoint).ToString();
+        checkPointMax.GetComponentInChildren<TextMeshProUGUI>().text = ((int)maxPoint).ToString();
     }
 
     private void CheckMissionPoint()
     {
         if (halfPointCheck && twoThirdCheck && maxPointCheck)
             return;
-        if (missionSlider != null)
+
+        if (missionSlider.value >= halfPoint && !halfPointCheck)
         {
-            if(!halfPointCheck&&missionSlider.value >= halfPoint)
-            {
-                var image = checkPointHalf.GetComponent<Image>();
-                image.color = Color.green;
-                var button = checkPointHalf.GetComponentInChildren<Button>();
-                button.interactable = true;
-                button.onClick.AddListener(AddCurrencyValue);
-                halfPointCheck = true;
-            }
-            if(!twoThirdCheck&&missionSlider.value >= twoThirdPoint)
-            {
-                var image = checkPointTwoThird.GetComponent<Image>();
-                image.color = Color.green;
-                var button = checkPointTwoThird.GetComponentInChildren<Button>();
-                button.interactable = true;
-                button.onClick.AddListener(AddCurrencyValue);
-                twoThirdCheck = true;
-            }
-            if(!maxPointCheck&&missionSlider.value >= missionSlider.maxValue)
-            {
-                var image = checkPointMax.GetComponent<Image>();
-                image.color = Color.green;
-                var button = checkPointMax.GetComponentInChildren<Button>();
-                button.interactable = true;
-                button.onClick.AddListener(AddCurrencyValue);
-                maxPointCheck = true;
-            }
+            SetCheckpoint(checkPointHalf, ref halfPointCheck);
+        }
+        if (missionSlider.value >= twoThirdPoint && !twoThirdCheck)
+        {
+            SetCheckpoint(checkPointTwoThird, ref twoThirdCheck);
+        }
+        if (missionSlider.value >= maxPoint && !maxPointCheck)
+        {
+            SetCheckpoint(checkPointMax, ref maxPointCheck);
         }
     }
-    
+
+    private void SetCheckpoint(GameObject checkpoint, ref bool checkFlag)
+    {
+        var image = checkpoint.GetComponent<Image>();
+        image.color = Color.green;
+        var button = checkpoint.GetComponentInChildren<Button>();
+        button.interactable = true;
+        button.onClick.AddListener(AddCurrencyValue);
+        checkFlag = true;
+    }
+
     public void AddCurrencyValue()
     {
-        Debug.Log($"Slider!!{missionSlider.value}");
+        Debug.Log($"Slider value: {missionSlider.value}");
     }
 
     public void SetMissionType(MissionTypes missionTypes)
     {
         this.missionType = missionTypes;
-        //주간 월간 추가시 변경예정
+    }
+
+    private void SaveGameData()
+    {
+        List<MissionSaveData> dailyMissions = new List<MissionSaveData>();
+        List<MissionSaveData> weeklyMissions = new List<MissionSaveData>();
+        List<MissionSaveData> monthlyMissions = new List<MissionSaveData>();
+
+        foreach (var mission in missionList)
+        {
+            switch (mission.missionData.Mission_Type)
+            {
+                case (int)MissionTypes.Daily:
+                    dailyMissions.Add(mission.GetSaveData());
+                    break;
+                case (int)MissionTypes.Weekly:
+                    weeklyMissions.Add(mission.GetSaveData());
+                    break;
+                case (int)MissionTypes.Monthly:
+                    monthlyMissions.Add(mission.GetSaveData());
+                    break;
+            }
+        }
+
+        SaveMissionData gameData = new SaveMissionData
+        {
+            dailyPoint = dailyPoint,
+            weeklyPoint = weeklyPoint,
+            monthlyPoint = monthlyPoint,
+            dailyMissions = dailyMissions,
+            weeklyMissions = weeklyMissions,
+            monthlyMissions = monthlyMissions
+        };
+        SaveLoadSystem.Save(gameData);
+    }
+
+    private void LoadGameData()
+    {
+        SaveMissionData gameData = SaveLoadSystem.MissionLoad();
+        if (gameData.dailyMissions == null)
+        {
+            return;
+        }
+
+        dailyPoint = gameData.dailyPoint;
+        weeklyPoint = gameData.weeklyPoint;
+        monthlyPoint = gameData.monthlyPoint;
+
+        foreach (var saveData in gameData.dailyMissions)
+        {
+            var missionDataInstance = missionTable.Get(saveData.missionId);
+            if (!missionDataInstance.Equals(MissionTable.defaultData))
+            {
+                var missionInstance = Instantiate(uiMissionPrefab, missionParent);
+                missionInstance.SetData(missionDataInstance);
+                missionInstance.SetSaveData(saveData);
+                missionList.Add(missionInstance);
+            }
+        }
+
+        foreach (var saveData in gameData.weeklyMissions)
+        {
+            var missionDataInstance = missionTable.Get(saveData.missionId);
+            if (!missionDataInstance.Equals(MissionTable.defaultData))
+            {
+                var missionInstance = Instantiate(uiMissionPrefab, missionParent);
+                missionInstance.SetData(missionDataInstance);
+                missionInstance.SetSaveData(saveData);
+                missionList.Add(missionInstance);
+            }
+        }
+
+        foreach (var saveData in gameData.monthlyMissions)
+        {
+            var missionDataInstance = missionTable.Get(saveData.missionId);
+            if (!missionDataInstance.Equals(MissionTable.defaultData))
+            {
+                var missionInstance = Instantiate(uiMissionPrefab, missionParent);
+                missionInstance.SetData(missionDataInstance);
+                missionInstance.SetSaveData(saveData);
+                missionList.Add(missionInstance);
+            }
+        }
     }
 }

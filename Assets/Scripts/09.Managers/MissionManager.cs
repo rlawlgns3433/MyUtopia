@@ -26,4 +26,12 @@ public class MissionManager : Singleton<MissionManager>
         }
         return 0;
     }
+
+    public void SetMissionCount(int id, int value)
+    {
+        if(missionManager.ContainsKey(id))
+        {
+            missionManager[id] = value; 
+        }
+    }
 }

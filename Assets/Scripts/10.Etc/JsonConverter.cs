@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Unity.VisualScripting;
+using UnityEngine.Playables;
 
 public class QuitTimeConverter : JsonConverter<TimeData>
 {
@@ -39,7 +40,41 @@ public class QuitTimeConverter : JsonConverter<TimeData>
         writer.WriteEndObject();
     }
 }
+public class MissionDataConverter : JsonConverter<SaveMissionData>
+{
+    public override SaveMissionData ReadJson(JsonReader reader, Type objectType, SaveMissionData existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        JObject jObj = JObject.Load(reader);
+        SaveMissionData gameData = new SaveMissionData
+        {
+            dailyPoint = jObj["dailyPoint"].ToObject<float>(),
+            weeklyPoint = jObj["weeklyPoint"].ToObject<float>(),
+            monthlyPoint = jObj["monthlyPoint"].ToObject<float>(),
+            dailyMissions = jObj["dailyMissions"].ToObject<List<MissionSaveData>>(),
+            weeklyMissions = jObj["weeklyMissions"].ToObject<List<MissionSaveData>>(),
+            monthlyMissions = jObj["monthlyMissions"].ToObject<List<MissionSaveData>>()
+        };
+        return gameData;
+    }
 
+    public override void WriteJson(JsonWriter writer, SaveMissionData value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+        writer.WritePropertyName("dailyPoint");
+        writer.WriteValue(value.dailyPoint);
+        writer.WritePropertyName("weeklyPoint");
+        writer.WriteValue(value.weeklyPoint);
+        writer.WritePropertyName("monthlyPoint");
+        writer.WriteValue(value.monthlyPoint);
+        writer.WritePropertyName("dailyMissions");
+        serializer.Serialize(writer, value.dailyMissions);
+        writer.WritePropertyName("weeklyMissions");
+        serializer.Serialize(writer, value.weeklyMissions);
+        writer.WritePropertyName("monthlyMissions");
+        serializer.Serialize(writer, value.monthlyMissions);
+        writer.WriteEndObject();
+    }
+}
 public class WorkLoadConverter : JsonConverter<StorageData>
 {
     public override StorageData ReadJson(JsonReader reader, Type objectType, StorageData existingValue, bool hasExistingValue, JsonSerializer serializer)

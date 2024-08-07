@@ -95,11 +95,22 @@ public class ProductSaveData
 public class SaveDataV1 : SaveData
 {
     public List<FloorSaveData> floors;
+    public List<MissionSaveData> dailyMissions;
+    public List<MissionSaveData> weeklyMissions;
+    public List<MissionSaveData> monthlyMissions;
+    public float dailyPoint;
+    public float weeklyPoint;
+    public float monthlyPoint;
+
     public SaveDataV1()
     {
         floors = new List<FloorSaveData>();
+        dailyMissions = new List<MissionSaveData>();
+        weeklyMissions = new List<MissionSaveData>();
+        monthlyMissions = new List<MissionSaveData>();
         Version = 1;
     }
+
     public override SaveData VersionUp()
     {
         return null;
