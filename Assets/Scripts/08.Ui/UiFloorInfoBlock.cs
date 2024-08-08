@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -157,6 +156,11 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             }
         }
 
+        if(!CheckUpgradeCondition())
+        {
+            // 모든 건물이 레벨을 충족하지 못함
+        }
+
         if (!floor.CheckCurrency())
         {
             clockFormatTimer.canStartTimer = false;
@@ -177,5 +181,24 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             Destroy(currency.gameObject);
         }
         uiUpgradeCurrencies.Clear();
+    }
+
+    public bool CheckUpgradeCondition()
+    {
+        // 계층 업그레이드 조건 추가
+        // 계층의 락 해제된 건물들이 Grade_Level_Max
+
+        foreach(var building in floor.buildings)
+        {
+            if (building.BuildingStat.IsLock)
+                continue;
+
+            if(building.BuildingStat.Level < /*floor.FloorStat.Grade_Level_Max*/ building.BuildingStat.Level_Max)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
