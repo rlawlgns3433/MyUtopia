@@ -49,7 +49,7 @@ public class GameManager : Singleton<GameManager>
         //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
         await UniWaitTables();
-        await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
+        await UniTask.WaitUntil(() => UtilityTime.Seconds >= 0);
         await UniLoadWorldData();
 
         FloorManager.Instance.CheckEntireFloorSynergy();
