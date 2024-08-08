@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
-public class UiFloorInfoBlock : MonoBehaviour
+public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 {
     private static readonly string lvFormat = "Lv.{0} / Lv.{1}";
     public List<Image> imageProductions = new List<Image>();
@@ -16,6 +16,17 @@ public class UiFloorInfoBlock : MonoBehaviour
     public Button buttonLevelUp;
     public Floor floor;
     public Transform contents;
+    public ClockFormatTimer clockFormatTimer;
+
+    public void FinishUpgrade()
+    {
+        clockFormatTimer.timerText.gameObject.SetActive(false);
+    }
+
+    public void LevelUp()
+    {
+        floor.LevelUp();
+    }
 
     public bool Set(Floor floor)
     {
@@ -41,15 +52,17 @@ public class UiFloorInfoBlock : MonoBehaviour
             return false;
         buttonLevelUp.onClick.RemoveAllListeners();
 
-        buttonLevelUp.onClick.AddListener(floor.LevelUp);
-        buttonLevelUp.onClick.AddListener(UiManager.Instance.floorInformationUi.SetFloorData);
-        SetFloorUi();
+        buttonLevelUp.onClick.AddListener(SetStartUi);
+        buttonLevelUp.onClick.AddListener(clockFormatTimer.StartClockTimer);
+        SetFinishUi();
 
         return true;
     }
 
-    public async void SetFloorUi()
+    public async void SetFinishUi()
     {
+        //UiManager.Instance.floorInformationUi.SetFloorData();
+
         textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
 
         for (int i = 0; i < floor.buildings.Count; i++)
@@ -106,5 +119,28 @@ public class UiFloorInfoBlock : MonoBehaviour
         }
 
         //textDescription.text = 건물 설명
+    }
+
+    public void SetStartUi()
+    {
+        if (!floor.CheckCurrency())
+        {
+            clockFormatTimer.canStartTimer = false;
+            return;
+        }
+
+        clockFormatTimer.canStartTimer = true;
+
+        floor.SpendCurrency();
+
+        clockFormatTimer.timerText.gameObject.SetActive(true);
+
+        clockFormatTimer.SetTimer(/*building.BuildingStat.Level_Up_Time*/10);
+
+        foreach (var currency in uiUpgradeCurrencies)
+        {
+            Destroy(currency.gameObject);
+        }
+        uiUpgradeCurrencies.Clear();
     }
 }

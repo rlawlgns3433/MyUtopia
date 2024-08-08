@@ -5,17 +5,22 @@ using System;
 
 public class ClockFormatTimer : MonoBehaviour
 {
-    private static readonly string formatTimer = "전체 갱신까지 {0:00}:{1:00}:{2:00}";
+    //private static readonly string formatTimer = "전체 갱신까지 {0:00}:{1:00}:{2:00}";
+    private static readonly string formatTimer = "{0:00}:{1:00}:{2:00}";
     private int timerDuration = 3600; 
 
     public TextMeshProUGUI timerText;
+    public bool canStartTimer;
+    public TimeSpan timespan;
     private Tween timerTween;
     private float remainingTime;
     private float startTime;
 
-    private void Start()
+    public void StartClockTimer()
     {
-        GetTimerDuration();
+        if (!canStartTimer)
+            return;
+        timerText.gameObject.SetActive(true);
         StartClockTimer(timerDuration);
     }
 
@@ -44,22 +49,31 @@ public class ClockFormatTimer : MonoBehaviour
 
     private void OnTimerComplete()
     {
+        // 타이머 사용하는 곳
+        // 단골 게시판 SetPatronUi, 건물 업그레이드 SetBuildingUi, 시설물 업그레이드 SetFurnitureUi, 계층 업그레이드 SetFloorUi = > SetUi
         timerText.text = string.Format(formatTimer, 0, 0, 0);
-        RestartTimer();
-        // 전체 단골 게시판 갱신!
+
+        IGrowable growable = gameObject.GetComponent<IGrowable>();
+        IUISetupable uISetupable = gameObject.GetComponent<IUISetupable>();
+
+        growable.LevelUp();
+        //UiManager.Instance.floorInformationUi.SetFloorData();
+        uISetupable.SetFinishUi();
+        uISetupable.FinishUpgrade();
+        // 타이머 끝났을 때 작업
     }
 
-    void RestartTimer()
+    public void RestartTimer()
     {
         if (timerTween != null && timerTween.IsPlaying())
         {
             timerTween.Kill();
         }
-        GetTimerDuration();
+        SetDayTimer();
         StartClockTimer(timerDuration); // 타이머 재시작
     }
 
-    private TimeSpan GetTimerDuration()
+    public TimeSpan SetDayTimer()
     {
         DateTime tomorrowMidnight = DateTime.Today.AddDays(1);
 
@@ -68,4 +82,13 @@ public class ClockFormatTimer : MonoBehaviour
         return durationUntilTomorrow;
     }
 
+    public void SetTimer(TimeSpan timeSpan)
+    {
+        timerDuration = timeSpan.Seconds + timeSpan.Minutes * 60 + timeSpan.Hours * 3600;
+    }
+
+    public void SetTimer(int time)
+    {
+        timerDuration = time;
+    }
 }

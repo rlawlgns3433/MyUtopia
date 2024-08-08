@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Furniture : MonoBehaviour, IClickable
+public class Furniture : MonoBehaviour, IClickable, IGrowable
 {
     [SerializeField]
     private int facilityId;
@@ -50,12 +50,20 @@ public class Furniture : MonoBehaviour, IClickable
         if (FurnitureStat.Level == FurnitureStat.Level_Max)
             return;
 
-        if (CurrencyManager.currency[CurrencyType.Coin] < FurnitureStat.Level_Up_Coin_Value.ToBigNumber())
-            return;
-
-        CurrencyManager.currency[CurrencyType.Coin] -= FurnitureStat.Level_Up_Coin_Value.ToBigNumber();
-
         FurnitureStat = new FurnitureStat(FurnitureStat.Furniture_ID + 1);
+    }
+
+    public bool CheckCurrency()
+    {
+        if (CurrencyManager.currency[CurrencyType.Coin] < FurnitureStat.Level_Up_Coin_Value.ToBigNumber())
+            return false;
+
+        return true;
+    }
+
+    public void SpendCurrency()
+    {
+        CurrencyManager.currency[CurrencyType.Coin] -= FurnitureStat.Level_Up_Coin_Value.ToBigNumber();
     }
 
     public void RegisterClickable()

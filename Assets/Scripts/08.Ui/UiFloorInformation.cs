@@ -67,17 +67,17 @@ public class UiFloorInformation : MonoBehaviour
 
     public void ClearFloorUi()
     {
-        foreach (var uiBuilding in uiBuildings)
-        {
-            Destroy(uiBuilding.gameObject);
-        }
-        uiBuildings.Clear();
+        //foreach (var uiBuilding in uiBuildings)
+        //{
+        //    Destroy(uiBuilding.gameObject);
+        //}
+        //uiBuildings.Clear();
 
-        foreach(var uiFurniture in uiFurnitures)
-        {
-            Destroy(uiFurniture.gameObject);
-        }
-        uiFurnitures.Clear();
+        //foreach(var uiFurniture in uiFurnitures)
+        //{
+        //    Destroy(uiFurniture.gameObject);
+        //}
+        //uiFurnitures.Clear();
 
         foreach (var uiSynergyEffect in uiAnimalSynergyEffects)
         {
