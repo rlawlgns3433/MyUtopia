@@ -25,6 +25,7 @@ public class Animal : IGrowable, IMovable
     [SerializeField]
     private float idleTime;
     public float IdleTime { get => idleTime; set => idleTime = value; }
+    public bool IsUpgrading { get; set; }
 
     public event Action clickEvent;
 

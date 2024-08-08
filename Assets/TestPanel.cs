@@ -21,6 +21,7 @@ public class TestPanel : MonoBehaviour
         GameManager.Instance.SetPlayerData();
         SetEmptyData();
         UiManager.Instance.tutorialUi.ResetTutorial();
+        UiManager.Instance.floorInformationUi.ClearFloorUi();
     }
 
     // 중간 플레이 세이브 파일 로드

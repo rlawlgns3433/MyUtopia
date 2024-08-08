@@ -18,6 +18,7 @@ public class UiFurnitureInfo : MonoBehaviour, IUISetupable, IGrowable
     public UiUpgradeCurrency uiUpgradeCurrency;
     public Transform contents; // 하위에 업그레이드 시 재화가 얼마나 필요한 지
     public ClockFormatTimer clockFormatTimer;
+    public bool IsUpgrading { get => furniture.IsUpgrading; set => furniture.IsUpgrading = value; }
 
     public void FinishUpgrade()
     {
@@ -56,24 +57,21 @@ public class UiFurnitureInfo : MonoBehaviour, IUISetupable, IGrowable
         buttonLevelUp.onClick.RemoveAllListeners();
         buttonLevelUp.onClick.AddListener(SetStartUi);
         buttonLevelUp.onClick.AddListener(clockFormatTimer.StartClockTimer);
-        SetFinishUi();
+        if(furniture.IsUpgrading)
+        {
+            clockFormatTimer.timerText.gameObject.SetActive(true);
+        }
+        else
+        {
+            SetFinishUi();
+        }
 
         return true;
     }
 
     public async void SetFinishUi()
     {
-        if(furniture.FurnitureStat.Level == furniture.FurnitureStat.Level_Max)
-        {
-            textMax.gameObject.SetActive(true);
-            buttonLevelUp.interactable = false;
-            return;
-        }
-        else
-        {
-            textMax.gameObject.SetActive(false);
-            buttonLevelUp.interactable = true;
-        }
+
         textFurnitureLevel.text = string.Format(lvFormat, furniture.FurnitureStat.Level);
         textFurnitureName.text = furniture.FurnitureStat.FurnitureData.GetName();
         textDescription.text = furniture.FurnitureStat.FurnitureData.GetDescription();
@@ -89,6 +87,18 @@ public class UiFurnitureInfo : MonoBehaviour, IUISetupable, IGrowable
             uiUpgradeCurrencies.Add(currency);
         }
 
+        if (furniture.FurnitureStat.Level == furniture.FurnitureStat.Level_Max)
+        {
+            textMax.gameObject.SetActive(true);
+            buttonLevelUp.interactable = false;
+            return;
+        }
+        else
+        {
+            textMax.gameObject.SetActive(false);
+            buttonLevelUp.interactable = true;
+        }
+
         //uiBuildingInfo.buildingProfile.sprite = building.FurnitureData.GetProfile();
         //textDescription.text = 건물 설명
     }
@@ -102,6 +112,8 @@ public class UiFurnitureInfo : MonoBehaviour, IUISetupable, IGrowable
         }
 
         clockFormatTimer.canStartTimer = true;
+
+        IsUpgrading = true;
 
         furniture.SpendCurrency();
 

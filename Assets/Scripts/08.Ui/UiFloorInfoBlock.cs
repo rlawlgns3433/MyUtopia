@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,8 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
     public Transform contents;
     public ClockFormatTimer clockFormatTimer;
 
+    public bool IsUpgrading { get => floor.IsUpgrading; set => floor.IsUpgrading = value; }
+
     public void FinishUpgrade()
     {
         clockFormatTimer.timerText.gameObject.SetActive(false);
@@ -25,7 +28,15 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
     public void LevelUp()
     {
-        floor.LevelUp();
+        foreach(var floor in FloorManager.Instance.floors.Values)
+        {
+            if(floor.IsUpgrading)
+            {
+                floor.LevelUp();
+                this.floor = floor;
+                return;
+            }
+        }
     }
 
     public bool Set(Floor floor)
@@ -54,14 +65,26 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         buttonLevelUp.onClick.AddListener(SetStartUi);
         buttonLevelUp.onClick.AddListener(clockFormatTimer.StartClockTimer);
-        SetFinishUi();
+
+        if(IsUpgrading)
+        {
+            clockFormatTimer.timerText.gameObject.SetActive(true);
+        }
+        else
+        {
+            SetFinishUi();
+            FinishUpgrade();
+        }
 
         return true;
     }
 
     public async void SetFinishUi()
     {
-        //UiManager.Instance.floorInformationUi.SetFloorData();
+        UiManager.Instance.floorInformationUi.RefreshBuildingFurnitureData();
+
+        if (FloorManager.Instance.GetCurrentFloor() != floor)
+            return;
 
         textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
 
@@ -71,16 +94,10 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             if (building.BuildingStat.IsLock)
                 continue;
 
-            imageProductions[i].sprite = await building.BuildingStat.BuildingData.GetProfile(); // 빌딩 이미지 추가 예정
+            imageProductions[i].sprite = await building.BuildingStat.BuildingData.GetProfile();
             imageProductions[i].type = Image.Type.Sliced;
         }
 
-        if(floor.FloorStat.Grade == floor.FloorStat.Grade_Max)
-        {
-            textMax.gameObject.SetActive(true);
-            return;
-        }
-        textMax.gameObject.SetActive(false);
 
         if (floor.FloorStat.Level_Up_Coin_Value != "0")
         {
@@ -118,11 +135,28 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             uiUpgradeCurrencies.Add(currency);
         }
 
+
+        if (floor.FloorStat.Grade == floor.FloorStat.Grade_Max)
+        {
+            textMax.gameObject.SetActive(true);
+            return;
+        }
+        textMax.gameObject.SetActive(false);
+
         //textDescription.text = 건물 설명
     }
 
     public void SetStartUi()
     {
+        foreach (var floor in FloorManager.Instance.floors.Values)
+        {
+            if (floor.IsUpgrading)
+            {
+                clockFormatTimer.canStartTimer = false;
+                return;
+            }
+        }
+
         if (!floor.CheckCurrency())
         {
             clockFormatTimer.canStartTimer = false;
@@ -130,6 +164,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         }
 
         clockFormatTimer.canStartTimer = true;
+        IsUpgrading = true;
 
         floor.SpendCurrency();
 

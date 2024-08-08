@@ -18,6 +18,8 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
     public Transform contents; // 하위에 업그레이드 시 재화가 얼마나 필요한 지
     public ClockFormatTimer clockFormatTimer;
 
+    public bool IsUpgrading { get => building.IsUpgrading; set => building.IsUpgrading = value; }
+
     public void FinishUpgrade()
     {
         clockFormatTimer.timerText.gameObject.SetActive(false);
@@ -55,9 +57,9 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         buttonLevelUp.onClick.RemoveAllListeners();
         buttonLevelUp.onClick.AddListener(SetStartUi);
         buttonLevelUp.onClick.AddListener(clockFormatTimer.StartClockTimer);
-        if(building.isUpgrading)
+        if(building.IsUpgrading)
         {
-
+            clockFormatTimer.timerText.gameObject.SetActive(true);
         }
         else
         {
@@ -69,18 +71,6 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
 
     public async void SetFinishUi()
     {
-        if (building.BuildingStat.Level == building.BuildingStat.Level_Max)
-        {
-            textMax.gameObject.SetActive(true);
-            buttonLevelUp.interactable = false;
-            return;
-        }
-        else
-        {
-            textMax.gameObject.SetActive(false);
-            buttonLevelUp.interactable = true;
-        }
-
         textBuildingLevel.text = string.Format(lvFormat, building.BuildingStat.Level);
         textBuildingName.text = building.BuildingStat.BuildingData.GetName();
         textDescription.text = building.BuildingStat.BuildingData.GetDescription();
@@ -122,6 +112,18 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             uiUpgradeCurrencies.Add(currency);
         }
 
+        if (building.BuildingStat.Level == building.BuildingStat.Level_Max)
+        {
+            textMax.gameObject.SetActive(true);
+            buttonLevelUp.interactable = false;
+            return;
+        }
+        else
+        {
+            textMax.gameObject.SetActive(false);
+            buttonLevelUp.interactable = true;
+        }
+
         //uiBuildingInfo.buildingProfile.sprite = building.BuildingData.GetProfile();
         //textDescription.text = 건물 설명
     }
@@ -135,7 +137,7 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         }
 
         clockFormatTimer.canStartTimer = true;
-        building.isUpgrading = true;
+        IsUpgrading = true;
         building.SpendCurrency();
 
         clockFormatTimer.timerText.gameObject.SetActive(true);

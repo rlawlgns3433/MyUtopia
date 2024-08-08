@@ -12,6 +12,8 @@ public class Floor : Subject, IGrowable
     public List<Observer> runtimeObservers = new List<Observer>();
     public List<SynergyStat> synergyStats = new List<SynergyStat>();
 
+    public bool IsUpgrading { get; set; }
+
     [SerializeField]
     protected int floorId;
 

@@ -6,6 +6,7 @@ public class Furniture : MonoBehaviour, IClickable, IGrowable
 {
     [SerializeField]
     private int facilityId;
+    public bool IsUpgrading { get; set; }
 
     private FurnitureStat furnitureStat;
     public FurnitureStat FurnitureStat

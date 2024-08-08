@@ -23,6 +23,7 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
         }
     }
     public ClockFormatTimer clockFormatTimer;
+    public bool IsUpgrading { get => furniture.IsUpgrading; set => furniture.IsUpgrading = value; }
 
     private void Start()
     {

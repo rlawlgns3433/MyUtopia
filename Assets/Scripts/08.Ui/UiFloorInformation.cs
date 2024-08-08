@@ -73,7 +73,7 @@ public class UiFloorInformation : MonoBehaviour
         //}
         //uiBuildings.Clear();
 
-        //foreach(var uiFurniture in uiFurnitures)
+        //foreach (var uiFurniture in uiFurnitures)
         //{
         //    Destroy(uiFurniture.gameObject);
         //}
@@ -92,11 +92,64 @@ public class UiFloorInformation : MonoBehaviour
 
         uiFloorInfoBlock.Set(currentFloor);
 
+        if (currentFloor.FloorStat.Floor_Num <= 2)
+        {
+            SetActiveFalseAllBuildingFurniture();
+            return;
+        }
+
+        foreach (var synergyEffect in currentFloor.synergyStats)
+        {
+            UiAnimalSynergyBlock uiAnimalSynergyBlock = Instantiate(synergyEffectInfoPrefab, synergyEffectParent);
+            uiAnimalSynergyBlock.Set(synergyEffect);
+            uiAnimalSynergyEffects.Add(uiAnimalSynergyBlock);
+        }
+    }
+
+    public bool ValidateBuildingData(Building newBuilding)
+    {
+        bool isSucceed = true;
+
+        foreach (var uiBuilding in uiBuildings)
+        {
+            if (uiBuilding.building.BuildingStat.Floor_Type != currentFloor.FloorStat.Floor_Type)
+                uiBuilding.gameObject.SetActive(false);
+
+            if (uiBuilding.building.BuildingStat.BuildingData.GetName().Equals(newBuilding.BuildingStat.BuildingData.GetName()))
+            {
+                uiBuilding.gameObject.SetActive(true);
+                isSucceed = false;
+            }
+        }
+
+        return isSucceed;
+    }
+
+    public bool ValidateFurnitureData(Furniture newFurniture)
+    {
+        bool isSucceed = true;
+        foreach (var uiFurniture in uiFurnitures)
+        {
+            if (uiFurniture.furniture.FurnitureStat.FurnitureData.Floor_Type != currentFloor.FloorStat.Floor_Type)
+                uiFurniture.gameObject.SetActive(false);
+
+            if (uiFurniture.furniture.FurnitureStat.FurnitureData.GetName().Equals(newFurniture.FurnitureStat.FurnitureData.GetName()))
+            {
+                uiFurniture.gameObject.SetActive(true);
+                isSucceed = false;
+            }
+        }
+        return isSucceed;
+    }
+
+    public void RefreshBuildingFurnitureData()
+    {
+
         foreach (var building in currentFloor.buildings)
         {
-            if(!building.BuildingStat.IsLock)
+            if (!building.BuildingStat.IsLock)
             {
-                if(ValidateBuildingData(building))
+                if (ValidateBuildingData(building))
                 {
                     UiBuildingInfo uiBuildingInfo = Instantiate(buildingInfoPrefab, buildingParent);
                     bool isSucceed = uiBuildingInfo.Set(building);
@@ -111,7 +164,7 @@ public class UiFloorInformation : MonoBehaviour
 
         foreach (var furniture in currentFloor.furnitures)
         {
-            if(ValidateFurnitureData(furniture))
+            if (ValidateFurnitureData(furniture))
             {
                 UiFurnitureInfo uiFurnitureInfo = Instantiate(furnitureInfoPrefab, furnitureParent);
                 bool isSucceed = uiFurnitureInfo.Set(furniture);
@@ -123,34 +176,18 @@ public class UiFloorInformation : MonoBehaviour
             }
         }
 
-        if (currentFloor.FloorStat.Floor_Num <= 2)
-            return;
-
-        foreach(var synergyEffect in currentFloor.synergyStats)
-        {
-            UiAnimalSynergyBlock uiAnimalSynergyBlock = Instantiate(synergyEffectInfoPrefab, synergyEffectParent);
-            uiAnimalSynergyBlock.Set(synergyEffect);
-            uiAnimalSynergyEffects.Add(uiAnimalSynergyBlock);
-        }
     }
 
-    public bool ValidateBuildingData(Building newBuilding)
+    public void SetActiveFalseAllBuildingFurniture()
     {
         foreach (var uiBuilding in uiBuildings)
         {
-            if (uiBuilding.building.BuildingStat.BuildingData.GetName().Equals(newBuilding.BuildingStat.BuildingData.GetName()))
-                return false;
+            uiBuilding.gameObject.SetActive(false);
         }
-        return true;
-    }
 
-    public bool ValidateFurnitureData(Furniture newFurniture)
-    {
         foreach (var uiFurniture in uiFurnitures)
         {
-            if (uiFurniture.furniture.FurnitureStat.FurnitureData.GetName().Equals(newFurniture.FurnitureStat.FurnitureData.GetName()))
-                return false;
+            uiFurniture.gameObject.SetActive(false);
         }
-        return true;
     }
 }

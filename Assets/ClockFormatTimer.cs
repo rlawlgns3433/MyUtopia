@@ -53,13 +53,17 @@ public class ClockFormatTimer : MonoBehaviour
         // 단골 게시판 SetPatronUi, 건물 업그레이드 SetBuildingUi, 시설물 업그레이드 SetFurnitureUi, 계층 업그레이드 SetFloorUi = > SetUi
         timerText.text = string.Format(formatTimer, 0, 0, 0);
 
-        IGrowable growable = gameObject.GetComponent<IGrowable>();
-        IUISetupable uISetupable = gameObject.GetComponent<IUISetupable>();
+        IGrowable growable = GetComponent<IGrowable>();
+        IUISetupable uISetupable = GetComponent<IUISetupable>();
 
         growable.LevelUp();
         //UiManager.Instance.floorInformationUi.SetFloorData();
-        uISetupable.SetFinishUi();
-        uISetupable.FinishUpgrade();
+        if(growable.IsUpgrading)
+        {
+            uISetupable.SetFinishUi();
+            uISetupable.FinishUpgrade();
+            growable.IsUpgrading = false;
+        }
         // 타이머 끝났을 때 작업
     }
 
