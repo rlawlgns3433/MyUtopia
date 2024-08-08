@@ -5,6 +5,18 @@ using UnityEngine;
 public class MissionManager : Singleton<MissionManager>
 {
     private Dictionary<int, int> missionManager = new Dictionary<int, int>();
+    private bool isSetUi = false;
+    public bool IsSetUi
+    {
+        get
+        {
+            return isSetUi;
+        }
+        set
+        {
+            isSetUi = value;
+        }
+    }
 
     public void AddMissionCount(int buildingId)
     {
@@ -31,7 +43,11 @@ public class MissionManager : Singleton<MissionManager>
     {
         if(missionManager.ContainsKey(id))
         {
-            missionManager[id] = value; 
+            missionManager[id] += value;
+        }
+        else
+        {
+            missionManager[id] = value;         
         }
     }
 }

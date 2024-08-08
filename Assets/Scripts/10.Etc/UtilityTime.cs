@@ -13,6 +13,7 @@ public class TimeData
     public string LastDaily { get; set; }
     public string LastWeekly { get; set; }
     public string LastMonthly { get; set; }
+    public string FirstLogInDaily { get; set; }
 }
 
 public class UtilityTime : MonoBehaviour
@@ -28,7 +29,8 @@ public class UtilityTime : MonoBehaviour
     public static bool monthlyMissionReset { get; private set; }
 
     private static TimeSpan serverTimeOffset;
-    public bool isLoadComplete = false;
+    public static bool isLoadComplete = false;
+    public static bool isFirstLoginToday { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void OnApplicationStart()
@@ -248,9 +250,24 @@ public class UtilityTime : MonoBehaviour
         {
             Debug.Log("Monthly Not reset.");
         }
+
+        DateTime enterTime = DateTime.Parse(previousTimeData.EnterTime);
+        isFirstLoginToday = previousTimeData.FirstLogInDaily == null || enterTime.Date > DateTime.Parse(previousTimeData.FirstLogInDaily).Date;
+
+        if (isFirstLoginToday)
+        {
+            previousTimeData.FirstLogInDaily = enterTime.ToString("o");
+            Debug.Log("First login today.");
+        }
+        else
+        {
+            Debug.Log("Not first login today.");
+        }
+
         isLoadComplete = true;
         SaveTimeDataSync(previousTimeData);
     }
+
 
     private bool IsDateDifferent(DateTime currentDate, DateTime lastDate, TimeSpan interval)
     {

@@ -21,6 +21,7 @@ public class QuitTimeConverter : JsonConverter<TimeData>
         timeData.LastDaily = jObj["lastDaily"]?.ToString();
         timeData.LastWeekly = jObj["lastWeekly"]?.ToString();
         timeData.LastMonthly = jObj["lastMonthly"]?.ToString();
+        timeData.FirstLogInDaily = jObj["FirstLogInDaily"]?.ToString();
         return timeData;
     }
 
@@ -37,6 +38,8 @@ public class QuitTimeConverter : JsonConverter<TimeData>
         writer.WriteValue(value.LastWeekly);
         writer.WritePropertyName("lastMonthly");
         writer.WriteValue(value.LastMonthly);
+        writer.WritePropertyName("FirstLogInDaily");
+        writer.WriteValue(value.FirstLogInDaily);
         writer.WriteEndObject();
     }
 }

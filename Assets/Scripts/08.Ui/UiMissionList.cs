@@ -1,5 +1,7 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -47,20 +49,49 @@ public class UiMissionList : MonoBehaviour
         missionType = MissionTypes.Daily;
     }
 
-    private void OnEnable()
+    private async void OnEnable()
     {
-        if (missionList.Count == 0)
+        await UniTask.WaitUntil(() => UtilityTime.isLoadComplete);
+        Debug.Log($"missionList UtilityTime===>isLoadComplete{UtilityTime.isLoadComplete}");
+        if(!MissionManager.Instance.IsSetUi)
         {
-            SetDailyMissionData();
+            if (UtilityTime.isFirstLoginToday)
+            {
+                //초기세팅
+                Debug.Log("일일미션 초기세팅");
+                SetDailyMissionData();
+                foreach (var mission in missionList)
+                {
+                    mission.UpDateMission();
+                }
+                CheckMissionPoint();
+                MissionManager.Instance.IsSetUi = true;
+            }
+            else
+            {
+                //로드
+                Debug.Log("저장된 일일미션 로드");
+                LoadGameData();
+                foreach (var mission in missionList)
+                {
+                    mission.UpDateMission();
+                }
+                SetSliderCheckPoint();
+                UpdateSlider();
+                CheckMissionPoint();
+                MissionManager.Instance.IsSetUi = true;
+            }
         }
         else
         {
+            Debug.Log("이미 미션을 생성하였습니다");
             foreach (var mission in missionList)
             {
                 mission.UpDateMission();
             }
             CheckMissionPoint();
         }
+
     }
 
     private void OnDisable()
@@ -183,6 +214,25 @@ public class UiMissionList : MonoBehaviour
         else if (missionType == MissionTypes.Monthly)
         {
             monthlyPoint += value;
+            missionSlider.value = monthlyPoint;
+            CheckMissionPoint();
+        }
+    }
+    
+    public void UpdateSlider()
+    {
+        if (missionType == MissionTypes.Daily)
+        {
+            missionSlider.value = dailyPoint;
+            CheckMissionPoint();
+        }
+        else if (missionType == MissionTypes.Weekly)
+        {
+            missionSlider.value = weeklyPoint;
+            CheckMissionPoint();
+        }
+        else if (missionType == MissionTypes.Monthly)
+        {
             missionSlider.value = monthlyPoint;
             CheckMissionPoint();
         }

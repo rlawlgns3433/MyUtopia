@@ -38,7 +38,18 @@ public class Floor : Subject, IGrowable
     protected CancellationTokenSource cts = new CancellationTokenSource();
     public BigNumber autoWorkload;
     public string floorName;
-
+    private float offLineWorkLoad;
+    public float OffLineWorkLoad
+    {
+        get
+        {
+            return offLineWorkLoad;
+        }
+        set
+        {
+            offLineWorkLoad = value;
+        }
+    }
     public Floor() { }
     public Floor(int floorId)
     {

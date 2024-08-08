@@ -74,6 +74,7 @@ public class StorageConduct : Storage
     private Sprite[] sprites;
     private Floor floor;
     private float offLineWorkLoad;
+    public bool isLoadComplete = false;
     public float OffLineWorkLoad
     {
         get
@@ -87,7 +88,7 @@ public class StorageConduct : Storage
     }
     private void Awake()
     {
-        clickEvent += OpenStorage;
+        //clickEvent += OpenStorage;
         RegisterClickable();
         if (!isAddQuitEvent)
         {
@@ -152,7 +153,10 @@ public class StorageConduct : Storage
                 }
                 else
                 {
-                    CurrArray[i] += tempValue - (tempOffLineValue / 2);
+                    if(tempValue - tempOffLineValue >= 0)
+                    {
+                        CurrArray[i] += tempValue - tempOffLineValue;
+                    }
                 }
                 if (CurrArray[i] != 0)
                 {
@@ -191,6 +195,7 @@ public class StorageConduct : Storage
             //활동량 못채울시 시간초기화 or 누적
         }
         sprites = new Sprite[particleSystems.Count];
+        isLoadComplete = true;
         await UniTask.Yield();
     }
 

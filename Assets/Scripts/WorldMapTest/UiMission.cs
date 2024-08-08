@@ -97,6 +97,7 @@ public class UiMission : MonoBehaviour
     public void SetSaveData(MissionSaveData saveData)
     {
         count = saveData.count;
+        missionData = DataTableMgr.GetMissionTable().Get(saveData.missionId);
         if(count >0)
         {
             MissionManager.Instance.SetMissionCount(missionData.Target_ID, count);

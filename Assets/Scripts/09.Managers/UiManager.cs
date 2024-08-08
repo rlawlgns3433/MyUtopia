@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.Composites;
+using UnityEngine.UI;
 
 public class UiManager : Singleton<UiManager>
 {
@@ -18,14 +20,17 @@ public class UiManager : Singleton<UiManager>
     public TestPanel testPanelUi;
     public UiPatronBoard patronBoardUi;
     public UiMissionList uiMission;
-
+    public StorageUi storageUi;
+    public GameObject bottom;
+    public Button changeButton;
     public bool isAnimalList = false;
     public bool isAnimalMove = false;
 
     private void Start()
     {
         if (PlayerPrefs.GetInt("TutorialCheck") == 1)
-            ShowMainUi();
+            ShowStorageUi();
+            //ShowMainUi();
         else
             ShowTutorialUi();
     }
@@ -67,6 +72,26 @@ public class UiManager : Singleton<UiManager>
         uiMission.gameObject.SetActive(false);
     }
 
+    public void ShowStorageUi()
+    {
+        uiCurrencies.gameObject.SetActive(true);
+        mainUi.gameObject.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
+        productsUi.gameObject.SetActive(false);
+        craftTableUi.gameObject.SetActive(false);
+        FloorManager.Instance.multiTouchOff = true;
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
+        invitationUi.gameObject.SetActive(false);
+        tutorialUi.gameObject.SetActive(false);
+        patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
+        storageUi.gameObject.SetActive(true);
+    }
+
     public void ShowMainUi()
     {
         uiCurrencies.gameObject.SetActive(true);
@@ -85,6 +110,7 @@ public class UiManager : Singleton<UiManager>
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
+        storageUi.gameObject.SetActive(false);
         OffAnimalList();
 
         // 모든 동물의 말풍선 켜기
@@ -317,5 +343,23 @@ public class UiManager : Singleton<UiManager>
     public void SetSwipeEnable()
     {
         FloorManager.Instance.multiTouchOff = false;
+    }
+
+    public void CoverBottom()
+    {
+        if(bottom.gameObject.activeSelf)
+        {
+            bottom.gameObject.SetActive(false);
+            var rotation = changeButton.gameObject.transform.rotation;
+            rotation.z = 180;
+            changeButton.gameObject.transform.rotation = rotation;
+        }
+        else
+        {
+            bottom.gameObject.SetActive(true);
+            var rotation = changeButton.gameObject.transform.rotation;
+            rotation.z = 0;
+            changeButton.gameObject.transform.rotation = rotation;
+        }
     }
 }
