@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Building : MonoBehaviour, IClickable
+public class Building : MonoBehaviour, IClickable, IGrowable
 {
     public float duration = 0f;
     public BigNumber accumWorkLoad;
@@ -12,6 +12,7 @@ public class Building : MonoBehaviour, IClickable
     public Vector3 clickedScale;
     public CurrencyType buildingType;
     public int buildingId;
+    public bool IsUpgrading { get; set; }
 
     private BuildingStat buildingStat;
     public BuildingStat BuildingStat
@@ -82,26 +83,38 @@ public class Building : MonoBehaviour, IClickable
         if(BuildingStat.Level == BuildingStat.Level_Max)
             return;
 
+        BuildingStat = new BuildingStat(BuildingStat.Building_ID + 100);
+        BuildingStat.IsLock = false;
+    }
+
+    public bool CheckCurrency()
+    {
         if (CurrencyManager.currency[CurrencyType.Coin] < BuildingStat.Level_Up_Coin_Value.ToBigNumber())
-            return;
+            return false;
 
         if (BuildingStat.Level_Up_Resource_1 != 0)
         {
             if (BuildingStat.Resource_1_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)BuildingStat.Level_Up_Resource_1])
-                return;
+                return false;
         }
 
         if (BuildingStat.Level_Up_Resource_2 != 0)
         {
             if (BuildingStat.Resource_2_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)BuildingStat.Level_Up_Resource_2])
-                return;
+                return false;
         }
 
         if (BuildingStat.Level_Up_Resource_3 != 0)
         {
             if (BuildingStat.Resource_3_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)BuildingStat.Level_Up_Resource_3])
-                return;
+                return false;
         }
+
+        return true;
+    }
+
+    public void SpendCurrency()
+    {
 
         CurrencyManager.currency[CurrencyType.Coin] -= BuildingStat.Level_Up_Coin_Value.ToBigNumber();
 
@@ -119,8 +132,5 @@ public class Building : MonoBehaviour, IClickable
         {
             CurrencyManager.currency[(CurrencyType)BuildingStat.Level_Up_Resource_3] -= BuildingStat.Resource_3_Value.ToBigNumber();
         }
-
-        BuildingStat = new BuildingStat(BuildingStat.Building_ID + 100);
-        BuildingStat.IsLock = false;
     }
 }

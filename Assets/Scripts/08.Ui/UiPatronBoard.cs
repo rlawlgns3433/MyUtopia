@@ -3,7 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class UiPatronBoard : MonoBehaviour
+public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
 {
     public List<UiRequestInfo> requests = new List<UiRequestInfo>();
     public UiRequestInfo requestPrefab;
@@ -22,17 +22,25 @@ public class UiPatronBoard : MonoBehaviour
             return storageProduct;
         }
     }
+    public ClockFormatTimer clockFormatTimer;
+    public bool IsUpgrading { get => furniture.IsUpgrading; set => furniture.IsUpgrading = value; }
 
-    public void OnEnable()
+    private void Start()
     {
-        foreach(var request in requests)
-        {
-            Destroy(request.gameObject);
-        }
+        clockFormatTimer.SetDayTimer();
+        clockFormatTimer.StartClockTimer();
+        SetFinishUi();
+    }
 
-        requests.Clear();
+    public void FinishUpgrade()
+    {
+        clockFormatTimer.timerText.gameObject.SetActive(false);
+    }
 
+    public void SetFinishUi()
+    {
         SetRequests();
+        //ResetTimer();
     }
 
     public void SetRequests()
@@ -62,5 +70,20 @@ public class UiPatronBoard : MonoBehaviour
         {
             request.Refresh();
         }
+    }
+
+    public void LevelUp()
+    {
+        furniture.LevelUp();
+    }
+
+    private void ResetTimer()
+    {
+        clockFormatTimer.RestartTimer();
+    }
+
+    public void SetStartUi()
+    {
+        clockFormatTimer.timerText.gameObject.SetActive(true);
     }
 }

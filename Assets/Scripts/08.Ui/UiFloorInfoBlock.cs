@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
-public class UiFloorInfoBlock : MonoBehaviour
+public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 {
     private static readonly string lvFormat = "Lv.{0} / Lv.{1}";
     public List<Image> imageProductions = new List<Image>();
@@ -16,6 +16,27 @@ public class UiFloorInfoBlock : MonoBehaviour
     public Button buttonLevelUp;
     public Floor floor;
     public Transform contents;
+    public ClockFormatTimer clockFormatTimer;
+
+    public bool IsUpgrading { get => floor.IsUpgrading; set => floor.IsUpgrading = value; }
+
+    public void FinishUpgrade()
+    {
+        clockFormatTimer.timerText.gameObject.SetActive(false);
+    }
+
+    public void LevelUp()
+    {
+        foreach(var floor in FloorManager.Instance.floors.Values)
+        {
+            if(floor.IsUpgrading)
+            {
+                floor.LevelUp();
+                this.floor = floor;
+                return;
+            }
+        }
+    }
 
     public bool Set(Floor floor)
     {
@@ -41,15 +62,29 @@ public class UiFloorInfoBlock : MonoBehaviour
             return false;
         buttonLevelUp.onClick.RemoveAllListeners();
 
-        buttonLevelUp.onClick.AddListener(floor.LevelUp);
-        buttonLevelUp.onClick.AddListener(UiManager.Instance.floorInformationUi.SetFloorData);
-        SetFloorUi();
+        buttonLevelUp.onClick.AddListener(SetStartUi);
+        buttonLevelUp.onClick.AddListener(clockFormatTimer.StartClockTimer);
+
+        if(IsUpgrading)
+        {
+            clockFormatTimer.timerText.gameObject.SetActive(true);
+        }
+        else
+        {
+            SetFinishUi();
+            FinishUpgrade();
+        }
 
         return true;
     }
 
-    public async void SetFloorUi()
+    public async void SetFinishUi()
     {
+        UiManager.Instance.floorInformationUi.RefreshBuildingFurnitureData();
+
+        if (FloorManager.Instance.GetCurrentFloor() != floor)
+            return;
+
         textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
 
         for (int i = 0; i < floor.buildings.Count; i++)
@@ -58,16 +93,10 @@ public class UiFloorInfoBlock : MonoBehaviour
             if (building.BuildingStat.IsLock)
                 continue;
 
-            imageProductions[i].sprite = await building.BuildingStat.BuildingData.GetProfile(); // 빌딩 이미지 추가 예정
+            imageProductions[i].sprite = await building.BuildingStat.BuildingData.GetProfile();
             imageProductions[i].type = Image.Type.Sliced;
         }
 
-        if(floor.FloorStat.Grade == floor.FloorStat.Grade_Max)
-        {
-            textMax.gameObject.SetActive(true);
-            return;
-        }
-        textMax.gameObject.SetActive(false);
 
         if (floor.FloorStat.Level_Up_Coin_Value != "0")
         {
@@ -105,6 +134,71 @@ public class UiFloorInfoBlock : MonoBehaviour
             uiUpgradeCurrencies.Add(currency);
         }
 
+
+        if (floor.FloorStat.Grade == floor.FloorStat.Grade_Max)
+        {
+            textMax.gameObject.SetActive(true);
+            return;
+        }
+        textMax.gameObject.SetActive(false);
+
         //textDescription.text = 건물 설명
+    }
+
+    public void SetStartUi()
+    {
+        foreach (var floor in FloorManager.Instance.floors.Values)
+        {
+            if (floor.IsUpgrading)
+            {
+                clockFormatTimer.canStartTimer = false;
+                return;
+            }
+        }
+
+        if(!CheckUpgradeCondition())
+        {
+            // 모든 건물이 레벨을 충족하지 못함
+        }
+
+        if (!floor.CheckCurrency())
+        {
+            clockFormatTimer.canStartTimer = false;
+            return;
+        }
+
+        clockFormatTimer.canStartTimer = true;
+        IsUpgrading = true;
+
+        floor.SpendCurrency();
+
+        clockFormatTimer.timerText.gameObject.SetActive(true);
+
+        clockFormatTimer.SetTimer(/*building.BuildingStat.Level_Up_Time*/10);
+
+        foreach (var currency in uiUpgradeCurrencies)
+        {
+            Destroy(currency.gameObject);
+        }
+        uiUpgradeCurrencies.Clear();
+    }
+
+    public bool CheckUpgradeCondition()
+    {
+        // 계층 업그레이드 조건 추가
+        // 계층의 락 해제된 건물들이 Grade_Level_Max
+
+        foreach(var building in floor.buildings)
+        {
+            if (building.BuildingStat.IsLock)
+                continue;
+
+            if(building.BuildingStat.Level < /*floor.FloorStat.Grade_Level_Max*/ building.BuildingStat.Level_Max)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Floor : Subject, IGrowable
@@ -10,6 +11,8 @@ public class Floor : Subject, IGrowable
     public List<Furniture> furnitures = new List<Furniture>();
     public List<Observer> runtimeObservers = new List<Observer>();
     public List<SynergyStat> synergyStats = new List<SynergyStat>();
+
+    public bool IsUpgrading { get; set; }
 
     [SerializeField]
     protected int floorId;
@@ -88,30 +91,41 @@ public class Floor : Subject, IGrowable
         if (FloorStat.Grade == FloorStat.Grade_Max)
             return;
 
+        FloorStat = new FloorStat(floorStat.Floor_ID + 1);
+    }
+
+    public bool CheckCurrency()
+    {
         // 필요 재화가 있는지 확인
         if (FloorStat.Level_Up_Coin_Value.ToBigNumber() > CurrencyManager.currency[CurrencyType.Coin])
-            return;
+            return false;
+
         if (FloorStat.Level_Up_Resource_1 != 0)
         {
             if (FloorStat.Resource_1_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)FloorStat.Level_Up_Resource_1])
-                return;
+                return false;
         }
 
         if (FloorStat.Level_Up_Resource_2 != 0)
         {
             if (FloorStat.Resource_2_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)FloorStat.Level_Up_Resource_2])
-                return;
+                return false;
         }
 
         if (FloorStat.Level_Up_Resource_3 != 0)
         {
             if (FloorStat.Resource_3_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)FloorStat.Level_Up_Resource_3])
-                return;
+                return false;
         }
 
+        return true;
+    }
+
+    public void SpendCurrency()
+    {
         CurrencyManager.currency[CurrencyType.Coin] -= FloorStat.Level_Up_Coin_Value.ToBigNumber();
 
-        if(FloorStat.Level_Up_Resource_1 != 0)
+        if (FloorStat.Level_Up_Resource_1 != 0)
         {
             CurrencyManager.currency[(CurrencyType)FloorStat.Level_Up_Resource_1] -= FloorStat.Resource_1_Value.ToBigNumber();
         }
@@ -125,8 +139,6 @@ public class Floor : Subject, IGrowable
         {
             CurrencyManager.currency[(CurrencyType)FloorStat.Level_Up_Resource_3] -= FloorStat.Resource_3_Value.ToBigNumber();
         }
-
-        FloorStat = new FloorStat(floorStat.Floor_ID + 1);
     }
 
     public virtual void RemoveAnimal(Animal animal)
