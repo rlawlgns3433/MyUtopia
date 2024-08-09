@@ -1,12 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CraftingBuilding : Building
 {
     public bool isCrafting = false;
-    public int amount = 1;
-    public bool autoCrafting = false;
-    public RecipeStat recipeStat;
+    public RecipeStat currentRecipeStat;
+    public Queue<RecipeStat> recipeStatList = new Queue<RecipeStat>();
     public Slider craftingSlider;
     protected override void OnEnable()
     {
@@ -34,7 +34,7 @@ public class CraftingBuilding : Building
     public void SetSlider()
     {
         craftingSlider.gameObject.SetActive(true);
-        craftingSlider.maxValue = recipeStat.Workload;
+        craftingSlider.maxValue = currentRecipeStat.Workload;
         craftingSlider.value = craftingSlider.minValue;
     }
 
@@ -49,14 +49,14 @@ public class CraftingBuilding : Building
         base.OnPointerClick(eventData);
     }
 
-    public void Set(RecipeStat recipeStat, bool autoCraft, int amount = 1)
+    public void Set(RecipeStat recipeStat)
     {
-        if(recipeStat == null)
+        if (recipeStat == null)
             return;
 
-        this.autoCrafting = autoCraft;
-        this.amount = amount;
-        this.recipeStat = recipeStat;
+        if(currentRecipeStat == null)
+            currentRecipeStat = recipeStat;
+
         isCrafting = true;
 
         SetSlider();
@@ -64,19 +64,19 @@ public class CraftingBuilding : Building
 
     public void UseResources()
     {
-        if (recipeStat.Resource_1 != 0)
+        if (currentRecipeStat.Resource_1 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1] -= recipeStat.Resource_1_Value.ToBigNumber();
+            CurrencyManager.currency[(CurrencyType)currentRecipeStat.Resource_1] -= currentRecipeStat.Resource_1_Value.ToBigNumber();
         }
 
-        if (recipeStat.Resource_2 != 0)
+        if (currentRecipeStat.Resource_2 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2] -= recipeStat.Resource_2_Value.ToBigNumber();
+            CurrencyManager.currency[(CurrencyType)currentRecipeStat.Resource_2] -= currentRecipeStat.Resource_2_Value.ToBigNumber();
         }
 
-        if (recipeStat.Resource_3 != 0)
+        if (currentRecipeStat.Resource_3 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3] -= recipeStat.Resource_3_Value.ToBigNumber();
+            CurrencyManager.currency[(CurrencyType)currentRecipeStat.Resource_3] -= currentRecipeStat.Resource_3_Value.ToBigNumber();
         }
     }
 }

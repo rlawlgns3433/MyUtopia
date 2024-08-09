@@ -4,29 +4,27 @@ using UnityEngine;
 
 public class UiCraftingList : MonoBehaviour
 {
-    public UiCraftingSlot slotPrefab;
-    public List<UiCraftingSlot> craftingSlots = new List<UiCraftingSlot>();
-    public bool autoCraft = false;
+    //public UiCraftingSlot slotPrefab;
+    //public List<UiCraftingSlot> craftingSlots = new List<UiCraftingSlot>();
 
-    private void OnDisable()
-    {
-        for (int i = 0; i < craftingSlots.Count; ++i)
-        {
-            Destroy(craftingSlots[i]);
-        }
-        craftingSlots.Clear();
-        autoCraft = false;
-    }
+    //private void OnDisable()
+    //{
+    //    for (int i = 0; i < craftingSlots.Count; ++i)
+    //    {
+    //        Destroy(craftingSlots[i]);
+    //    }
+    //    craftingSlots.Clear();
+    //}
 
-    public UiCraftingSlot Add(RecipeStat recipeStat, int amount = 1, bool autoCraft = false) // 레시피로 변경
-    {
-        //if(autoCraft) // 이상
-        //    return null;
+    //public UiCraftingSlot Add(RecipeStat recipeStat, int amount = 1) // 레시피로 변경
+    //{
+    //    //UiCraftTable과 slot의 대기큐
 
-        var slot = Instantiate(slotPrefab, transform);
-        slot.SetData(recipeStat, autoCraft, amount);
-        craftingSlots.Add(slot);
+    //    var slot = Instantiate(slotPrefab, transform);
+    //    slot.SetData(recipeStat, amount);
+    //    craftingSlots.Add(slot);
 
-        return slot;
-    }
+    //    return slot;
+    //}
+
 }

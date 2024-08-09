@@ -1,6 +1,4 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -74,50 +72,42 @@ public class CraftingFloor : Floor
                     if ((storage as StorageProduct).IsFull)
                     {
                         (b as CraftingBuilding).isCrafting = false; // 力累 场
-                        (b as CraftingBuilding).autoCrafting = false;
                         continue;
                     }
 
                     b.accumWorkLoad += autoWorkload;
 
-                    while (b.accumWorkLoad >= (b as CraftingBuilding).recipeStat.Workload && ((b as CraftingBuilding).autoCrafting || (b as CraftingBuilding).amount >= 1))
+                    while ((b as CraftingBuilding).currentRecipeStat != null && b.accumWorkLoad >= (b as CraftingBuilding).currentRecipeStat.Workload)
                     {
                         if ((storage as StorageProduct).IsFull)
                         {
                             (b as CraftingBuilding).isCrafting = false; // 力累 场
-                            (b as CraftingBuilding).amount = 0;
                             break;
                         }
-
                         // 积己
-                        (storage as StorageProduct).IncreaseProduct((b as CraftingBuilding).recipeStat.Product_ID);
+                        (storage as StorageProduct).IncreaseProduct((b as CraftingBuilding).currentRecipeStat.Product_ID);
+                        
+                        //UiManager.Instance.craftTableUi.Refresh();
 
-                        (b as CraftingBuilding).amount--;
-                        b.accumWorkLoad = BigNumber.Zero;
-                        if ((b as CraftingBuilding).amount != 0)
+                        (b as CraftingBuilding).CancelCrafting();
+
+                        if((b as CraftingBuilding).recipeStatList.Count > 0)
                         {
+                            (b as CraftingBuilding).currentRecipeStat = null;
+                            (b as CraftingBuilding).Set((b as CraftingBuilding).recipeStatList.Peek());
+                            //UiManager.Instance.craftTableUi.uiCraftingSlot.SetData((b as CraftingBuilding).recipeStatList.Peek());
+                            UiManager.Instance.craftTableUi.RefreshAfterCrafting();
                             (b as CraftingBuilding).SetSlider();
                             break;
                         }
 
-                        if ((b as CraftingBuilding).autoCrafting && !(storage as StorageProduct).IsFull)
-                        {
-
-                            (b as CraftingBuilding).SetSlider();
-                            (b as CraftingBuilding).amount = 1;
-                            (b as CraftingBuilding).UseResources();
-
-                            break;
-                        }
-
-                        (b as CraftingBuilding).autoCrafting = false;
                         (b as CraftingBuilding).isCrafting = false; // 力累 场
+                        UiManager.Instance.craftTableUi.Refresh();
                     }
 
                     if ((storage as StorageProduct).IsFull)
                     {
                         (b as CraftingBuilding).isCrafting = false; // 力累 场
-                        (b as CraftingBuilding).autoCrafting = false;
                         continue;
                     }
                 }
