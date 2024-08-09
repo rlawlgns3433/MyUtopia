@@ -88,8 +88,6 @@ public class StorageConduct : Storage
     }
     private void Awake()
     {
-        //clickEvent += OpenStorage;
-        RegisterClickable();
         if (!isAddQuitEvent)
         {
             Application.quitting -= SaveDataOnQuit;
@@ -128,7 +126,7 @@ public class StorageConduct : Storage
         }
         floor = FloorManager.Instance.GetFloor($"B{FurnitureStat.FurnitureData.Floor_Type}");
         await UniTask.WaitUntil(() => floor.buildings.Count > 0 && floor.buildings[0] != null);
-        bool isEmpty = true;
+        //bool isEmpty = true;
         var offLineTime = (int)offLineWorkLoad / 3;//int
         if(offLineTime >= offLineSeconds)
         {
@@ -158,43 +156,43 @@ public class StorageConduct : Storage
                         CurrArray[i] += tempValue - tempOffLineValue;
                     }
                 }
-                if (CurrArray[i] != 0)
-                {
-                    isEmpty = false;
-                }
+                //if (CurrArray[i] != 0)
+                //{
+                //    isEmpty = false;
+                //}
             }
             else
             {
                 CurrArray[i] += BigNumber.Zero;
             }
         }
-        currentValue.gameObject.SetActive(true);
-        if (currentTotalSeconds > 0)
-        {
-            if (currentValue == null)
-            {
-                return;
-            }
+        //currentValue.gameObject.SetActive(true);
+        //if (currentTotalSeconds > 0)
+        //{
+        //    if (currentValue == null)
+        //    {
+        //        return;
+        //    }
 
-            storageValue = currentValue.GetComponent<StorageValue>();
-            if (storageValue == null)
-            {
-                return;
-            }
-            currentValue.value = Mathf.Clamp01((float)currentTotalSeconds / maxSeconds);
-            await UniTask.WaitUntil(() => currentValue.gameObject.activeSelf);
-            storageValue.TotalValue = currentTotalSeconds;
-            if (storageValue.TotalValue <= 0 || workLoadValue == 0)
-            {
-                currentValue.gameObject.SetActive(false);
-            }
-        }
-        if (isEmpty)
-        {
-            currentValue.gameObject.SetActive(false);
-            //활동량 못채울시 시간초기화 or 누적
-        }
-        sprites = new Sprite[particleSystems.Count];
+        //    storageValue = currentValue.GetComponent<StorageValue>();
+        //    if (storageValue == null)
+        //    {
+        //        return;
+        //    }
+        //    currentValue.value = Mathf.Clamp01((float)currentTotalSeconds / maxSeconds);
+        //    await UniTask.WaitUntil(() => currentValue.gameObject.activeSelf);
+        //    storageValue.TotalValue = currentTotalSeconds;
+        //    if (storageValue.TotalValue <= 0 || workLoadValue == 0)
+        //    {
+        //        currentValue.gameObject.SetActive(false);
+        //    }
+        //}
+        //if (isEmpty)
+        //{
+        //    currentValue.gameObject.SetActive(false);
+        //    //활동량 못채울시 시간초기화 or 누적
+        //}
+        //sprites = new Sprite[particleSystems.Count];
         isLoadComplete = true;
         await UniTask.Yield();
     }
@@ -231,7 +229,6 @@ public class StorageConduct : Storage
             {
                 currentTotalSeconds = data.TotalOfflineTime;
             }
-            Debug.Log("Loaded data on start: " + json);
         }
         else
         {
