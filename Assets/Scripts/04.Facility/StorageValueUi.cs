@@ -25,7 +25,7 @@ public class StorageValueUi : MonoBehaviour
         currentValue = new BigNumber[storage.CurrArray.Length];
         currentWorkLoads = new BigNumber[storage.CurrArray.Length];
         currencyTypes = storage.currencyTypes;
-        maxValue = storage.MaxSeconds;
+        //maxValue = storage.MaxSeconds;
         totalValue = storage.CurrentTotalSeconds;
         var maxValueText = ConvertSecondsToHours(maxValue);
         var totalValueText = ConvertSecondsToHours(totalValue);

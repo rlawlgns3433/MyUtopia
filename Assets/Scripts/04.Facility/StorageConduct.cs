@@ -53,28 +53,28 @@ public class StorageConduct : Storage
             values = value;
         }
     }
-    private int maxSeconds;
-    public int MaxSeconds
-    {
-        get
-        {
-            return maxSeconds;
-        }
-        private set
-        {
-            maxSeconds = value;
-        }
-    }
+    //private int maxSeconds;
+    //public int MaxSeconds
+    //{
+    //    get
+    //    {
+    //        return maxSeconds;
+    //    }
+    //    private set
+    //    {
+    //        maxSeconds = value;
+    //    }
+    //}
     private int offLineSeconds;
 
-    private StorageValue storageValue;
     private bool isAddQuitEvent = false;
     private BigNumber workLoadValue;
-    private int count = 0;
-    private Sprite[] sprites;
     private Floor floor;
     private float offLineWorkLoad;
     public bool isLoadComplete = false;
+    private StorageValue storageValue;
+    private int count = 0;
+    private Sprite[] sprites;
     public float OffLineWorkLoad
     {
         get
@@ -100,30 +100,31 @@ public class StorageConduct : Storage
     {
         await UniWaitFurnitureTable();
         await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
-        MaxSeconds = FurnitureStat.Effect_Value;
+        //MaxSeconds = FurnitureStat.Effect_Value;
         CurrArray = new BigNumber[currencyTypes.Count];
         values = new BigNumber[currencyTypes.Count];
         LoadDataOnStart();
-        if (MaxSeconds == 0)
-        {
-            return;
-        }
+        //if (MaxSeconds == 0)
+        //{
+        //    return;
+        //}
         currentTotalSeconds += UtilityTime.Seconds;
-        if (maxSeconds > currentTotalSeconds)
-        {
-            offLineSeconds = UtilityTime.Seconds / 3;
-        }
-        else
-        {
-            var overSeconds = currentTotalSeconds - maxSeconds;
-            var overTime = UtilityTime.Seconds - overSeconds;
-            offLineSeconds = overTime / 3;
-            if (offLineSeconds <= 0)
-            {
-                offLineSeconds = 0;
-            }
-            currentTotalSeconds = maxSeconds;
-        }
+        //if (maxSeconds > currentTotalSeconds)
+        //{
+        //    offLineSeconds = UtilityTime.Seconds / 3;
+        //}
+        //else
+        //{
+        //    var overSeconds = currentTotalSeconds - maxSeconds;
+        //    var overTime = UtilityTime.Seconds - overSeconds;
+        //    offLineSeconds = overTime / 3;
+        //    if (offLineSeconds <= 0)
+        //    {
+        //        offLineSeconds = 0;
+        //    }
+        //    currentTotalSeconds = maxSeconds;
+        //}
+        offLineSeconds = UtilityTime.Seconds / 3;
         floor = FloorManager.Instance.GetFloor($"B{FurnitureStat.FurnitureData.Floor_Type}");
         await UniTask.WaitUntil(() => floor.buildings.Count > 0 && floor.buildings[0] != null);
         //bool isEmpty = true;

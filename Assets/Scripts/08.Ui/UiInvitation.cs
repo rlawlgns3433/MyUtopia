@@ -120,6 +120,7 @@ public class UiInvitation : MonoBehaviour
         ps.Play();
         Destroy(balloon);
         balloons.Remove(balloon);
+        await UniTask.Delay(500);
         GameManager.Instance.GetAnimalManager().Create(target, floor, id, 0);
         CurrencyManager.currency[(CurrencyType)invitationData.Level_Up_Coin_ID] -= value;
         FloorManager.Instance.IsCreating = false;

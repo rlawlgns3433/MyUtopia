@@ -99,14 +99,14 @@ public class UiMissionList : MonoBehaviour
         SaveGameData();
         //юс╫ц
     }
-    //private void OnApplicationPause(bool pauseStatus)
-    //{
-    //    if (pauseStatus)
-    //    {
-    //        Debug.Log("MissionSave....");
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            SaveGameData();
 
-    //    }
-    //}
+        }
+    }
 
     private void SetDailyMissionData()
     {
