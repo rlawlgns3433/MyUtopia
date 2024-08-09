@@ -108,6 +108,12 @@ public class UiRecipeSlot : MonoBehaviour
             return;
         }
 
+        if(storageProduct.Count + UiManager.Instance.craftTableUi.craftingBuilding.recipeStatList.Count + 1 >= storageProduct.FurnitureStat.Effect_Value)
+        {
+            Debug.Log("리스트가 가득 찼습니다.");
+            return;
+        }
+
         /*
          1. 제작중 UI를 생성 & 추가 o
          2. 제작중 UI에 정보를 출력

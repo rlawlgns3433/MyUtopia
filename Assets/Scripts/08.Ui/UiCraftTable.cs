@@ -119,7 +119,7 @@ public class UiCraftTable : MonoBehaviour
         {
             Queue<RecipeStat> temp = new Queue<RecipeStat>(craftingBuilding.recipeStatList);
 
-            uiCraftingSlot.recipeCurrentCrafting = craftingBuilding.currentRecipeStat;
+            uiCraftingSlot.recipeCurrentCrafting = craftingBuilding.CurrentRecipeStat;
             uiCraftingSlot.imageCurrentCrafting.sprite = await uiCraftingSlot.recipeCurrentCrafting.RecipeData.GetProduct().GetImage();
             uiCraftingSlot.SetData(uiCraftingSlot.recipeCurrentCrafting);
 

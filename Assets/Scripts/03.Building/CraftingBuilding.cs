@@ -1,11 +1,28 @@
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
-
 public class CraftingBuilding : Building
 {
     public bool isCrafting = false;
-    public RecipeStat currentRecipeStat;
+    private RecipeStat currentRecipeStat;
+    public RecipeStat CurrentRecipeStat
+    {
+        get
+        {
+            return currentRecipeStat;
+        }
+        set
+        {
+            currentRecipeStat = value;
+            if(currentRecipeStat == null)
+                UiManager.Instance.craftTableUi.uiCraftingSlot.buttonAccelerate.interactable = false;
+            else
+                UiManager.Instance.craftTableUi.uiCraftingSlot.buttonAccelerate.interactable = true;
+        }
+    }
     public Queue<RecipeStat> recipeStatList = new Queue<RecipeStat>();
     public Slider craftingSlider;
     protected override void OnEnable()
@@ -40,6 +57,19 @@ public class CraftingBuilding : Building
 
     public void CancelCrafting()
     {
+        UiManager.Instance.craftTableUi.uiCraftingSlot.recipeCurrentCrafting = null;
+
+        if (recipeStatList.Count <= 0 && currentRecipeStat == null)
+        {
+            AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>("Gift");
+            handle.Completed += (AsyncOperationHandle<Sprite> obj) =>
+            {
+                UiManager.Instance.craftTableUi.uiCraftingSlot.imageCurrentCrafting.sprite = obj.Result;
+            };
+
+            UiManager.Instance.craftTableUi.uiCraftingSlot.textCurrentCraftingName.text = "¿Ã∏ß";
+        }
+
         craftingSlider.gameObject.SetActive(false);
         accumWorkLoad = BigNumber.Zero;
     }
@@ -55,7 +85,7 @@ public class CraftingBuilding : Building
             return;
 
         if(currentRecipeStat == null)
-            currentRecipeStat = recipeStat;
+            CurrentRecipeStat = recipeStat;
 
         isCrafting = true;
 

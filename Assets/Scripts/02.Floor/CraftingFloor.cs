@@ -77,7 +77,7 @@ public class CraftingFloor : Floor
 
                     b.accumWorkLoad += autoWorkload;
 
-                    while ((b as CraftingBuilding).currentRecipeStat != null && b.accumWorkLoad >= (b as CraftingBuilding).currentRecipeStat.Workload)
+                    while ((b as CraftingBuilding).CurrentRecipeStat != null && b.accumWorkLoad >= (b as CraftingBuilding).CurrentRecipeStat.Workload)
                     {
                         if ((storage as StorageProduct).IsFull)
                         {
@@ -85,22 +85,21 @@ public class CraftingFloor : Floor
                             break;
                         }
                         // 积己
-                        (storage as StorageProduct).IncreaseProduct((b as CraftingBuilding).currentRecipeStat.Product_ID);
+                        (storage as StorageProduct).IncreaseProduct((b as CraftingBuilding).CurrentRecipeStat.Product_ID);
                         
-                        //UiManager.Instance.craftTableUi.Refresh();
 
                         (b as CraftingBuilding).CancelCrafting();
 
                         if((b as CraftingBuilding).recipeStatList.Count > 0)
                         {
-                            (b as CraftingBuilding).currentRecipeStat = null;
+                            (b as CraftingBuilding).CurrentRecipeStat = null;
                             (b as CraftingBuilding).Set((b as CraftingBuilding).recipeStatList.Peek());
-                            //UiManager.Instance.craftTableUi.uiCraftingSlot.SetData((b as CraftingBuilding).recipeStatList.Peek());
                             UiManager.Instance.craftTableUi.RefreshAfterCrafting();
                             (b as CraftingBuilding).SetSlider();
                             break;
                         }
 
+                        (b as CraftingBuilding).CurrentRecipeStat = null;
                         (b as CraftingBuilding).isCrafting = false; // 力累 场
                         UiManager.Instance.craftTableUi.Refresh();
                     }

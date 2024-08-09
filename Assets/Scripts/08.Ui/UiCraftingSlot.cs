@@ -64,38 +64,41 @@ public class UiCraftingSlot : Observer
         floor.AttachObserver(this);
     }
 
+    public void OnClickAccelerate()
+    {
+        UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad += 5000; // 터치 업무량 추가 적용 필요
+        sliderProcess.value = UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad.ToFloat();
+        textCurrentRemainProcess.text = sliderProcess.value.ToString();
+
+        var building = UiManager.Instance.craftTableUi.craftingBuilding;
+
+        if (sliderProcess.value >= sliderProcess.maxValue)
+        {
+            (FloorManager.Instance.GetFloor("B3").storage as StorageProduct).IncreaseProduct(building.CurrentRecipeStat.Product_ID);
+
+            if (building.recipeStatList.Count > 0)
+            {
+                building.CurrentRecipeStat = null;
+                building.Set(building.recipeStatList.Peek());
+                UiManager.Instance.craftTableUi.RefreshAfterCrafting();
+                building.CancelCrafting();
+                building.SetSlider();
+            }
+            else
+            {
+                building.CurrentRecipeStat = null;
+                building.CancelCrafting();
+                building.isCrafting = false; // 제작 끝
+            }
+        }
+    }
+
     public override void Notify(Subject subject)
     {
         sliderProcess.value = UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad.ToFloat();
         textCurrentRemainProcess.text = sliderProcess.value.ToString();
-        //if (sliderProcess.value == 0f)
-        //{
-        //    if ((FloorManager.Instance.GetFloor("B3").storage as StorageProduct).IsFull)
-        //    {
-        //        if(amount-- >= 1)
-        //        {
-        //            ReturnResources();
-        //        }
-        //        amount = 0;
-        //    }
-
-        //    amount--;
-
-        //    ReturnRecipe();
-        //}
     }
 
-    //public void ReturnRecipe()
-    //{
-    //    if (amount < 1)
-    //    {
-    //        var uiCraftingTable = UiManager.Instance.craftTableUi;
-    //        UiManager.Instance.craftTableUi.craftingBuilding.isCrafting = false;
-    //        UiManager.Instance.craftTableUi.craftingBuilding.CancelCrafting();
-            
-    //        return;
-    //    }
-    //}
 
     public void ReturnResources()
     {

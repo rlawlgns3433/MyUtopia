@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 public class UiWaitingSlot : MonoBehaviour
 {
     public RecipeStat recipeStat;
+    public Sprite spriteNull;
     public Image imageWaiting;
 
     public async void SetData(RecipeStat recipeStat)
@@ -14,7 +17,7 @@ public class UiWaitingSlot : MonoBehaviour
 
     public void ClearData()
     {
-        this.recipeStat = null;
-        imageWaiting.sprite = null;
+        recipeStat = null;
+        imageWaiting.sprite = spriteNull;
     }
 }
