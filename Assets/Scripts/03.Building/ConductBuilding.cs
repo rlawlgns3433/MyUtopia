@@ -25,27 +25,26 @@ public class ConductBuilding : Building
     {
         switch (buildingType)
         {
-            case CurrencyType.Coin:
-            case CurrencyType.CopperStone:
-            case CurrencyType.SilverStone:
-            case CurrencyType.GoldStone:
+            case CurrencyProductType.CopperStone:
+            case CurrencyProductType.SilverStone:
+            case CurrencyProductType.GoldStone:
                 if (BuildingStat.IsLock)
                     return;
 
                 var touchProduce = new BigNumber(BuildingStat.Touch_Produce);
-                CurrencyManager.currency[buildingType] += touchProduce;
+                CurrencyManager.product[buildingType] += touchProduce;
                 this.touchProduce = touchProduce; // 플로팅 텍스트용
                 break;
-            case CurrencyType.CopperIngot:
-            case CurrencyType.SilverIngot:
-            case CurrencyType.GoldIngot:
+            case CurrencyProductType.CopperIngot:
+            case CurrencyProductType.SilverIngot:
+            case CurrencyProductType.GoldIngot:
                 if (BuildingStat.IsLock)
                     return;
-                if (CurrencyManager.currency[(CurrencyType)BuildingStat.Materials_Type] > BuildingStat.Conversion_rate)
+                if (CurrencyManager.product[(CurrencyProductType)BuildingStat.Materials_Type] > BuildingStat.Conversion_rate)
                 {
-                    CurrencyManager.currency[buildingType] += 1;
+                    CurrencyManager.product[buildingType] += 1;
                     this.touchProduce = new BigNumber(1);
-                    CurrencyManager.currency[(CurrencyType)BuildingStat.Materials_Type] -= BuildingStat.Conversion_rate;
+                    CurrencyManager.product[(CurrencyProductType)BuildingStat.Materials_Type] -= BuildingStat.Conversion_rate;
                 }
                 break;
         }

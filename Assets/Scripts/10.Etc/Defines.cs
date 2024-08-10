@@ -80,18 +80,21 @@ public enum CurrencyType
 {
     Diamond = 90000101,
     Coin = 91050201,
-    CopperStone = 91050301,
-    SilverStone = 91050302,
-    GoldStone = 91050303,    
-    CopperIngot = 91040401,
-    SilverIngot = 91040402,
-    GoldIngot = 91040403,
-    Craft = 0xFFFFFFF,
     /*
     건물 테이블
 	생산 재화타입이 7(특산물)인 경우
 	레시피 테이블 [해금레벨] <= [건물 레벨] 레시피를 모두 가져와 선택할 수 있게 함
      */
+}
+
+public enum CurrencyProductType
+{
+    CopperStone = 91050301,
+    SilverStone = 91050302,
+    GoldStone = 91050303,
+    CopperIngot = 91040401,
+    SilverIngot = 91040402,
+    GoldIngot = 91040403,
 }
 
 public enum AnimalType
