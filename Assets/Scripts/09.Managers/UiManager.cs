@@ -21,6 +21,7 @@ public class UiManager : Singleton<UiManager>
     public UiPatronBoard patronBoardUi;
     public UiMissionList uiMission;
     public StorageUi storageUi;
+    public UiCurrencyProductInventory currencyProductInventoryUi;
     public GameObject bottom;
     public Button changeButton;
     public bool isAnimalList = false;
@@ -70,6 +71,7 @@ public class UiManager : Singleton<UiManager>
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
+        currencyProductInventoryUi.gameObject.SetActive(false);
         panel.gameObject.SetActive(false);
     }
 
@@ -91,6 +93,7 @@ public class UiManager : Singleton<UiManager>
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         storageUi.gameObject.SetActive(true);
+        currencyProductInventoryUi.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
     }
 
@@ -113,6 +116,7 @@ public class UiManager : Singleton<UiManager>
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         storageUi.gameObject.SetActive(false);
+        currencyProductInventoryUi.gameObject.SetActive(false);
         panel.gameObject.SetActive(false);
         OffAnimalList();
 
@@ -147,6 +151,7 @@ public class UiManager : Singleton<UiManager>
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
+        currencyProductInventoryUi.gameObject.SetActive(false);
         if(sellUi.gameObject.activeSelf)
         {
             uiMission.gameObject.SetActive(true);
@@ -186,6 +191,7 @@ public class UiManager : Singleton<UiManager>
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+        currencyProductInventoryUi.gameObject.SetActive(false);
     }
 
     public void ShowFloorInformationUi()
@@ -206,6 +212,7 @@ public class UiManager : Singleton<UiManager>
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+        currencyProductInventoryUi.gameObject.SetActive(false);
     }
 
     public void ShowAnimalListUi()
@@ -226,6 +233,7 @@ public class UiManager : Singleton<UiManager>
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+        currencyProductInventoryUi.gameObject.SetActive(false);
     }
 
     public void ShowProductsUi()
@@ -246,6 +254,7 @@ public class UiManager : Singleton<UiManager>
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+        currencyProductInventoryUi.gameObject.SetActive(false);
     }
 
     public void ShowCraftTableUi()
@@ -266,6 +275,7 @@ public class UiManager : Singleton<UiManager>
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+        currencyProductInventoryUi.gameObject.SetActive(false);
     }
 
     public void ShowInvitationUi()
@@ -286,6 +296,7 @@ public class UiManager : Singleton<UiManager>
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+        currencyProductInventoryUi.gameObject.SetActive(false);
     }
 
     public void ShowTutorialUi()
@@ -306,6 +317,7 @@ public class UiManager : Singleton<UiManager>
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+        currencyProductInventoryUi.gameObject.SetActive(false);
     }
 
     public void ShowPatronUi()
@@ -327,6 +339,7 @@ public class UiManager : Singleton<UiManager>
         patronBoardUi.gameObject.SetActive(true);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+        currencyProductInventoryUi.gameObject.SetActive(false);
     }
 
     public void ShowMissionUi()
@@ -347,7 +360,30 @@ public class UiManager : Singleton<UiManager>
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(true);
+        currencyProductInventoryUi.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+    }
+
+    public void ShowCurrencyProductInventoryUi()
+    {
+        uiCurrencies.gameObject.SetActive(true);
+        mainUi.gameObject.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
+        productsUi.gameObject.SetActive(false);
+        craftTableUi.gameObject.SetActive(false);
+        FloorManager.Instance.multiTouchOff = true;
+        b4StorageValueUi.gameObject.SetActive(false);
+        b5StorageValueUi.gameObject.SetActive(false);
+        invitationUi.gameObject.SetActive(false);
+        tutorialUi.gameObject.SetActive(false);
+        testPanelUi.gameObject.SetActive(false);
+        patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
+        panel.gameObject.SetActive(true);
+        currencyProductInventoryUi.gameObject.SetActive(true);
     }
 
     public void SetProductCapacity(int capacity)

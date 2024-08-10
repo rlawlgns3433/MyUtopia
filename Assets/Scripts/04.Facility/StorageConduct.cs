@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class StorageConduct : Storage
 {
-    public List<CurrencyType> currencyTypes;
+    public List<CurrencyProductType> currencyTypes;
     public BigNumber CurrWorkLoad;
     private bool isClick = false;
     private int currentTotalSeconds;
@@ -291,7 +291,7 @@ public class StorageConduct : Storage
             Debug.Log("Click");
             for (int i = 0; i < currencyTypes.Count; ++i)
             {
-                CurrencyManager.currency[currencyTypes[i]] += CurrArray[i];
+                CurrencyManager.product[currencyTypes[i]] += CurrArray[i];
                 CurrArray[i] = BigNumber.Zero;
 
                 isClick = true;
