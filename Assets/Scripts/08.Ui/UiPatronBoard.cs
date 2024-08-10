@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
@@ -28,6 +29,7 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
     private void Start()
     {
         clockFormatTimer.SetDayTimer();
+        clockFormatTimer.canStartTimer = true;
         clockFormatTimer.StartClockTimer();
         SetFinishUi();
     }
