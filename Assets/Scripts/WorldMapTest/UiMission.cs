@@ -1,16 +1,6 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
-[Serializable]
-public struct MissionSaveData
-{
-    public int missionId;
-    public int count;
-    public bool success;
-    public bool isComplete;
-}
 
 public class UiMission : MonoBehaviour
 {
@@ -18,42 +8,60 @@ public class UiMission : MonoBehaviour
     public TextMeshProUGUI difficultyText;
     public TextMeshProUGUI missionDescText;
     public TextMeshProUGUI countText;
-    public int count;
     public Button button;
-    private bool success = false;
+    private int count;
     private bool isComplete = false;
 
     public void SetData(MissionData data)
     {
         missionData = data;
+        count = MissionManager.Instance.GetMissionCount(missionData.Mission_ID);
+        UpdateUI();
+    }
+
+    public void SetSaveData(MissionSaveData saveData)
+    {
+        count = saveData.count;
+        isComplete = saveData.isComplete;
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
         difficultyText.text = missionData.Difficulty.ToString();
         missionDescText.text = missionData.GetDesc();
-        countText.text = $"0/{missionData.Count}";
+        countText.text = $"{count}/{missionData.Count}";
         SetButton();
+    }
+
+    public void UpDateMission()
+    {
+        count = MissionManager.Instance.GetMissionCount(missionData.Mission_ID);
+        UpdateUI();
     }
 
     public void SetButton()
     {
         var buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-        if(!success && count < missionData.Count)
+
+        // 리스너를 추가하기 전에 기존 리스너 제거
+        button.onClick.RemoveAllListeners();
+
+        if (count < missionData.Count)
         {
             button.onClick.AddListener(Move);
-            button.onClick.AddListener(UiManager.Instance.ShowMainUi);
             buttonText.text = ButtonText.Move;
         }
-        else if(success && count >= missionData.Count&&!isComplete)
+        else if (!isComplete && count >= missionData.Count)
         {
-            button.GetComponent<Image>().color = Color.green;
-            button.onClick.RemoveListener(Move);
-            button.onClick.RemoveListener(UiManager.Instance.ShowMainUi);
             button.onClick.AddListener(MissionClear);
+            button.GetComponent<Image>().color = Color.green;
             buttonText.text = ButtonText.Success;
         }
-        else if(isComplete)
+        else if (isComplete)
         {
-            button.GetComponent<Image>().color = Color.white;
-            button.onClick.RemoveListener(MissionClear);
             button.interactable = false;
+            button.GetComponent<Image>().color = Color.white;
             buttonText.text = ButtonText.Completed;
         }
     }
@@ -62,48 +70,20 @@ public class UiMission : MonoBehaviour
     {
         var floor = missionData.Target_ID / 10000 % 100;
         FloorManager.Instance.MoveToSelectFloor($"B{floor}");
+        UiManager.Instance.ShowMainUi();
     }
 
     private void MissionClear()
     {
-        UiManager.Instance.uiMission.UpdateSliderValue(missionData.Today_Mission_Point);
         isComplete = true;
-        SetButton();
-    }
+        Debug.Log($"Mission {missionData.Mission_ID} cleared! Adding {missionData.Today_Mission_Point} points.");
+        UiManager.Instance.uiMission.UpdateSliderValue(missionData.Today_Mission_Point);
 
-    public void UpDateMission()
-    {
-        count = MissionManager.Instance.GetMissionCount(missionData.Target_ID);
-        if(count >= missionData.Count)
-        {
-            count = missionData.Count;
-            success = true;
-        }
-        countText.text = $"{count}/{missionData.Count}";
-        SetButton();
-    }
+        var missionSaveData = MissionManager.Instance.GetMissionSaveData(missionData.Mission_ID);
+        missionSaveData.isComplete = true;
+        MissionManager.Instance.UpdateMissionSaveData(missionSaveData);
 
-    public MissionSaveData GetSaveData()
-    {
-        return new MissionSaveData
-        {
-            missionId = missionData.Mission_ID,
-            count = count,
-            success = success,
-            isComplete = isComplete
-        };
-    }
-
-    public void SetSaveData(MissionSaveData saveData)
-    {
-        count = saveData.count;
-        missionData = DataTableMgr.GetMissionTable().Get(saveData.missionId);
-        if(count >0)
-        {
-            MissionManager.Instance.SetMissionCount(missionData.Target_ID, count);
-        }
-        success = saveData.success;
-        isComplete = saveData.isComplete;
-        SetButton();
+        UpdateUI();
+        MissionManager.Instance.SaveGameData();
     }
 }

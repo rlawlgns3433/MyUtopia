@@ -224,6 +224,7 @@ public class UtilityTime : MonoBehaviour
         if (dailyMissionReset)
         {
             previousTimeData.LastDaily = currentDate.ToString("o");
+            MissionManager.Instance.ResetMissions(MissionTypes.Daily);
             Debug.Log("Daily mission reset.");
         }
         else
@@ -234,6 +235,7 @@ public class UtilityTime : MonoBehaviour
         if (weeklyMissionReset)
         {
             previousTimeData.LastWeekly = currentDate.ToString("o");
+            MissionManager.Instance.ResetMissions(MissionTypes.Weekly);
             Debug.Log("Weekly mission reset.");
         }
         else
@@ -244,6 +246,7 @@ public class UtilityTime : MonoBehaviour
         if (monthlyMissionReset)
         {
             previousTimeData.LastMonthly = currentDate.ToString("o");
+            MissionManager.Instance.ResetMissions(MissionTypes.Monthly);
             Debug.Log("Monthly mission reset.");
         }
         else

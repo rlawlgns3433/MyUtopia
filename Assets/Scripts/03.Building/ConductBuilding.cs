@@ -49,7 +49,7 @@ public class ConductBuilding : Building
                 }
                 break;
         }
-        MissionManager.Instance.AddMissionCount(buildingId);
+        MissionManager.Instance.AddMissionCountTargetId(buildingId);
         Debug.Log($"missionCount =>>{MissionManager.Instance.GetMissionCount(buildingId)}");
     }
 
