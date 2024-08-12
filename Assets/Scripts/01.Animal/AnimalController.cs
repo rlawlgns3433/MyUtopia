@@ -3,16 +3,31 @@ using UnityEngine.AI;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 
+public enum AnimalState
+{
+    Idle,
+    Walk,
+    Run,
+    Rest,
+    Work,
+}
+
 public class AnimalController : MonoBehaviour
 {
+    public AnimalState animalState = AnimalState.Idle;
+    public float StateTimer { get; set; }
+    public float SetTime { get; set; }
+
     public AnimalWork animalWork;
+    public Animator animator;
     private NavMeshAgent agent;
-    private Node behaviorTreeRoot;
+    public BehaviourSetNode behaviorTreeRoot;
     private bool destinationSet;
     public float range = 10.0f;
     private float timer = 0f;
     private float interval = 7f;
     private Vector3 prevDestination;
+    public List<GameObject> wayPoints = new List<GameObject>();
 
     public bool DestinationSet
     {
@@ -49,32 +64,41 @@ public class AnimalController : MonoBehaviour
     {
         animalWork = GetComponent<AnimalWork>();
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
         InitializeBehaviorTree();
     }
 
     private void InitializeBehaviorTree()
     {
-        behaviorTreeRoot = new RandomSelector(new List<Node>
-        {
-            new IdleNode(this),
-            new WalkNode(this, RandomDestination, Walk),
-            new RunNode(this, RandomDestination, Run),
-        });
+        //behaviorTreeRoot = new RandomSelector(new List<Node>
+        //{
+        //    new IdleNode(this),
+        //    new WalkNode(this, RandomDestination, Walk),
+        //    new RunNode(this, RandomDestination, Run),
+        //});
+
+        behaviorTreeRoot = new BehaviourSetNode(this);
     }
 
     private void Update()
     {
         behaviorTreeRoot.Execute();
-        timer += Time.deltaTime;
-        if(timer > interval)
-        {
-            // 이전 도착지와 동일할 경우 새로운 목적지 설정
-            if(prevDestination == agent.destination)
-            {
-                RandomDestination();
-            }
-            timer = 0f;
-        }
+        StateTimer += Time.deltaTime;
+
+        //timer += Time.deltaTime;
+        //if(timer > interval)
+        //{
+        //    // 이전 도착지와 동일할 경우 새로운 목적지 설정
+        //    if(prevDestination == agent.destination)
+        //    {
+        //        RandomDestination();
+        //    }
+        //    timer = 0f;
+        //}
     }
 
     public void SetDestination(Vector3 destination)
@@ -95,7 +119,7 @@ public class AnimalController : MonoBehaviour
         SetDestination(result);
     }
 
-    public void Idle()
+    public void Rest()
     {
         agent.isStopped = true;
         agent.speed = 0f;
@@ -110,7 +134,7 @@ public class AnimalController : MonoBehaviour
     public void Run()
     {
         agent.isStopped = false;
-        agent.speed = animalWork.Animal.WalkSpeed;
+        agent.speed = animalWork.Animal.RunSpeed;
     }
 
     bool SetDestination(float range, out Vector3 result)
@@ -127,5 +151,10 @@ public class AnimalController : MonoBehaviour
         }
         result = Vector3.zero;
         return false;
+    }
+
+    public bool EndTimer()
+    {
+        return StateTimer >= SetTime;
     }
 }

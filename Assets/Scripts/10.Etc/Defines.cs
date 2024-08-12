@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public static class DataTableIds
 {
     public static readonly string[] String =
@@ -74,6 +76,15 @@ public static class InputActions
     public static readonly string Swipe = "Swipe";
     public static readonly string Press = "Press";
     public static readonly string Position = "Position";
+}
+
+public static class AnimationHash
+{
+    public static readonly int Walk = Animator.StringToHash("Walk");
+    public static readonly int Run = Animator.StringToHash("Run");
+    public static readonly int Idle = Animator.StringToHash("Idle_A");
+    public static readonly int Rest = Animator.StringToHash("Sit");
+    public static readonly int Work = Animator.StringToHash("Work");
 }
 
 public enum CurrencyType
