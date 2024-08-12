@@ -125,17 +125,17 @@ public class UiRecipeSlot : MonoBehaviour
 
         if (recipeStat.Resource_1 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1] -= recipeStat.Resource_1_Value.ToBigNumber();
+            CurrencyManager.product[(CurrencyProductType)recipeStat.Resource_1] -= recipeStat.Resource_1_Value.ToBigNumber();
         }
 
         if (recipeStat.Resource_2 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2] -= recipeStat.Resource_2_Value.ToBigNumber();
+            CurrencyManager.product[(CurrencyProductType)recipeStat.Resource_2] -= recipeStat.Resource_2_Value.ToBigNumber();
         }
 
         if (recipeStat.Resource_3 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3] -= recipeStat.Resource_3_Value.ToBigNumber();
+            CurrencyManager.product[(CurrencyProductType)recipeStat.Resource_3] -= recipeStat.Resource_3_Value.ToBigNumber();
         }
 
         var uiCraftingTable = UiManager.Instance.craftTableUi;
@@ -166,19 +166,19 @@ public class UiRecipeSlot : MonoBehaviour
 
         if (recipeStat.Resource_1 != 0)
         {
-            if (recipeStat.Resource_1_Value.ToBigNumber() * amount > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1])
+            if (recipeStat.Resource_1_Value.ToBigNumber() * amount > CurrencyManager.product[(CurrencyProductType)recipeStat.Resource_1])
                 return false;
         }
 
         if (recipeStat.Resource_2 != 0)
         {
-            if (recipeStat.Resource_2_Value.ToBigNumber() * amount > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2])
+            if (recipeStat.Resource_2_Value.ToBigNumber() * amount > CurrencyManager.product[(CurrencyProductType)recipeStat.Resource_2])
                 return false;
         }
 
         if (recipeStat.Resource_3 != 0)
         {
-            if (recipeStat.Resource_3_Value.ToBigNumber() * amount > CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3])
+            if (recipeStat.Resource_3_Value.ToBigNumber() * amount > CurrencyManager.product[(CurrencyProductType)recipeStat.Resource_3])
                 return false;
         }
 
