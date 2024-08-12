@@ -118,11 +118,15 @@ public class FloorStat
             Floor_Num = floorData.Floor_Num;
             Floor_Type = floorData.Floor_Type;
             Floor_Name_ID = floorData.Floor_Name_ID;
+            Floor_Desc = floorData.Floor_Desc;
             Grade = floorData.Grade;
             Grade_Max = floorData.Grade_Max;
+            Grade_Level_Max = floorData.Grade_Level_Max;
+            Level_Up_Time = floorData.Level_Up_Time;
             Unlock_Facility = floorData.Unlock_Facility;
             Unlock_Content = floorData.Unlock_Content;
             Max_Population = floorData.Max_Population;
+            Stamina_Recovery = floorData.Stamina_Recovery;
             Level_Up_Coin_ID = floorData.Level_Up_Coin_ID;
             Level_Up_Coin_Value = floorData.Level_Up_Coin_Value;
             Level_Up_Resource_1 = floorData.Level_Up_Resource_1;
@@ -138,11 +142,15 @@ public class FloorStat
     public int Floor_Num { get; set; }
     public int Floor_Type { get; set; }
     public string Floor_Name_ID { get; set; }
+    public string Floor_Desc { get; set; }
     public int Grade { get; set; }
     public int Grade_Max { get; set; }
+    public int Grade_Level_Max { get; set; }
+    public int Level_Up_Time { get; set; }
     public int Unlock_Facility { get; set; }
     public int Unlock_Content { get; set; }
     public int Max_Population { get; set; }
+    public int Stamina_Recovery { get; set; }
     public int Level_Up_Coin_ID { get; set; }
     public string Level_Up_Coin_Value { get; set; }
     public int Level_Up_Resource_1 { get; set; }
@@ -286,6 +294,7 @@ public class BuildingStat
             Effect_Value = BuildingData.Effect_Value;
             Resource_Type = BuildingData.Resource_Type;
             Touch_Produce = BuildingData.Touch_Produce;
+            Level_Up_Time = BuildingData.Level_Up_Time;
             Level_Up_Resource_ID = BuildingData.Level_Up_Resource_ID;
             Level_Up_Coin_Value = BuildingData.Level_Up_Coin_Value;
             Level_Up_Resource_1 = BuildingData.Level_Up_Resource_1;
@@ -309,6 +318,7 @@ public class BuildingStat
     public int Effect_Value { get; set; }
     public int Resource_Type { get; set; } // 생산 재화 타입
     public string Touch_Produce { get; set; }
+    public int Level_Up_Time { get; set; }
     public string Level_Up_Resource_ID { get; set; }
     public string Level_Up_Coin_Value { get; set; }
     public int Level_Up_Resource_1 { get; set; }

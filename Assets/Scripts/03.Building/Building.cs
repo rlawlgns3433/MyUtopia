@@ -94,19 +94,19 @@ public class Building : MonoBehaviour, IClickable, IGrowable
 
         if (BuildingStat.Level_Up_Resource_1 != 0)
         {
-            if (BuildingStat.Resource_1_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)BuildingStat.Level_Up_Resource_1])
+            if (BuildingStat.Resource_1_Value.ToBigNumber() > CurrencyManager.product[(CurrencyProductType)BuildingStat.Level_Up_Resource_1])
                 return false;
         }
 
         if (BuildingStat.Level_Up_Resource_2 != 0)
         {
-            if (BuildingStat.Resource_2_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)BuildingStat.Level_Up_Resource_2])
+            if (BuildingStat.Resource_2_Value.ToBigNumber() > CurrencyManager.product[(CurrencyProductType)BuildingStat.Level_Up_Resource_2])
                 return false;
         }
 
         if (BuildingStat.Level_Up_Resource_3 != 0)
         {
-            if (BuildingStat.Resource_3_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)BuildingStat.Level_Up_Resource_3])
+            if (BuildingStat.Resource_3_Value.ToBigNumber() > CurrencyManager.product[(CurrencyProductType)BuildingStat.Level_Up_Resource_3])
                 return false;
         }
 
@@ -120,17 +120,17 @@ public class Building : MonoBehaviour, IClickable, IGrowable
 
         if (BuildingStat.Level_Up_Resource_1 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)BuildingStat.Level_Up_Resource_1] -= BuildingStat.Resource_1_Value.ToBigNumber();
+            CurrencyManager.product[(CurrencyProductType)BuildingStat.Level_Up_Resource_1] -= BuildingStat.Resource_1_Value.ToBigNumber();
         }
 
         if (BuildingStat.Level_Up_Resource_2 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)BuildingStat.Level_Up_Resource_2] -= BuildingStat.Resource_2_Value.ToBigNumber();
+            CurrencyManager.product[(CurrencyProductType)BuildingStat.Level_Up_Resource_2] -= BuildingStat.Resource_2_Value.ToBigNumber();
         }
 
         if (BuildingStat.Level_Up_Resource_3 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)BuildingStat.Level_Up_Resource_3] -= BuildingStat.Resource_3_Value.ToBigNumber();
+            CurrencyManager.product[(CurrencyProductType)BuildingStat.Level_Up_Resource_3] -= BuildingStat.Resource_3_Value.ToBigNumber();
         }
     }
 }

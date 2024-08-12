@@ -22,6 +22,7 @@ public class BuildingData
     public int Effect_Value { get; set; }
     public int Resource_Type { get; set; } // 생산 재화 타입
     public string Touch_Produce { get; set; }
+    public int Level_Up_Time { get; set; }
     public string Level_Up_Resource_ID { get; set; }
     public string Level_Up_Coin_Value { get; set; }
     public int Level_Up_Resource_1 { get; set; }

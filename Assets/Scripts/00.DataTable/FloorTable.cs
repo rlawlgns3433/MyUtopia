@@ -15,12 +15,16 @@ public class FloorData
     public int World_Type { get; set; }
     public int Floor_Num { get; set; }
     public int Floor_Type { get; set; }
-    public string Floor_Name_ID{ get; set; }
+    public string Floor_Name_ID { get; set; }
+    public string Floor_Desc { get; set; }
     public int Grade { get; set; }
     public int Grade_Max { get; set; }
+    public int Grade_Level_Max { get; set; }
+    public int Level_Up_Time { get; set; }
     public int Unlock_Facility { get; set; }
     public int Unlock_Content { get; set; }
     public int Max_Population { get; set; } 
+    public int Stamina_Recovery { get; set; } 
     public int Level_Up_Coin_ID { get; set; }
     public string Level_Up_Coin_Value { get; set; } 
     public int Level_Up_Resource_1 { get; set; }

@@ -57,7 +57,7 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         buttonLevelUp.onClick.RemoveAllListeners();
         buttonLevelUp.onClick.AddListener(SetStartUi);
         buttonLevelUp.onClick.AddListener(clockFormatTimer.StartClockTimer);
-        if(building.IsUpgrading)
+        if(IsUpgrading)
         {
             clockFormatTimer.timerText.gameObject.SetActive(true);
         }
@@ -130,6 +130,12 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
 
     public void SetStartUi()
     {
+        if(building.IsUpgrading)
+        {
+            clockFormatTimer.canStartTimer = false;
+            return;
+        }
+
         if (!building.CheckCurrency())
         {
             clockFormatTimer.canStartTimer = false;
@@ -142,7 +148,7 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
 
         clockFormatTimer.timerText.gameObject.SetActive(true);
 
-        clockFormatTimer.SetTimer(/*building.BuildingStat.Level_Up_Time*/10);
+        clockFormatTimer.SetTimer(building.BuildingStat.Level_Up_Time);
 
         foreach (var currency in uiUpgradeCurrencies)
         {

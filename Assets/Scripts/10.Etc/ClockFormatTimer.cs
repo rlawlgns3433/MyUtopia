@@ -57,7 +57,6 @@ public class ClockFormatTimer : MonoBehaviour
         IUISetupable uISetupable = GetComponent<IUISetupable>();
 
         growable.LevelUp();
-        //UiManager.Instance.floorInformationUi.SetFloorData();
         if(growable.IsUpgrading)
         {
             uISetupable.SetFinishUi();
