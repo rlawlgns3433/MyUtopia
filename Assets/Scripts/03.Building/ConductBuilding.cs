@@ -34,6 +34,8 @@ public class ConductBuilding : Building
                 var touchProduce = new BigNumber(BuildingStat.Touch_Produce);
                 CurrencyManager.product[buildingType] += touchProduce;
                 this.touchProduce = touchProduce; // 플로팅 텍스트용
+                MissionManager.Instance.AddMissionCountTargetId(buildingId);
+                Debug.Log($"missionCount =>>{MissionManager.Instance.GetMissionCount(buildingId)}");
                 break;
             case CurrencyProductType.CopperIngot:
             case CurrencyProductType.SilverIngot:
@@ -46,10 +48,10 @@ public class ConductBuilding : Building
                     this.touchProduce = new BigNumber(1);
                     CurrencyManager.product[(CurrencyProductType)BuildingStat.Materials_Type] -= BuildingStat.Conversion_rate;
                 }
+                MissionManager.Instance.AddMissionCountTargetId(buildingId);
+                Debug.Log($"missionCount =>>{MissionManager.Instance.GetMissionCount(buildingId)}");
                 break;
         }
-        MissionManager.Instance.AddMissionCountTargetId(buildingId);
-        Debug.Log($"missionCount =>>{MissionManager.Instance.GetMissionCount(buildingId)}");
     }
 
     private void DisplayFloatingText(BigNumber bigNumber)

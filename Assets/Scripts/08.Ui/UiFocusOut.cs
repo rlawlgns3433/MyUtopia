@@ -7,7 +7,7 @@ public class UiFocusOut : MonoBehaviour, IPointerClickHandler
 {
     private Vector3 defaultPosition = new Vector3(0, 15, -15);
     private Vector3 focusOutRotation = new Vector3(40, 0, 0);
-    private int offSet = 10;
+    private int offSet = 15;
     public CinemachineVirtualCamera vc;
     private CinemachineTransposer transposer;
 

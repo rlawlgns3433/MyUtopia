@@ -33,6 +33,7 @@ public class FloorManager : Singleton<FloorManager>
     public float zoomOutMaxValueZ = -9f;
     private bool isDragging = false;
     public int moveDistance = 10;
+    private int horizontalSwipeDistance = 12;
     public float moveDuration = 0.5f;
     public int floorCount = 5;
     public bool isMoving = false;
@@ -114,12 +115,12 @@ public class FloorManager : Singleton<FloorManager>
                 else if(touchManager.Swipe == Dirs.Left)
                 {
                     Debug.Log("SwipeLeft");
-                    SwipeHorizontal(moveDistance/2).Forget();
+                    SwipeHorizontal(horizontalSwipeDistance / 2).Forget();
                 }
                 else if( touchManager.Swipe == Dirs.Right)
                 {
                     Debug.Log("SwipeRight");
-                    SwipeHorizontal(-moveDistance / 2).Forget();
+                    SwipeHorizontal(-horizontalSwipeDistance / 2).Forget();
                 }
                 touchManager.Swipe = Dirs.None;
             }
@@ -135,14 +136,14 @@ public class FloorManager : Singleton<FloorManager>
         float minX, maxX;
         if (CurrentFloorIndex == 1)
         {
-            minX = -10f;
-            maxX = 10f;
+            minX = -12f;
+            maxX = 12f;
             distance *= 2;
         }
         else
         {
-            minX = -5f;
-            maxX = 5f;
+            minX = -6f;
+            maxX = 6f;
         }
 
         float targetX = Mathf.Clamp(zoomPosition.x + distance, minX, maxX);

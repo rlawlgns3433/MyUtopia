@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Composites;
@@ -13,8 +14,6 @@ public class UiManager : Singleton<UiManager>
     public UiAnimalList animalListUi;
     public UiProducts productsUi;
     public UiCraftTable craftTableUi;
-    public StorageValueUi b4StorageValueUi;
-    public StorageValueUi b5StorageValueUi;
     public UiTutorial tutorialUi;
     public UiInvitation invitationUi;
     public TestPanel testPanelUi;
@@ -67,8 +66,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
@@ -89,8 +86,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
@@ -112,8 +107,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = false;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
@@ -124,7 +117,6 @@ public class UiManager : Singleton<UiManager>
         panel.gameObject.SetActive(false);
         uiCatalogue.gameObject.SetActive(false);
         OffAnimalList();
-
         // ��� ������ ��ǳ�� �ѱ�
         foreach (var floor in FloorManager.Instance.floors.Values)
         {
@@ -150,8 +142,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
@@ -190,8 +180,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
@@ -212,8 +200,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
@@ -234,8 +220,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
@@ -256,8 +240,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(true);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
@@ -278,8 +260,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(true);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
@@ -300,8 +280,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(true);
         tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
@@ -322,8 +300,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(true);
         testPanelUi.gameObject.SetActive(false);
@@ -344,8 +320,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
@@ -367,8 +341,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
@@ -389,8 +361,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
@@ -411,8 +381,6 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        b4StorageValueUi.gameObject.SetActive(false);
-        b5StorageValueUi.gameObject.SetActive(false);
         invitationUi.gameObject.SetActive(false);
         tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
