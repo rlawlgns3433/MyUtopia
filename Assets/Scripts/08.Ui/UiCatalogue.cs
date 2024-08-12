@@ -12,6 +12,7 @@ public class UiCatalogue : MonoBehaviour
 
     private void OnEnable()
     {
+        CatalogueManager.Instance.firstGetAnimal = false;
         UiManager.Instance.SetCatalougeImage(false);
         if(!isCreate)
         {
@@ -40,9 +41,17 @@ public class UiCatalogue : MonoBehaviour
                     animalSlot.AddAnimalData(animal);
                     catalogueSlots.Add(animalSlot);
                     Debug.Log($"slot{i}data = {animal.Animal_ID} / {animal.Profile}");
+
                 }
             }
-            animalSlot.SetSprite();
+            CatalogueManager.Instance.UpdateAnimals();
+        }
+        if (catalogueSlots.Count > 0)
+        {
+            foreach (var slot in catalogueSlots)
+            {
+                slot.SetSprite();
+            }
         }
         isCreate = true;
     }

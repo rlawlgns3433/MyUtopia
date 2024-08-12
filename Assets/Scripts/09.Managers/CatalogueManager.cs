@@ -37,7 +37,7 @@ public class CatalogueManager : Singleton<CatalogueManager>
     }
     public AnimalTable animalTable;
     public int count = 0;
-    private bool firstGetAnimal = false;
+    public bool firstGetAnimal = false;
     public GameObject isFirstGetAnimal;
     private bool isAddQuitEvent = false;
     private void Awake()
@@ -108,6 +108,28 @@ public class CatalogueManager : Singleton<CatalogueManager>
             return animalCatalogue[animalID];
         }
         return false;
+    }
+
+    public void UpdateAnimals()
+    {
+        for(int i = 1; i <= FloorManager.Instance.floors.Count; ++i)
+        {
+            var floor = FloorManager.Instance.GetFloor($"B{i}");
+            foreach(var animal in floor.animals)
+            {
+                var data = animalTable.Get(animal.animalStat.Animal_ID);
+                var result = animalDictionary.Values.FirstOrDefault(animal => animal.Animal_Name_ID == data.Animal_Name_ID);
+                if (animalCatalogue.ContainsKey(result.Animal_ID))
+                {
+                    if (!animalCatalogue[result.Animal_ID])
+                    {
+                        animalCatalogue[result.Animal_ID] = true;
+                        firstGetAnimal = true;
+                        UiManager.Instance.SetCatalougeImage(firstGetAnimal);
+                    }
+                }
+            }
+        }
     }
 
     private int GetMaxAnimalType()

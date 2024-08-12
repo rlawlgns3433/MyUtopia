@@ -55,7 +55,7 @@ public class GameManager : Singleton<GameManager>
         //FloorManager.Instance.CheckEntireFloorSynergy(); ½Ã³ÊÁö
     }
 
-    private async UniTask UniLoadWorldData()
+    public async UniTask UniLoadWorldData()
     {
         SaveDataV1 saveWorldData = SaveLoadSystem.Load() as SaveDataV1;
 
