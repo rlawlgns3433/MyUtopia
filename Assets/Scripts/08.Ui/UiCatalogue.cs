@@ -12,6 +12,7 @@ public class UiCatalogue : MonoBehaviour
 
     private void OnEnable()
     {
+        UiManager.Instance.SetCatalougeImage(false);
         if(!isCreate)
         {
             animalList = CatalogueManager.Instance.AnimalDataList;

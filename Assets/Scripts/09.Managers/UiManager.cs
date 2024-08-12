@@ -28,6 +28,7 @@ public class UiManager : Singleton<UiManager>
     public bool isAnimalList = false;
     public bool isAnimalMove = false;
     public GameObject panel;
+    public GameObject catalougeImage;
     private void Start()
     {
         if (PlayerPrefs.GetInt("TutorialCheck") == 1)
@@ -452,5 +453,10 @@ public class UiManager : Singleton<UiManager>
             rotation.z = 0;
             changeButton.gameObject.transform.rotation = rotation;
         }
+    }
+
+    public void SetCatalougeImage(bool value)
+    {
+        catalougeImage.SetActive(value);
     }
 }

@@ -70,6 +70,7 @@ public class CatalogueManager : Singleton<CatalogueManager>
         {
             animalCatalogue[animalID] = true;
             firstGetAnimal = true;
+            UiManager.Instance.SetCatalougeImage(true);
             return true;
         }
         return false;
