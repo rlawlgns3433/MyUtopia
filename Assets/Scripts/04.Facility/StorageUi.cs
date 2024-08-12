@@ -21,16 +21,16 @@ public class StorageUi : MonoBehaviour
     private BigNumber[] b5currencyArray;
     private BigNumber[] b4currencyArray;
 
-    private async void OnEnable()
+    private async void Start()
     {
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B4") != null);
         b5Floor = FloorManager.Instance.GetFloor("B5");
         b4Floor = FloorManager.Instance.GetFloor("B4");
-        await UniTask.WaitUntil(() => b5Floor.storage as StorageConduct != null);
-        await UniTask.WaitUntil(() => b4Floor.storage as StorageConduct != null);
-        b5FloorStorage = b5Floor.storage as StorageConduct;
-        b4FloorStorage = b4Floor.storage as StorageConduct;
+        await UniTask.WaitUntil(() => (b5Floor as BuildingFloor).storageConduct != null);
+        await UniTask.WaitUntil(() => (b4Floor as BuildingFloor).storageConduct != null);
+        b5FloorStorage = (b5Floor as BuildingFloor).storageConduct;
+        b4FloorStorage = (b4Floor as BuildingFloor).storageConduct;
         await WaitLoadCompleteStorage(b5FloorStorage, b4FloorStorage);
         buildings = new Building[b5Floor.buildings.Count + b4Floor.buildings.Count];
         foreach(var building in b5Floor.buildings)

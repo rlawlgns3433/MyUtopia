@@ -18,6 +18,8 @@ public class BuildingData
     public int Materials_Type { get; set; }
     public int Conversion_rate { get; set; }
     public int Work_Require { get; set; }
+    public int Effect_Type { get; set; }
+    public int Effect_Value { get; set; }
     public int Resource_Type { get; set; } // 생산 재화 타입
     public string Touch_Produce { get; set; }
     public string Level_Up_Resource_ID { get; set; }

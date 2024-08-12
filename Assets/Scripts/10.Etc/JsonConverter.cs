@@ -119,7 +119,7 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
         while (!DataTableMgr.GetAnimalTable().IsLoaded) continue;
         while (!DataTableMgr.GetFloorTable().IsLoaded) continue;
         while (!DataTableMgr.GetBuildingTable().IsLoaded) continue;
-        while (!DataTableMgr.GetFurnitureTable().IsLoaded) continue;
+        //while (!DataTableMgr.GetFurnitureTable().IsLoaded) continue;
 
         JObject jsonObject = JObject.Load(reader);
         var floorsToken = jsonObject["floors"];

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BuildingFloor : Floor
 {
-
+    public StorageConduct storageConduct;
     protected override void Start()
     {
         base.Start();
@@ -14,7 +14,7 @@ public class BuildingFloor : Floor
 
     private async UniTask UniAutoWork(CancellationToken cts)
     {
-        var storageConduct = storage as StorageConduct;
+        var storageConduct = this.storageConduct;
 
         while (true)
         {

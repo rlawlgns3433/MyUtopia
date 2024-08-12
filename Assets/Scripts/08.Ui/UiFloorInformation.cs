@@ -125,15 +125,15 @@ public class UiFloorInformation : MonoBehaviour
         return isSucceed;
     }
 
-    public bool ValidateFurnitureData(Furniture newFurniture)
+    public bool ValidateFurnitureData(Building newBuilding)
     {
         bool isSucceed = true;
         foreach (var uiFurniture in uiFurnitures)
         {
-            if (uiFurniture.furniture.FurnitureStat.FurnitureData.Floor_Type != currentFloor.FloorStat.Floor_Type)
+            if (uiFurniture.building.BuildingStat.BuildingData.Floor_Type != currentFloor.FloorStat.Floor_Type)
                 uiFurniture.gameObject.SetActive(false);
 
-            if (uiFurniture.furniture.FurnitureStat.FurnitureData.GetName().Equals(newFurniture.FurnitureStat.FurnitureData.GetName()))
+            if (uiFurniture.building.BuildingStat.BuildingData.GetName().Equals(newBuilding.BuildingStat.BuildingData.GetName()))
             {
                 uiFurniture.gameObject.SetActive(true);
                 isSucceed = false;
@@ -175,7 +175,6 @@ public class UiFloorInformation : MonoBehaviour
                 }
             }
         }
-
     }
 
     public void SetActiveFalseAllBuildingFurniture()

@@ -108,7 +108,7 @@ public class UiRecipeSlot : MonoBehaviour
             return;
         }
 
-        if(storageProduct.Count + UiManager.Instance.craftTableUi.craftingBuilding.recipeStatList.Count + 1 >= storageProduct.FurnitureStat.Effect_Value)
+        if(storageProduct.Count + UiManager.Instance.craftTableUi.craftingBuilding.recipeStatList.Count + 1 >= storageProduct.BuildingStat.Effect_Value)
         {
             Debug.Log("¸®½ºÆ®°¡ °¡µæ Ã¡½À´Ï´Ù.");
             return;
@@ -159,7 +159,7 @@ public class UiRecipeSlot : MonoBehaviour
         if (storageProduct.IsFull)
             return false;
 
-        if(storageProduct.FurnitureStat.Effect_Value - storageProduct.Count < amount)
+        if(storageProduct.BuildingStat.Effect_Value - storageProduct.Count < amount)
         {
             return false;
         }

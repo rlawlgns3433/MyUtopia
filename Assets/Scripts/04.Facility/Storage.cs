@@ -43,7 +43,7 @@ public class StorageData
     }
 }
 
-public class Storage : Furniture
+public class Storage : Building
 {
     private void Awake()
     {
@@ -52,7 +52,7 @@ public class Storage : Furniture
 
     public void OpenProductStorage()
     {
-        UiManager.Instance.SetProductCapacity(FurnitureStat.Effect_Value);
+        UiManager.Instance.SetProductCapacity(BuildingStat.Effect_Value);
         UiManager.Instance.ShowProductsUi();
     }
 }

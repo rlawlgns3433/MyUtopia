@@ -70,7 +70,13 @@ public class GameManager : Singleton<GameManager>
 
                 var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
                 floor.FloorStat = floorSaveData.floorStat;
-                var storageConduct = floor.storage as StorageConduct;
+
+                StorageConduct storageConduct = null;
+                if ((floor as BuildingFloor) != null)
+                {
+                    storageConduct = (floor as BuildingFloor).storageConduct;
+                }
+                 
                 foreach (var animal in animals)
                 {
                     var pos = floor.transform.position;
@@ -156,7 +162,7 @@ public class GameManager : Singleton<GameManager>
             {
                 storageProduct.IncreaseProduct(saveProductData.productSaveData[i].productId, saveProductData.productSaveData[i].productValue);
             }
-            UiManager.Instance.productsUi.capacity = storageProduct.FurnitureStat.Effect_Value;
+            UiManager.Instance.productsUi.capacity = storageProduct.BuildingStat.Effect_Value;
         }
         await UniTask.WaitForSeconds(1);
     }
@@ -224,10 +230,10 @@ public class GameManager : Singleton<GameManager>
             await UniTask.Yield();
         }
 
-        while (!DataTableMgr.GetFurnitureTable().IsLoaded)
-        {
-            await UniTask.Yield();
-        }
+        //while (!DataTableMgr.GetFurnitureTable().IsLoaded)
+        //{
+        //    await UniTask.Yield();
+        //}
 
         while (!DataTableMgr.GetItemTable().IsLoaded)
         {
@@ -289,7 +295,7 @@ public class GameManager : Singleton<GameManager>
             }
 
             if (floor.storage != null)
-                saveData.floors[saveData.floors.Count - 1].furnitureSaveDatas.Add(new FurnitureSaveData(floor.storage.FurnitureStat)); // 창고
+                saveData.floors[saveData.floors.Count - 1].furnitureSaveDatas.Add(new FurnitureSaveData(floor.storage.BuildingStat)); // 창고
         }
 
 

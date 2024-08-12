@@ -30,9 +30,9 @@ public static class DataTableMgr
         resourceTable.Load(DataTableIds.Resource);
         tables.Add(DataTableIds.Resource, resourceTable);
 
-        DataTable furnitureTable = new FurnitureTable();
-        furnitureTable.Load(DataTableIds.Furniture);
-        tables.Add(DataTableIds.Furniture, furnitureTable);
+        //DataTable furnitureTable = new FurnitureTable();
+        //furnitureTable.Load(DataTableIds.Furniture);
+        //tables.Add(DataTableIds.Furniture, furnitureTable);
 
         DataTable recipeTable = new RecipeTable();
         recipeTable.Load(DataTableIds.Recipe);
@@ -88,10 +88,10 @@ public static class DataTableMgr
     {
         return Get<FloorTable>(DataTableIds.Floor);
     }
-    public static FurnitureTable GetFurnitureTable()
-    {
-        return Get<FurnitureTable>(DataTableIds.Furniture);
-    }
+    //public static FurnitureTable GetFurnitureTable()
+    //{
+    //    return Get<FurnitureTable>(DataTableIds.Furniture);
+    //}
 
     public static BuildingTable GetBuildingTable()
     {

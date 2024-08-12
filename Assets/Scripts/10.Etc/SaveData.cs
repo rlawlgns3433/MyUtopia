@@ -33,11 +33,11 @@ public class BuildingSaveData
 
 public class FurnitureSaveData
 {
-    public FurnitureStat furnitureStat;
+    public BuildingStat buildingStat;
 
-    public FurnitureSaveData(FurnitureStat furnitureStat)
+    public FurnitureSaveData(BuildingStat buildingStat)
     {
-        this.furnitureStat = furnitureStat;
+        this.buildingStat = buildingStat;
     }
 }
 

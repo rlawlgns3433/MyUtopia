@@ -15,6 +15,7 @@ public class ItemData
     public string Item_Desc_ID { get; set; }
     public int Item_Type { get; set; }
     public int World_Type { get; set; }
+    public int Item_Stack { get; set; }
     public int Buy_Resource_ID { get; set; }
     public string Buy_Price { get; set; }
     public int Sell_Resource_ID { get; set; }

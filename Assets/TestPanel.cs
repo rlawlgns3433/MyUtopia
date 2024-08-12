@@ -72,7 +72,7 @@ public class TestPanel : MonoBehaviour
 
             for (int j = 0; j < saveFurnitures.Count; ++j)
             {
-                floor.furnitures[j].FurnitureStat = saveFurnitures[j].furnitureStat;
+                floor.furnitures[j].BuildingStat = saveFurnitures[j].buildingStat;
             }
         }
 
@@ -98,7 +98,7 @@ public class TestPanel : MonoBehaviour
             floor.RemoveAllAnimals();
             if(floor.FloorStat.Floor_Num > 3)
             {
-                var storageConduct = floor.storage as StorageConduct;
+                var storageConduct = (floor as BuildingFloor).storageConduct;
                 storageConduct.ResetStorageConduct();
             }
         }
@@ -127,7 +127,7 @@ public class TestPanel : MonoBehaviour
 
             for(int j = 0; j < saveFurnitures.Count; ++j)
             {
-                floor.furnitures[j].FurnitureStat = saveFurnitures[j].furnitureStat;
+                floor.furnitures[j].BuildingStat = saveFurnitures[j].buildingStat;
             }
         }
 

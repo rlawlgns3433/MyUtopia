@@ -1312,6 +1312,10 @@ PrefabInstance:
       value: 4040101
       objectReference: {fileID: 0}
     - target: {fileID: 7996649572317989600, guid: a82aa0ba60005354690e069428575a94, type: 3}
+      propertyPath: floorIndex
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996649572317989600, guid: a82aa0ba60005354690e069428575a94, type: 3}
       propertyPath: currencyTypes.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -15714,8 +15718,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 128.29787, y: -288.65833}
-  m_SizeDelta: {x: 256.59573, y: 390.48276}
+  m_AnchoredPosition: {x: 128.57143, y: -288.65833}
+  m_SizeDelta: {x: 257.14285, y: 390.48276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &481944203
 MonoBehaviour:
@@ -21394,7 +21398,7 @@ MonoBehaviour:
   requestPrefab: {fileID: 2697727020493697344, guid: 8c136560e91f67f43bbe14c58bb9b646, type: 3}
   textRefreshTimer: {fileID: 1288453435}
   requestParent: {fileID: 1350992005}
-  furniture: {fileID: 801336439}
+  building: {fileID: 0}
   clockFormatTimer: {fileID: 616574252}
 --- !u!114 &616574251
 MonoBehaviour:
@@ -27778,7 +27782,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a19d491d93fa83142bf7ac7c914363db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  facilityId: 4030301
+  duration: 0
+  initialScale: {x: 0, y: 0, z: 0}
+  clickedScale: {x: 0, y: 0, z: 0}
+  buildingType: 0
+  buildingId: 0
   isClicked: 0
 --- !u!208 &801336440
 NavMeshObstacle:
@@ -38395,7 +38403,7 @@ MonoBehaviour:
   - {fileID: 312815715}
   - {fileID: 1822431921}
   furnitures:
-  - {fileID: 26567513}
+  - {fileID: 0}
   runtimeObservers:
   - {fileID: 115322189}
   - {fileID: 273424847}
@@ -38407,8 +38415,9 @@ MonoBehaviour:
   - {fileID: 1962318431}
   - {fileID: 1728822069}
   floorId: 2010401
-  storage: {fileID: 26567513}
+  storage: {fileID: 0}
   floorName: B4
+  storageConduct: {fileID: 26567513}
 --- !u!65 &1098308345
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53563,7 +53572,7 @@ MonoBehaviour:
   - {fileID: 184065733}
   - {fileID: 309795052}
   furnitures:
-  - {fileID: 1978689112}
+  - {fileID: 0}
   runtimeObservers:
   - {fileID: 115322189}
   - {fileID: 273424847}
@@ -53575,8 +53584,9 @@ MonoBehaviour:
   - {fileID: 1962318431}
   - {fileID: 1728822069}
   floorId: 2010501
-  storage: {fileID: 1978689112}
+  storage: {fileID: 0}
   floorName: B5
+  storageConduct: {fileID: 1978689112}
 --- !u!65 &1556008957
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67124,6 +67134,10 @@ PrefabInstance:
     - target: {fileID: 7996649572317989600, guid: a82aa0ba60005354690e069428575a94, type: 3}
       propertyPath: facilityId
       value: 4050101
+      objectReference: {fileID: 0}
+    - target: {fileID: 7996649572317989600, guid: a82aa0ba60005354690e069428575a94, type: 3}
+      propertyPath: floorIndex
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7996649572317989600, guid: a82aa0ba60005354690e069428575a94, type: 3}
       propertyPath: currencyTypes.Array.size

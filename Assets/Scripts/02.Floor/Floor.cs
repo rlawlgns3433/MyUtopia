@@ -8,7 +8,7 @@ public class Floor : Subject, IGrowable
 {
     public List<Animal> animals = new List<Animal>();
     public List<Building> buildings = new List<Building>();
-    public List<Furniture> furnitures = new List<Furniture>();
+    public List<Building> furnitures = new List<Building>();
     public List<Observer> runtimeObservers = new List<Observer>();
     public List<SynergyStat> synergyStats = new List<SynergyStat>();
 

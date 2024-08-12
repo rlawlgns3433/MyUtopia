@@ -10,6 +10,7 @@ public class RecipeData
 {
     public int Recipe_ID { get; set; }
     public string Recipe_Name_ID { get; set; }
+    public int World_Type { get; set; }
     public int Unlock_Lv { get; set; }
     public int Resource_1 { get; set; }
     public string Resource_1_Value { get; set; }
