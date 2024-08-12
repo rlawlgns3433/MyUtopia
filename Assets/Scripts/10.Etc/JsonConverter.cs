@@ -119,7 +119,7 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
         while (!DataTableMgr.GetAnimalTable().IsLoaded) continue;
         while (!DataTableMgr.GetFloorTable().IsLoaded) continue;
         while (!DataTableMgr.GetBuildingTable().IsLoaded) continue;
-        while (!DataTableMgr.GetFurnitureTable().IsLoaded) continue;
+        //while (!DataTableMgr.GetFurnitureTable().IsLoaded) continue;
 
         JObject jsonObject = JObject.Load(reader);
         var floorsToken = jsonObject["floors"];
@@ -260,6 +260,56 @@ public class CurrencyConverter : JsonConverter<List<CurrencySaveData>>
         {
             writer.WriteStartObject();
             writer.WritePropertyName($"{value[i].currencyType}");
+            writer.WriteValue(value[i].value.ToFullString());
+            writer.WriteEndObject();
+        }
+        writer.WriteEndArray();
+        writer.WriteEndObject();
+    }
+}
+
+
+public class CurrencyProductConverter : JsonConverter<List<CurrencyProductSaveData>>
+{
+    public override List<CurrencyProductSaveData> ReadJson(JsonReader reader, Type objectType, List<CurrencyProductSaveData> existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        List<CurrencyProductSaveData> currencyData = new List<CurrencyProductSaveData>();
+        JObject jObj = JObject.Load(reader);
+
+        // "Currency" 속성의 배열을 가져옴
+        JArray currencyArray = (JArray)jObj["Currency"];
+
+        // 각 배열 요소를 CurrencySaveData 객체로 변환
+        foreach (var item in currencyArray)
+        {
+            var currencySaveData = new CurrencyProductSaveData();
+            foreach (var property in item)
+            {
+                if (property is JProperty prop)
+                {
+                    if (Enum.TryParse(prop.Name, out CurrencyProductType currencyType))
+                    {
+                        currencySaveData.currencyProductType = currencyType;
+                        currencySaveData.value = prop.Value.ToString().ToBigNumber();
+                    }
+                }
+            }
+            currencyData.Add(currencySaveData);
+        }
+
+        return currencyData;
+    }
+
+
+    public override void WriteJson(JsonWriter writer, List<CurrencyProductSaveData> value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+        writer.WritePropertyName("Currency");
+        writer.WriteStartArray();
+        for (int i = 0; i < value.Count; ++i)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName($"{value[i].currencyProductType}");
             writer.WriteValue(value[i].value.ToFullString());
             writer.WriteEndObject();
         }

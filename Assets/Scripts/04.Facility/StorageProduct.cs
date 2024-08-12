@@ -10,7 +10,7 @@ public class StorageProduct : Storage
     {
         get
         {
-            return Count >= FurnitureStat.Effect_Value;
+            return Count >= BuildingStat.Effect_Value;
         }
     }
     public int Count

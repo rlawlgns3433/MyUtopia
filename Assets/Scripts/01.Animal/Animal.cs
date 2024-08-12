@@ -166,7 +166,7 @@ public class Animal : IGrowable, IMovable
             return;
         animalWork = animalClick.AnimalWork;
         FloorManager.Instance.GetFloor(animalWork.Animal.animalStat.CurrentFloor).RemoveAnimal(this);
-        FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(animalWork.Animal.animalStat.CurrentFloor));
+        //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(animalWork.Animal.animalStat.CurrentFloor)); ½Ã³ÊÁö
         CurrencyManager.currency[CurrencyType.Coin] += animalStat.Sale_Coin.ToBigNumber();
     }
 

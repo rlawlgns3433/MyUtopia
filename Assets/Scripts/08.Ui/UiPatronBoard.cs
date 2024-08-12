@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
@@ -9,7 +10,7 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
     public UiRequestInfo requestPrefab;
     public TextMeshProUGUI textRefreshTimer;
     public Transform requestParent;
-    public Furniture furniture;
+    public Building building;
     private StorageProduct storageProduct;
     public StorageProduct StorageProduct
     {
@@ -23,11 +24,12 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
         }
     }
     public ClockFormatTimer clockFormatTimer;
-    public bool IsUpgrading { get => furniture.IsUpgrading; set => furniture.IsUpgrading = value; }
+    public bool IsUpgrading { get => building.IsUpgrading; set => building.IsUpgrading = value; }
 
     private void Start()
     {
         clockFormatTimer.SetDayTimer();
+        clockFormatTimer.canStartTimer = true;
         clockFormatTimer.StartClockTimer();
         SetFinishUi();
     }
@@ -45,7 +47,7 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
 
     public void SetRequests()
     {
-        var loadRequests = LoadRequests(furniture.FurnitureStat.Level);
+        var loadRequests = LoadRequests(building.BuildingStat.Level);
 
         foreach (var request in loadRequests)
         {
@@ -74,7 +76,7 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
 
     public void LevelUp()
     {
-        furniture.LevelUp();
+        building.LevelUp();
     }
 
     private void ResetTimer()

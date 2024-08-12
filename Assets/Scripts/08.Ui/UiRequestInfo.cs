@@ -78,6 +78,8 @@ public class UiRequestInfo : MonoBehaviour
             }
         }
 
+        UiManager.Instance.patronBoardUi.requests.Remove(this);
+        Destroy(gameObject);
     }
 
     public void AddItem(ResourceStat resourceStat, string requireCount)

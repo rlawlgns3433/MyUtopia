@@ -16,6 +16,20 @@ public static class SaveLoadSystem
 
     public static int SaveDataVersion { get; private set; } = 1;
 
+    public enum SaveType
+    {
+        World,
+        Currency,
+        EmptyWorld,
+        EmptyCurrency,
+        PlayingWorld,
+        PlayingCurrency,
+        EmptyCurrencyProduct,
+        Product,
+        Missions,
+        CurrencyProduct,
+    }
+
     // 0 (ÀÚµ¿), 1, 2, 3 ...
     public static readonly string[] SaveFileName =
     {
@@ -25,8 +39,10 @@ public static class SaveLoadSystem
         "SaveEmptyCurrency.sav",
         "SavePlayingWorld.sav",
         "SavePlayingCurrency.sav",
+        "SaveEmptyCurrencyProduct.sav",
         "SaveProduct.sav",
-        "SaveMissions.sav"
+        "SaveMissions.sav",
+        "SaveCurrencyProduct.sav",
     };
 
     private static string SaveDirectory
@@ -37,9 +53,9 @@ public static class SaveLoadSystem
         }
     }
 
-    public static bool Save(SaveData data, int slot = 0)
+    public static bool Save(SaveData data, SaveType slot = 0)
     {
-        if (slot < 0 ||  slot >= SaveFileName.Length)
+        if (slot < 0 ||  (int)slot >= SaveFileName.Length)
         {
             return false;
         }
@@ -49,7 +65,7 @@ public static class SaveLoadSystem
             Directory.CreateDirectory(SaveDirectory);
         }
 
-        var path = Path.Combine(SaveDirectory, SaveFileName[slot]);
+        var path = Path.Combine(SaveDirectory, SaveFileName[(int)slot]);
 
         using (var writer = new JsonTextWriter(new StreamWriter(path)))
         {
@@ -58,19 +74,20 @@ public static class SaveLoadSystem
             serializer.TypeNameHandling = TypeNameHandling.All;
             serializer.Converters.Add(new WorldConverter());
             serializer.Converters.Add(new CurrencyConverter());
+            serializer.Converters.Add(new CurrencyProductConverter());
             serializer.Serialize(writer, data);
         }
 
         return true;
     }
 
-    public static SaveData Load(int slot = 0)
+    public static SaveData Load(SaveType slot = 0)
     {
-        if (slot < 0 ||  slot >= SaveFileName.Length)
+        if (slot < 0 ||  (int)slot >= SaveFileName.Length)
         {
             return null;
         }
-        var path = Path.Combine(SaveDirectory, SaveFileName[slot]);
+        var path = Path.Combine(SaveDirectory, SaveFileName[(int)slot]);
         if (!File.Exists(path))
         {
             return null;
@@ -84,6 +101,7 @@ public static class SaveLoadSystem
             serializer.TypeNameHandling = TypeNameHandling.All;
             serializer.Converters.Add(new WorldConverter());
             serializer.Converters.Add(new CurrencyConverter());
+            serializer.Converters.Add(new CurrencyProductConverter());
 
             data = serializer.Deserialize<SaveData>(reader);
         }
@@ -113,9 +131,9 @@ public static class SaveLoadSystem
         }
     }
 
-    public static bool Save(SaveMissionData data, int slot = 7)
+    public static bool Save(SaveMissionData data, SaveType slot = SaveType.Missions)
     {
-        if (slot < 0 || slot >= SaveFileName.Length)
+        if (slot < 0 || (int)slot >= SaveFileName.Length)
         {
             return false;
         }
@@ -125,7 +143,7 @@ public static class SaveLoadSystem
             Directory.CreateDirectory(SaveDirectory);
         }
 
-        var path = Path.Combine(SaveDirectory, SaveFileName[slot]);
+        var path = Path.Combine(SaveDirectory, SaveFileName[(int)slot]);
 
         using (var writer = new JsonTextWriter(new StreamWriter(path)))
         {
@@ -140,13 +158,13 @@ public static class SaveLoadSystem
         return true;
     }
 
-    public static SaveMissionData MissionLoad(int slot = 7)
+    public static SaveMissionData MissionLoad(SaveType slot = SaveType.Missions)
     {
-        if (slot < 0 || slot >= SaveFileName.Length)
+        if (slot < 0 || (int)slot >= SaveFileName.Length)
         {
             return default(SaveMissionData);
         }
-        var path = Path.Combine(SaveDirectory, SaveFileName[slot]);
+        var path = Path.Combine(SaveDirectory, SaveFileName[(int)slot]);
         if (!File.Exists(path))
         {
             return default(SaveMissionData);

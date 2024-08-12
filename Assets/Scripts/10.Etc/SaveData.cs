@@ -33,11 +33,11 @@ public class BuildingSaveData
 
 public class FurnitureSaveData
 {
-    public FurnitureStat furnitureStat;
+    public BuildingStat buildingStat;
 
-    public FurnitureSaveData(FurnitureStat furnitureStat)
+    public FurnitureSaveData(BuildingStat buildingStat)
     {
-        this.furnitureStat = furnitureStat;
+        this.buildingStat = buildingStat;
     }
 }
 
@@ -50,7 +50,7 @@ public class FloorSaveData
 
     public FloorSaveData() { }
 
-    public FloorSaveData(int floorId) 
+    public FloorSaveData(int floorId)
     {
         floorStat = new FloorStat(floorId);
         animalSaveDatas = new List<AnimalSaveData>();
@@ -78,6 +78,20 @@ public class CurrencySaveData
         this.value = value;
     }
 }
+
+public class CurrencyProductSaveData
+{
+    public CurrencyProductType currencyProductType;
+    public BigNumber value;
+
+    public CurrencyProductSaveData() { }
+    public CurrencyProductSaveData(CurrencyProductType key, BigNumber value)
+    {
+        currencyProductType = key;
+        this.value = value;
+    }
+}
+
 
 public class ProductSaveData
 {
@@ -131,6 +145,20 @@ public class SaveCurrencyDataV1 : SaveData
     }
 }
 
+public class SaveCurrencyProductDataV1 : SaveData
+{
+    public List<CurrencyProductSaveData> currencySaveData;
+    public SaveCurrencyProductDataV1()
+    {
+        currencySaveData = new List<CurrencyProductSaveData>();
+        Version = 1;
+    }
+    public override SaveData VersionUp()
+    {
+        return null;
+    }
+}
+
 public class SaveProductDataV1 : SaveData
 {
     public List<ProductSaveData> productSaveData;
@@ -150,7 +178,7 @@ public class SaveDataV2 : SaveData
     public int Gold { get; set; } = 100;
     public string Name { get; set; } = "Empty";
 
-    public  SaveDataV2()
+    public SaveDataV2()
     {
         Version = 2;
     }

@@ -365,84 +365,84 @@ public class FloorManager : Singleton<FloorManager>
         }
     }
 
-    public void CheckFloorSynergy(Floor floor)
-    {
-        if (floor.FloorStat.Floor_Num <= 2)
-            return;
+    //public void CheckFloorSynergy(Floor floor) 시너지
+    //{
+    //    if (floor.FloorStat.Floor_Num <= 2)
+    //        return;
 
-        var synergies = DataTableMgr.GetSynergyTable().GetAllSynergyAnimalData();
+    //    var synergies = DataTableMgr.GetSynergyTable().GetAllSynergyAnimalData();
 
-        // 시너지들에 대해
-        foreach (var synergy in synergies)
-        {
-            var synergyID = synergy.Key;
-            var requiredAnimals = synergy.Value
-            .Where(animal => animal.Item1 != 0)
-            .ToList();
+    //    // 시너지들에 대해
+    //    foreach (var synergy in synergies)
+    //    {
+    //        var synergyID = synergy.Key;
+    //        var requiredAnimals = synergy.Value
+    //        .Where(animal => animal.Item1 != 0)
+    //        .ToList();
 
-            var availableAnimals = floor.animals.ToList();
+    //        var availableAnimals = floor.animals.ToList();
 
-            bool synergyMatched = true;
+    //        bool synergyMatched = true;
 
-            foreach (var requiredAnimal in requiredAnimals)
-            {
-                var matchedAnimal = availableAnimals.FirstOrDefault(animal =>
-                    (animal.animalStat.AnimalData.Animal_Type == requiredAnimal.Item1 &&
-                    ((animal.animalStat.AnimalData.Animal_Grade == requiredAnimal.Item2) || (requiredAnimal.Item2 == 0)))
-                );
+    //        foreach (var requiredAnimal in requiredAnimals)
+    //        {
+    //            var matchedAnimal = availableAnimals.FirstOrDefault(animal =>
+    //                (animal.animalStat.AnimalData.Animal_Type == requiredAnimal.Item1 &&
+    //                ((animal.animalStat.AnimalData.Animal_Grade == requiredAnimal.Item2) || (requiredAnimal.Item2 == 0)))
+    //            );
 
-                if (matchedAnimal != null)
-                {
-                    availableAnimals.Remove(matchedAnimal);
-                }
-                else
-                {
-                    synergyMatched = false;
-                    break;
-                }
-            }
-            var synergyStat = new SynergyStat(synergyID); // 현재 시너지 스텟
+    //            if (matchedAnimal != null)
+    //            {
+    //                availableAnimals.Remove(matchedAnimal);
+    //            }
+    //            else
+    //            {
+    //                synergyMatched = false;
+    //                break;
+    //            }
+    //        }
+    //        var synergyStat = new SynergyStat(synergyID); // 현재 시너지 스텟
 
-            var floorSynergies = floor.synergyStats; // 현재 계층의 시너지 스텟들
+    //        var floorSynergies = floor.synergyStats; // 현재 계층의 시너지 스텟들
 
-            if (synergyMatched)
-            {
-                floorSynergies.Add(synergyStat);
-                if(synergyStat.Synergy_Type == 2)
-                {
-                    foreach(var animal in floor.animals)
-                    {
-                        animal.animalWork.staminaReductionRate = synergyStat.Synergy_Value;
-                    }
-                }
-            }
-            else
-            {
-                foreach(var floorSynergy in floorSynergies)
-                {
-                    if(floorSynergy.Synergy_ID == synergyStat.Synergy_ID)
-                    {
-                        if(floorSynergy.Synergy_Type == 2)
-                        {
-                            foreach (var animal in floor.animals)
-                            {
-                                animal.animalWork.staminaReductionRate = 0;
-                            }
-                        }
+    //        if (synergyMatched)
+    //        {
+    //            floorSynergies.Add(synergyStat);
+    //            if(synergyStat.Synergy_Type == 2)
+    //            {
+    //                foreach(var animal in floor.animals)
+    //                {
+    //                    animal.animalWork.staminaReductionRate = synergyStat.Synergy_Value;
+    //                }
+    //            }
+    //        }
+    //        else
+    //        {
+    //            foreach(var floorSynergy in floorSynergies)
+    //            {
+    //                if(floorSynergy.Synergy_ID == synergyStat.Synergy_ID)
+    //                {
+    //                    if(floorSynergy.Synergy_Type == 2)
+    //                    {
+    //                        foreach (var animal in floor.animals)
+    //                        {
+    //                            animal.animalWork.staminaReductionRate = 0;
+    //                        }
+    //                    }
 
-                        floorSynergies.Remove(floorSynergy);
-                        break;
-                    }
-                }
-            }
-        }
-    }
+    //                    floorSynergies.Remove(floorSynergy);
+    //                    break;
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 
-    public void CheckEntireFloorSynergy()
-    {
-        foreach (var floor in floors.Values)
-        {
-            CheckFloorSynergy(floor);
-        }
-    }
+    //public void CheckEntireFloorSynergy() 시너지
+    //{
+    //    foreach (var floor in floors.Values)
+    //    {
+    //        CheckFloorSynergy(floor);
+    //    }
+    //}
 }

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class StorageValueUi : MonoBehaviour
 {
-    public List<CurrencyType> currencyTypes;
+    public List<CurrencyProductType> currencyTypes;
     public Image[] currencyImages;
     private BigNumber[] currentValue;
     private BigNumber[] currentWorkLoads;

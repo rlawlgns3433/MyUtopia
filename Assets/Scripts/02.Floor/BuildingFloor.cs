@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BuildingFloor : Floor
 {
-
+    public StorageConduct storageConduct;
     protected override void Start()
     {
         base.Start();
@@ -14,7 +14,7 @@ public class BuildingFloor : Floor
 
     private async UniTask UniAutoWork(CancellationToken cts)
     {
-        var storageConduct = storage as StorageConduct;
+        var storageConduct = this.storageConduct;
 
         while (true)
         {
@@ -55,14 +55,13 @@ public class BuildingFloor : Floor
                     b.accumWorkLoad += autoWorkload;
                     switch (b.buildingType)
                     {
-                        case CurrencyType.Coin:
-                        case CurrencyType.CopperStone:
-                        case CurrencyType.SilverStone:
-                        case CurrencyType.GoldStone:
+                        case CurrencyProductType.CopperStone:
+                        case CurrencyProductType.SilverStone:
+                        case CurrencyProductType.GoldStone:
                             if (b.accumWorkLoad > b.BuildingStat.Work_Require)
                             {
                                 BigNumber c = b.accumWorkLoad / b.BuildingStat.Work_Require;
-                                CurrencyManager.currency[b.buildingType] += c;
+                                CurrencyManager.product[b.buildingType] += c;
                                 //b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingStat.Work_Require; 기존
                                 b.accumWorkLoad = BigNumber.Zero;
 
@@ -75,12 +74,12 @@ public class BuildingFloor : Floor
                                 b.accumWorkLoad += autoWorkload;
 
                             break;
-                        case CurrencyType.CopperIngot:
-                        case CurrencyType.SilverIngot:
-                        case CurrencyType.GoldIngot:
+                        case CurrencyProductType.CopperIngot:
+                        case CurrencyProductType.SilverIngot:
+                        case CurrencyProductType.GoldIngot:
                             if (b.accumWorkLoad > b.BuildingStat.Work_Require)
                             {
-                                if (CurrencyManager.currency[(CurrencyType)b.BuildingStat.Materials_Type] < b.BuildingStat.Conversion_rate)
+                                if (CurrencyManager.product[(CurrencyProductType)b.BuildingStat.Materials_Type] < b.BuildingStat.Conversion_rate)
                                 {
                                     b.accumWorkLoad = BigNumber.Zero;
                                     break;
@@ -88,20 +87,20 @@ public class BuildingFloor : Floor
 
                                 BigNumber c = b.accumWorkLoad / b.BuildingStat.Work_Require;
 
-                                var temp = CurrencyManager.currency[(CurrencyType)b.BuildingStat.Materials_Type];
+                                var temp = CurrencyManager.product[(CurrencyProductType)b.BuildingStat.Materials_Type];
 
-                                CurrencyManager.currency[(CurrencyType)b.BuildingStat.Materials_Type] -= c * b.BuildingStat.Conversion_rate; // 뺀 후의 값
+                                CurrencyManager.product[(CurrencyProductType)b.BuildingStat.Materials_Type] -= c * b.BuildingStat.Conversion_rate; // 뺀 후의 값
 
-                                if(temp < CurrencyManager.currency[(CurrencyType)b.BuildingStat.Materials_Type])
+                                if(temp < CurrencyManager.product[(CurrencyProductType)b.BuildingStat.Materials_Type])
                                 {
-                                    CurrencyManager.currency[(CurrencyType)b.BuildingStat.Materials_Type] = temp;
+                                    CurrencyManager.product[(CurrencyProductType)b.BuildingStat.Materials_Type] = temp;
 
                                     b.accumWorkLoad = BigNumber.Zero;
 
                                     break;
                                 }
 
-                                CurrencyManager.currency[b.buildingType] += c;
+                                CurrencyManager.product[b.buildingType] += c;
                                 //b.accumWorkLoad -= c * b.BuildingStat.Work_Require; 기존
                                 b.accumWorkLoad = BigNumber.Zero;
                             }

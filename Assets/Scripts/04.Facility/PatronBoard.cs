@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PatronBoard : Furniture
+public class PatronBoard : Building
 {
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         clickEvent += UiManager.Instance.ShowPatronUi;
     }
 

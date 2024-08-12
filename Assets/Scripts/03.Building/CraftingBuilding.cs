@@ -1,12 +1,29 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
-
 public class CraftingBuilding : Building
 {
     public bool isCrafting = false;
-    public int amount = 1;
-    public bool autoCrafting = false;
-    public RecipeStat recipeStat;
+    private RecipeStat currentRecipeStat;
+    public RecipeStat CurrentRecipeStat
+    {
+        get
+        {
+            return currentRecipeStat;
+        }
+        set
+        {
+            currentRecipeStat = value;
+            if(currentRecipeStat == null)
+                UiManager.Instance.craftTableUi.uiCraftingSlot.buttonAccelerate.interactable = false;
+            else
+                UiManager.Instance.craftTableUi.uiCraftingSlot.buttonAccelerate.interactable = true;
+        }
+    }
+    public Queue<RecipeStat> recipeStatList = new Queue<RecipeStat>();
     public Slider craftingSlider;
     protected override void OnEnable()
     {
@@ -34,12 +51,25 @@ public class CraftingBuilding : Building
     public void SetSlider()
     {
         craftingSlider.gameObject.SetActive(true);
-        craftingSlider.maxValue = recipeStat.Workload;
+        craftingSlider.maxValue = currentRecipeStat.Workload;
         craftingSlider.value = craftingSlider.minValue;
     }
 
     public void CancelCrafting()
     {
+        UiManager.Instance.craftTableUi.uiCraftingSlot.recipeCurrentCrafting = null;
+
+        if (recipeStatList.Count <= 0 && currentRecipeStat == null)
+        {
+            AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>("Gift");
+            handle.Completed += (AsyncOperationHandle<Sprite> obj) =>
+            {
+                UiManager.Instance.craftTableUi.uiCraftingSlot.imageCurrentCrafting.sprite = obj.Result;
+            };
+
+            UiManager.Instance.craftTableUi.uiCraftingSlot.textCurrentCraftingName.text = "¿Ã∏ß";
+        }
+
         craftingSlider.gameObject.SetActive(false);
         accumWorkLoad = BigNumber.Zero;
     }
@@ -49,14 +79,14 @@ public class CraftingBuilding : Building
         base.OnPointerClick(eventData);
     }
 
-    public void Set(RecipeStat recipeStat, bool autoCraft, int amount = 1)
+    public void Set(RecipeStat recipeStat)
     {
-        if(recipeStat == null)
+        if (recipeStat == null)
             return;
 
-        this.autoCrafting = autoCraft;
-        this.amount = amount;
-        this.recipeStat = recipeStat;
+        if(currentRecipeStat == null)
+            CurrentRecipeStat = recipeStat;
+
         isCrafting = true;
 
         SetSlider();
@@ -64,19 +94,19 @@ public class CraftingBuilding : Building
 
     public void UseResources()
     {
-        if (recipeStat.Resource_1 != 0)
+        if (currentRecipeStat.Resource_1 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_1] -= recipeStat.Resource_1_Value.ToBigNumber();
+            CurrencyManager.currency[(CurrencyType)currentRecipeStat.Resource_1] -= currentRecipeStat.Resource_1_Value.ToBigNumber();
         }
 
-        if (recipeStat.Resource_2 != 0)
+        if (currentRecipeStat.Resource_2 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_2] -= recipeStat.Resource_2_Value.ToBigNumber();
+            CurrencyManager.currency[(CurrencyType)currentRecipeStat.Resource_2] -= currentRecipeStat.Resource_2_Value.ToBigNumber();
         }
 
-        if (recipeStat.Resource_3 != 0)
+        if (currentRecipeStat.Resource_3 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)recipeStat.Resource_3] -= recipeStat.Resource_3_Value.ToBigNumber();
+            CurrencyManager.currency[(CurrencyType)currentRecipeStat.Resource_3] -= currentRecipeStat.Resource_3_Value.ToBigNumber();
         }
     }
 }

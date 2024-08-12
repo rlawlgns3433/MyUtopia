@@ -52,50 +52,50 @@ public class AnimalStat
     }
 }
 
-public class FurnitureStat
-{
-    private FunitureData furnitureData;
-    public FunitureData FurnitureData
-    {
-        get
-        {
-            if (furnitureData == null)
-            {
-                furnitureData = new FunitureData();
-            }
-            return furnitureData;
-        }
-        set
-        {
-            furnitureData = value;
-            Furniture_ID = FurnitureData.Furniture_ID;
-            Furniture_Name = FurnitureData.Furniture_Name_ID;
-            Level = FurnitureData.Level;
-            Level_Max = FurnitureData.Level_Max;
-            Effect_Type = FurnitureData.Effect_Type;
-            Effect_Value = FurnitureData.Effect_Value;
-            Level_Up_Coin_ID = FurnitureData.Level_Up_Coin_ID;
-            Level_Up_Coin_Value = FurnitureData.Level_Up_Coin_Value;
-            Prefab = FurnitureData.Prefab;
-        }
-    }
-    public int Furniture_ID { get; set; }
-    public string Furniture_Name { get; set; }
-    public int Level { get; set; }
-    public int Level_Max { get; set; }
-    public int Effect_Type { get; set; }
-    public int Effect_Value { get; set; }
-    public int Level_Up_Coin_ID { get; set; }
-    public string Level_Up_Coin_Value { get; set; }
-    public string Prefab { get; set; }
+//public class FurnitureStat
+//{
+//    private FunitureData furnitureData;
+//    public FunitureData FurnitureData
+//    {
+//        get
+//        {
+//            if (furnitureData == null)
+//            {
+//                furnitureData = new FunitureData();
+//            }
+//            return furnitureData;
+//        }
+//        set
+//        {
+//            furnitureData = value;
+//            Furniture_ID = FurnitureData.Furniture_ID;
+//            Furniture_Name = FurnitureData.Furniture_Name_ID;
+//            Level = FurnitureData.Level;
+//            Level_Max = FurnitureData.Level_Max;
+//            Effect_Type = FurnitureData.Effect_Type;
+//            Effect_Value = FurnitureData.Effect_Value;
+//            Level_Up_Coin_ID = FurnitureData.Level_Up_Coin_ID;
+//            Level_Up_Coin_Value = FurnitureData.Level_Up_Coin_Value;
+//            Prefab = FurnitureData.Prefab;
+//        }
+//    }
+//    public int Furniture_ID { get; set; }
+//    public string Furniture_Name { get; set; }
+//    public int Level { get; set; }
+//    public int Level_Max { get; set; }
+//    public int Effect_Type { get; set; }
+//    public int Effect_Value { get; set; }
+//    public int Level_Up_Coin_ID { get; set; }
+//    public string Level_Up_Coin_Value { get; set; }
+//    public string Prefab { get; set; }
 
-    public FurnitureStat() { }
+//    public FurnitureStat() { }
 
-    public FurnitureStat(int furnitureId)
-    {
-        this.FurnitureData = DataTableMgr.GetFurnitureTable().Get(furnitureId);
-    }
-}
+//    public FurnitureStat(int furnitureId)
+//    {
+//        this.FurnitureData = DataTableMgr.GetFurnitureTable().Get(furnitureId);
+//    }
+//}
 
 public class FloorStat
 {
@@ -282,6 +282,8 @@ public class BuildingStat
             Materials_Type = BuildingData.Materials_Type;
             Conversion_rate = BuildingData.Conversion_rate;
             Work_Require = BuildingData.Work_Require;
+            Effect_Type = BuildingData.Effect_Type;
+            Effect_Value = BuildingData.Effect_Value;
             Resource_Type = BuildingData.Resource_Type;
             Touch_Produce = BuildingData.Touch_Produce;
             Level_Up_Resource_ID = BuildingData.Level_Up_Resource_ID;
@@ -303,6 +305,8 @@ public class BuildingStat
     public int Materials_Type { get; set; }
     public int Conversion_rate { get; set; }
     public int Work_Require { get; set; }
+    public int Effect_Type { get; set; }
+    public int Effect_Value { get; set; }
     public int Resource_Type { get; set; } // 생산 재화 타입
     public string Touch_Produce { get; set; }
     public string Level_Up_Resource_ID { get; set; }

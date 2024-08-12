@@ -7,10 +7,11 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StorageConduct : Storage
+public class StorageConduct : MonoBehaviour
 {
-    public List<CurrencyType> currencyTypes;
+    public List<CurrencyProductType> currencyTypes;
     public BigNumber CurrWorkLoad;
+    public int floorIndex;
     private bool isClick = false;
     private int currentTotalSeconds;
     public int CurrentTotalSeconds
@@ -125,10 +126,10 @@ public class StorageConduct : Storage
         //    currentTotalSeconds = maxSeconds;
         //}
         offLineSeconds = UtilityTime.Seconds / 3;
-        floor = FloorManager.Instance.GetFloor($"B{FurnitureStat.FurnitureData.Floor_Type}");
+        floor = FloorManager.Instance.GetFloor($"B{floorIndex}");
         await UniTask.WaitUntil(() => floor.buildings.Count > 0 && floor.buildings[0] != null);
         //bool isEmpty = true;
-        var offLineTime = (int)offLineWorkLoad / 3;//int
+        var offLineTime = (int)OffLineWorkLoad / 3;//int
         if(offLineTime >= offLineSeconds)
         {
             offLineTime = offLineSeconds;
@@ -141,7 +142,6 @@ public class StorageConduct : Storage
                 values[i] = workLoadValue / workRequire;
                 var tempValue = values[i] * offLineSeconds;
                 var tempOffLineValue = tempValue;
-                Debug.Log($"Floor =>{FurnitureStat.FurnitureData.Floor_Type}/value =>{tempValue.ToSimpleString()}");
                 if (offLineTime >= 0)
                 {
                     tempOffLineValue = values[i] * offLineTime;
@@ -205,7 +205,7 @@ public class StorageConduct : Storage
 
     private void LoadDataOnStart()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, $"B{FurnitureStat.FurnitureData.Floor_Type}.json");
+        string filePath = Path.Combine(Application.persistentDataPath, $"B{floorIndex}.json");
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
@@ -291,7 +291,7 @@ public class StorageConduct : Storage
             Debug.Log("Click");
             for (int i = 0; i < currencyTypes.Count; ++i)
             {
-                CurrencyManager.currency[currencyTypes[i]] += CurrArray[i];
+                CurrencyManager.product[currencyTypes[i]] += CurrArray[i];
                 CurrArray[i] = BigNumber.Zero;
 
                 isClick = true;
@@ -319,7 +319,7 @@ public class StorageConduct : Storage
         {
             currentTotalSeconds = 0;
         }
-        string filePath = Path.Combine(Application.persistentDataPath, $"B{FurnitureStat.FurnitureData.Floor_Type}.json");
+        string filePath = Path.Combine(Application.persistentDataPath, $"B{floorIndex}.json");
         StorageData storageData = new StorageData
         {
             CurrentWorkLoad = CurrWorkLoad,
@@ -341,7 +341,7 @@ public class StorageConduct : Storage
     }
     public async UniTask UniWaitFurnitureTable()
     {
-        while (!DataTableMgr.GetFurnitureTable().IsLoaded)
+        while (!DataTableMgr.GetBuildingTable().IsLoaded)
         {
             await UniTask.Yield();
         }

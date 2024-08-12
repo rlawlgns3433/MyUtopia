@@ -6,12 +6,12 @@ public class TestPanel : MonoBehaviour
     public void ShowMeTheMoney()
     {
         CurrencyManager.currency[CurrencyType.Coin] += 10000;
-        CurrencyManager.currency[CurrencyType.CopperStone] += 10000;
-        CurrencyManager.currency[CurrencyType.SilverStone] += 10000;
-        CurrencyManager.currency[CurrencyType.GoldStone] += 10000;
-        CurrencyManager.currency[CurrencyType.CopperIngot] += 10000;
-        CurrencyManager.currency[CurrencyType.SilverIngot] += 10000;
-        CurrencyManager.currency[CurrencyType.GoldIngot] += 10000;
+        CurrencyManager.product[CurrencyProductType.CopperStone] += 10000;
+        CurrencyManager.product[CurrencyProductType.SilverStone] += 10000;
+        CurrencyManager.product[CurrencyProductType.GoldStone] += 10000;
+        CurrencyManager.product[CurrencyProductType.CopperIngot] += 10000;
+        CurrencyManager.product[CurrencyProductType.SilverIngot] += 10000;
+        CurrencyManager.product[CurrencyProductType.GoldIngot] += 10000;
     }
 
     // 현재 세이브 파일 삭제
@@ -29,8 +29,8 @@ public class TestPanel : MonoBehaviour
     {
         GameManager.Instance.SetPlayerData();
 
-        var playingWorld = SaveLoadSystem.Load(4) as SaveDataV1;
-        var playingCurrency = SaveLoadSystem.Load(5) as SaveCurrencyDataV1;
+        var playingWorld = SaveLoadSystem.Load(SaveLoadSystem.SaveType.PlayingWorld) as SaveDataV1;
+        var playingCurrency = SaveLoadSystem.Load(SaveLoadSystem.SaveType.PlayingCurrency) as SaveCurrencyDataV1;
 
         // 현재 월드에 적용된 시스템 초기화
         var floors = FloorManager.Instance.floors;
@@ -72,7 +72,7 @@ public class TestPanel : MonoBehaviour
 
             for (int j = 0; j < saveFurnitures.Count; ++j)
             {
-                floor.furnitures[j].FurnitureStat = saveFurnitures[j].furnitureStat;
+                floor.furnitures[j].BuildingStat = saveFurnitures[j].buildingStat;
             }
         }
 
@@ -86,8 +86,9 @@ public class TestPanel : MonoBehaviour
 
     public void SetEmptyData()
     {
-        var emptyWorld = SaveLoadSystem.Load(2) as SaveDataV1;
-        var emptyCurrency = SaveLoadSystem.Load(3) as SaveCurrencyDataV1;
+        var emptyWorld = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyWorld) as SaveDataV1;
+        var emptyCurrency = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyCurrency) as SaveCurrencyDataV1;
+        var emptyCurrencyProduct = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyCurrencyProduct) as SaveCurrencyProductDataV1;
 
         // 현재 월드에 적용된 시스템 초기화
         var floors = FloorManager.Instance.floors;
@@ -97,7 +98,7 @@ public class TestPanel : MonoBehaviour
             floor.RemoveAllAnimals();
             if(floor.FloorStat.Floor_Num > 3)
             {
-                var storageConduct = floor.storage as StorageConduct;
+                var storageConduct = (floor as BuildingFloor).storageConduct;
                 storageConduct.ResetStorageConduct();
             }
         }
@@ -126,7 +127,7 @@ public class TestPanel : MonoBehaviour
 
             for(int j = 0; j < saveFurnitures.Count; ++j)
             {
-                floor.furnitures[j].FurnitureStat = saveFurnitures[j].furnitureStat;
+                floor.furnitures[j].BuildingStat = saveFurnitures[j].buildingStat;
             }
         }
 
@@ -136,7 +137,10 @@ public class TestPanel : MonoBehaviour
             CurrencyManager.currency[CurrencyManager.currencyTypes[i]] = emptyCurrency.currencySaveData[i].value;
         }
 
-        
+        for(int i = 0; i < emptyCurrencyProduct.currencySaveData.Count; ++i)
+        {
+            CurrencyManager.product[CurrencyManager.productTypes[i]] = emptyCurrencyProduct.currencySaveData[i].value;
+        }
     }
 
     public void OnClickApplicationQuit()

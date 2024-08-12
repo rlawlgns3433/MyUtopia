@@ -14,7 +14,7 @@ public class AnimalWork : Subject, IMergable
     public CancellationTokenSource cts = new CancellationTokenSource();
     public int animalId;
     public bool isHealing = false;
-    public float staminaReductionRate = 0f;
+    //public float staminaReductionRate = 0f; 시너지
     private Animal animal;
     public Animal Animal
     {
@@ -74,8 +74,8 @@ public class AnimalWork : Subject, IMergable
             animalManager.Create(floor.gameObject.transform.position, floor, resultAnimalId, 0, true);
             FloorManager.Instance.GetFloor(animal.animalStat.CurrentFloor).RemoveAnimal(animal);
             FloorManager.Instance.GetFloor(animal.animalStat.CurrentFloor).RemoveAnimal(animalWork.animal);
-            FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(animal.animalStat.CurrentFloor));
-            FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(animalWork.animal.animalStat.CurrentFloor));
+            //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(animal.animalStat.CurrentFloor)); 시너지
+            //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(animalWork.animal.animalStat.CurrentFloor));
             Destroy(gameObject);
             Destroy(animalWork.gameObject);
             return true;
@@ -122,7 +122,7 @@ public class AnimalWork : Subject, IMergable
                 {
                     if (cts.IsCancellationRequested)
                         break;
-                    Animal.animalStat.Stamina = Animal.animalStat.Stamina - 1 + staminaReductionRate;
+                    //Animal.animalStat.Stamina = Animal.animalStat.Stamina - 1 + staminaReductionRate; 시너지
                     NotifyObservers();
                     await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
                 }

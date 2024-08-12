@@ -17,6 +17,7 @@ public class AssetReferenceTextAsset : AssetReferenceT<TextAsset>
 public class TestFileLoad : MonoBehaviour
 {
     public List<AssetReferenceTextAsset> assets = new List<AssetReferenceTextAsset>();
+    public List<SaveLoadSystem.SaveType> assetTypes = new List<SaveLoadSystem.SaveType>();
 
     private async void Start()
     {
@@ -27,27 +28,20 @@ public class TestFileLoad : MonoBehaviour
     {
         for (int i = 0; i < assets.Count; ++i)
         {
-            if (i + 2 < SaveLoadSystem.SaveFileName.Length)
+            var assetReference = assets[i];
+            AsyncOperationHandle<TextAsset> handle = assetReference.LoadAssetAsync<TextAsset>();
+
+            await handle.Task;
+
+            if (handle.Status == AsyncOperationStatus.Succeeded)
             {
-                var assetReference = assets[i];
-                AsyncOperationHandle<TextAsset> handle = assetReference.LoadAssetAsync<TextAsset>();
-
-                await handle.Task;
-
-                if (handle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    var path = Path.Combine(Application.persistentDataPath, "Save", SaveLoadSystem.SaveFileName[i + 2]);
-                    SaveTextAssetToFile(handle.Result, path);
-                    assetReference.ReleaseAsset();
-                }
-                else
-                {
-                    Debug.LogError("Failed to load asset: " + assetReference.AssetGUID);
-                }
+                var path = Path.Combine(Application.persistentDataPath, "Save", SaveLoadSystem.SaveFileName[(int)assetTypes[i]]);
+                SaveTextAssetToFile(handle.Result, path);
+                assetReference.ReleaseAsset();
             }
             else
             {
-                Debug.LogWarning("Not enough save file names specified in SaveLoadSystem.");
+                Debug.LogError("Failed to load asset: " + assetReference.AssetGUID);
             }
         }
     }

@@ -10,7 +10,7 @@ public class Building : MonoBehaviour, IClickable, IGrowable
     public BigNumber accumWorkLoad;
     public Vector3 initialScale;
     public Vector3 clickedScale;
-    public CurrencyType buildingType;
+    public CurrencyProductType buildingType;
     public int buildingId;
     public bool IsUpgrading { get; set; }
 

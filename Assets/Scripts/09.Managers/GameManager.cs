@@ -52,7 +52,7 @@ public class GameManager : Singleton<GameManager>
         await UniTask.WaitUntil(() => UtilityTime.Seconds >= 0);
         await UniLoadWorldData();
 
-        FloorManager.Instance.CheckEntireFloorSynergy();
+        //FloorManager.Instance.CheckEntireFloorSynergy(); 시너지
     }
 
     private async UniTask UniLoadWorldData()
@@ -70,7 +70,13 @@ public class GameManager : Singleton<GameManager>
 
                 var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
                 floor.FloorStat = floorSaveData.floorStat;
-                var storageConduct = floor.storage as StorageConduct;
+
+                StorageConduct storageConduct = null;
+                if ((floor as BuildingFloor) != null)
+                {
+                    storageConduct = (floor as BuildingFloor).storageConduct;
+                }
+                 
                 foreach (var animal in animals)
                 {
                     var pos = floor.transform.position;
@@ -130,7 +136,7 @@ public class GameManager : Singleton<GameManager>
             UiManager.Instance.productsUi.capacity = 6;
         }
 
-        SaveCurrencyDataV1 saveCurrencyData = SaveLoadSystem.Load(1) as SaveCurrencyDataV1;
+        SaveCurrencyDataV1 saveCurrencyData = SaveLoadSystem.Load(SaveLoadSystem.SaveType.Currency) as SaveCurrencyDataV1;
         if (saveCurrencyData != null)
         {
             for (int i = 0; i < CurrencyManager.currencyTypes.Length; ++i)
@@ -139,7 +145,16 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        SaveProductDataV1 saveProductData = SaveLoadSystem.Load(6) as SaveProductDataV1;
+        SaveCurrencyProductDataV1 saveCurrencyProductData = SaveLoadSystem.Load(SaveLoadSystem.SaveType.CurrencyProduct) as SaveCurrencyProductDataV1;
+        if (saveCurrencyProductData != null)
+        {
+            for (int i = 0; i < CurrencyManager.productTypes.Length; ++i)
+            {
+                CurrencyManager.product[CurrencyManager.productTypes[i]] = saveCurrencyProductData.currencySaveData[i].value;
+            }
+        }
+
+        SaveProductDataV1 saveProductData = SaveLoadSystem.Load(SaveLoadSystem.SaveType.Product) as SaveProductDataV1;
         if (saveProductData != null)
         {
             var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
@@ -147,7 +162,7 @@ public class GameManager : Singleton<GameManager>
             {
                 storageProduct.IncreaseProduct(saveProductData.productSaveData[i].productId, saveProductData.productSaveData[i].productValue);
             }
-            UiManager.Instance.productsUi.capacity = storageProduct.FurnitureStat.Effect_Value;
+            UiManager.Instance.productsUi.capacity = storageProduct.BuildingStat.Effect_Value;
         }
         await UniTask.WaitForSeconds(1);
     }
@@ -215,10 +230,10 @@ public class GameManager : Singleton<GameManager>
             await UniTask.Yield();
         }
 
-        while (!DataTableMgr.GetFurnitureTable().IsLoaded)
-        {
-            await UniTask.Yield();
-        }
+        //while (!DataTableMgr.GetFurnitureTable().IsLoaded)
+        //{
+        //    await UniTask.Yield();
+        //}
 
         while (!DataTableMgr.GetItemTable().IsLoaded)
         {
@@ -262,6 +277,7 @@ public class GameManager : Singleton<GameManager>
         var saveData = new SaveDataV1();
         var saveCurrencyData = new SaveCurrencyDataV1();
         var saveProductData = new SaveProductDataV1();
+        var saveCurrencyProductData = new SaveCurrencyProductDataV1();
 
         for (int i = 0; i < FloorManager.Instance.floors.Count; ++i)
         {
@@ -279,7 +295,7 @@ public class GameManager : Singleton<GameManager>
             }
 
             if (floor.storage != null)
-                saveData.floors[saveData.floors.Count - 1].furnitureSaveDatas.Add(new FurnitureSaveData(floor.storage.FurnitureStat)); // 창고
+                saveData.floors[saveData.floors.Count - 1].furnitureSaveDatas.Add(new FurnitureSaveData(floor.storage.BuildingStat)); // 창고
         }
 
 
@@ -290,14 +306,23 @@ public class GameManager : Singleton<GameManager>
             saveCurrencyData.currencySaveData.Add(new CurrencySaveData(CurrencyManager.currencyTypes[i], CurrencyManager.currency[CurrencyManager.currencyTypes[i]]));
         }
 
-        SaveLoadSystem.Save(saveCurrencyData, 1);
+        SaveLoadSystem.Save(saveCurrencyData, SaveLoadSystem.SaveType.Currency);        
+        
+        for (int i = 0; i < CurrencyManager.productTypes.Length; ++i)
+        {
+            saveCurrencyProductData.currencySaveData.Add(new CurrencyProductSaveData(CurrencyManager.productTypes[i], CurrencyManager.product[CurrencyManager.productTypes[i]]));
+        }
+
+        SaveLoadSystem.Save(saveCurrencyProductData, SaveLoadSystem.SaveType.CurrencyProduct);
 
         var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
         for (int i = 0; i < storageProduct.products.Count; ++i)
         {
             saveProductData.productSaveData.Add(new ProductSaveData(storageProduct.products.ElementAt(i).Key, storageProduct.products.ElementAt(i).Value));
         }
-        SaveLoadSystem.Save(saveProductData, 6);
+        SaveLoadSystem.Save(saveProductData, SaveLoadSystem.SaveType.Product);
+
+
     }
 }
 
