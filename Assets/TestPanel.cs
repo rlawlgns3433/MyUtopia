@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,6 +23,7 @@ public class TestPanel : MonoBehaviour
         SetEmptyData();
         UiManager.Instance.tutorialUi.ResetTutorial();
         UiManager.Instance.floorInformationUi.ClearFloorUi();
+        SaveLoadSystem.Delete((int)SaveLoadSystem.SaveType.Catalouge);
     }
 
     // 중간 플레이 세이브 파일 로드
