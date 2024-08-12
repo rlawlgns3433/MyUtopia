@@ -28,6 +28,7 @@ public static class SaveLoadSystem
         Product,
         Missions,
         CurrencyProduct,
+        Catalouge
     }
 
     // 0 (ÀÚµ¿), 1, 2, 3 ...
@@ -43,6 +44,7 @@ public static class SaveLoadSystem
         "SaveProduct.sav",
         "SaveMissions.sav",
         "SaveCurrencyProduct.sav",
+        "SaveCatalogue.sav",
     };
 
     private static string SaveDirectory
@@ -180,6 +182,58 @@ public static class SaveLoadSystem
             serializer.Converters.Add(new MissionDataConverter());
 
             return serializer.Deserialize<SaveMissionData>(reader);
+        }
+    }
+
+    public static bool Save(SaveCatalogueData data, SaveType slot = SaveType.Catalouge)
+    {
+        if (slot < 0 || (int)slot >= SaveFileName.Length)
+        {
+            return false;
+        }
+
+        if (!Directory.Exists(SaveDirectory))
+        {
+            Directory.CreateDirectory(SaveDirectory);
+        }
+
+        var path = Path.Combine(SaveDirectory, SaveFileName[(int)slot]);
+
+        using (var writer = new JsonTextWriter(new StreamWriter(path)))
+        {
+            var serializer = new JsonSerializer
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All
+            };
+            serializer.Converters.Add(new CatalougeDataConverter());
+            serializer.Serialize(writer, data);
+        }
+        return true;
+    }
+
+    public static SaveCatalogueData CatalougeLoad(SaveType slot = SaveType.Catalouge)
+    {
+        if (slot < 0 || (int)slot >= SaveFileName.Length)
+        {
+            return default(SaveCatalogueData);
+        }
+        var path = Path.Combine(SaveDirectory, SaveFileName[(int)slot]);
+        if (!File.Exists(path))
+        {
+            return default(SaveCatalogueData);
+        }
+
+        using (var reader = new JsonTextReader(new StreamReader(path)))
+        {
+            var serializer = new JsonSerializer
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All
+            };
+            serializer.Converters.Add(new CatalougeDataConverter());
+
+            return serializer.Deserialize<SaveCatalogueData>(reader);
         }
     }
 }

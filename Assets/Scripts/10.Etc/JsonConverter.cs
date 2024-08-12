@@ -78,6 +78,31 @@ public class MissionDataConverter : JsonConverter<SaveMissionData>
         writer.WriteEndObject();
     }
 }
+
+public class CatalougeDataConverter : JsonConverter<SaveCatalogueData>
+{
+    public override SaveCatalogueData ReadJson(JsonReader reader, Type objectType, SaveCatalogueData existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        JObject jObj = JObject.Load(reader);
+        SaveCatalogueData gameData = new SaveCatalogueData
+        {
+            catalogueDatas = jObj["catalogueDatas"].ToObject<List<CatalogueData>>(),
+            isGetFirstAnimal = jObj["firstGetAnimal"].ToObject<bool>(),
+        };
+        return gameData;
+    }
+
+    public override void WriteJson(JsonWriter writer, SaveCatalogueData value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+        writer.WritePropertyName("catalogueDatas");
+        serializer.Serialize(writer, value.catalogueDatas);
+        writer.WritePropertyName("firstGetAnimal");
+        writer.WriteValue(value.isGetFirstAnimal);
+        writer.WriteEndObject();
+    }
+}
+
 public class WorkLoadConverter : JsonConverter<StorageData>
 {
     public override StorageData ReadJson(JsonReader reader, Type objectType, StorageData existingValue, bool hasExistingValue, JsonSerializer serializer)

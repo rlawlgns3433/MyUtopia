@@ -8,19 +8,21 @@ using UnityEngine;
 [Serializable]
 public struct CatalogueData
 {
-    public AnimalData animal;
+    public int id;
     public bool isLock;
 }
 [Serializable]
-public struct SaveCatalogueData
+public class SaveCatalogueData
 {
     public List<CatalogueData> catalogueDatas;
+    public bool isGetFirstAnimal;
 }
 
 public class CatalogueManager : Singleton<CatalogueManager>
 {
     private Dictionary<int, AnimalData> animalDictionary = new Dictionary<int, AnimalData>();
     private Dictionary<int, bool> animalCatalogue = new Dictionary<int, bool>();
+    private List<CatalogueData> catalogueDatas = new List<CatalogueData>();
     private List<AnimalData> animalDataList;
     public List<AnimalData> AnimalDataList
     {
@@ -37,13 +39,34 @@ public class CatalogueManager : Singleton<CatalogueManager>
     public int count = 0;
     private bool firstGetAnimal = false;
     public GameObject isFirstGetAnimal;
+    private bool isAddQuitEvent = false;
+    private void Awake()
+    {
+        if (!isAddQuitEvent)
+        {
+            Application.quitting -= SaveCatalougeData;
+            Application.quitting += SaveCatalougeData;
+            isAddQuitEvent = true;
+        }
+    }
     private async void Start()
     {
         await GameManager.Instance.UniWaitTables();
         animalTable = DataTableMgr.GetAnimalTable();
         animalDataList = new List<AnimalData>(animalTable.Count);
-        LoadAnimal();
-        count = GetMaxAnimalType();
+        LoadCatalougeData();
+        if (catalogueDatas.Count <= 0)
+        {
+            LoadAnimal();
+        }
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if(pause)
+        {
+            SaveCatalougeData();
+        }
     }
 
     private void LoadAnimal()
@@ -57,6 +80,8 @@ public class CatalogueManager : Singleton<CatalogueManager>
                 animalDataList.Add(animalData);
             }
         }
+        firstGetAnimal = false;
+        count = GetMaxAnimalType();
     }
 
     public bool HasAnimal(int animalID)
@@ -70,7 +95,7 @@ public class CatalogueManager : Singleton<CatalogueManager>
         {
             animalCatalogue[animalID] = true;
             firstGetAnimal = true;
-            UiManager.Instance.SetCatalougeImage(true);
+            UiManager.Instance.SetCatalougeImage(firstGetAnimal);
             return true;
         }
         return false;
@@ -100,11 +125,38 @@ public class CatalogueManager : Singleton<CatalogueManager>
         {
             catalogueDatas = animalCatalogue.Select(data => new CatalogueData
             {
-                animal = animalDictionary[data.Key],
+                id = data.Key,
                 isLock = data.Value
             }).ToList()
         };
+        saveData.isGetFirstAnimal = firstGetAnimal;
+        SaveLoadSystem.Save(saveData);
     }
 
-
+    public void LoadCatalougeData()
+    {
+        SaveCatalogueData gameData = SaveLoadSystem.CatalougeLoad();
+        if(gameData == null)
+        {
+            LoadAnimal();
+            return;
+        }
+        
+        catalogueDatas = gameData.catalogueDatas;
+        firstGetAnimal = gameData.isGetFirstAnimal;
+        for (int i = 0; i < catalogueDatas.Count; i++)
+        {
+            animalCatalogue[catalogueDatas[i].id] = catalogueDatas[i].isLock;
+            var animalData = animalTable.Get(catalogueDatas[i].id);
+            animalDictionary.Add(catalogueDatas[i].id, animalData);
+            animalDataList.Add(animalTable.Get(catalogueDatas[i].id));
+        }
+        count = GetMaxAnimalType();
+        UiManager.Instance.SetCatalougeImage(firstGetAnimal);
+        //animalCatalogue.Clear();
+        //foreach (var saveData in gameData.catalogueDatas)
+        //{
+        //    var missionData = DataTableMgr.GetAnimalTable().Get(saveData.id);
+        //}
+    }
 }
