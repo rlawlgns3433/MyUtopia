@@ -10,21 +10,21 @@ public class UiFloorInformation : MonoBehaviour
     private static readonly string levelFormat = "{0} / {1}";
 
     public UiBuildingInfo buildingInfoPrefab;
-    public UiFurnitureInfo furnitureInfoPrefab;
+    //public UiFurnitureInfo furnitureInfoPrefab;
     //public UiAnimalSynergyBlock synergyEffectInfoPrefab; 시너지
     //public UiFurnitureEffectBlock furnitureEffectPrefab;
 
-    public Transform furnitureParent;
+    //public Transform furnitureParent;
     public Transform buildingParent;
-    public Transform furnitureEffectParent;
-    public Transform synergyEffectParent;
+    //public Transform furnitureEffectParent;
+    //public Transform synergyEffectParent;
 
     public TextMeshProUGUI textFloorName;
 
     public UiFloorInfoBlock uiFloorInfoBlock;
 
     public List<UiBuildingInfo> uiBuildings;
-    public List<UiFurnitureInfo> uiFurnitures;
+    //public List<UiFurnitureInfo> uiFurnitures;
     //public List<UiAnimalSynergyBlock> uiAnimalSynergyEffects; 시너지
     //public List<UiFurnitureEffectBlock> uiFurnitureEffects;
 
@@ -38,7 +38,7 @@ public class UiFloorInformation : MonoBehaviour
     {
         uiBuildings = new List<UiBuildingInfo>();
         resourceTable = DataTableMgr.GetResourceTable();
-        uiFurnitures = new List<UiFurnitureInfo>();
+        //uiFurnitures = new List<UiFurnitureInfo>();
     }
 
     public void SetFloorData()
@@ -125,22 +125,22 @@ public class UiFloorInformation : MonoBehaviour
         return isSucceed;
     }
 
-    public bool ValidateFurnitureData(Building newBuilding)
-    {
-        bool isSucceed = true;
-        foreach (var uiFurniture in uiFurnitures)
-        {
-            if (uiFurniture.building.BuildingStat.BuildingData.Floor_Type != currentFloor.FloorStat.Floor_Type)
-                uiFurniture.gameObject.SetActive(false);
+    //public bool ValidateFurnitureData(Building newBuilding)
+    //{
+    //    bool isSucceed = true;
+    //    foreach (var uiFurniture in uiFurnitures)
+    //    {
+    //        if (uiFurniture.building.BuildingStat.BuildingData.Floor_Type != currentFloor.FloorStat.Floor_Type)
+    //            uiFurniture.gameObject.SetActive(false);
 
-            if (uiFurniture.building.BuildingStat.BuildingData.GetName().Equals(newBuilding.BuildingStat.BuildingData.GetName()))
-            {
-                uiFurniture.gameObject.SetActive(true);
-                isSucceed = false;
-            }
-        }
-        return isSucceed;
-    }
+    //        if (uiFurniture.building.BuildingStat.BuildingData.GetName().Equals(newBuilding.BuildingStat.BuildingData.GetName()))
+    //        {
+    //            uiFurniture.gameObject.SetActive(true);
+    //            isSucceed = false;
+    //        }
+    //    }
+    //    return isSucceed;
+    //}
 
     public void RefreshBuildingFurnitureData()
     {
@@ -162,19 +162,19 @@ public class UiFloorInformation : MonoBehaviour
             }
         }
 
-        foreach (var furniture in currentFloor.furnitures)
-        {
-            if (ValidateFurnitureData(furniture))
-            {
-                UiFurnitureInfo uiFurnitureInfo = Instantiate(furnitureInfoPrefab, furnitureParent);
-                bool isSucceed = uiFurnitureInfo.Set(furniture);
+        //foreach (var furniture in currentFloor.furnitures)
+        //{
+        //    if (ValidateFurnitureData(furniture))
+        //    {
+        //        UiFurnitureInfo uiFurnitureInfo = Instantiate(furnitureInfoPrefab, furnitureParent);
+        //        bool isSucceed = uiFurnitureInfo.Set(furniture);
 
-                if (isSucceed)
-                {
-                    uiFurnitures.Add(uiFurnitureInfo);
-                }
-            }
-        }
+        //        if (isSucceed)
+        //        {
+        //            uiFurnitures.Add(uiFurnitureInfo);
+        //        }
+        //    }
+        //}
     }
 
     public void SetActiveFalseAllBuildingFurniture()
@@ -184,9 +184,9 @@ public class UiFloorInformation : MonoBehaviour
             uiBuilding.gameObject.SetActive(false);
         }
 
-        foreach (var uiFurniture in uiFurnitures)
-        {
-            uiFurniture.gameObject.SetActive(false);
-        }
+        //foreach (var uiFurniture in uiFurnitures)
+        //{
+        //    uiFurniture.gameObject.SetActive(false);
+        //}
     }
 }

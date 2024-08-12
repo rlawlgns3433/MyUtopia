@@ -13,6 +13,8 @@ public class Floor : Subject, IGrowable
     public List<SynergyStat> synergyStats = new List<SynergyStat>();
 
     public bool IsUpgrading { get; set; }
+    public float UpgradeStartTime { get; set; }
+
 
     [SerializeField]
     protected int floorId;
@@ -102,19 +104,19 @@ public class Floor : Subject, IGrowable
 
         if (FloorStat.Level_Up_Resource_1 != 0)
         {
-            if (FloorStat.Resource_1_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)FloorStat.Level_Up_Resource_1])
+            if (FloorStat.Resource_1_Value.ToBigNumber() > CurrencyManager.product[(CurrencyProductType)FloorStat.Level_Up_Resource_1])
                 return false;
         }
 
         if (FloorStat.Level_Up_Resource_2 != 0)
         {
-            if (FloorStat.Resource_2_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)FloorStat.Level_Up_Resource_2])
+            if (FloorStat.Resource_2_Value.ToBigNumber() > CurrencyManager.product[(CurrencyProductType)FloorStat.Level_Up_Resource_2])
                 return false;
         }
 
         if (FloorStat.Level_Up_Resource_3 != 0)
         {
-            if (FloorStat.Resource_3_Value.ToBigNumber() > CurrencyManager.currency[(CurrencyType)FloorStat.Level_Up_Resource_3])
+            if (FloorStat.Resource_3_Value.ToBigNumber() > CurrencyManager.product[(CurrencyProductType)FloorStat.Level_Up_Resource_3])
                 return false;
         }
 
@@ -127,17 +129,17 @@ public class Floor : Subject, IGrowable
 
         if (FloorStat.Level_Up_Resource_1 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)FloorStat.Level_Up_Resource_1] -= FloorStat.Resource_1_Value.ToBigNumber();
+            CurrencyManager.product[(CurrencyProductType)FloorStat.Level_Up_Resource_1] -= FloorStat.Resource_1_Value.ToBigNumber();
         }
 
         if (FloorStat.Level_Up_Resource_2 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)FloorStat.Level_Up_Resource_2] -= FloorStat.Resource_2_Value.ToBigNumber();
+            CurrencyManager.product[(CurrencyProductType)FloorStat.Level_Up_Resource_2] -= FloorStat.Resource_2_Value.ToBigNumber();
         }
 
         if (FloorStat.Level_Up_Resource_3 != 0)
         {
-            CurrencyManager.currency[(CurrencyType)FloorStat.Level_Up_Resource_3] -= FloorStat.Resource_3_Value.ToBigNumber();
+            CurrencyManager.product[(CurrencyProductType)FloorStat.Level_Up_Resource_3] -= FloorStat.Resource_3_Value.ToBigNumber();
         }
     }
 

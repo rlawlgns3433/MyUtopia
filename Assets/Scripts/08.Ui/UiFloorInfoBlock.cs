@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
     public ClockFormatTimer clockFormatTimer;
 
     public bool IsUpgrading { get => floor.IsUpgrading; set => floor.IsUpgrading = value; }
+    public float UpgradeStartTime { get => floor.UpgradeStartTime; set => floor.UpgradeStartTime = value; }
 
     public void FinishUpgrade()
     {
@@ -27,9 +29,9 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
     public void LevelUp()
     {
-        foreach(var floor in FloorManager.Instance.floors.Values)
+        foreach (var floor in FloorManager.Instance.floors.Values)
         {
-            if(floor.IsUpgrading)
+            if (floor.IsUpgrading)
             {
                 floor.LevelUp();
                 this.floor = floor;
@@ -40,7 +42,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
     public bool Set(Floor floor)
     {
-        foreach(var production in imageProductions)
+        foreach (var production in imageProductions)
         {
             production.sprite = null;
         }
@@ -60,13 +62,14 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         if (floor.FloorStat.FloorData.Floor_ID == 0)
             return false;
-        buttonLevelUp.onClick.RemoveAllListeners();
 
+        buttonLevelUp.onClick.RemoveAllListeners();
         buttonLevelUp.onClick.AddListener(SetStartUi);
         buttonLevelUp.onClick.AddListener(clockFormatTimer.StartClockTimer);
 
-        if(IsUpgrading)
+        if (IsUpgrading)
         {
+            clockFormatTimer.SetTimer(floor.FloorStat.Level_Up_Time - Mathf.FloorToInt(Time.time - UpgradeStartTime));
             clockFormatTimer.timerText.gameObject.SetActive(true);
         }
         else
@@ -156,9 +159,10 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             }
         }
 
-        if(!CheckUpgradeCondition())
+        if (!CheckUpgradeCondition())
         {
             // 모든 건물이 레벨을 충족하지 못함
+            return;
         }
 
         if (!floor.CheckCurrency())
@@ -169,12 +173,13 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         clockFormatTimer.canStartTimer = true;
         IsUpgrading = true;
+        UpgradeStartTime = Time.time;
 
         floor.SpendCurrency();
 
         clockFormatTimer.timerText.gameObject.SetActive(true);
 
-        clockFormatTimer.SetTimer(/*building.BuildingStat.Level_Up_Time*/10);
+        clockFormatTimer.SetTimer(floor.FloorStat.Level_Up_Time);
 
         foreach (var currency in uiUpgradeCurrencies)
         {
@@ -188,12 +193,12 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         // 계층 업그레이드 조건 추가
         // 계층의 락 해제된 건물들이 Grade_Level_Max
 
-        foreach(var building in floor.buildings)
+        foreach (var building in floor.buildings)
         {
             if (building.BuildingStat.IsLock)
                 continue;
 
-            if(building.BuildingStat.Level < /*floor.FloorStat.Grade_Level_Max*/ building.BuildingStat.Level_Max)
+            if (building.BuildingStat.Level < floor.FloorStat.Grade_Level_Max)
             {
                 return false;
             }
