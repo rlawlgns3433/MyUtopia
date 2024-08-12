@@ -9,15 +9,13 @@ public class UiCurrencyProduct : Observer
     [SerializeField]
     private TextMeshProUGUI textCurrency;
     [SerializeField]
-    private TextMeshProUGUI textCurrencyName;
-    [SerializeField]
     private Image image;
 
     public CurrencyProductType currencyType;
 
-    public void Start()
+    public async void Start()
     {
-        textCurrencyName.text = DataTableMgr.GetResourceTable().Get((int)currencyType).GetName();
+        image.sprite = await DataTableMgr.GetResourceTable().Get((int)currencyType).GetImage();
     }
 
     public override void Notify(Subject subject)
