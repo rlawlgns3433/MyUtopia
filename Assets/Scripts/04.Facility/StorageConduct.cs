@@ -129,7 +129,7 @@ public class StorageConduct : MonoBehaviour
         floor = FloorManager.Instance.GetFloor($"B{floorIndex}");
         await UniTask.WaitUntil(() => floor.buildings.Count > 0 && floor.buildings[0] != null);
         //bool isEmpty = true;
-        var offLineTime = (int)offLineWorkLoad / 3;//int
+        var offLineTime = (int)OffLineWorkLoad / 3;//int
         if(offLineTime >= offLineSeconds)
         {
             offLineTime = offLineSeconds;
