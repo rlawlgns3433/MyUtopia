@@ -1,14 +1,17 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class RunNode : StandardNode
+public class WorkNode : StandardNode
 {
-    public RunNode(AnimalController animalController)
+    public WorkNode() { }
+    public WorkNode(AnimalController animalController) : base(animalController)
     {
         this.animalController = animalController;
     }
 
-    public RunNode(AnimalController animalController, params Action[] actions)
+    public WorkNode(AnimalController animalController, params Action[] actions)
     {
         this.animalController = animalController;
         foreach (var action in actions)
@@ -19,9 +22,11 @@ public class RunNode : StandardNode
 
     public override bool Execute()
     {
-        animalController.animalState = AnimalState.Run;
+        animalController.animalState = AnimalState.Work;
         animalController.behaviorTreeRoot.IsSetBehaviour = true;
-        Debug.Log("Run");
+
+        Debug.Log("Work");
+
         return true;
     }
 }

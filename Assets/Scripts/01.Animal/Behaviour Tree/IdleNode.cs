@@ -28,13 +28,10 @@ public class IdleNode : Node
 
     public override bool Execute()
     {
-        timer += Time.deltaTime;
+        animalController.animalState = AnimalState.Idle;
+        animalController.behaviorTreeRoot.IsSetBehaviour = true;
+        Debug.Log("Idle");
 
-        if (timer > delayTime)
-        {
-            timer = 0f;
-            return true;
-        }
-        return false;
+        return true;
     }
 }

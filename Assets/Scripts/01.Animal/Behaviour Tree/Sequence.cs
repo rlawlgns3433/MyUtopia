@@ -1,8 +1,14 @@
 using System.Collections.Generic;
 
-public class Sequence : Node
+public class Sequence : StandardNode
 {
-    private List<Node> nodes;
+    protected List<Node> nodes;
+    public Sequence() { }
+    public Sequence(AnimalController animalController, List<Node> nodes) 
+    { 
+        this.nodes = nodes;
+        this.animalController = animalController;
+    }
     public Sequence(List<Node> nodes) { this.nodes = nodes; }
 
     public override bool Execute()

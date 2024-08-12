@@ -1,9 +1,7 @@
 using System;
-
-public class WalkNode : Node
+using UnityEngine;
+public class WalkNode : StandardNode
 {
-    private AnimalController animalController;
-
     public WalkNode(AnimalController animalController)
     {
         this.animalController = animalController;
@@ -28,12 +26,11 @@ public class WalkNode : Node
 
     public override bool Execute()
     {
-        if (!animalController.DestinationSet)
-        {
-            //animalController.RandomDestination();
-            //animalController.Walk();
-            action?.Invoke();
-        }
-        return animalController.IsEndMovement;
+        animalController.animalState = AnimalState.Walk;
+        animalController.behaviorTreeRoot.IsSetBehaviour = true;
+
+        Debug.Log("Walk");
+
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+// Selector와 RandomSelect 상속구조로 만들기
 
 public class Selector : Node
 {
