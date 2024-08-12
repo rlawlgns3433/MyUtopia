@@ -118,7 +118,6 @@ public class MissionManager : Singleton<MissionManager>
 
     public void SaveGameData()
     {
-        Debug.Log("MissionSave");
         SaveMissionData gameData = new SaveMissionData
         {
             dailyPoint = dailyPoints,

@@ -132,6 +132,7 @@ public class AnimalManager : Subject
                 uiAnimalList.Refresh();
             }
         };
+        CatalogueManager.Instance.UnlockAnimal(animalId);
     }
 
     public void Create(Vector3 position, Floor floor, int animalId, int slotId, AnimalStat animalStat, bool isMerged = false)
