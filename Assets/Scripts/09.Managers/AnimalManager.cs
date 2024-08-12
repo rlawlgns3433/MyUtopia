@@ -39,8 +39,8 @@ public class AnimalManager : Subject
             animalClick.gameObject.transform.localPosition = -Vector3.forward * 3f;
             animalClick.gameObject.SetActive(true);
 
-            FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(fromFloor));
-            FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(toFloor));
+            //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(fromFloor)); 시너지
+            //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(toFloor));
         }
     }
 
@@ -123,7 +123,7 @@ public class AnimalManager : Subject
                 }
                 uiAnimalInventory.UpdateInventory(isMerged);
 
-                FloorManager.Instance.CheckFloorSynergy(floor);
+                //FloorManager.Instance.CheckFloorSynergy(floor); 시너지
                 NotifyObservers();
             }
             UiManager.Instance.animalFocusUi.Set();

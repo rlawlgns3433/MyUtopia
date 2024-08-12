@@ -11,8 +11,8 @@ public class UiFloorInformation : MonoBehaviour
 
     public UiBuildingInfo buildingInfoPrefab;
     public UiFurnitureInfo furnitureInfoPrefab;
-    public UiAnimalSynergyBlock synergyEffectInfoPrefab;
-    public UiFurnitureEffectBlock furnitureEffectPrefab;
+    //public UiAnimalSynergyBlock synergyEffectInfoPrefab; 시너지
+    //public UiFurnitureEffectBlock furnitureEffectPrefab;
 
     public Transform furnitureParent;
     public Transform buildingParent;
@@ -25,8 +25,8 @@ public class UiFloorInformation : MonoBehaviour
 
     public List<UiBuildingInfo> uiBuildings;
     public List<UiFurnitureInfo> uiFurnitures;
-    public List<UiAnimalSynergyBlock> uiAnimalSynergyEffects;
-    public List<UiFurnitureEffectBlock> uiFurnitureEffects;
+    //public List<UiAnimalSynergyBlock> uiAnimalSynergyEffects; 시너지
+    //public List<UiFurnitureEffectBlock> uiFurnitureEffects;
 
     private ResourceTable resourceTable;
 
@@ -79,11 +79,11 @@ public class UiFloorInformation : MonoBehaviour
         //}
         //uiFurnitures.Clear();
 
-        foreach (var uiSynergyEffect in uiAnimalSynergyEffects)
-        {
-            Destroy(uiSynergyEffect.gameObject);
-        }
-        uiAnimalSynergyEffects.Clear();
+        //foreach (var uiSynergyEffect in uiAnimalSynergyEffects) 시너지
+        //{
+        //    Destroy(uiSynergyEffect.gameObject);
+        //}
+        //uiAnimalSynergyEffects.Clear();
     }
 
     public void SetFloorUi()
@@ -98,12 +98,12 @@ public class UiFloorInformation : MonoBehaviour
             return;
         }
 
-        foreach (var synergyEffect in currentFloor.synergyStats)
-        {
-            UiAnimalSynergyBlock uiAnimalSynergyBlock = Instantiate(synergyEffectInfoPrefab, synergyEffectParent);
-            uiAnimalSynergyBlock.Set(synergyEffect);
-            uiAnimalSynergyEffects.Add(uiAnimalSynergyBlock);
-        }
+        //foreach (var synergyEffect in currentFloor.synergyStats) 시너지
+        //{
+        //    UiAnimalSynergyBlock uiAnimalSynergyBlock = Instantiate(synergyEffectInfoPrefab, synergyEffectParent);
+        //    uiAnimalSynergyBlock.Set(synergyEffect);
+        //    uiAnimalSynergyEffects.Add(uiAnimalSynergyBlock);
+        //}
     }
 
     public bool ValidateBuildingData(Building newBuilding)

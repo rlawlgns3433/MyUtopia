@@ -52,7 +52,7 @@ public class GameManager : Singleton<GameManager>
         await UniTask.WaitUntil(() => UtilityTime.Seconds >= 0);
         await UniLoadWorldData();
 
-        FloorManager.Instance.CheckEntireFloorSynergy();
+        //FloorManager.Instance.CheckEntireFloorSynergy(); ½Ã³ÊÁö
     }
 
     private async UniTask UniLoadWorldData()
