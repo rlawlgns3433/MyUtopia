@@ -100,8 +100,8 @@ public class WorldMapMoveTest : MonoBehaviour
             mouseDelta = context.ReadValue<Vector2>();
             float angleX = mouseDelta.y * speed * Time.deltaTime;
             float angleY = -mouseDelta.x * speed * Time.deltaTime;
-            transform.Rotate(Vector3.up, angleY, Space.World);
-            transform.Rotate(Vector3.right, angleX, Space.World);
+            transform.Rotate(Vector3.up, angleY, Space.Self);
+            transform.Rotate(Vector3.right, angleX, Space.Self);
         }
     }
 
