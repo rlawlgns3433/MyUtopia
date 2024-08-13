@@ -117,16 +117,6 @@ public class UiManager : Singleton<UiManager>
         panel.gameObject.SetActive(false);
         uiCatalogue.gameObject.SetActive(false);
         OffAnimalList();
-        // ��� ������ ��ǳ�� �ѱ�
-        foreach (var floor in FloorManager.Instance.floors.Values)
-        {
-            foreach (var animal in floor.animals)
-            {
-                if (animal.animalWork.canvasSpeech == null)
-                    continue;
-                animal.animalWork.canvasSpeech.gameObject.SetActive(true);
-            }
-        }
 
         animalListUi.mode = AnimalListMode.AnimalList;
     }
@@ -155,17 +145,6 @@ public class UiManager : Singleton<UiManager>
         else
         {
             panel.gameObject.SetActive(false);
-        }
-
-        // ��� ������ ��ǳ�� ����
-        foreach (var floor in FloorManager.Instance.floors.Values)
-        {
-            foreach (var animal in floor.animals)
-            {
-                if (animal.animalWork.canvasSpeech == null)
-                    continue;
-                animal.animalWork.canvasSpeech.gameObject.SetActive(false);
-            }
         }
     }
 
