@@ -85,13 +85,6 @@ public class AnimalController : MonoBehaviour
 
     private void InitializeBehaviorTree()
     {
-        //behaviorTreeRoot = new RandomSelector(new List<Node>
-        //{
-        //    new IdleNode(this),
-        //    new WalkNode(this, RandomDestination, Walk),
-        //    new RunNode(this, RandomDestination, Run),
-        //});
-
         behaviorTreeRoot = new BehaviourSetNode(this);
     }
 
@@ -99,17 +92,6 @@ public class AnimalController : MonoBehaviour
     {
         behaviorTreeRoot.Execute();
         StateTimer += Time.deltaTime;
-
-        //timer += Time.deltaTime;
-        //if(timer > interval)
-        //{
-        //    // 이전 도착지와 동일할 경우 새로운 목적지 설정
-        //    if(prevDestination == agent.destination)
-        //    {
-        //        RandomDestination();
-        //    }
-        //    timer = 0f;
-        //}
     }
 
     public void SetDestination(Vector3 destination)

@@ -27,6 +27,7 @@ public class RunBehaviourNode : StandardNode
     private void EnterNode()
     {
         animalController.SetTime = 10;
+        animalController.StateTimer = 0;
         animalController.animator.Play(AnimationHash.Run);
     }
 

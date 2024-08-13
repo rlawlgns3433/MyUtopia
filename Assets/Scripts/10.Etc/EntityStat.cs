@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using static ExchangeStat;
 
+[Serializable]
 public class AnimalStat
 {
     private AnimalData animalData;

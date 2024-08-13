@@ -17,6 +17,12 @@ public class Waypoint : MonoBehaviour
     {
         get
         {
+            foreach(var animal in animals)
+            {
+                if (animal == null)
+                    animals.Remove(animal);
+            }
+
             return animals.Count >= maxPopulation;
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 public class WorkBehaviourNode : StandardNode
 {
@@ -29,6 +30,13 @@ public class WorkBehaviourNode : StandardNode
     {
         animalController.StateTimer = 0;
         animalController.SetTime = 5;
+
+        if(animalController.CurrentWaypoint == null)
+        {
+            ExitNode();
+            return;
+        }
+
         animalController.animator.Play(animalController.CurrentWaypoint.GetRandomClip(), animalController.animator.GetLayerIndex("Base Layer"));
         animalController.animator.Play(animalController.CurrentWaypoint.GetEyeClip(), animalController.animator.GetLayerIndex("Shapekey"));
         first = false;
@@ -40,6 +48,10 @@ public class WorkBehaviourNode : StandardNode
         animalController.StateTimer = 0;
         animalController.behaviorTreeRoot.IsSetBehaviour = false;
         first = true;
+
+        if (animalController.CurrentWaypoint == null)
+            return;
+
         animalController.CurrentWaypoint.ExitAnimal(animalController.animalWork.Animal.animalStat);
     }
 
