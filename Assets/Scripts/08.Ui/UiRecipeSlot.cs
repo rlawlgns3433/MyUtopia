@@ -56,13 +56,13 @@ public class UiRecipeSlot : MonoBehaviour
         }
     }
     
-    public virtual void SetData(RecipeStat recipeStat) // virtual 제거 예정
+    public async virtual void SetData(RecipeStat recipeStat) // virtual 제거 예정
     {
         if (recipeStat == null)
             return;
         this.recipeStat = recipeStat;
 
-        //imagePortrait.sprite = DataTableMgr.GetItemTable().Get(recipeStat.Product_ID).GetImage(); // 현재 이미지 없음
+        imagePortrait.sprite = await DataTableMgr.GetItemTable().Get(recipeStat.Product_ID).GetImage(); // 현재 이미지 없음
         textName.text = recipeStat.RecipeData.GetName();
 
         int count = -1;

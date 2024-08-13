@@ -69,7 +69,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         if (IsUpgrading)
         {
-            clockFormatTimer.SetTimer(floor.FloorStat.Level_Up_Time - Mathf.FloorToInt(Time.time - UpgradeStartTime));
+            clockFormatTimer.SetTimer(floor.FloorStat.Level_Up_Time - Mathf.CeilToInt(Time.time - UpgradeStartTime));
             clockFormatTimer.timerText.gameObject.SetActive(true);
         }
         else
@@ -150,13 +150,10 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
     public void SetStartUi()
     {
-        foreach (var floor in FloorManager.Instance.floors.Values)
+        if (floor.IsUpgrading)
         {
-            if (floor.IsUpgrading)
-            {
-                clockFormatTimer.canStartTimer = false;
-                return;
-            }
+            clockFormatTimer.canStartTimer = false;
+            return;
         }
 
         if (!CheckUpgradeCondition())
@@ -173,7 +170,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         clockFormatTimer.canStartTimer = true;
         IsUpgrading = true;
-        UpgradeStartTime = Time.time;
+        UpgradeStartTime = Time.realtimeSinceStartup;
 
         floor.SpendCurrency();
 
