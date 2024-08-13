@@ -27,7 +27,18 @@ public class AnimalController : MonoBehaviour
     private float timer = 0f;
     private float interval = 7f;
     private Vector3 prevDestination;
-    public List<GameObject> wayPoints = new List<GameObject>();
+    public List<Waypoint> wayPoints = new List<Waypoint>();
+    public List<Waypoint> WayPoints
+    {
+        get
+        {
+            var floor = FloorManager.Instance.floors[animalWork.Animal.animalStat.CurrentFloor];
+            wayPoints = floor.GetComponent<FloorWaypoint>().waypoints;
+
+            return wayPoints;
+        }
+    }
+    public Waypoint CurrentWaypoint { get; set; }
 
     public bool DestinationSet
     {
@@ -156,5 +167,11 @@ public class AnimalController : MonoBehaviour
     public bool EndTimer()
     {
         return StateTimer >= SetTime;
+    }
+
+    public void SetDestination(Waypoint waypoint)
+    {
+        agent.isStopped = false;
+        agent.destination = waypoint.transform.position;
     }
 }

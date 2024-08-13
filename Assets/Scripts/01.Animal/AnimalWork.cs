@@ -14,6 +14,7 @@ public class AnimalWork : Subject, IMergable
     public CancellationTokenSource cts = new CancellationTokenSource();
     public int animalId;
     public bool isHealing = false;
+    private int consumeStamina = -100;
     //public float staminaReductionRate = 0f; 시너지
     private Animal animal;
     public Animal Animal
@@ -123,6 +124,11 @@ public class AnimalWork : Subject, IMergable
                     if (cts.IsCancellationRequested)
                         break;
                     //Animal.animalStat.Stamina = Animal.animalStat.Stamina - 1 + staminaReductionRate; 시너지
+
+                    Floor floor = FloorManager.Instance.floors[Animal.animalStat.CurrentFloor];
+                    consumeStamina = floor.FloorStat.Stamina_Recovery;
+                    Animal.animalStat.Stamina += consumeStamina;
+
                     NotifyObservers();
                     await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
                 }

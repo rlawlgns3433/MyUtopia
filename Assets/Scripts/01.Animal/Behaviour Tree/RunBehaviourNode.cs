@@ -34,11 +34,16 @@ public class RunBehaviourNode : StandardNode
     {
         animalController.SetTime = 0;
         animalController.StateTimer = 0;
-        animalController.behaviorTreeRoot.IsSetBehaviour = false;
     }
 
     public override bool Execute()
     {
+        if(animalController.IsEndMovement)
+        {
+            animalController.animalState = AnimalState.Work;
+            return true;
+        }
+
         if (animalController.animalState != AnimalState.Run)
             return false;
 
@@ -57,8 +62,11 @@ public class RunBehaviourNode : StandardNode
         Debug.Log("Running");
 
         if (!animalController.DestinationSet)
-        {
             action?.Invoke();
+
+        if (animalController.IsEndMovement)
+        {
+            ExitNode();
         }
 
         return animalController.IsEndMovement;

@@ -27,6 +27,7 @@ public class RestBehaviourNode : StandardNode
     private void EnterNode()
     {
         animalController.SetTime = 5;
+        animalController.StateTimer = 0;
         animalController.animator.Play(AnimationHash.Rest);
     }
 

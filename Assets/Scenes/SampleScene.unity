@@ -608,6 +608,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &7452504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7452505}
+  - component: {fileID: 7452506}
+  m_Layer: 8
+  m_Name: Copper Ingot WayPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7452505
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7452504}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.15, y: -0.12, z: 1.46}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 267458100}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7452506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7452504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3358e8025ce934db61ffe96142d56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips: []
+  eyeClips: []
+  maxPopulation: 1
 --- !u!1001 &8566836
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10090,6 +10137,7 @@ Transform:
   - {fileID: 692062848}
   - {fileID: 1904660651}
   - {fileID: 1281547665}
+  - {fileID: 7452505}
   m_Father: {fileID: 707424775}
   m_LocalEulerAnglesHint: {x: 0, y: 209.8, z: 4.4}
 --- !u!114 &267458101
@@ -10941,10 +10989,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2015439176}
     m_Modifications:
-    - target: {fileID: 1384210026883265182, guid: eef5549a8872e714cb271a78d401b135, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 57f63acc8e2736e439ac16f54254f527, type: 2}
     - target: {fileID: 339181845424883349, guid: f63965fd2b9b8924da4d3ec364e33012, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.13
@@ -11005,6 +11049,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CraftingTable1
       objectReference: {fileID: 0}
+    - target: {fileID: 1384210026883265182, guid: eef5549a8872e714cb271a78d401b135, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 57f63acc8e2736e439ac16f54254f527, type: 2}
     m_RemovedComponents:
     - {fileID: 591466748289913674, guid: eef5549a8872e714cb271a78d401b135, type: 3}
     - {fileID: 729333563630326462, guid: f63965fd2b9b8924da4d3ec364e33012, type: 3}
@@ -11663,6 +11711,7 @@ Transform:
   - {fileID: 426432446}
   - {fileID: 1459460762}
   - {fileID: 115498952}
+  - {fileID: 1035924788}
   m_Father: {fileID: 707424775}
   m_LocalEulerAnglesHint: {x: 0, y: 149.317, z: 0}
 --- !u!114 &298922480
@@ -13818,7 +13867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &361260572
 Transform:
   m_ObjectHideFlags: 0
@@ -13833,6 +13882,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 248565466}
+  - {fileID: 1198082828}
   m_Father: {fileID: 1586996398}
   m_LocalEulerAnglesHint: {x: 0, y: 341.21, z: 0}
 --- !u!114 &361260573
@@ -15904,6 +15954,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410403947}
   m_CullTransparentMesh: 1
+--- !u!1 &413502041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 413502042}
+  - component: {fileID: 413502043}
+  m_Layer: 8
+  m_Name: Copper Vein WayPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &413502042
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413502041}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.16323996, z: -0, w: -0.9865864}
+  m_LocalPosition: {x: 0.05, y: -0.014998168, z: -1.62}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1315612674}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &413502043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413502041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3358e8025ce934db61ffe96142d56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 7400000, guid: e5651f5d5041bb3498fa89bacf6f7fda, type: 2}
+  - {fileID: 7400000, guid: 82c94149463fa86428a15741e378b121, type: 2}
+  eyeClips:
+  - {fileID: 7400000, guid: 63181a8e17f156a4fa3be513e7d45f7b, type: 2}
+  - {fileID: 7400000, guid: 2cf084a9cac58654eb8002017ff87bf2, type: 2}
+  maxPopulation: 1
 --- !u!4 &419573023 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2164102941771053254, guid: 15ee94f4c33901248afc29a1f76c6465, type: 3}
@@ -15929,7 +16030,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &422217475
 Transform:
   m_ObjectHideFlags: 0
@@ -15947,6 +16048,7 @@ Transform:
   - {fileID: 1695609392}
   - {fileID: 1889035621}
   - {fileID: 225848393}
+  - {fileID: 1407194313}
   m_Father: {fileID: 707424775}
   m_LocalEulerAnglesHint: {x: 0, y: 157.663, z: 0}
 --- !u!114 &422217476
@@ -17933,10 +18035,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1365228065}
     m_Modifications:
-    - target: {fileID: 1384210026883265182, guid: eef5549a8872e714cb271a78d401b135, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 57f63acc8e2736e439ac16f54254f527, type: 2}
     - target: {fileID: 339181845424883349, guid: f63965fd2b9b8924da4d3ec364e33012, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.13
@@ -17997,6 +18095,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CraftingTable1
       objectReference: {fileID: 0}
+    - target: {fileID: 1384210026883265182, guid: eef5549a8872e714cb271a78d401b135, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 57f63acc8e2736e439ac16f54254f527, type: 2}
     m_RemovedComponents:
     - {fileID: 591466748289913674, guid: eef5549a8872e714cb271a78d401b135, type: 3}
     - {fileID: 729333563630326462, guid: f63965fd2b9b8924da4d3ec364e33012, type: 3}
@@ -28826,6 +28928,7 @@ GameObject:
   - component: {fileID: 707424778}
   - component: {fileID: 707424777}
   - component: {fileID: 707424776}
+  - component: {fileID: 707424782}
   m_Layer: 6
   m_Name: B4Layer
   m_TagString: Untagged
@@ -29004,6 +29107,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 707424774}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &707424782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707424774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2436b901672c464998502f4474e89d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints:
+  - {fileID: 1407194314}
+  - {fileID: 1035924789}
+  - {fileID: 7452506}
 --- !u!1 &708670134
 GameObject:
   m_ObjectHideFlags: 0
@@ -38247,10 +38366,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 422217475}
     m_Modifications:
-    - target: {fileID: 7084756211510928568, guid: ad001fd186c0e6b498f1271a4d12fd99, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 000a9e2ed59418b429f28d6110816e8b, type: 2}
     - target: {fileID: 1572219861862904276, guid: fe8bd9181ae05df45b86b5688e27bc15, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.68
@@ -38803,6 +38918,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Copper_maker
       objectReference: {fileID: 0}
+    - target: {fileID: 7084756211510928568, guid: ad001fd186c0e6b498f1271a4d12fd99, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 000a9e2ed59418b429f28d6110816e8b, type: 2}
     m_RemovedComponents:
     - {fileID: 8742296447694030188, guid: ad001fd186c0e6b498f1271a4d12fd99, type: 3}
     - {fileID: 2487332768684359686, guid: fe8bd9181ae05df45b86b5688e27bc15, type: 3}
@@ -42739,6 +42858,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035197019}
   m_CullTransparentMesh: 1
+--- !u!1 &1035924787
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1035924788}
+  - component: {fileID: 1035924789}
+  m_Layer: 8
+  m_Name: Copper Ingot WayPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1035924788
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035924787}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.36, y: -0.222, z: 1.934}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 298922479}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1035924789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035924787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3358e8025ce934db61ffe96142d56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips: []
+  eyeClips: []
+  maxPopulation: 1
 --- !u!1 &1036362956
 GameObject:
   m_ObjectHideFlags: 0
@@ -43350,7 +43516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1044814873
 Transform:
   m_ObjectHideFlags: 0
@@ -43365,6 +43531,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2119969963}
+  - {fileID: 1244659298}
   m_Father: {fileID: 1586996398}
   m_LocalEulerAnglesHint: {x: 0, y: 296.6, z: 0}
 --- !u!114 &1044814874
@@ -49118,6 +49285,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1195717647}
   m_CullTransparentMesh: 1
+--- !u!1 &1198082827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1198082828}
+  - component: {fileID: 1198082829}
+  m_Layer: 8
+  m_Name: Sliver Vein WayPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1198082828
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198082827}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 361260572}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1198082829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198082827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3358e8025ce934db61ffe96142d56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 7400000, guid: e5651f5d5041bb3498fa89bacf6f7fda, type: 2}
+  - {fileID: 7400000, guid: 82c94149463fa86428a15741e378b121, type: 2}
+  eyeClips:
+  - {fileID: 7400000, guid: 63181a8e17f156a4fa3be513e7d45f7b, type: 2}
+  - {fileID: 7400000, guid: 2cf084a9cac58654eb8002017ff87bf2, type: 2}
+  maxPopulation: 1
 --- !u!1 &1199505980
 GameObject:
   m_ObjectHideFlags: 0
@@ -50304,6 +50522,57 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c115101db580f421083bf08dcc5b4884, type: 3}
+--- !u!1 &1244659297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1244659298}
+  - component: {fileID: 1244659299}
+  m_Layer: 8
+  m_Name: Gold Vein WayPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1244659298
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244659297}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.5254717, z: -0, w: -0.8508111}
+  m_LocalPosition: {x: -1.58, y: -0.54499876, z: -1.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1044814873}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1244659299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244659297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3358e8025ce934db61ffe96142d56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 7400000, guid: e5651f5d5041bb3498fa89bacf6f7fda, type: 2}
+  - {fileID: 7400000, guid: 82c94149463fa86428a15741e378b121, type: 2}
+  eyeClips:
+  - {fileID: 7400000, guid: 63181a8e17f156a4fa3be513e7d45f7b, type: 2}
+  - {fileID: 7400000, guid: 2cf084a9cac58654eb8002017ff87bf2, type: 2}
+  maxPopulation: 1
 --- !u!1 &1246573859
 GameObject:
   m_ObjectHideFlags: 0
@@ -53153,6 +53422,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2146654231}
+  - {fileID: 413502042}
   m_Father: {fileID: 1586996398}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1315612675
@@ -56051,10 +56321,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 298922479}
     m_Modifications:
-    - target: {fileID: 4259601632170939813, guid: 9ced6ec8e93732249968dce5e2007ab7, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 000a9e2ed59418b429f28d6110816e8b, type: 2}
     - target: {fileID: 2092092319706915758, guid: 9f07d3de265ca544cacfab68f6c07e1f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.12
@@ -56159,6 +56425,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4259601632170939813, guid: 9ced6ec8e93732249968dce5e2007ab7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 000a9e2ed59418b429f28d6110816e8b, type: 2}
     m_RemovedComponents:
     - {fileID: 2314244848071652465, guid: 9ced6ec8e93732249968dce5e2007ab7, type: 3}
     - {fileID: 7179370541990384330, guid: 9f07d3de265ca544cacfab68f6c07e1f, type: 3}
@@ -56182,6 +56452,53 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f07d3de265ca544cacfab68f6c07e1f, type: 3}
+--- !u!1 &1407194312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1407194313}
+  - component: {fileID: 1407194314}
+  m_Layer: 8
+  m_Name: Copper Ingot WayPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1407194313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407194312}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.183, y: -0.222, z: 1.428}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 422217475}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1407194314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407194312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3358e8025ce934db61ffe96142d56c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips: []
+  eyeClips: []
+  maxPopulation: 1
 --- !u!1 &1409537694
 GameObject:
   m_ObjectHideFlags: 0
@@ -62504,6 +62821,7 @@ GameObject:
   - component: {fileID: 1586996401}
   - component: {fileID: 1586996400}
   - component: {fileID: 1586996399}
+  - component: {fileID: 1586996405}
   m_Layer: 6
   m_Name: B5Layer
   m_TagString: Untagged
@@ -62683,6 +63001,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586996397}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1586996405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586996397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2436b901672c464998502f4474e89d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints: []
 --- !u!1 &1587867334 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 108196, guid: 4cff705ff264a4b7180657d494c6f0b8, type: 3}
@@ -64201,10 +64532,10 @@ RectTransform:
   - {fileID: 2100354805}
   m_Father: {fileID: 527664033}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 128.38428, y: -31.138977}
-  m_SizeDelta: {x: 256.76855, y: 62.277954}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1627572079
 MonoBehaviour:
@@ -71059,10 +71390,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 267458100}
     m_Modifications:
-    - target: {fileID: 4427747552960081729, guid: 0f6e2461602076a4eb432eff0a56270f, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 000a9e2ed59418b429f28d6110816e8b, type: 2}
     - target: {fileID: 4814251067670188752, guid: efef22560558dca4c9a2452cef032f0a, type: 3}
       propertyPath: m_Name
       value: Gold_maker
@@ -71159,6 +71486,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4427747552960081729, guid: 0f6e2461602076a4eb432eff0a56270f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 000a9e2ed59418b429f28d6110816e8b, type: 2}
     m_RemovedComponents:
     - {fileID: 2770409214217408171, guid: 0f6e2461602076a4eb432eff0a56270f, type: 3}
     - {fileID: 1093260846505829975, guid: efef22560558dca4c9a2452cef032f0a, type: 3}
@@ -74790,7 +75121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchorMin.x
@@ -74798,15 +75129,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -74838,11 +75169,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 37.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -37.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

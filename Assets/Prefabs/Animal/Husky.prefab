@@ -812,7 +812,7 @@ Animator:
   m_GameObject: {fileID: 7581229683414186668}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 01e0dd15d259e7445ab828321440cb67, type: 3}
-  m_Controller: {fileID: 9100000, guid: 92ab430536763ae46bf7cfca5cb03a47, type: 2}
+  m_Controller: {fileID: 22100000, guid: f7577dba1d9914a45b662d0e859f7d35, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -898,8 +898,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d05e2e8fdd307748b9b8f12cefc2bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animalState: 0
   animalWork: {fileID: 7661975081501312068}
+  animator: {fileID: 0}
   range: 10
+  wayPoints: []
 --- !u!114 &7661975081501312068
 MonoBehaviour:
   m_ObjectHideFlags: 0
