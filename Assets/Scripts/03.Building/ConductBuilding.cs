@@ -35,7 +35,14 @@ public class ConductBuilding : Building
                 CurrencyManager.product[buildingType] += touchProduce;
                 this.touchProduce = touchProduce; // 플로팅 텍스트용
                 MissionManager.Instance.AddMissionCountTargetId(buildingId);
-                Debug.Log($"missionCount =>>{MissionManager.Instance.GetMissionCount(buildingId)}");
+                if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.TouchCopper)
+                {
+                    FloorManager.Instance.touchManager.tutorial.tutorialTouchCount++;
+                    if(FloorManager.Instance.touchManager.tutorial.tutorialTouchCount >= 10)
+                    {
+                        FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                    }
+                }
                 break;
             case CurrencyProductType.CopperIngot:
             case CurrencyProductType.SilverIngot:
@@ -50,6 +57,14 @@ public class ConductBuilding : Building
                 }
                 MissionManager.Instance.AddMissionCountTargetId(buildingId);
                 Debug.Log($"missionCount =>>{MissionManager.Instance.GetMissionCount(buildingId)}");
+                if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MakeIngot)
+                {
+                    FloorManager.Instance.touchManager.tutorial.tutorialTouchCount++;
+                    if (FloorManager.Instance.touchManager.tutorial.tutorialTouchCount >= 10)
+                    {
+                        FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                    }
+                }
                 break;
         }
     }

@@ -78,18 +78,18 @@ public class FloorManager : Singleton<FloorManager>
     {
         if (!multiTouchOff)
         {
-            if (!isMoving && !touchManager.Tap)
+            if (!isMoving && !touchManager.Tap && !touchManager.tutorialOffMultiTouch)
             {
                 if (touchManager.Zoom != 0 && !isDragging)
                 {
-                    if (touchManager.Zoom < 0 && vc.transform.position.y <= maxZoomOut)
-                    {
-                        ZoomOut();
-                    }
-                    else if (touchManager.Zoom > 0 && vc.transform.position.y >= maxZoomIn)
-                    {
-                        ZoomIn();
-                    }
+                    //if (touchManager.Zoom < 0 && vc.transform.position.y <= maxZoomOut)
+                    //{
+                    //    ZoomOut();
+                    //}
+                    //else if (touchManager.Zoom > 0 && vc.transform.position.y >= maxZoomIn)
+                    //{
+                    //    ZoomIn();
+                    //}
                 }
 
                 //if (touchManager.DragX != 0 && !touchManager.isZooming && touchManager.Swipe == Dirs.None)
@@ -153,16 +153,24 @@ public class FloorManager : Singleton<FloorManager>
     }
     private async UniTask MoveFloor(Vector3 moveVector)
     {
+        if (!touchManager.tutorial.moveFloor)
+            return;
         targetPosition += moveVector;
         zoomPosition = targetPosition;
         maxZoomOut = targetPosition.y;
         maxZoomIn = targetPosition.y - 5;
         await vc.transform.DOMove(targetPosition, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
         Debug.Log($"CurrentFloor-MoveFloor{CurrentFloorIndex}/{targetPosition}");
+        if(touchManager.tutorial.progress == TutorialProgress.Swipe)
+        {
+            touchManager.tutorial.SetTutorialProgress();
+        }
     }
 
     public async UniTask MoveToCurrentFloor()
     {
+        if (!touchManager.tutorial.moveSelectFloor)
+            return;
         isMoving = true;
         var distance = CurrentFloorIndex - 1;
         distance *= moveDistance;
@@ -174,6 +182,11 @@ public class FloorManager : Singleton<FloorManager>
         await vc.transform.DOMove(movePosition, moveDuration).AsyncWaitForCompletion();
         targetPosition = vc.transform.position;
         zoomPosition = targetPosition;
+        if (touchManager.tutorial.progress == TutorialProgress.Move5F || touchManager.tutorial.progress == TutorialProgress.Move4F || touchManager.tutorial.progress == TutorialProgress.Move3F
+            || touchManager.tutorial.progress == TutorialProgress.MurgeAnimalMove5F)
+        {
+            touchManager.tutorial.SetTutorialProgress();
+        }
         isMoving = false;
     }
 

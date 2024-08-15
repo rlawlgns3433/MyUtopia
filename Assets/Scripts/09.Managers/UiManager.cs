@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Composites;
@@ -28,11 +29,13 @@ public class UiManager : Singleton<UiManager>
     public bool isAnimalMove = false;
     public GameObject panel;
     public GameObject catalougeImage;
+    public Tutorial tutorial;
     private void Start()
     {
         if (PlayerPrefs.GetInt("TutorialCheck") == 1)
-            ShowStorageUi();
+            //ShowStorageUi();
             //ShowMainUi();
+            ShowTutorial();
         else
             ShowTutorialUi();
     }
@@ -53,6 +56,11 @@ public class UiManager : Singleton<UiManager>
     {
         isAnimalList = false;
         isAnimalMove = false;
+    }
+
+    public void ShowTutorial()
+    {
+        tutorial.gameObject.SetActive(true);
     }
 
     public void ShowCurrencyUi()
@@ -117,6 +125,19 @@ public class UiManager : Singleton<UiManager>
         panel.gameObject.SetActive(false);
         uiCatalogue.gameObject.SetActive(false);
         OffAnimalList();
+        if(FloorManager.Instance.touchManager.tutorial != null)
+        {
+            if(FloorManager.Instance.touchManager.tutorial.isClosing)
+            {
+                FloorManager.Instance.touchManager.tutorial.progress = TutorialProgress.None;
+            } 
+            if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseItemUi || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseShop
+                || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseAnimalStat || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseMurgeAnimalStat
+                || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseAnimalList)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
+        }
         // ��� ������ ��ǳ�� �ѱ�
         foreach (var floor in FloorManager.Instance.floors.Values)
         {
@@ -167,6 +188,10 @@ public class UiManager : Singleton<UiManager>
                 animal.animalWork.canvasSpeech.gameObject.SetActive(false);
             }
         }
+        if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.ShowAnimalFocus)
+        {
+            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+        }
     }
 
     public void ShowSellUi()
@@ -207,6 +232,10 @@ public class UiManager : Singleton<UiManager>
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.FloorInfo)
+        {
+            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+        }
     }
 
     public void ShowAnimalListUi()
@@ -227,6 +256,13 @@ public class UiManager : Singleton<UiManager>
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        if (FloorManager.Instance.touchManager.tutorial != null)
+        {
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.AnimalList || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MoveAnimal)
+            {
+                FloorManager.Instance.touchManager.tutorial.progress = TutorialProgress.None;
+            }
+        }
     }
 
     public void ShowProductsUi()
@@ -247,6 +283,13 @@ public class UiManager : Singleton<UiManager>
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        if (FloorManager.Instance.touchManager.tutorial != null)
+        {
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.OpenShop)
+            {
+                FloorManager.Instance.touchManager.tutorial.progress = TutorialProgress.None;
+            }
+        }
     }
 
     public void ShowCraftTableUi()
@@ -388,6 +431,10 @@ public class UiManager : Singleton<UiManager>
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
         currencyProductInventoryUi.gameObject.SetActive(true);
+        if (FloorManager.Instance.touchManager.tutorial != null)
+        {
+            FloorManager.Instance.touchManager.tutorial.progress = TutorialProgress.None;
+        }
     }
 
     public void SetProductCapacity(int capacity)

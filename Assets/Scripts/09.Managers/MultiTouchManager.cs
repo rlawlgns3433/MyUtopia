@@ -29,7 +29,7 @@ public class MultiTouchManager : MonoBehaviour
     private Vector2 previousPos;
 
     private bool isFirstTap = false;
-
+    public bool tutorialOffMultiTouch = false;
     public float minSwipeDistanceInch = 0.25f;
     private float minSwipeDistancePixels;
 
@@ -39,11 +39,12 @@ public class MultiTouchManager : MonoBehaviour
     private float zoomMaxPixel;
 
     private float dragThreshold = 0.2f;
-    private bool isDragging = false;
+    public bool isDragging = false;
 
     public RectTransform scrollRectTransform;
     public RectTransform buttonsRectTransform;
     public RectTransform imageRectTransform;
+    public Tutorial tutorial;
 
     private void Awake()
     {
@@ -79,6 +80,8 @@ public class MultiTouchManager : MonoBehaviour
 
     private void HandleSingleTouch()
     {
+        if (tutorialOffMultiTouch)
+            return;
         foreach (var touch in Touch.activeTouches)
         {
             if (IsTouchInsideScrollRect(touch) || IsTouchInsideButtonsRect(touch) || IsTouchInsideImageRect(touch))
@@ -140,6 +143,10 @@ public class MultiTouchManager : MonoBehaviour
                         if (duration < timeTap && !isDragging)
                         {
                             Tap = true;
+                            if(tutorial.gameObject.activeSelf && tutorial.progress == TutorialProgress.None)
+                            {
+                                tutorial.SetTutorialProgress();
+                            }
                         }
                     }
                     break;

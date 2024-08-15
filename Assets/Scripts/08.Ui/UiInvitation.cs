@@ -96,12 +96,15 @@ public class UiInvitation : MonoBehaviour
                 break;
             }
         }
-
         // Ȯ���� ���� �̱�
         floor = FloorManager.Instance.GetCurrentFloor();
-
         var pos = floor.transform.position;
         pos.z -= 8;
+        if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MurgeAnimalConfirm || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Confirm)
+        {
+            FloorManager.Instance.touchManager.tutorial.SetEmpty();
+        }
+        FloorManager.Instance.IsCreating = false;
         CreateBalloon(pos, floor, animalId, invitationData.Level_Up_Coin_Value).Forget();
     }
 
@@ -121,8 +124,19 @@ public class UiInvitation : MonoBehaviour
         Destroy(balloon);
         balloons.Remove(balloon);
         await UniTask.Delay(500);
+        if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MurgeAnimalConfirm)
+        {
+            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            id= FloorManager.Instance.touchManager.tutorial.targetAnimalId;
+        }
         GameManager.Instance.GetAnimalManager().Create(target, floor, id, 0);
         CurrencyManager.currency[(CurrencyType)invitationData.Level_Up_Coin_ID] -= value;
         FloorManager.Instance.IsCreating = false;
+        if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Confirm)
+        {
+            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            FloorManager.Instance.touchManager.tutorial.targetAnimalId = id;
+        }
+
     }
 }

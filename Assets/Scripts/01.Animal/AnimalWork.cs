@@ -78,6 +78,10 @@ public class AnimalWork : Subject, IMergable
             //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(animalWork.animal.animalStat.CurrentFloor));
             Destroy(gameObject);
             Destroy(animalWork.gameObject);
+            if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Murge)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
             return true;
         }
         return false;

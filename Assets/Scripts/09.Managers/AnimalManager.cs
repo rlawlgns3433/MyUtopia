@@ -81,6 +81,10 @@ public class AnimalManager : Subject
         UiManager.Instance.ShowInvitationUi();
         UiManager.Instance.invitationUi.Set();
         NotifyObservers();
+        if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.PurchaseAnimal || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MurgeAnimalPurchase)
+        {
+            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+        }
     }
 
     public void Create(Vector3 position, Floor floor, int animalId, int slotId, bool isMerged = false)

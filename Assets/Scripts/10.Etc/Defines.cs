@@ -148,3 +148,49 @@ public enum AnimalListMode
     Exchange,
     Eliminate,
 }
+
+public enum TutorialTextFormation
+{
+    None = -1,
+    Upper,
+    Middle,
+    Bottom,
+}
+
+public enum TutorialProgress
+{
+    None = -1,
+    Swipe = 1,
+    Move5F = 3,
+    TouchCopper = 6,
+    Product = 8,
+    CloseProduct = 10,
+    Move4F = 11,
+    AddCurrenctCopper = 14,
+    MakeIngot = 15,
+    Move3F = 18,
+    CreateItem = 24,
+    Accelerate = 28,
+    CloseItemUi = 29,
+    OpenShop = 31,
+    SellItem = 33,
+    CloseShop = 35,
+    PurchaseAnimal = 37,
+    Confirm = 38,
+    AnimalList = 41,
+    AnimalStat =  43,
+    CloseAnimalStat = 46,
+    MurgeAnimalPurchase = 48,
+    MurgeAnimalConfirm = 49,
+    ShowAnimalFocus = 52,
+    Murge = 53,
+    CloseMurgeAnimalStat = 56,
+    MurgeAnimalMove5F = 58,
+    MoveAnimal = 59,
+    MoveMurgeAnimal = 61,
+    CloseAnimalList = 64,
+    FloorInfo = 67,
+    BuildingLevelUp = 71,
+    CompleteLevelUp = 74,
+    Clear = 77,
+}

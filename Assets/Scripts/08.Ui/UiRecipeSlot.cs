@@ -149,6 +149,10 @@ public class UiRecipeSlot : MonoBehaviour
             uiCraftingTable.uiCraftingSlot.SetData(recipeStat);
         }
         uiCraftingTable.craftingBuilding.Set(recipeStat);
+        if(FloorManager.Instance.touchManager.tutorial != null)
+        {
+            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+        }
     }
 
 

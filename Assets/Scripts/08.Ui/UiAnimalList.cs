@@ -34,6 +34,10 @@ public class UiAnimalList : Observer
     {
         to.Add(slot.animalClick);
         from.Remove(slot);
+        if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MoveMurgeAnimal)
+        {
+            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+        }
     }
 
     public void SetExchangeMode()
