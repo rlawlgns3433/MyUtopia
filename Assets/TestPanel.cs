@@ -84,6 +84,7 @@ public class TestPanel : MonoBehaviour
     {
         var emptyWorld = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyWorld) as SaveDataV1;
         var emptyCurrency = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyCurrency) as SaveCurrencyDataV1;
+        var emptyProduct = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyProduct) as SaveCurrencyDataV1;
         var emptyCurrencyProduct = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyCurrencyProduct) as SaveCurrencyProductDataV1;
 
         // 현재 월드에 적용된 시스템 초기화
@@ -132,6 +133,9 @@ public class TestPanel : MonoBehaviour
         {
             CurrencyManager.product[CurrencyManager.productTypes[i]] = emptyCurrencyProduct.currencySaveData[i].value;
         }
+
+        var storageProduct = (FloorManager.Instance.floors["B3"].storage as StorageProduct);
+        storageProduct.SetEmpty();
     }
 
     public void OnClickApplicationQuit()
