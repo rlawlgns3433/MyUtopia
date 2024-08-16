@@ -47,7 +47,6 @@ public class TestPanel : MonoBehaviour
             var floorSaveData = playingWorld.floors[i];
             var savedAnimals = playingWorld.floors[i].animalSaveDatas;
             var savedBuildings = playingWorld.floors[i].buildingSaveDatas;
-            var saveFurnitures = playingWorld.floors[i].furnitureSaveDatas;
 
             var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
             floor.FloorStat = floorSaveData.floorStat;
@@ -70,11 +69,6 @@ public class TestPanel : MonoBehaviour
                 {
                     floor.buildings[j].gameObject.SetActive(true);
                 }
-            }
-
-            for (int j = 0; j < saveFurnitures.Count; ++j)
-            {
-                floor.furnitures[j].BuildingStat = saveFurnitures[j].buildingStat;
             }
         }
 
@@ -125,11 +119,6 @@ public class TestPanel : MonoBehaviour
                 {
                     floor.buildings[j].gameObject.SetActive(true);
                 }
-            }
-
-            for(int j = 0; j < saveFurnitures.Count; ++j)
-            {
-                floor.furnitures[j].BuildingStat = saveFurnitures[j].buildingStat;
             }
         }
 

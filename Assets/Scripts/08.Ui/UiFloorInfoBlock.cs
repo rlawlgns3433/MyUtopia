@@ -176,7 +176,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         clockFormatTimer.timerText.gameObject.SetActive(true);
 
-        clockFormatTimer.SetTimer(floor.FloorStat.Level_Up_Time);
+        clockFormatTimer.SetTimer(/*floor.FloorStat.Level_Up_Time*/5);
 
         foreach (var currency in uiUpgradeCurrencies)
         {

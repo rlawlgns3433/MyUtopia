@@ -6,10 +6,13 @@ public class Waypoint : MonoBehaviour
 {
     public List<AnimalStat> animals = new List<AnimalStat>();
 
-    public List<AnimationClip> clips = new List<AnimationClip>();
+    public List<string> clips = new List<string>();
     private List<int> clipsInt = new List<int>();
-    public List<AnimationClip> eyeClips = new List<AnimationClip>();
+
+    public List<string> eyeClips = new List<string>();
     private List<int> eyeClipsInt = new List<int>();
+
+    public List<float> clipSpeed = new List<float>();
 
     private int currentClipIndex = 0;
     public int maxPopulation = 1;
@@ -35,20 +38,26 @@ public class Waypoint : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         var floorWayPoint = GetComponentInParent<FloorWaypoint>();
 
-        floorWayPoint.waypoints.Add(this);
+        if (floorWayPoint.waypoints.Contains(this))
+            return;
 
+        floorWayPoint.waypoints.Add(this);
+    }
+
+    private void Start()
+    {
         for (int i = 0; i < clips.Count; ++i )
         {
-            clipsInt.Add(Animator.StringToHash(clips[i].name));
+            clipsInt.Add(Animator.StringToHash(clips[i]));
         }        
         
         for (int i = 0; i < eyeClips.Count; ++i )
         {
-            eyeClipsInt.Add(Animator.StringToHash(eyeClips[i].name));
+            eyeClipsInt.Add(Animator.StringToHash(eyeClips[i]));
         }
     }
 
@@ -74,9 +83,17 @@ public class Waypoint : MonoBehaviour
         animals.Remove(animal);
     }
 
-    public int GetRandomClip()
+    public int GetRandomClip(out float speed)
     {
+        speed = 1.0f;
+        if (clips.Count == 0)
+            return -1;
+
         currentClipIndex = Random.Range(0, clips.Count);
+
+        if (clipSpeed.Count != 0)
+            speed = clipSpeed[currentClipIndex];
+
         return clipsInt[currentClipIndex];
     }
 
