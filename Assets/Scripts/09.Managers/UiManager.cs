@@ -15,7 +15,7 @@ public class UiManager : Singleton<UiManager>
     public UiAnimalList animalListUi;
     public UiProducts productsUi;
     public UiCraftTable craftTableUi;
-    public UiTutorial tutorialUi;
+    //public UiTutorial tutorialUi;
     public UiInvitation invitationUi;
     public TestPanel testPanelUi;
     public UiPatronBoard patronBoardUi;
@@ -30,22 +30,19 @@ public class UiManager : Singleton<UiManager>
     public GameObject panel;
     public GameObject catalougeImage;
     public Tutorial tutorial;
+    //public UiFocusOut focusOutUi;
     private void Start()
     {
         if (PlayerPrefs.GetInt("TutorialCheck") == 1)
         {
-            if(tutorial.tutorialComplete)
-            {
-                ShowStorageUi();
-            }
-            else
-            {
-                ShowTutorial();
-            }
+
+            ShowStorageUi();
         }
-            //ShowMainUi();
         else
-            ShowTutorialUi();
+        {
+            ShowTutorial();
+        }
+            
     }
 
     public void IsAnimalList(bool condition)
@@ -68,8 +65,11 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowTutorial()
     {
-        if(tutorial  != null)
-            tutorial.gameObject.SetActive(true);
+        if (tutorial != null)
+            tutorial.tutorialComplete = false;
+        tutorial.isStop = false;
+        tutorial.SetTutorial(0).Forget();
+        tutorial.gameObject.SetActive(true);
     }
 
     public void ShowCurrencyUi()
@@ -84,7 +84,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
@@ -104,7 +103,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         storageUi.gameObject.SetActive(true);
@@ -123,9 +121,11 @@ public class UiManager : Singleton<UiManager>
         animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
-        FloorManager.Instance.multiTouchOff = false;
+        if(!tutorial.gameObject.activeSelf)
+        {
+            FloorManager.Instance.multiTouchOff = false;
+        }
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
@@ -142,7 +142,7 @@ public class UiManager : Singleton<UiManager>
             } 
             if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseItemUi || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseShop
                 || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseAnimalStat || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseMurgeAnimalStat
-                || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseAnimalList)
+                || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseAnimalList || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Clear)
             {
                 FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
             }
@@ -162,7 +162,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         uiCatalogue.gameObject.SetActive(false);
@@ -196,7 +195,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
@@ -216,7 +214,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
@@ -243,7 +240,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
@@ -253,7 +249,7 @@ public class UiManager : Singleton<UiManager>
         {
             if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.AnimalList || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MoveAnimal)
             {
-                FloorManager.Instance.touchManager.tutorial.progress = TutorialProgress.None;
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
             }
         }
     }
@@ -270,7 +266,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
@@ -297,12 +292,18 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(true);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        if (FloorManager.Instance.touchManager.tutorial != null)
+        {
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.OpenCraftTable)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
+        }
     }
 
     public void ShowInvitationUi()
@@ -317,7 +318,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(true);
-        tutorialUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
@@ -337,7 +337,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(true);
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
@@ -357,7 +356,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(true);
         uiMission.gameObject.SetActive(false);
@@ -378,7 +376,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(true);
@@ -398,7 +395,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
@@ -418,7 +414,6 @@ public class UiManager : Singleton<UiManager>
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
-        tutorialUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
@@ -468,6 +463,13 @@ public class UiManager : Singleton<UiManager>
 
     public void SetCatalougeImage(bool value)
     {
+        if (tutorial.gameObject.activeSelf)
+            return;
         catalougeImage.SetActive(value);
     }
+
+    //public void SetFocusOut()
+    //{
+    //    focusOutUi.FocusOut();
+    //}
 }

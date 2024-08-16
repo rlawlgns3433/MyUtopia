@@ -50,8 +50,6 @@ public class UiTutorial : MonoBehaviour
 
     public void ResetTutorial()
     {
-        PlayerPrefs.SetInt("TutorialCheck", 0);
 
-        UiManager.Instance.ShowTutorialUi();
     }
 }

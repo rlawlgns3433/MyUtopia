@@ -5,57 +5,34 @@
       "B1": {
         "Id": 2010101,
         "IsLock": false,
-        "Animals": [
-          {
-            "Id": 110101005,
-            "Stamina": 600.0
-          }
-        ],
+        "Animals": [],
         "Buildings": []
       },
       "B2": {
-        "Id": 2010202,
+        "Id": 2010201,
         "IsLock": false,
         "Animals": [],
         "Buildings": []
       },
       "B3": {
-        "Id": 2010303,
+        "Id": 2010301,
         "IsLock": false,
-        "Animals": [
-          {
-            "Id": 110401005,
-            "Stamina": 345.0
-          }
-        ],
+        "Animals": [],
         "Buildings": [
           {
-            "Id": 3030201,
+            "Id": 3030101,
             "IsLock": false
           },
           {
-            "Id": 3030202,
-            "IsLock": false
-          },
-          {
-            "Id": 3030203,
-            "IsLock": false
+            "Id": 3030102,
+            "IsLock": true
           }
         ]
       },
       "B4": {
-        "Id": 2010403,
+        "Id": 2010401,
         "IsLock": false,
-        "Animals": [
-          {
-            "Id": 110102007,
-            "Stamina": 0.0
-          },
-          {
-            "Id": 110303006,
-            "Stamina": 1163.0
-          }
-        ],
+        "Animals": [],
         "Buildings": [
           {
             "Id": 3040101,
@@ -63,43 +40,54 @@
           },
           {
             "Id": 3040102,
-            "IsLock": false
+            "IsLock": true
           },
           {
             "Id": 3040103,
-            "IsLock": false
+            "IsLock": true
           }
         ]
       },
       "B5": {
-        "Id": 2010504,
+        "Id": 2010501,
         "IsLock": false,
         "Animals": [
           {
-            "Id": 110202007,
-            "Stamina": 0.0
-          },
-          {
-            "Id": 110102007,
-            "Stamina": 0.0
+            "Id": 110102001,
+            "Stamina": 3462.0
           }
         ],
         "Buildings": [
           {
-            "Id": 3050402,
+            "Id": 3050202,
             "IsLock": false
           },
           {
-            "Id": 3050303,
-            "IsLock": false
+            "Id": 3050103,
+            "IsLock": true
           },
           {
-            "Id": 3050304,
-            "IsLock": false
+            "Id": 3050104,
+            "IsLock": true
           }
         ]
       }
     }
   },
+  "dailyMissions": {
+    "$type": "System.Collections.Generic.List`1[[MissionSaveData, Assembly-CSharp]], mscorlib",
+    "$values": []
+  },
+  "weeklyMissions": {
+    "$type": "System.Collections.Generic.List`1[[MissionSaveData, Assembly-CSharp]], mscorlib",
+    "$values": []
+  },
+  "monthlyMissions": {
+    "$type": "System.Collections.Generic.List`1[[MissionSaveData, Assembly-CSharp]], mscorlib",
+    "$values": []
+  },
+  "dailyPoint": 0.0,
+  "weeklyPoint": 0.0,
+  "monthlyPoint": 0.0,
   "Version": 1
 }

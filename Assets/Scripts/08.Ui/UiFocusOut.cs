@@ -21,7 +21,7 @@ public class UiFocusOut : MonoBehaviour, IPointerClickHandler
         vc.Follow = null;
         vc.LookAt = null;
     }
-    private async void FocusOut()
+    public async void FocusOut()
     {
         if (transposer == null)
         {
@@ -36,6 +36,14 @@ public class UiFocusOut : MonoBehaviour, IPointerClickHandler
         //var floorMove = FloorManager.Instance.FloorMove;
         //await floorMove.MoveToCurrentFloor();
 
+    }
+
+    public void CloseAnimalFocus()
+    {
+        FocusOut();
+        UnFollow();
+        UiManager.Instance.ShowMainUi();
+        UiManager.Instance.mainUi.animalInventoryUi.UpdateInventory(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)

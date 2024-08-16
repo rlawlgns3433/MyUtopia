@@ -21,9 +21,11 @@ public class TestPanel : MonoBehaviour
     {
         GameManager.Instance.SetPlayerData();
         SetEmptyData();
-        UiManager.Instance.tutorialUi.ResetTutorial();
-        UiManager.Instance.floorInformationUi.ClearFloorUi();
+        UiManager.Instance.ShowMainUi();
         SaveLoadSystem.Delete((int)SaveLoadSystem.SaveType.Catalouge);
+        PlayerPrefs.SetInt("TutorialCheck", 0);
+        FloorManager.Instance.MoveToSelectFloor("B1");
+        UiManager.Instance.ShowTutorial();
     }
 
     // 중간 플레이 세이브 파일 로드

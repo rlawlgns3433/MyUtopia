@@ -145,7 +145,9 @@ public class MultiTouchManager : MonoBehaviour
                             Tap = true;
                             if(tutorial != null)
                             {
-                                if (tutorial.gameObject.activeSelf && tutorial.progress == TutorialProgress.None)
+                                if (tutorial.isStop)
+                                    return;
+                                if (tutorial.gameObject.activeSelf && tutorial.progress == TutorialProgress.None || tutorial.progress == TutorialProgress.Clear)
                                 {
                                     tutorial.SetTutorialProgress();
                                 }

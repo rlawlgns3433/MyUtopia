@@ -58,6 +58,7 @@ public static class ButtonText
     public static readonly string Move = "이동";
     public static readonly string Success = "획득";
     public static readonly string Completed = "완료";
+    public static readonly string TutorialSkip = "정말 스킵하시겠습니까?";
 }
 public static class SortingLayers
 {
@@ -171,6 +172,7 @@ public enum TutorialProgress
     AddCurrenctCopper = 14,
     MakeIngot = 15,
     Move3F = 18,
+    OpenCraftTable = 21,
     CreateItem = 24,
     Accelerate = 28,
     CloseItemUi = 29,

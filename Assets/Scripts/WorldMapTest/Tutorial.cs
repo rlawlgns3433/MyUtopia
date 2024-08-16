@@ -1,5 +1,6 @@
 using Cinemachine;
 using Cysharp.Threading.Tasks;
+using System;
 using System.Diagnostics.Contracts;
 using TMPro;
 using Unity.VisualScripting;
@@ -16,6 +17,7 @@ public class Tutorial : MonoBehaviour
     public Image target;
     public GameObject[] tutorialTexts;
     public Button[] skipButtons;
+    public GameObject[] tutorialSkipButtons;
     public int count = 0;
     public Button purchaseButton;
     public Button missionButton;
@@ -31,12 +33,13 @@ public class Tutorial : MonoBehaviour
     public GameObject empty;
     public int targetAnimalId;
     public bool isClosing = false;
+    public bool isStop = false;
     private async void Start()
     {
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B4") != null);
         count = 0;
-        if(!tutorialComplete)
+        if (PlayerPrefs.GetInt("TutorialCheck") == 0 || !PlayerPrefs.HasKey("TutorialCheck"))
         {
             gameObject.SetActive(true);
             purchaseButton.gameObject.SetActive(false);
@@ -50,10 +53,14 @@ public class Tutorial : MonoBehaviour
             SetTutorial(count);
             FloorManager.Instance.multiTouchOff = true;
         }
+
+        
     }
 
     public async UniTask SetTutorial(int count)
     {
+        if (isStop)
+            return;
         if (tutorialComplete)
         {
             moveFloor = false;
@@ -110,6 +117,12 @@ public class Tutorial : MonoBehaviour
         }
         SetTextFormation(tutorialTextFormations[count], tutorialStringFormat[count]);
         SetTargetRayCast(count);
+    }
+
+    private void SetTargerRayTrue()
+    {
+        var obj = target.GetComponent<Image>();
+        obj.raycastTarget = true;
     }
 
     private void SetTargetRayCast(int count)
@@ -359,6 +372,10 @@ public class Tutorial : MonoBehaviour
         {
             progress = TutorialProgress.Clear;
         }
+        if (count == (int)TutorialProgress.OpenCraftTable)
+        {
+            progress = TutorialProgress.OpenCraftTable;
+        }
 
         if (count == (int)TutorialProgress.Swipe + 1 && moveFloor)
         {
@@ -370,7 +387,9 @@ public class Tutorial : MonoBehaviour
         if(count == (int)TutorialProgress.Move5F + 1 && moveSelectFloor)
         {
             moveSelectFloor = false;
+            FloorManager.Instance.multiTouchOff = true;
             progress = TutorialProgress.None;
+
         }
         if(count == (int)TutorialProgress.TouchCopper + 1 && tutorialTouchCount >= 10)
         {
@@ -456,6 +475,7 @@ public class Tutorial : MonoBehaviour
         if (count == (int)TutorialProgress.MurgeAnimalMove5F + 1 && moveSelectFloor)
         {
             moveSelectFloor = false;
+            progress = TutorialProgress.None;
         }
         if (count == (int)TutorialProgress.MoveMurgeAnimal + 1)
         {
@@ -478,14 +498,21 @@ public class Tutorial : MonoBehaviour
         {
             progress = TutorialProgress.None;
         }
-        if(count == (int)TutorialProgress.Clear + 1)
+        if (count == (int)TutorialProgress.OpenCraftTable + 1)
+        {
+            progress = TutorialProgress.None;
+        }
+        if (count == (int)TutorialProgress.Clear + 1)
         {
             tutorialComplete = true;
             target.gameObject.SetActive(false);
+            missionButton.gameObject.SetActive(true);
+            catalogueButton.gameObject.SetActive(true);
             gameObject.SetActive(false);
             moveFloor = false;
             moveSelectFloor = false;
             FloorManager.Instance.multiTouchOff = false;
+            PlayerPrefs.SetInt("TutorialCheck", 1);
             return;
         }
         SetTutorial(count).Forget();
@@ -493,9 +520,38 @@ public class Tutorial : MonoBehaviour
 
     public void SkipTutorial()
     {
+        isStop = true;
+        SetTargerRayTrue();
+        var index = (int)tutorialTextFormations[count];
+        if (index > -1)
+        {
+            SetTextFormation(tutorialTextFormations[count], ButtonText.TutorialSkip);
+            tutorialSkipButtons[index].gameObject.SetActive(true);
+        }
+    }
+
+    public void SkipConfirm()
+    {
+        tutorialSkipButtons[(int)tutorialTextFormations[count]].gameObject.SetActive(false);
+        purchaseButton.gameObject.SetActive(true);
+        missionButton.gameObject.SetActive(true);
+        catalogueButton.gameObject.SetActive(true);
+        floorInfoButton.gameObject.SetActive(true);
+        inventoryButton.gameObject.SetActive(true);
+        animalListButton.gameObject.SetActive(true);
         tutorialComplete = true;
         gameObject.SetActive(false);
         target.gameObject.SetActive(false);
-        //���� �� ���嵥���� �ε� �߰�
+        PlayerPrefs.SetInt("TutorialCheck", 1);
+        //SetPlayingData() 온클릭에 넣기
+        isStop = false;
+    }
+
+    public void SkipCancle()
+    {
+        isStop = false;
+        tutorialSkipButtons[(int)tutorialTextFormations[count]].gameObject.SetActive(false);
+        SetTargetRayCast(count);
+        SetTutorial(count).Forget();
     }
 }
