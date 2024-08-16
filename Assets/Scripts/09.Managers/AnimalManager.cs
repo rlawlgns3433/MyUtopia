@@ -35,9 +35,11 @@ public class AnimalManager : Subject
         if(FloorManager.Instance.MoveAnimal(fromFloor, toFloor, animalClick.AnimalWork.Animal))
         {
             animalClick.gameObject.SetActive(false);
+            animalClick.gameObject.GetComponent<AnimalController>().behaviorTreeRoot.InitializeBehaviorTree();
             animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
             animalClick.gameObject.transform.localPosition = -Vector3.forward * 3f;
             animalClick.gameObject.SetActive(true);
+
 
             //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(fromFloor)); ½Ã³ÊÁö
             //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(toFloor));

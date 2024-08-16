@@ -1,79 +1,47 @@
-//using System;
-//using UnityEngine;
-//using UnityEngine.EventSystems;
+using System.Collections.Generic;
+using UnityEngine;
 
-//public class Furniture : MonoBehaviour, IClickable, IGrowable
-//{
-//    [SerializeField]
-//    private int facilityId;
-//    public bool IsUpgrading { get; set; }
+public class Furniture : MonoBehaviour
+{
+    private Floor currentFloor;
+    public Floor CurrentFloor
+    {
+        get
+        {
+            if(currentFloor == null)
+            {
+                currentFloor = GetComponentInParent<Floor>();
+            }
+            return currentFloor;
+        }
+        set
+        {
+            currentFloor = value;
+        }
+    }
+    public List<GameObject> furnitures = new List<GameObject>();
 
-//    private FurnitureStat furnitureStat;
-//    public FurnitureStat FurnitureStat
-//    {
-//        get
-//        {
-//            if (furnitureStat == null)
-//                furnitureStat = new FurnitureStat(facilityId);
+    private void OnEnable()
+    {
+        // 계층 레벨에 따른 해제
+        // 트리 재구성
+        for (int i = 0; i < CurrentFloor.FloorStat.Grade; ++i)
+        {
+            furnitures[i].SetActive(true);
+        }
 
-//            return furnitureStat;
-//        }
-//        set
-//        {
-//            furnitureStat = value;
-//        }
-//    }
+        foreach (var animal in CurrentFloor.animals)
+        {
+            var controller = animal.animalWork.GetComponent<AnimalController>();
+            controller.behaviorTreeRoot.InitializeBehaviorTree();
+        }
+    }
 
-//    public event Action clickEvent;
-
-//    [SerializeField]
-//    private bool isClicked;
-//    public bool IsClicked
-//    {
-//        get
-//        {
-//            return isClicked;
-//        }
-
-//        set
-//        {
-//            isClicked = value;
-//            if (isClicked)
-//            {
-//                clickEvent?.Invoke();
-//                ClickableManager.OnClicked(this);
-//            }
-//        }
-//    }
-
-//    public void LevelUp()
-//    {
-//        if (FurnitureStat.Level == FurnitureStat.Level_Max)
-//            return;
-
-//        FurnitureStat = new FurnitureStat(FurnitureStat.Furniture_ID + 1);
-//    }
-
-//    public bool CheckCurrency()
-//    {
-//        if (CurrencyManager.currency[CurrencyType.Coin] < FurnitureStat.Level_Up_Coin_Value.ToBigNumber())
-//            return false;
-
-//        return true;
-//    }
-
-//    public void SpendCurrency()
-//    {
-//        CurrencyManager.currency[CurrencyType.Coin] -= FurnitureStat.Level_Up_Coin_Value.ToBigNumber();
-//    }
-
-//    public void RegisterClickable()
-//    {
-//        ClickableManager.AddClickable(this);
-//    }
-
-//    public void OnPointerClick(PointerEventData eventData)
-//    {
-//        IsClicked = true;
-//    }
-//}
+    public void Refresh()
+    {
+        for (int i = 0; i < CurrentFloor.FloorStat.Grade; ++i)
+        {
+            furnitures[i].SetActive(true);
+        }
+    }
+}

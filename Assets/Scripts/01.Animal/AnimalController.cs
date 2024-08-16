@@ -92,6 +92,12 @@ public class AnimalController : MonoBehaviour
     {
         behaviorTreeRoot.Execute();
         StateTimer += Time.deltaTime;
+
+        // Testcode
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            behaviorTreeRoot.InitializeBehaviorTree();
+        }
     }
 
     public void SetDestination(Vector3 destination)

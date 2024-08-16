@@ -24,8 +24,15 @@ public class BehaviourSetNode : StandardNode
         }
     }
 
+
+    // 시작 시, 층 변경 시
     public void InitializeBehaviorTree()
     {
+        if(IsSetBehaviour)
+        {
+            animalController.animalState = AnimalState.Idle;
+            IsSetBehaviour = false;
+        }
 
         #region EmptyBehaviour
         List<Node> behaviourSet = new List<Node>();

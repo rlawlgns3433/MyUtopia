@@ -8,9 +8,9 @@ public class Floor : Subject, IGrowable
 {
     public List<Animal> animals = new List<Animal>();
     public List<Building> buildings = new List<Building>();
-    public List<Building> furnitures = new List<Building>();
     public List<Observer> runtimeObservers = new List<Observer>();
     public List<SynergyStat> synergyStats = new List<SynergyStat>();
+    public Furniture furniture;
 
     public bool IsUpgrading { get; set; }
     public float UpgradeStartTime { get; set; }
@@ -94,6 +94,13 @@ public class Floor : Subject, IGrowable
             return;
 
         FloorStat = new FloorStat(floorStat.Floor_ID + 1);
+        furniture.Refresh();
+
+        foreach (var animal in animals)
+        {
+            var controller = animal.animalWork.GetComponent<AnimalController>();
+            controller.behaviorTreeRoot.InitializeBehaviorTree();
+        }
     }
 
     public bool CheckCurrency()

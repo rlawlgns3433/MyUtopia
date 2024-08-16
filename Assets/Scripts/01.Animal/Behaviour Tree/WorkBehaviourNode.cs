@@ -37,7 +37,16 @@ public class WorkBehaviourNode : StandardNode
             return;
         }
 
-        animalController.animator.Play(animalController.CurrentWaypoint.GetRandomClip(), animalController.animator.GetLayerIndex("Base Layer"));
+        float speed = 0f;
+
+        if(animalController.CurrentWaypoint.GetRandomClip(out speed) == -1)
+        {
+            ExitNode();
+            return;
+        }
+
+        animalController.animator.Play(animalController.CurrentWaypoint.GetRandomClip(out speed), animalController.animator.GetLayerIndex("Base Layer"));
+        animalController.animator.speed = speed;
         animalController.animator.Play(animalController.CurrentWaypoint.GetEyeClip(), animalController.animator.GetLayerIndex("Shapekey"));
         first = false;
     }
@@ -57,6 +66,9 @@ public class WorkBehaviourNode : StandardNode
 
     public override bool Execute()
     {
+        if (!animalController.IsEndMovement)
+            return false;
+
         if (animalController.animalState != AnimalState.Work)
             return false;
 
