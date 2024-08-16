@@ -54,7 +54,13 @@ public class Tutorial : MonoBehaviour
     public void SetTutorial(int count)
     {
         if (tutorialComplete)
+        {
+            moveFloor = false;
+            moveSelectFloor = false;
+            FloorManager.Instance.multiTouchOff= false;
             return;
+        }
+            
         if(count > targetObjects.Length)
         {
             gameObject.SetActive(false);
@@ -198,6 +204,7 @@ public class Tutorial : MonoBehaviour
 
     public void SetEmpty()
     {
+        cursor.gameObject.SetActive(false);
         var rect = empty.GetComponent<RectTransform>();
         TargettingUiObject(rect);
     }
@@ -344,6 +351,10 @@ public class Tutorial : MonoBehaviour
         {
             progress = TutorialProgress.CompleteLevelUp;
         }
+        if(count == (int)TutorialProgress.Clear)
+        {
+            progress = TutorialProgress.Clear;
+        }
 
         if (count == (int)TutorialProgress.Swipe + 1 && moveFloor)
         {
@@ -464,6 +475,10 @@ public class Tutorial : MonoBehaviour
             tutorialComplete = true;
             target.gameObject.SetActive(false);
             gameObject.SetActive(false);
+            moveFloor = false;
+            moveSelectFloor = false;
+            FloorManager.Instance.multiTouchOff = false;
+            return;
         }
         SetTutorial(count);
     }
