@@ -4123,7 +4123,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9
+  m_fontSize: 7.1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6096,7 +6096,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9
+  m_fontSize: 7.1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11167,7 +11167,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 82434538}
         m_TargetAssemblyTypeName: FloorManager, Assembly-CSharp
         m_MethodName: MoveToSelectFloor
         m_Mode: 1
@@ -11517,12 +11517,12 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 52, y: 52}
   m_Spacing: {x: 4, y: 4}
-  m_Constraint: 1
+  m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!114 &220077652
 MonoBehaviour:
@@ -11576,7 +11576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotPrefab: {fileID: 7891646483981898741, guid: f9f87514921fddc4b9690822f232429c, type: 3}
   uiAnimalFloorSlots: []
-  floor: {fileID: 0}
+  floor: {fileID: 1913298787}
 --- !u!1 &222521135
 GameObject:
   m_ObjectHideFlags: 0
@@ -18690,7 +18690,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9
+  m_fontSize: 7.1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -28371,12 +28371,12 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 52, y: 52}
   m_Spacing: {x: 4, y: 4}
-  m_Constraint: 1
+  m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!114 &614511312
 MonoBehaviour:
@@ -28430,7 +28430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotPrefab: {fileID: 7891646483981898741, guid: f9f87514921fddc4b9690822f232429c, type: 3}
   uiAnimalFloorSlots: []
-  floor: {fileID: 0}
+  floor: {fileID: 1696216550}
 --- !u!1001 &617610811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29720,7 +29720,7 @@ MonoBehaviour:
   m_StartAxis: 0
   m_CellSize: {x: 52, y: 52}
   m_Spacing: {x: 8, y: 8}
-  m_Constraint: 1
+  m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!114 &642907917
 MonoBehaviour:
@@ -32011,15 +32011,15 @@ MonoBehaviour:
   - {fileID: 267458101}
   furnitures: []
   runtimeObservers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1674630715}
+  - {fileID: 1427908659}
+  - {fileID: 1208011985}
+  - {fileID: 1999998974}
+  - {fileID: 1069567031}
+  - {fileID: 891294172}
+  - {fileID: 1848560095}
+  - {fileID: 1678422237}
+  - {fileID: 894035144}
   floorId: 2010401
   storage: {fileID: 0}
   floorName: B4
@@ -34367,10 +34367,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1953139902}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 6.8375, y: -10.2595}
-  m_SizeDelta: {x: 13.675, y: 16.519}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 13.675, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &754278480
 MonoBehaviour:
@@ -35907,7 +35907,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 82434538}
         m_TargetAssemblyTypeName: FloorManager, Assembly-CSharp
         m_MethodName: MoveToSelectFloor
         m_Mode: 1
@@ -36338,7 +36338,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 82434538}
         m_TargetAssemblyTypeName: FloorManager, Assembly-CSharp
         m_MethodName: MoveToSelectFloor
         m_Mode: 1
@@ -38216,15 +38216,15 @@ MonoBehaviour:
   buildings: []
   furnitures: []
   runtimeObservers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1674630715}
+  - {fileID: 1427908659}
+  - {fileID: 1208011985}
+  - {fileID: 1999998974}
+  - {fileID: 1069567031}
+  - {fileID: 891294172}
+  - {fileID: 1848560095}
+  - {fileID: 1678422237}
+  - {fileID: 894035144}
   floorId: 2010201
   storage: {fileID: 0}
   floorName: B2
@@ -39865,6 +39865,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1118534504784716317, guid: ffd36a03bfa5dd14c8858a8fd2dcc140, type: 3}
   m_PrefabInstance: {fileID: 2119072468}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &891294172 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8257142577108264208, guid: ffd36a03bfa5dd14c8858a8fd2dcc140, type: 3}
+  m_PrefabInstance: {fileID: 2119072468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0999de7c5ac58b42b848c552b4e54c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &893540765 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8050820096762372073, guid: 619d859efccc57a4893c7f632d1b6a67, type: 3}
@@ -40040,7 +40051,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11
+  m_fontSize: 8.85
   m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -48167,6 +48178,17 @@ Transform:
   - {fileID: 650713134}
   m_Father: {fileID: 486804851}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1069567031 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8257142577108264208, guid: ffd36a03bfa5dd14c8858a8fd2dcc140, type: 3}
+  m_PrefabInstance: {fileID: 138406083}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0999de7c5ac58b42b848c552b4e54c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1069803626
 GameObject:
   m_ObjectHideFlags: 0
@@ -49267,7 +49289,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9
+  m_fontSize: 7.1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -53027,6 +53049,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1118534504784716317, guid: ffd36a03bfa5dd14c8858a8fd2dcc140, type: 3}
   m_PrefabInstance: {fileID: 274921431}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1208011985 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8257142577108264208, guid: ffd36a03bfa5dd14c8858a8fd2dcc140, type: 3}
+  m_PrefabInstance: {fileID: 274921431}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0999de7c5ac58b42b848c552b4e54c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1209686369
 GameObject:
   m_ObjectHideFlags: 0
@@ -54289,12 +54322,12 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 52, y: 52}
   m_Spacing: {x: 4, y: 4}
-  m_Constraint: 1
+  m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!114 &1251425773
 MonoBehaviour:
@@ -54348,7 +54381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotPrefab: {fileID: 7891646483981898741, guid: f9f87514921fddc4b9690822f232429c, type: 3}
   uiAnimalFloorSlots: []
-  floor: {fileID: 0}
+  floor: {fileID: 848280134}
 --- !u!1 &1251434534
 GameObject:
   m_ObjectHideFlags: 0
@@ -60664,6 +60697,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1118534504784716317, guid: ffd36a03bfa5dd14c8858a8fd2dcc140, type: 3}
   m_PrefabInstance: {fileID: 502769621}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1427908659 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8257142577108264208, guid: ffd36a03bfa5dd14c8858a8fd2dcc140, type: 3}
+  m_PrefabInstance: {fileID: 502769621}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0999de7c5ac58b42b848c552b4e54c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1427953689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63166,12 +63210,12 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 52, y: 52}
   m_Spacing: {x: 4, y: 4}
-  m_Constraint: 1
+  m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!114 &1477315817
 MonoBehaviour:
@@ -63225,7 +63269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotPrefab: {fileID: 7891646483981898741, guid: f9f87514921fddc4b9690822f232429c, type: 3}
   uiAnimalFloorSlots: []
-  floor: {fileID: 0}
+  floor: {fileID: 707424776}
 --- !u!4 &1478139213 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4316379663726478890, guid: a82aa0ba60005354690e069428575a94, type: 3}
@@ -67806,7 +67850,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8.85
+  m_fontSize: 6.95
   m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -68811,7 +68855,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 82434538}
         m_TargetAssemblyTypeName: FloorManager, Assembly-CSharp
         m_MethodName: MoveToSelectFloor
         m_Mode: 1
@@ -68930,15 +68974,15 @@ MonoBehaviour:
   - {fileID: 1044814874}
   furnitures: []
   runtimeObservers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1674630715}
+  - {fileID: 1427908659}
+  - {fileID: 1208011985}
+  - {fileID: 1999998974}
+  - {fileID: 1069567031}
+  - {fileID: 891294172}
+  - {fileID: 1848560095}
+  - {fileID: 1678422237}
+  - {fileID: 894035144}
   floorId: 2010501
   storage: {fileID: 0}
   floorName: B5
@@ -72614,6 +72658,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1118534504784716317, guid: ffd36a03bfa5dd14c8858a8fd2dcc140, type: 3}
   m_PrefabInstance: {fileID: 1794719064}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1674630715 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8257142577108264208, guid: ffd36a03bfa5dd14c8858a8fd2dcc140, type: 3}
+  m_PrefabInstance: {fileID: 1794719064}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0999de7c5ac58b42b848c552b4e54c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1674792351 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 498820, guid: c8117e5eb39c2443bbcca5ccb56ec562, type: 3}
@@ -72766,7 +72821,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11
+  m_fontSize: 9.6
   m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -73735,15 +73790,15 @@ MonoBehaviour:
   buildings: []
   furnitures: []
   runtimeObservers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1674630715}
+  - {fileID: 1427908659}
+  - {fileID: 1208011985}
+  - {fileID: 1999998974}
+  - {fileID: 1069567031}
+  - {fileID: 891294172}
+  - {fileID: 1848560095}
+  - {fileID: 1678422237}
+  - {fileID: 894035144}
   floorId: 2010101
   storage: {fileID: 0}
   floorName: B1
@@ -80484,7 +80539,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11
+  m_fontSize: 10.3
   m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -81847,10 +81902,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1953139902}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 39.8375, y: -10.2595}
-  m_SizeDelta: {x: 42.325, y: 16.519}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 42.325, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1875208073
 MonoBehaviour:
@@ -84094,15 +84149,15 @@ MonoBehaviour:
   furnitures:
   - {fileID: 2126916231}
   runtimeObservers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1674630715}
+  - {fileID: 1427908659}
+  - {fileID: 1208011985}
+  - {fileID: 1999998974}
+  - {fileID: 1069567031}
+  - {fileID: 891294172}
+  - {fileID: 1848560095}
+  - {fileID: 1678422237}
+  - {fileID: 894035144}
   floorId: 2010301
   storage: {fileID: 2126916231}
   floorName: B3
@@ -87079,7 +87134,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 82434538}
         m_TargetAssemblyTypeName: FloorManager, Assembly-CSharp
         m_MethodName: MoveToSelectFloor
         m_Mode: 1
@@ -87711,7 +87766,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotPrefab: {fileID: 7891646483981898741, guid: f9f87514921fddc4b9690822f232429c, type: 3}
   uiAnimalFloorSlots: []
-  floor: {fileID: 0}
+  floor: {fileID: 1586996399}
 --- !u!114 &1992197425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87729,12 +87784,12 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 52, y: 52}
   m_Spacing: {x: 4, y: 4}
-  m_Constraint: 1
+  m_Constraint: 0
   m_ConstraintCount: 4
 --- !u!114 &1992197426
 MonoBehaviour:
@@ -88288,6 +88343,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1118534504784716317, guid: ffd36a03bfa5dd14c8858a8fd2dcc140, type: 3}
   m_PrefabInstance: {fileID: 777519914}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1999998974 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8257142577108264208, guid: ffd36a03bfa5dd14c8858a8fd2dcc140, type: 3}
+  m_PrefabInstance: {fileID: 777519914}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0999de7c5ac58b42b848c552b4e54c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2001890629
 GameObject:
   m_ObjectHideFlags: 0
@@ -89240,7 +89306,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 45349773}
         m_TargetAssemblyTypeName: AnimalManager, Assembly-CSharp
         m_MethodName: CreateAnimal
         m_Mode: 1
@@ -89631,8 +89697,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 128.6652, y: -288.65833}
-  m_SizeDelta: {x: 257.3304, y: 390.48276}
+  m_AnchoredPosition: {x: 108.178444, y: -288.65833}
+  m_SizeDelta: {x: 216.35689, y: 390.48276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2029932307
 MonoBehaviour:
