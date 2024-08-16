@@ -60,4 +60,14 @@ public class StorageProduct : Storage
             await UniTask.Yield();
         }
     }
+
+    public void SetEmpty()
+    {
+        products.Clear();
+
+        foreach (var item in DataTableMgr.GetItemTable().GetKeyValuePairs.Values)
+        {
+            products.Add(item.Item_ID, 0);
+        }
+    }
 }

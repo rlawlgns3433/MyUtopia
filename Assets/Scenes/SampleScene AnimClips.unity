@@ -560,14 +560,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - Roll
-  - Spin
+  - Idle_C
   eyeClips:
-  - Eyes_Happy
   - Eyes_Annoyed
   clipSpeed:
-  - 0.65
-  - 0.9
+  - 1
   maxPopulation: 1
 --- !u!1 &8060308
 GameObject:
@@ -7270,9 +7267,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
   maxPopulation: 1
 --- !u!1 &130928831
 GameObject:
@@ -8003,9 +8003,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1001 &145366948
 PrefabInstance:
@@ -8627,9 +8630,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Jump
+  eyeClips:
+  - Eys_Squint
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!4 &163939288 stripped
 Transform:
@@ -9264,9 +9270,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Fly
+  - Death
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
+  - 1
   maxPopulation: 1
 --- !u!1001 &172825966
 PrefabInstance:
@@ -17542,9 +17554,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &347944152
 GameObject:
@@ -18067,9 +18082,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1 &355594300
 GameObject:
@@ -18907,9 +18925,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &377028980
 GameObject:
@@ -20817,14 +20838,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
+  - Attack
   - Roll
   - Spin
+  - Fly
   eyeClips:
+  - Eyes_Squint
+  - Eyes_Squint
   - Eyes_Happy
   - Eyes_Annoyed
   clipSpeed:
+  - 0.8
   - 0.65
   - 0.9
+  - 1
   maxPopulation: 1
 --- !u!1 &415536701
 GameObject:
@@ -22498,9 +22525,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  - Sit
+  - Fly
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Happy
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.2
+  - 0.9
+  - 0.1
   maxPopulation: 1
 --- !u!1 &467892444
 GameObject:
@@ -23508,7 +23544,11 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  assetTypes: 0200000003000000040000000500000006000000
+  - m_AssetGUID: 4d35550da8047a341b4d156dcfd854d7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  assetTypes: 020000000300000005000000060000000700000004000000
 --- !u!4 &494861805
 Transform:
   m_ObjectHideFlags: 0
@@ -24417,9 +24457,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Eat
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1001 &516062752
 PrefabInstance:
@@ -25746,9 +25789,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!4 &549354575 stripped
 Transform:
@@ -25972,12 +26018,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - 
-  - 
+  - Jump
+  - Sit
   eyeClips:
-  - 
-  - 
-  clipSpeed: []
+  - Sweat_L
+  - Sweat_R
+  clipSpeed:
+  - 1
+  - 0.5
   maxPopulation: 1
 --- !u!1 &556028160
 GameObject:
@@ -26024,9 +26072,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1 &557036229
 GameObject:
@@ -29557,9 +29608,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &642834609
 GameObject:
@@ -32247,6 +32301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2436b901672c464998502f4474e89d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waypoints: []
 --- !u!1 &707557223
 GameObject:
   m_ObjectHideFlags: 0
@@ -32356,9 +32411,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Squint
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1001 &709878707
 PrefabInstance:
@@ -35515,9 +35573,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.5
   maxPopulation: 1
 --- !u!198 &786697902 stripped
 ParticleSystem:
@@ -37800,9 +37861,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &837497012 stripped
 GameObject:
@@ -38343,6 +38407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2436b901672c464998502f4474e89d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waypoints: []
 --- !u!1001 &851171098
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40773,9 +40838,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &906260894
 GameObject:
@@ -41654,9 +41722,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Squint
+  clipSpeed:
+  - 0.9
   maxPopulation: 1
 --- !u!1 &928732980 stripped
 GameObject:
@@ -42469,9 +42540,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &938701650
 GameObject:
@@ -42977,9 +43051,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1 &952198983
 GameObject:
@@ -44591,9 +44668,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1001 &985792273
 PrefabInstance:
@@ -45769,14 +45849,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - Roll
-  - Spin
+  - Sit
   eyeClips:
-  - Eyes_Happy
-  - Eyes_Annoyed
+  - Eyes_Sleep
   clipSpeed:
-  - 0.65
-  - 0.9
+  - 0.2
   maxPopulation: 1
 --- !u!1 &1012093158
 GameObject:
@@ -46739,14 +46816,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - Roll
-  - Spin
+  - Jump
   eyeClips:
-  - Eyes_Happy
-  - Eyes_Annoyed
+  - Sweat_R
   clipSpeed:
-  - 0.65
-  - 0.9
+  - 1
   maxPopulation: 1
 --- !u!1001 &1036489850
 PrefabInstance:
@@ -48697,9 +48771,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.5
   maxPopulation: 1
 --- !u!1 &1080932126
 GameObject:
@@ -48843,9 +48920,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Fly
+  - Death
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
+  - 1
   maxPopulation: 1
 --- !u!1001 &1086904580
 PrefabInstance:
@@ -49693,9 +49776,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1001 &1123615446
 PrefabInstance:
@@ -50426,9 +50512,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Jump
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1 &1135870392
 GameObject:
@@ -50550,9 +50639,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1001 &1137645253
 PrefabInstance:
@@ -52682,14 +52774,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
+  - Attack
   - Roll
   - Spin
+  - Fly
   eyeClips:
+  - Eyes_Squint
+  - Eyes_Squint
   - Eyes_Happy
   - Eyes_Annoyed
   clipSpeed:
+  - 0.8
   - 0.65
   - 0.9
+  - 1
   maxPopulation: 1
 --- !u!4 &1200256115 stripped
 Transform:
@@ -53999,14 +54097,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
+  - Attack
   - Roll
   - Spin
+  - Fly
   eyeClips:
+  - Eyes_Squint
+  - Eyes_Squint
   - Eyes_Happy
   - Eyes_Annoyed
   clipSpeed:
+  - 0.8
   - 0.65
   - 0.9
+  - 1
   maxPopulation: 1
 --- !u!1 &1246295781
 GameObject:
@@ -54665,9 +54769,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Clicked
+  - Spin
+  - Sit
+  eyeClips:
+  - Eyes_Squint
+  - Sweat_L
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.6
+  - 0.9
+  - 0.2
   maxPopulation: 1
 --- !u!1 &1257319963
 GameObject:
@@ -56033,6 +56146,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 663180733}
     m_Modifications:
+    - target: {fileID: 514488127236534938, guid: 5983fdb6a706dd94585d1106d88044d8, type: 3}
+      propertyPath: duration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 514488127236534938, guid: 5983fdb6a706dd94585d1106d88044d8, type: 3}
+      propertyPath: clickedScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 514488127236534938, guid: 5983fdb6a706dd94585d1106d88044d8, type: 3}
+      propertyPath: clickedScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1191659130371151551, guid: 5983fdb6a706dd94585d1106d88044d8, type: 3}
       propertyPath: m_Name
       value: InvitationGate
@@ -59629,9 +59754,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Fly
+  - Death
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
+  - 1
   maxPopulation: 1
 --- !u!1001 &1384962792
 PrefabInstance:
@@ -60360,14 +60491,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - Roll
-  - Spin
+  - Jump
   eyeClips:
   - Eyes_Happy
-  - Eyes_Annoyed
   clipSpeed:
-  - 0.65
-  - 0.9
+  - 1
   maxPopulation: 1
 --- !u!1 &1407389357 stripped
 GameObject:
@@ -62473,14 +62601,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - Roll
-  - Spin
+  - Sit
+  - Fear
   eyeClips:
   - Eyes_Happy
-  - Eyes_Annoyed
+  - Eyes_Sleep
   clipSpeed:
-  - 0.65
-  - 0.9
+  - 1
+  - 0.1
   maxPopulation: 1
 --- !u!1001 &1455575923
 PrefabInstance:
@@ -63756,9 +63884,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Fly
+  - Death
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
+  - 1
   maxPopulation: 1
 --- !u!1 &1484931931
 GameObject:
@@ -63805,9 +63939,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Fly
+  - Death
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
+  - 1
   maxPopulation: 1
 --- !u!1 &1486601747
 GameObject:
@@ -67322,9 +67462,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Roll
+  - Spin
+  - Attack
+  eyeClips:
+  - Eyes_Squint
+  - Eyes_Squint
+  - Eyes_Squint
+  clipSpeed:
+  - 0.9
+  - 0.9
+  - 0.8
   maxPopulation: 1
 --- !u!1 &1559485358
 GameObject:
@@ -69275,6 +69424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2436b901672c464998502f4474e89d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waypoints: []
 --- !u!1 &1587645284
 GameObject:
   m_ObjectHideFlags: 0
@@ -73979,6 +74129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2436b901672c464998502f4474e89d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waypoints: []
 --- !u!1 &1699269459 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 32403409980177853, guid: ff484c12b8aeee846907526e1d175e13, type: 3}
@@ -74228,9 +74379,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Eat
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1001 &1708575684
 PrefabInstance:
@@ -75288,9 +75442,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.7
   maxPopulation: 1
 --- !u!4 &1739471249 stripped
 Transform:
@@ -76996,9 +77153,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Roll
+  - Spin
+  - Attack
+  eyeClips:
+  - Eyes_Squint
+  - Eyes_Squint
+  - Eyes_Squint
+  clipSpeed:
+  - 0.9
+  - 0.9
+  - 0.8
   maxPopulation: 1
 --- !u!1 &1777928333
 GameObject:
@@ -84449,6 +84615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2436b901672c464998502f4474e89d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waypoints: []
 --- !u!1 &1913627793
 GameObject:
   m_ObjectHideFlags: 0
@@ -85621,9 +85788,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Clicked
+  - Spin
+  - Sit
+  eyeClips:
+  - Eyes_Squint
+  - Sweat_L
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.6
+  - 0.9
+  - 0.2
   maxPopulation: 1
 --- !u!1001 &1940221871
 PrefabInstance:
@@ -87387,9 +87563,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Sweat_L
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &1974098302
 GameObject:
@@ -89817,14 +89996,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - Roll
-  - Spin
+  - Jump
   eyeClips:
-  - Eyes_Happy
   - Eyes_Annoyed
   clipSpeed:
-  - 0.65
-  - 0.9
+  - 1
   maxPopulation: 1
 --- !u!1 &2029932305
 GameObject:
@@ -94931,9 +95107,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Squint
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &2134318103
 GameObject:

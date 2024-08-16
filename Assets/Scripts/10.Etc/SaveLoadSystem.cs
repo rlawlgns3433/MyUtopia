@@ -22,13 +22,14 @@ public static class SaveLoadSystem
         Currency,
         EmptyWorld,
         EmptyCurrency,
+        EmptyProduct,
         PlayingWorld,
         PlayingCurrency,
         EmptyCurrencyProduct,
         Product,
         Missions,
         CurrencyProduct,
-        Catalouge
+        Catalouge,
     }
 
     // 0 (ÀÚµ¿), 1, 2, 3 ...
@@ -38,6 +39,7 @@ public static class SaveLoadSystem
         "SaveCurrency.sav",
         "SaveEmptyWorld.sav",
         "SaveEmptyCurrency.sav",
+        "SaveEmptyProduct.sav",
         "SavePlayingWorld.sav",
         "SavePlayingCurrency.sav",
         "SaveEmptyCurrencyProduct.sav",
