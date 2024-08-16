@@ -95,7 +95,15 @@ public class GameManager : Singleton<GameManager>
                             animal.animalStat.Stamina = 0;
                         }
                     }
-                    GetAnimalManager().Create(pos, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
+                    if(animal.animalStat.Stamina > 0)
+                    {
+                        GetAnimalManager().Create(pos, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
+                    }
+                    else if(animal.animalStat.Stamina <= 0)
+                    {
+                        var moveFloor = FloorManager.Instance.GetFloor("B2");
+                        GetAnimalManager().Create(pos, moveFloor, animal.animalStat.Animal_ID, 0, animal.animalStat);
+                    }
                 }
 
                 int index = floorSaveData.floorStat.Floor_ID % 10 - 1;
