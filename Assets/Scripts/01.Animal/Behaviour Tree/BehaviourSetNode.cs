@@ -37,20 +37,20 @@ public class BehaviourSetNode : StandardNode
             new RestNode(animalController)
         };
 
-        // 행동이 없을 때 우측 서브 트리 => waypoint 추가하고 주석 해제
-        //var randomRight = new List<Node>();
+        //행동이 없을 때 우측 서브 트리 => waypoint 추가하고 주석 해제
+        var randomRight = new List<Node>();
 
-        //foreach(var wayPoint in animalController.wayPoints)
-        //{
-        //    var wayPointNode = new WayPointNode(animalController, wayPoint);
-        //    randomRight.Add(wayPointNode);
-        //}
+        foreach (var wayPoint in animalController.WayPoints)
+        {
+            var wayPointNode = new WayPointNode(animalController, wayPoint);
+            randomRight.Add(wayPointNode);
+        }
 
         var randomSelectorLeft = new RandomSelector(randomLeft);
-        //var randomSelectorRight = new RandomSelector(randomRight);
+        var randomSelectorRight = new RandomSelector(randomRight);
 
         behaviourSet.Add(randomSelectorLeft);
-        //behaviourSet.Add(randomSelectorRight);
+        behaviourSet.Add(randomSelectorRight);
 
         behaviourSetSubTree = new RandomSelector(behaviourSet);
 
@@ -68,9 +68,10 @@ public class BehaviourSetNode : StandardNode
 
         List<Node> workSequence = new List<Node>();
         workSequence.Add(new RunBehaviourNode(animalController, animalController.Run));
+        workSequence.Add(new WorkBehaviourNode(animalController));
 
-
-        var workBehaviourNode = new WorkBehaviourNode(animalController);
+        var workBehaviourNode = new Sequence(workSequence);
+        
         selectorBehaviour.Add(workBehaviourNode);
 
         var selector = new Selector(selectorBehaviour);

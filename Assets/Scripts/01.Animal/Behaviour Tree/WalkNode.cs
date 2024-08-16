@@ -27,6 +27,8 @@ public class WalkNode : StandardNode
     public override bool Execute()
     {
         animalController.animalState = AnimalState.Walk;
+        animalController.animator.Play(AnimationHash.Walk, animalController.animator.GetLayerIndex("Base Layer"));
+        animalController.animator.Play(AnimationHash.eyeAnnoyed, animalController.animator.GetLayerIndex("Shapekey"));
         animalController.behaviorTreeRoot.IsSetBehaviour = true;
 
         Debug.Log("Walk");

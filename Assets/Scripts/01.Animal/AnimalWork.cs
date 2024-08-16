@@ -7,13 +7,11 @@ using UnityEngine;
 public class AnimalWork : Subject, IMergable
 {
     public Observer uiAnimalFloorSlot;
-
-    public Canvas canvasSpeech;
-    public TextMeshProUGUI textSpeech;
     private AnimalManager animalManager;
     public CancellationTokenSource cts = new CancellationTokenSource();
     public int animalId;
     public bool isHealing = false;
+    private int consumeStamina = -100;
     //public float staminaReductionRate = 0f; 시너지
     private Animal animal;
     public Animal Animal
@@ -78,9 +76,12 @@ public class AnimalWork : Subject, IMergable
             //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(animalWork.animal.animalStat.CurrentFloor));
             Destroy(gameObject);
             Destroy(animalWork.gameObject);
-            if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Murge)
+            if(FloorManager.Instance.touchManager.tutorial != null)
             {
-                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Murge)
+                {
+                    FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                }
             }
             return true;
         }
@@ -104,11 +105,9 @@ public class AnimalWork : Subject, IMergable
         switch (animal.animalStat.CurrentFloor)
         {
             case "B1":
-                textSpeech.text = "식당";
                 NotifyObservers();
                 break;
             case "B2":
-                textSpeech.text = "휴식중";
                 Debug.Log("B2Start");
                 while (Animal.animalStat.Stamina < Animal.animalStat.AnimalData.Stamina)
                 {
@@ -120,13 +119,17 @@ public class AnimalWork : Subject, IMergable
                 }
                 break;
             default:
-                textSpeech.text = "작업중";
                 Debug.Log("else");
                 while (Animal.animalStat.Stamina > 0)
                 {
                     if (cts.IsCancellationRequested)
                         break;
                     //Animal.animalStat.Stamina = Animal.animalStat.Stamina - 1 + staminaReductionRate; 시너지
+
+                    Floor floor = FloorManager.Instance.floors[Animal.animalStat.CurrentFloor];
+                    consumeStamina = floor.FloorStat.Stamina_Recovery;
+                    Animal.animalStat.Stamina += consumeStamina;
+
                     NotifyObservers();
                     await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
                 }

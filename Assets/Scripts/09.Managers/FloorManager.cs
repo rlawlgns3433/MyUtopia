@@ -70,6 +70,7 @@ public class FloorManager : Singleton<FloorManager>
         {
             touchManager = FindObjectOfType<MultiTouchManager>();
         }
+        isMoving = false;
         touchManager.scrollRectTransform = scrollRectTransform;
         zoomPosition = defaultPosition = targetPosition = vc.transform.position;
     }
@@ -153,24 +154,36 @@ public class FloorManager : Singleton<FloorManager>
     }
     private async UniTask MoveFloor(Vector3 moveVector)
     {
-        if (!touchManager.tutorial.moveFloor)
-            return;
+        //if(touchManager.tutorial != null)
+        //{
+        //    if (!touchManager.tutorial.moveFloor)
+        //        return;
+        //}
         targetPosition += moveVector;
         zoomPosition = targetPosition;
         maxZoomOut = targetPosition.y;
         maxZoomIn = targetPosition.y - 5;
         await vc.transform.DOMove(targetPosition, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
         Debug.Log($"CurrentFloor-MoveFloor{CurrentFloorIndex}/{targetPosition}");
-        if(touchManager.tutorial.progress == TutorialProgress.Swipe)
+        if(touchManager.tutorial != null)
         {
-            touchManager.tutorial.SetTutorialProgress();
+            if (touchManager.tutorial.progress == TutorialProgress.Swipe)
+            {
+                touchManager.tutorial.SetTutorialProgress();
+            }
         }
     }
 
     public async UniTask MoveToCurrentFloor()
     {
-        if (!touchManager.tutorial.moveSelectFloor)
-            return;
+        if(touchManager.tutorial != null)
+        {
+            if (!touchManager.tutorial.tutorialComplete)
+            {
+                if (!touchManager.tutorial.moveSelectFloor)
+                    return;
+            }
+        }
         isMoving = true;
         var distance = CurrentFloorIndex - 1;
         distance *= moveDistance;
@@ -182,10 +195,13 @@ public class FloorManager : Singleton<FloorManager>
         await vc.transform.DOMove(movePosition, moveDuration).AsyncWaitForCompletion();
         targetPosition = vc.transform.position;
         zoomPosition = targetPosition;
-        if (touchManager.tutorial.progress == TutorialProgress.Move5F || touchManager.tutorial.progress == TutorialProgress.Move4F || touchManager.tutorial.progress == TutorialProgress.Move3F
-            || touchManager.tutorial.progress == TutorialProgress.MurgeAnimalMove5F)
+        if(touchManager.tutorial != null)
         {
-            touchManager.tutorial.SetTutorialProgress();
+            if (touchManager.tutorial.progress == TutorialProgress.Move5F || touchManager.tutorial.progress == TutorialProgress.Move4F || touchManager.tutorial.progress == TutorialProgress.Move3F
+                || touchManager.tutorial.progress == TutorialProgress.MurgeAnimalMove5F)
+            {
+                touchManager.tutorial.SetTutorialProgress();
+            }
         }
         isMoving = false;
     }
@@ -213,7 +229,10 @@ public class FloorManager : Singleton<FloorManager>
 
     public async void MoveUp()
     {
-        UiManager.Instance.mainUi.OffSwipeTutorial();
+        if(touchManager.tutorial != null)
+        {
+            UiManager.Instance.mainUi.OffSwipeTutorial();
+        }
 
         if (isMoving || CurrentFloorIndex == floorCount)
             return;

@@ -84,7 +84,9 @@ public static class AnimationHash
     public static readonly int Run = Animator.StringToHash("Run");
     public static readonly int Idle = Animator.StringToHash("Idle_A");
     public static readonly int Rest = Animator.StringToHash("Sit");
-    public static readonly int Work = Animator.StringToHash("Work");
+    public static readonly int Work = Animator.StringToHash("Attack");
+
+    public static readonly int eyeAnnoyed = Animator.StringToHash("Eyes_Annoyed");
 }
 
 public enum CurrencyType

@@ -24,6 +24,8 @@ public class RestNode : StandardNode
     {
         animalController.animalState = AnimalState.Rest;
         animalController.behaviorTreeRoot.IsSetBehaviour = true;
+        animalController.animator.Play(AnimationHash.Walk, animalController.animator.GetLayerIndex("Base Layer"));
+        animalController.animator.Play(AnimationHash.eyeAnnoyed, animalController.animator.GetLayerIndex("Shapekey"));
         Debug.Log("Rest");
 
         return true;

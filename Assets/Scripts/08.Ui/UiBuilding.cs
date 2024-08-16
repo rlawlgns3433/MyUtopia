@@ -23,9 +23,12 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
     public void FinishUpgrade()
     {
         clockFormatTimer.timerText.gameObject.SetActive(false);
-        if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CompleteLevelUp)
+        if(FloorManager.Instance.touchManager.tutorial != null)
         {
-            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CompleteLevelUp)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
         }
     }
 

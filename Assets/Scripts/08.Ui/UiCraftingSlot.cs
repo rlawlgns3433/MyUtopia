@@ -90,9 +90,12 @@ public class UiCraftingSlot : Observer
                 building.CancelCrafting();
                 building.isCrafting = false; // 제작 끝
             }
-            if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Accelerate)
+            if(FloorManager.Instance.touchManager.tutorial != null)
             {
-                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();//튜토리얼
+                if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Accelerate)
+                {
+                    FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();//튜토리얼
+                }
             }
         }
     }

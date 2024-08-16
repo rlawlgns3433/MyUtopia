@@ -38,6 +38,7 @@ public class Tutorial : MonoBehaviour
         count = 0;
         if(!tutorialComplete)
         {
+            gameObject.SetActive(true);
             purchaseButton.gameObject.SetActive(false);
             missionButton.gameObject.SetActive(false);
             catalogueButton.gameObject.SetActive(false);
@@ -51,7 +52,7 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    public void SetTutorial(int count)
+    public async UniTask SetTutorial(int count)
     {
         if (tutorialComplete)
         {
@@ -83,7 +84,8 @@ public class Tutorial : MonoBehaviour
             if (progress == TutorialProgress.CreateItem)
             {
                 var obj = targetObjects[count];
-                var objRect = obj.transform.Find("ButtonCraft");
+                var objRect = obj.transform.Find("Recipe(Clone)");
+                await UniTask.WaitUntil(() => objRect != null);
                 if (objRect != null)
                 {
                     rect = objRect.GetComponent<RectTransform>();
@@ -211,6 +213,8 @@ public class Tutorial : MonoBehaviour
 
     public void SetTutorialProgress()
     {
+        if (tutorialComplete)
+            return;
         count++;
         if(count == (int)TutorialProgress.Swipe)
         {
@@ -229,7 +233,7 @@ public class Tutorial : MonoBehaviour
             progress = TutorialProgress.TouchCopper;
             FloorManager.Instance.touchManager.tutorialOffMultiTouch = true;
         }
-        if(count == (int)TutorialProgress.Product)
+        if (count == (int)TutorialProgress.Product)
         {
             progress = TutorialProgress.Product;
         }
@@ -399,6 +403,10 @@ public class Tutorial : MonoBehaviour
         {
             progress = TutorialProgress.None;
         }
+        if (count == (int)TutorialProgress.Product + 1)
+        {
+            progress = TutorialProgress.None;
+        }
         if (count == (int)TutorialProgress.OpenShop + 1)
         {
             progress = TutorialProgress.None;
@@ -480,7 +488,7 @@ public class Tutorial : MonoBehaviour
             FloorManager.Instance.multiTouchOff = false;
             return;
         }
-        SetTutorial(count);
+        SetTutorial(count).Forget();
     }
 
     public void SkipTutorial()
@@ -488,6 +496,6 @@ public class Tutorial : MonoBehaviour
         tutorialComplete = true;
         gameObject.SetActive(false);
         target.gameObject.SetActive(false);
-        //ÀúÀå ¹× ÀúÀåµ¥ÀÌÅÍ ·Îµå Ãß°¡
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½åµ¥ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ ï¿½ß°ï¿½
     }
 }

@@ -33,9 +33,17 @@ public class UiManager : Singleton<UiManager>
     private void Start()
     {
         if (PlayerPrefs.GetInt("TutorialCheck") == 1)
-            //ShowStorageUi();
+        {
+            if(tutorial.tutorialComplete)
+            {
+                ShowStorageUi();
+            }
+            else
+            {
+                ShowTutorial();
+            }
+        }
             //ShowMainUi();
-            ShowTutorial();
         else
             ShowTutorialUi();
     }
@@ -60,7 +68,8 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowTutorial()
     {
-        tutorial.gameObject.SetActive(true);
+        if(tutorial  != null)
+            tutorial.gameObject.SetActive(true);
     }
 
     public void ShowCurrencyUi()
@@ -138,17 +147,6 @@ public class UiManager : Singleton<UiManager>
                 FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
             }
         }
-        // ��� ������ ��ǳ�� �ѱ�
-        foreach (var floor in FloorManager.Instance.floors.Values)
-        {
-            foreach (var animal in floor.animals)
-            {
-                if (animal.animalWork.canvasSpeech == null)
-                    continue;
-                animal.animalWork.canvasSpeech.gameObject.SetActive(true);
-            }
-        }
-
         animalListUi.mode = AnimalListMode.AnimalList;
     }
 
@@ -177,20 +175,12 @@ public class UiManager : Singleton<UiManager>
         {
             panel.gameObject.SetActive(false);
         }
-
-        // ��� ������ ��ǳ�� ����
-        foreach (var floor in FloorManager.Instance.floors.Values)
+        if(FloorManager.Instance.touchManager.tutorial != null)
         {
-            foreach (var animal in floor.animals)
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.ShowAnimalFocus)
             {
-                if (animal.animalWork.canvasSpeech == null)
-                    continue;
-                animal.animalWork.canvasSpeech.gameObject.SetActive(false);
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
             }
-        }
-        if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.ShowAnimalFocus)
-        {
-            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
         }
     }
 
@@ -232,9 +222,12 @@ public class UiManager : Singleton<UiManager>
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
-        if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.FloorInfo)
+        if(FloorManager.Instance.touchManager.tutorial != null)
         {
-            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.FloorInfo)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
         }
     }
 
@@ -433,7 +426,10 @@ public class UiManager : Singleton<UiManager>
         currencyProductInventoryUi.gameObject.SetActive(true);
         if (FloorManager.Instance.touchManager.tutorial != null)
         {
-            FloorManager.Instance.touchManager.tutorial.progress = TutorialProgress.None;
+            if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Product)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
         }
     }
 

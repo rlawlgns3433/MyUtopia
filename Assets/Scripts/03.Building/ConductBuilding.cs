@@ -35,12 +35,15 @@ public class ConductBuilding : Building
                 CurrencyManager.product[buildingType] += touchProduce;
                 this.touchProduce = touchProduce; // 플로팅 텍스트용
                 MissionManager.Instance.AddMissionCountTargetId(buildingId);
-                if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.TouchCopper)
+                if(FloorManager.Instance.touchManager.tutorial != null)
                 {
-                    FloorManager.Instance.touchManager.tutorial.tutorialTouchCount++;
-                    if(FloorManager.Instance.touchManager.tutorial.tutorialTouchCount >= 10)
+                    if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.TouchCopper)
                     {
-                        FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                        FloorManager.Instance.touchManager.tutorial.tutorialTouchCount++;
+                        if (FloorManager.Instance.touchManager.tutorial.tutorialTouchCount >= 10)
+                        {
+                            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                        }
                     }
                 }
                 break;
@@ -57,12 +60,15 @@ public class ConductBuilding : Building
                 }
                 MissionManager.Instance.AddMissionCountTargetId(buildingId);
                 Debug.Log($"missionCount =>>{MissionManager.Instance.GetMissionCount(buildingId)}");
-                if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MakeIngot)
+                if(FloorManager.Instance.touchManager.tutorial != null)
                 {
-                    FloorManager.Instance.touchManager.tutorial.tutorialTouchCount++;
-                    if (FloorManager.Instance.touchManager.tutorial.tutorialTouchCount >= 10)
+                    if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MakeIngot)
                     {
-                        FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                        FloorManager.Instance.touchManager.tutorial.tutorialTouchCount++;
+                        if (FloorManager.Instance.touchManager.tutorial.tutorialTouchCount >= 10)
+                        {
+                            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                        }
                     }
                 }
                 break;

@@ -77,7 +77,7 @@ public class CatalogueManager : Singleton<CatalogueManager>
             {
                 animalDictionary.Add(animalData.Animal_ID, animalData);
                 animalCatalogue.Add(animalData.Animal_ID,false);
-                animalDataList.Add(animalData);
+                animalDataList.Add(animalData); //¾ê°¡ 0ÀÌ³ª¿È
             }
         }
         firstGetAnimal = false;

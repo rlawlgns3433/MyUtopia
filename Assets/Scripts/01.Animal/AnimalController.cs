@@ -27,7 +27,18 @@ public class AnimalController : MonoBehaviour
     private float timer = 0f;
     private float interval = 7f;
     private Vector3 prevDestination;
-    public List<GameObject> wayPoints = new List<GameObject>();
+    public List<Waypoint> wayPoints = new List<Waypoint>();
+    public List<Waypoint> WayPoints
+    {
+        get
+        {
+            var floor = FloorManager.Instance.floors[animalWork.Animal.animalStat.CurrentFloor];
+            wayPoints = floor.GetComponent<FloorWaypoint>().waypoints;
+
+            return wayPoints;
+        }
+    }
+    public Waypoint CurrentWaypoint { get; set; }
 
     public bool DestinationSet
     {
@@ -74,13 +85,6 @@ public class AnimalController : MonoBehaviour
 
     private void InitializeBehaviorTree()
     {
-        //behaviorTreeRoot = new RandomSelector(new List<Node>
-        //{
-        //    new IdleNode(this),
-        //    new WalkNode(this, RandomDestination, Walk),
-        //    new RunNode(this, RandomDestination, Run),
-        //});
-
         behaviorTreeRoot = new BehaviourSetNode(this);
     }
 
@@ -88,17 +92,6 @@ public class AnimalController : MonoBehaviour
     {
         behaviorTreeRoot.Execute();
         StateTimer += Time.deltaTime;
-
-        //timer += Time.deltaTime;
-        //if(timer > interval)
-        //{
-        //    // 이전 도착지와 동일할 경우 새로운 목적지 설정
-        //    if(prevDestination == agent.destination)
-        //    {
-        //        RandomDestination();
-        //    }
-        //    timer = 0f;
-        //}
     }
 
     public void SetDestination(Vector3 destination)
@@ -156,5 +149,11 @@ public class AnimalController : MonoBehaviour
     public bool EndTimer()
     {
         return StateTimer >= SetTime;
+    }
+
+    public void SetDestination(Waypoint waypoint)
+    {
+        agent.isStopped = false;
+        agent.destination = waypoint.transform.position;
     }
 }

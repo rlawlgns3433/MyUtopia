@@ -67,9 +67,12 @@ public class UiProductSlot : MonoBehaviour
         uiProduct.uiProducts.Clear();
 
         uiProduct.Refresh();
-        if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.SellItem)
+        if (FloorManager.Instance.touchManager.tutorial != null)
         {
-            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.SellItem)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
         }
     }
 }

@@ -81,9 +81,12 @@ public class AnimalManager : Subject
         UiManager.Instance.ShowInvitationUi();
         UiManager.Instance.invitationUi.Set();
         NotifyObservers();
-        if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.PurchaseAnimal || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MurgeAnimalPurchase)
+        if(FloorManager.Instance.touchManager.tutorial != null)
         {
-            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.PurchaseAnimal || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MurgeAnimalPurchase)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
         }
     }
 

@@ -132,9 +132,12 @@ public class Building : MonoBehaviour, IClickable, IGrowable
         {
             CurrencyManager.product[(CurrencyProductType)BuildingStat.Level_Up_Resource_3] -= BuildingStat.Resource_3_Value.ToBigNumber();
         }
-        if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.BuildingLevelUp)
+        if(FloorManager.Instance.touchManager.tutorial != null)
         {
-            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.BuildingLevelUp)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
         }
     }
 }

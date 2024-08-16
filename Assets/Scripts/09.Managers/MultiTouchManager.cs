@@ -143,9 +143,12 @@ public class MultiTouchManager : MonoBehaviour
                         if (duration < timeTap && !isDragging)
                         {
                             Tap = true;
-                            if(tutorial.gameObject.activeSelf && tutorial.progress == TutorialProgress.None)
+                            if(tutorial != null)
                             {
-                                tutorial.SetTutorialProgress();
+                                if (tutorial.gameObject.activeSelf && tutorial.progress == TutorialProgress.None)
+                                {
+                                    tutorial.SetTutorialProgress();
+                                }
                             }
                         }
                     }

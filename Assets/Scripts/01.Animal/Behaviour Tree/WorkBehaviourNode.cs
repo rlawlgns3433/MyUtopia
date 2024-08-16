@@ -1,8 +1,9 @@
 using System;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-public class WorkBehaviourNode : Sequence
+public class WorkBehaviourNode : StandardNode
 {
+    private bool first = true;
     public WorkBehaviourNode(AnimalController animalController)
     {
         this.animalController = animalController;
@@ -17,12 +18,6 @@ public class WorkBehaviourNode : Sequence
         }
     }
 
-    public WorkBehaviourNode(AnimalController animalController, List<Node> nodes)
-    {
-        this.animalController = animalController;
-        this.nodes = nodes;
-    }
-
     public void AddActions(params Action[] actions)
     {
         foreach (var action in actions)
@@ -35,7 +30,16 @@ public class WorkBehaviourNode : Sequence
     {
         animalController.StateTimer = 0;
         animalController.SetTime = 5;
-        animalController.animator.Play(AnimationHash.Walk);
+
+        if(animalController.CurrentWaypoint == null)
+        {
+            ExitNode();
+            return;
+        }
+
+        animalController.animator.Play(animalController.CurrentWaypoint.GetRandomClip(), animalController.animator.GetLayerIndex("Base Layer"));
+        animalController.animator.Play(animalController.CurrentWaypoint.GetEyeClip(), animalController.animator.GetLayerIndex("Shapekey"));
+        first = false;
     }
 
     private void ExitNode()
@@ -43,6 +47,12 @@ public class WorkBehaviourNode : Sequence
         animalController.SetTime = 0;
         animalController.StateTimer = 0;
         animalController.behaviorTreeRoot.IsSetBehaviour = false;
+        first = true;
+
+        if (animalController.CurrentWaypoint == null)
+            return;
+
+        animalController.CurrentWaypoint.ExitAnimal(animalController.animalWork.Animal.animalStat);
     }
 
     public override bool Execute()
@@ -50,7 +60,7 @@ public class WorkBehaviourNode : Sequence
         if (animalController.animalState != AnimalState.Work)
             return false;
 
-        if(animalController.SetTime == 0)
+        if(first)
         {
             EnterNode();
         }

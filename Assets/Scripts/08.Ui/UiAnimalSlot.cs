@@ -91,9 +91,12 @@ public class UiAnimalSlot : UiAnimalFloorSlot
 
         }
         UiManager.Instance.mainUi.animalInventoryUi.UpdateInventory(false);
-        if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.AnimalStat)
+        if(FloorManager.Instance.touchManager.tutorial != null)
         {
-            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.AnimalStat)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
         }
     }
 }
