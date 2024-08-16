@@ -76,7 +76,6 @@ public class AnimalController : MonoBehaviour
         animalWork = GetComponent<AnimalWork>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-
     }
 
     private void Start()
