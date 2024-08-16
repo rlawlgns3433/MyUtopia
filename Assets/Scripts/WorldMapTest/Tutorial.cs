@@ -543,6 +543,7 @@ public class Tutorial : MonoBehaviour
         gameObject.SetActive(false);
         target.gameObject.SetActive(false);
         PlayerPrefs.SetInt("TutorialCheck", 1);
+        UiManager.Instance.ShowMainUi();
         //SetPlayingData() 온클릭에 넣기
         isStop = false;
     }

@@ -176,9 +176,9 @@ public class FloorManager : Singleton<FloorManager>
 
     public async UniTask MoveToCurrentFloor()
     {
-        if(touchManager.tutorial != null)
+        if(touchManager.tutorial.gameObject.activeSelf)
         {
-            if (!touchManager.tutorial.tutorialComplete)
+            if (touchManager.tutorial != null)
             {
                 if (!touchManager.tutorial.moveSelectFloor)
                     return;
@@ -220,7 +220,6 @@ public class FloorManager : Singleton<FloorManager>
     {
         if (isMoving)
             return;
-
         if(id == $"B{CurrentFloorIndex}")
             return;
         SetFloor(id);
