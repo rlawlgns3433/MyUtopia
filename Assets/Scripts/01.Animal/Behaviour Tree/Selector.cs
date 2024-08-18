@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-
-// Selector와 RandomSelect 상속구조로 만들기
+using UnityEngine;
 
 public class Selector : Node
 {
-    private List<Node> nodes;
+    protected List<Node> nodes;
     public Selector(List<Node> nodes) { this.nodes = nodes; }
 
     public override bool Execute()
@@ -17,35 +16,34 @@ public class Selector : Node
     }
 }
 
-
-public class RandomSelector : Node
+public class RandomSelector : Selector
 {
-    private List<Node> nodes;
-    private int index = -1;
-
-    public RandomSelector(List<Node> nodes)
+    public RandomSelector(List<Node> nodes) : base(nodes)
     {
-        this.nodes = nodes;
+    }
+
+    public void Shuffle(List<Node> list)
+    {
+        System.Random rng = new System.Random();
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            Node value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
     }
 
     public override bool Execute()
     {
-        if (nodes.Count == 0)
-        {
-            return false;
-        }
+        Shuffle(nodes);
 
-        if(index == -1)
+        foreach(Node node in nodes)
         {
-            index = UnityEngine.Random.Range(0, nodes.Count);
+            if (node.Execute()) return true;
         }
-
-        if (nodes[index].Execute())
-        {
-            index = -1;
-            return true;
-        }
-
         return false;
     }
 }
