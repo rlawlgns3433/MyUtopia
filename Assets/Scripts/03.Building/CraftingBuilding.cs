@@ -51,8 +51,16 @@ public class CraftingBuilding : Building
     public void SetSlider()
     {
         craftingSlider.gameObject.SetActive(true);
-        craftingSlider.maxValue = currentRecipeStat.Workload;
-        craftingSlider.value = craftingSlider.minValue;
+        if(currentRecipeStat != null)
+        {
+            craftingSlider.maxValue = currentRecipeStat.Workload;
+            craftingSlider.value = craftingSlider.minValue;
+        }
+        else
+        {
+            craftingSlider.maxValue = 1;
+            craftingSlider.value = 0;
+        }
     }
 
     public void CancelCrafting()
@@ -61,7 +69,7 @@ public class CraftingBuilding : Building
 
         if (recipeStatList.Count <= 0 && currentRecipeStat == null)
         {
-            AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>("Gift");
+            AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>("Plane_Square_Round_3");
             handle.Completed += (AsyncOperationHandle<Sprite> obj) =>
             {
                 UiManager.Instance.craftTableUi.uiCraftingSlot.imageCurrentCrafting.sprite = obj.Result;

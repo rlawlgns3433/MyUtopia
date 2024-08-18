@@ -60,17 +60,22 @@ public class UiCraftingSlot : Observer
         imageCurrentCrafting.sprite = await recipeCurrentCrafting.RecipeData.GetProduct().GetImage();
         textCurrentCraftingName.text = recipeCurrentCrafting.RecipeData.GetName();
         textCurrentRemainProcess.text = string.Format(format, sliderProcess.value.ToString(), recipeStat.RecipeData.Workload);
+        buttonAccelerate.interactable = recipeCurrentCrafting != null ? true : false;
+
         var floor = FloorManager.Instance.GetFloor("B3");
         floor.AttachObserver(this);
     }
 
     public void OnClickAccelerate()
     {
+        var building = UiManager.Instance.craftTableUi.craftingBuilding;
+
+        buttonAccelerate.interactable = recipeCurrentCrafting != null ? true : false;
+
         UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad += 5000; // 터치 업무량 추가 적용 필요
         sliderProcess.value = UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad.ToFloat();
         textCurrentRemainProcess.text = sliderProcess.value.ToString();
 
-        var building = UiManager.Instance.craftTableUi.craftingBuilding;
 
         if (sliderProcess.value >= sliderProcess.maxValue)
         {
@@ -82,13 +87,13 @@ public class UiCraftingSlot : Observer
                 building.Set(building.recipeStatList.Peek());
                 UiManager.Instance.craftTableUi.RefreshAfterCrafting();
                 building.CancelCrafting();
-                building.SetSlider();
             }
             else
             {
                 building.CurrentRecipeStat = null;
                 building.CancelCrafting();
                 building.isCrafting = false; // 제작 끝
+                
             }
             if(FloorManager.Instance.touchManager.tutorial != null)
             {
@@ -97,6 +102,8 @@ public class UiCraftingSlot : Observer
                     FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();//튜토리얼
                 }
             }
+            building.SetSlider();
+            textCurrentRemainProcess.text = building.craftingSlider.value.ToString();
         }
     }
 

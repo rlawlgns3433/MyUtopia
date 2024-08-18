@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -296,147 +296,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151452}
   m_CullTransparentMesh: 1
---- !u!1 &3219247
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3219248}
-  - component: {fileID: 3219253}
-  - component: {fileID: 3219252}
-  - component: {fileID: 3219251}
-  - component: {fileID: 3219250}
-  - component: {fileID: 3219249}
-  m_Layer: 6
-  m_Name: PatronBoard
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3219248
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3219247}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.073552266, y: 0.37058884, z: 0.0011768059}
-  m_LocalScale: {x: 0.8823528, y: 0.58823526, z: 0.8823528}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1332518831}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3219249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3219247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a19d491d93fa83142bf7ac7c914363db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duration: 0
-  initialScale: {x: 0, y: 0, z: 0}
-  clickedScale: {x: 0, y: 0, z: 0}
-  buildingType: 0
-  buildingId: 0
-  isClicked: 0
---- !u!208 &3219250
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3219247}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
---- !u!65 &3219251
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3219247}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &3219252
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3219247}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &3219253
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3219247}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &6393916
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -559,9 +418,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Idle_C
+  eyeClips:
+  - Eyes_Annoyed
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1 &8060308
 GameObject:
@@ -4125,7 +3987,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.9
+  m_fontSize: 8.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6103,7 +5965,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.9
+  m_fontSize: 8.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7081,6 +6943,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 124455203}
+  - component: {fileID: 124455204}
   m_Layer: 6
   m_Name: Furniture
   m_TagString: Untagged
@@ -7106,6 +6969,22 @@ Transform:
   - {fileID: 588922061}
   m_Father: {fileID: 707424775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &124455204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124455202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ddac0665fcbba44a1a9bd9e663b5ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  furnitures:
+  - {fileID: 260681488}
+  - {fileID: 723675855}
+  - {fileID: 588922060}
 --- !u!1 &126454626
 GameObject:
   m_ObjectHideFlags: 0
@@ -7253,9 +7132,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
   maxPopulation: 1
 --- !u!1 &130928831
 GameObject:
@@ -7986,9 +7868,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &142572960 stripped
 GameObject:
@@ -8615,9 +8500,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Jump
+  eyeClips:
+  - Eys_Squint
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!4 &163939288 stripped
 Transform:
@@ -8697,6 +8585,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 164862382}
+  - component: {fileID: 164862383}
   m_Layer: 6
   m_Name: Furniture
   m_TagString: Untagged
@@ -8722,6 +8611,22 @@ Transform:
   - {fileID: 982889717}
   m_Father: {fileID: 1586996398}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &164862383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164862381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ddac0665fcbba44a1a9bd9e663b5ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  furnitures:
+  - {fileID: 1174024803}
+  - {fileID: 1667535258}
+  - {fileID: 982889716}
 --- !u!1 &165537131
 GameObject:
   m_ObjectHideFlags: 0
@@ -9235,9 +9140,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Fly
+  - Death
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
+  - 1
   maxPopulation: 1
 --- !u!1001 &172825966
 PrefabInstance:
@@ -14789,7 +14700,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &267458100
 Transform:
   m_ObjectHideFlags: 0
@@ -16166,7 +16077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &298922479
 Transform:
   m_ObjectHideFlags: 0
@@ -18404,7 +18315,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &344676707
 Transform:
   m_ObjectHideFlags: 0
@@ -18606,9 +18517,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &347944152
 GameObject:
@@ -19131,9 +19045,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1 &355594300
 GameObject:
@@ -19289,7 +19206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &360406230
 Transform:
   m_ObjectHideFlags: 0
@@ -19402,7 +19319,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &361260572
 Transform:
   m_ObjectHideFlags: 0
@@ -19540,7 +19457,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &361774056
 Transform:
   m_ObjectHideFlags: 0
@@ -19801,7 +19718,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.9
+  m_fontSize: 8.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -19971,9 +19888,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &377028980
 GameObject:
@@ -21895,12 +21815,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - 
-  - 
+  - Attack
+  - Roll
+  - Spin
+  - Fly
   eyeClips:
-  - 
-  - 
-  clipSpeed: []
+  - Eyes_Squint
+  - Eyes_Squint
+  - Eyes_Happy
+  - Eyes_Annoyed
+  clipSpeed:
+  - 0.8
+  - 0.65
+  - 0.9
+  - 1
   maxPopulation: 1
 --- !u!1 &415536701
 GameObject:
@@ -23574,9 +23502,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  - Sit
+  - Fly
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Happy
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.2
+  - 0.9
+  - 0.1
   maxPopulation: 1
 --- !u!1 &467892444
 GameObject:
@@ -24086,6 +24023,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 486804851}
+  - component: {fileID: 486804852}
   m_Layer: 6
   m_Name: Furniture
   m_TagString: Untagged
@@ -24111,6 +24049,22 @@ Transform:
   - {fileID: 1410978458}
   m_Father: {fileID: 1913298786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &486804852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486804850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ddac0665fcbba44a1a9bd9e663b5ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  furnitures:
+  - {fileID: 1068625207}
+  - {fileID: 344676706}
+  - {fileID: 1410978457}
 --- !u!1001 &487091352
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25476,9 +25430,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Eat
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1001 &516062752
 PrefabInstance:
@@ -26409,7 +26366,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &542250667
 Transform:
   m_ObjectHideFlags: 0
@@ -26805,9 +26762,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!4 &549354575 stripped
 Transform:
@@ -27031,12 +26991,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - 
-  - 
+  - Jump
+  - Sit
   eyeClips:
-  - 
-  - 
-  clipSpeed: []
+  - Sweat_L
+  - Sweat_R
+  clipSpeed:
+  - 1
+  - 0.5
   maxPopulation: 1
 --- !u!1 &556028160
 GameObject:
@@ -28474,7 +28436,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &588922061
 Transform:
   m_ObjectHideFlags: 0
@@ -29205,10 +29167,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d5c55db5af6e3f640848c1d9e8fe2763, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 405712, guid: a27514f1a4e3041f98d862107e48fdb7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3219248}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 111656, guid: a27514f1a4e3041f98d862107e48fdb7, type: 3}
       insertIndex: -1
@@ -30552,7 +30511,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &642075919
 Transform:
   m_ObjectHideFlags: 0
@@ -30616,9 +30575,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &642834609
 GameObject:
@@ -31778,6 +31740,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 663180733}
+  - component: {fileID: 663180734}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -31806,6 +31769,24 @@ Transform:
   - {fileID: 750001707}
   m_Father: {fileID: 1696216545}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &663180734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663180732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ddac0665fcbba44a1a9bd9e663b5ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  furnitures:
+  - {fileID: 1377640246}
+  - {fileID: 1800084653}
+  - {fileID: 1632664697}
+  - {fileID: 361774055}
+  - {fileID: 750001706}
 --- !u!1001 &663508732
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33223,8 +33204,8 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
+  m_OverrideTileSize: 1
+  m_TileSize: 1024
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
@@ -33402,9 +33383,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Squint
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1001 &709878707
 PrefabInstance:
@@ -34156,7 +34140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &723675856
 Transform:
   m_ObjectHideFlags: 0
@@ -35547,7 +35531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &750001707
 Transform:
   m_ObjectHideFlags: 0
@@ -36793,9 +36777,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.5
   maxPopulation: 1
 --- !u!198 &786697902 stripped
 ParticleSystem:
@@ -39078,9 +39065,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &837497012 stripped
 GameObject:
@@ -39524,8 +39514,8 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
+  m_OverrideTileSize: 1
+  m_TileSize: 1024
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
@@ -40957,6 +40947,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 877831938}
+  - component: {fileID: 877831939}
   m_Layer: 6
   m_Name: Furniture
   m_TagString: Untagged
@@ -40985,6 +40976,24 @@ Transform:
   - {fileID: 1917725873}
   m_Father: {fileID: 848280129}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &877831939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877831937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ddac0665fcbba44a1a9bd9e663b5ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  furnitures:
+  - {fileID: 1792587782}
+  - {fileID: 642075918}
+  - {fileID: 360406229}
+  - {fileID: 542250666}
+  - {fileID: 1917725872}
 --- !u!1001 &877905700
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42047,9 +42056,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &906260894
 GameObject:
@@ -42928,9 +42940,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Squint
+  clipSpeed:
+  - 0.9
   maxPopulation: 1
 --- !u!1 &928732980 stripped
 GameObject:
@@ -43743,9 +43758,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &938701650
 GameObject:
@@ -44251,9 +44269,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1 &952198983
 GameObject:
@@ -45791,7 +45812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &982889717
 Transform:
   m_ObjectHideFlags: 0
@@ -47042,9 +47063,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.2
   maxPopulation: 1
 --- !u!1 &1012093158
 GameObject:
@@ -48006,9 +48030,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Jump
+  eyeClips:
+  - Sweat_R
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1001 &1036489850
 PrefabInstance:
@@ -48273,7 +48300,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1044814873
 Transform:
   m_ObjectHideFlags: 0
@@ -49960,9 +49987,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.5
   maxPopulation: 1
 --- !u!1 &1080932126
 GameObject:
@@ -50106,9 +50136,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Fly
+  - Death
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
+  - 1
   maxPopulation: 1
 --- !u!1001 &1086904580
 PrefabInstance:
@@ -50761,7 +50797,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.9
+  m_fontSize: 8.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -51031,9 +51067,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1001 &1123615446
 PrefabInstance:
@@ -51839,9 +51878,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Jump
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1 &1135870392
 GameObject:
@@ -52058,7 +52100,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3596084938220571017, guid: 41fbcb3b00b257e46a2402b8cef5fdbb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1288174695}
   m_SourcePrefab: {fileID: 100100000, guid: 41fbcb3b00b257e46a2402b8cef5fdbb, type: 3}
 --- !u!1 &1138569147
 GameObject:
@@ -54190,12 +54235,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - 
-  - 
+  - Attack
+  - Roll
+  - Spin
+  - Fly
   eyeClips:
-  - 
-  - 
-  clipSpeed: []
+  - Eyes_Squint
+  - Eyes_Squint
+  - Eyes_Happy
+  - Eyes_Annoyed
+  clipSpeed:
+  - 0.8
+  - 0.65
+  - 0.9
+  - 1
   maxPopulation: 1
 --- !u!4 &1200256115 stripped
 Transform:
@@ -55580,12 +55633,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - 
-  - 
+  - Attack
+  - Roll
+  - Spin
+  - Fly
   eyeClips:
-  - 
-  - 
-  clipSpeed: []
+  - Eyes_Squint
+  - Eyes_Squint
+  - Eyes_Happy
+  - Eyes_Annoyed
+  clipSpeed:
+  - 0.8
+  - 0.65
+  - 0.9
+  - 1
   maxPopulation: 1
 --- !u!1 &1246295781
 GameObject:
@@ -56244,9 +56305,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Clicked
+  - Spin
+  - Sit
+  eyeClips:
+  - Eyes_Squint
+  - Sweat_L
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.6
+  - 0.9
+  - 0.2
   maxPopulation: 1
 --- !u!1 &1257319963
 GameObject:
@@ -57903,6 +57973,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3596084938220571017, guid: 41fbcb3b00b257e46a2402b8cef5fdbb, type: 3}
   m_PrefabInstance: {fileID: 1137645253}
   m_PrefabAsset: {fileID: 0}
+--- !u!208 &1288174695
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288174691}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.25, y: 0.5, z: 0.3}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &1289920631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58778,11 +58864,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_Extents: {x: 1.11, y: 0.5, z: 0.365}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.12, y: 0, z: -0.67}
   m_TimeToStationary: 0.5
 --- !u!23 &1315612679
 MeshRenderer:
@@ -59072,9 +59158,9 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 1.125, y: 0.9990001, z: 0.35200003}
+  m_Extents: {x: 1.785, y: 0.9990001, z: 0.775}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.001, y: 0.9990001, z: 0.158}
   m_TimeToStationary: 0.5
@@ -60663,10 +60749,10 @@ RectTransform:
   - {fileID: 238659929}
   m_Father: {fileID: 1555110150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 128.57141, y: -31.138977}
+  m_SizeDelta: {x: 251.14282, y: 62.277954}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1366370005
 MonoBehaviour:
@@ -61335,9 +61421,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Fly
+  - Death
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
+  - 1
   maxPopulation: 1
 --- !u!1001 &1384962792
 PrefabInstance:
@@ -62065,9 +62157,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Jump
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1 &1407389357 stripped
 GameObject:
@@ -62110,7 +62205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1410978458
 Transform:
   m_ObjectHideFlags: 0
@@ -64173,12 +64268,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals: []
   clips:
-  - 
-  - 
+  - Sit
+  - Fear
   eyeClips:
-  - 
-  - 
-  clipSpeed: []
+  - Eyes_Happy
+  - Eyes_Sleep
+  clipSpeed:
+  - 1
+  - 0.1
   maxPopulation: 1
 --- !u!1001 &1455575923
 PrefabInstance:
@@ -65454,9 +65551,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Fly
+  - Death
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
+  - 1
   maxPopulation: 1
 --- !u!1 &1484931931
 GameObject:
@@ -65503,9 +65606,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Fly
+  - Death
+  eyeClips:
+  - Eyes_Sleep
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.1
+  - 1
   maxPopulation: 1
 --- !u!1 &1486601747
 GameObject:
@@ -69136,9 +69245,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Roll
+  - Spin
+  - Attack
+  eyeClips:
+  - Eyes_Squint
+  - Eyes_Squint
+  - Eyes_Squint
+  clipSpeed:
+  - 0.9
+  - 0.9
+  - 0.8
   maxPopulation: 1
 --- !u!1 &1559485358
 GameObject:
@@ -69822,7 +69940,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10.25
+  m_fontSize: 8.85
   m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -71020,8 +71138,8 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
+  m_OverrideTileSize: 1
+  m_TileSize: 1024
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
@@ -73269,7 +73387,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1632664698
 Transform:
   m_ObjectHideFlags: 0
@@ -74389,7 +74507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1667535259
 Transform:
   m_ObjectHideFlags: 0
@@ -75706,8 +75824,8 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
+  m_OverrideTileSize: 1
+  m_TileSize: 1024
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
@@ -76053,9 +76171,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Eat
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1001 &1708575684
 PrefabInstance:
@@ -77113,9 +77234,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Happy
+  clipSpeed:
+  - 0.7
   maxPopulation: 1
 --- !u!4 &1739471249 stripped
 Transform:
@@ -78821,9 +78945,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Roll
+  - Spin
+  - Attack
+  eyeClips:
+  - Eyes_Squint
+  - Eyes_Squint
+  - Eyes_Squint
+  clipSpeed:
+  - 0.9
+  - 0.9
+  - 0.8
   maxPopulation: 1
 --- !u!1 &1777928333
 GameObject:
@@ -79971,7 +80104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1800084654
 Transform:
   m_ObjectHideFlags: 0
@@ -81970,7 +82103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchorMin.x
@@ -81978,15 +82111,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -82018,11 +82151,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 37.5
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -37.5
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -86205,8 +86338,8 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
+  m_OverrideTileSize: 1
+  m_TileSize: 1024
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
@@ -86860,7 +86993,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1917725873
 Transform:
   m_ObjectHideFlags: 0
@@ -87447,9 +87580,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Clicked
+  - Spin
+  - Sit
+  eyeClips:
+  - Eyes_Squint
+  - Sweat_L
+  - Eyes_Sleep
+  clipSpeed:
+  - 0.6
+  - 0.9
+  - 0.2
   maxPopulation: 1
 --- !u!1001 &1940221871
 PrefabInstance:
@@ -89213,9 +89355,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Sweat_L
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &1974098302
 GameObject:
@@ -90891,7 +91036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2015439176
 Transform:
   m_ObjectHideFlags: 0
@@ -91642,9 +91787,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Jump
+  eyeClips:
+  - Eyes_Annoyed
+  clipSpeed:
+  - 1
   maxPopulation: 1
 --- !u!1 &2029932305
 GameObject:
@@ -91683,8 +91831,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 143.61702, y: -288.65833}
-  m_SizeDelta: {x: 287.23404, y: 390.48276}
+  m_AnchoredPosition: {x: 128.57141, y: -288.65833}
+  m_SizeDelta: {x: 257.14282, y: 390.48276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2029932307
 MonoBehaviour:
@@ -96506,11 +96654,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_Extents: {x: 2.075, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.78, y: 0, z: 0}
   m_TimeToStationary: 0.5
 --- !u!1001 &2128677596
 PrefabInstance:
@@ -96751,9 +96899,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animals: []
-  clips: []
-  eyeClips: []
-  clipSpeed: []
+  clips:
+  - Sit
+  eyeClips:
+  - Eyes_Squint
+  clipSpeed:
+  - 0.3
   maxPopulation: 1
 --- !u!1 &2134318103
 GameObject:

@@ -75,6 +75,10 @@ public class CatalogueManager : Singleton<CatalogueManager>
         {
             if (animalData.Animal_ID % 10 == 1 && (animalData.Animal_ID / 10) % 10 == 0)
             {
+
+                if(animalDictionary.ContainsKey(animalData.Animal_ID))
+                    continue;
+
                 animalDictionary.Add(animalData.Animal_ID, animalData);
                 animalCatalogue.Add(animalData.Animal_ID,false);
                 animalDataList.Add(animalData); //¾ê°¡ 0ÀÌ³ª¿È
