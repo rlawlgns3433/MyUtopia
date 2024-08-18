@@ -11,7 +11,7 @@ public class AnimalManager : Subject
     public UiAnimalInventory uiAnimalInventory;
     public UiAnimalList uiAnimalList;
     public UiCurrencies uiCurrencies;
-    public Observer uiWorldAnimalCount;
+    public List<Observer> runtimeObservers = new List<Observer>();
 
     private AnimalTable animalTable;
     public AnimalTable AnimalTable
@@ -40,10 +40,10 @@ public class AnimalManager : Subject
             animalClick.gameObject.transform.localPosition = -Vector3.forward * 3f;
             animalClick.gameObject.SetActive(true);
 
-
             //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(fromFloor)); ½Ã³ÊÁö
             //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(toFloor));
         }
+        NotifyObservers();
     }
 
     public void MoveAnimal(string toFloor)
@@ -75,7 +75,11 @@ public class AnimalManager : Subject
     private void Start()
     {
         DataTableMgr.GetStringTable();
-        Attach(uiWorldAnimalCount);
+
+        foreach(var ob in runtimeObservers)
+        {
+            Attach(ob);
+        }
     }
 
     public void CreateAnimal()
