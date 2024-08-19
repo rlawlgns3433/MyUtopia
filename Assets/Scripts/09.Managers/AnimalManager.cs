@@ -27,14 +27,14 @@ public class AnimalManager : Subject
             return animalTable;
         }
     }
-    public void MoveAnimal(string fromFloor, string toFloor, Animal animal)
+    public void MoveAnimal(string fromFloor, string toFloor, Animal animal, bool isExchange = false)
     {
         var animalClick = animal.animalWork.gameObject.GetComponent<AnimalClick>();
 
         if (animalClick == null)
             return;
         Debug.Log($"moveTest{animalClick.AnimalWork.Animal.animalStat.Animal_ID}");
-        if(FloorManager.Instance.MoveAnimal(fromFloor, toFloor, animalClick.AnimalWork.Animal))
+        if(FloorManager.Instance.MoveAnimal(fromFloor, toFloor, animalClick.AnimalWork.Animal, isExchange))
         {
             animalClick.gameObject.SetActive(false);
             animalClick.gameObject.GetComponent<AnimalController>().behaviorTreeRoot.InitializeBehaviorTree();

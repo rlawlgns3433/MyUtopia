@@ -109,7 +109,7 @@ public class UiAnimalList : Observer
                 var to = parents[int.Parse(floors[length - i - 1].Substring(1)) - 1];
                 MoveSlot(from, to, slots[i]);
 
-                GameManager.Instance.GetAnimalManager().MoveAnimal(floors[i], floors[length - i - 1], slots[i].animalClick.AnimalWork.Animal);
+                GameManager.Instance.GetAnimalManager().MoveAnimal(floors[i], floors[length - i - 1], slots[i].animalClick.AnimalWork.Animal, true);
             }
         }
 
