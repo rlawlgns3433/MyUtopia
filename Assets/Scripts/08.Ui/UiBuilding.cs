@@ -83,6 +83,9 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         textDescription.text = building.BuildingStat.BuildingData.GetDescription();
         buildingProfile.sprite = await building.BuildingStat.BuildingData.GetProfile();
 
+        buildingProfile.type = Image.Type.Sliced;
+        buildingProfile.preserveAspect = true;
+
         if (building.BuildingStat.Level_Up_Coin_Value != "0")
         {
             var currency = Instantiate(uiBuildingUpgradeCurrency, contents);

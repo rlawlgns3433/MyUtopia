@@ -29,6 +29,15 @@ public class UiCraftingSlot : Observer
         }
     }
 
+    private void OnEnable()
+    {
+        if (recipeCurrentCrafting == null)
+        {
+            buttonAccelerate.interactable = false;
+            return;
+        }
+    }
+
     private void OnDestroy()
     {
         Destroy(imageCurrentCrafting.gameObject);
@@ -70,7 +79,13 @@ public class UiCraftingSlot : Observer
     {
         var building = UiManager.Instance.craftTableUi.craftingBuilding;
 
-        buttonAccelerate.interactable = recipeCurrentCrafting != null ? true : false;
+        if(recipeCurrentCrafting == null)
+        {
+            buttonAccelerate.interactable = false;
+            return;
+        }
+
+        buttonAccelerate.interactable = true;
 
         UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad += 5000; // 터치 업무량 추가 적용 필요
         sliderProcess.value = UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad.ToFloat();
