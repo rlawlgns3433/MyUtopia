@@ -12,6 +12,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
     public List<Image> imageProductions = new List<Image>();
     public TextMeshProUGUI textLevel;
     public TextMeshProUGUI textMax;
+    public TextMeshProUGUI textFloorDesc;
     public UiUpgradeCurrency uiUpgradeCurrency;
     public List<UiUpgradeCurrency> uiUpgradeCurrencies = new List<UiUpgradeCurrency>();
     public Button buttonLevelUp;
@@ -95,6 +96,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft);
             clockFormatTimer.timerText.gameObject.SetActive(true);
             textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
+            textFloorDesc.text = DataTableMgr.GetStringTable().Get(floor.FloorStat.FloorData.Floor_Desc);
 
             if (floor.FloorStat.UpgradeTimeLeft <= 0)
             {
@@ -125,6 +127,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             return;
 
         textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
+        textFloorDesc.text = DataTableMgr.GetStringTable().Get(floor.FloorStat.FloorData.Floor_Desc);
 
         for (int i = 0; i < floor.buildings.Count; i++)
         {
