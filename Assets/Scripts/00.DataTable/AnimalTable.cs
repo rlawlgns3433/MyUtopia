@@ -31,7 +31,10 @@ public class AnimalData
     {
         return DataTableMgr.GetStringTable().Get(Animal_Name_ID);
     }
-
+    public string GetTypeText()
+    {
+        return DataTableMgr.GetStringTable().Get(AnimalDataFormat.Type+Animal_Type);
+    }
     public async UniTask<AssetReference> GetPrefab()
     {
         AsyncOperationHandle<AssetReference> handle = Addressables.LoadAssetAsync<AssetReference>(Prefab);

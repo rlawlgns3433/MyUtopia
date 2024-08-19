@@ -26,7 +26,6 @@ public class CatalogueSlot : MonoBehaviour
 
     public async void SetSprite()
     {
-        
         for(int i = 0; i < slot.Length;i++)
         {
             if (CatalogueManager.Instance.CheckAnimal(animals[i].Animal_ID))
@@ -34,7 +33,11 @@ public class CatalogueSlot : MonoBehaviour
                 var profile = slot[i].GetComponentInChildren<Image>();
                 profile.sprite = await animals[i].GetProfile();
             }
-
         }
+    }
+
+    public void SetText()
+    {
+        typeText.text = animals[0].GetTypeText();
     }
 }

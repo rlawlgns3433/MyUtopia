@@ -67,6 +67,11 @@ public static class SortingLayers
 
 }
 
+public static class AnimalDataFormat
+{
+    public static readonly string Type = "Animal_Type_Name";
+}
+
 public static class Layers
 {
     public static readonly string UI = "UI";

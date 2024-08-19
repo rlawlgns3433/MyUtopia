@@ -34,9 +34,10 @@ public class UiCatalogue : MonoBehaviour
         {
             var slot = Instantiate(prefab, parent);
             var animalSlot = slot.GetComponent<CatalogueSlot>();
+
             foreach(var animal in animalList)
             {
-                if(animal.Animal_Type == i)
+                if (animal.Animal_Type == i)
                 {
                     animalSlot.AddAnimalData(animal);
                     catalogueSlots.Add(animalSlot);
@@ -51,6 +52,7 @@ public class UiCatalogue : MonoBehaviour
             foreach (var slot in catalogueSlots)
             {
                 slot.SetSprite();
+                slot.SetText();
             }
         }
         isCreate = true;
