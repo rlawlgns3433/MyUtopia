@@ -68,6 +68,7 @@ public class Tutorial : MonoBehaviour
         if (PlayerPrefs.GetInt("TutorialCheck") == 0 || !PlayerPrefs.HasKey("TutorialCheck"))
         {
             gameObject.SetActive(true);
+            targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
             testPanel.ResetSaveData();
             purchaseButton.gameObject.SetActive(false);
             missionButton.gameObject.SetActive(false);
@@ -90,6 +91,13 @@ public class Tutorial : MonoBehaviour
     {
         if (isStop)
             return;
+        if (count < 0)
+            return;
+        if (count <= 0)
+        {
+            targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
+            progress = TutorialProgress.None;
+        }
         if (tutorialComplete)
         {
             moveFloor = false;
@@ -102,14 +110,18 @@ public class Tutorial : MonoBehaviour
         {
             target.gameObject.SetActive(true);
         }
-        if (empty != targetObjects[count])
+        if(count > -1)
         {
-            cursor.gameObject.SetActive(true);
+            if (empty != targetObjects[count])
+            {
+                cursor.gameObject.SetActive(true);
+            }
+            else
+            {
+                cursor.gameObject.SetActive(false);
+            }
         }
-        else
-        {
-            cursor.gameObject.SetActive(false);
-        }
+
         if (targetObjects[count].gameObject.layer == LayerMask.NameToLayer("UI"))
         {
             var rect = targetObjects[count].GetComponent<RectTransform>();
@@ -268,8 +280,8 @@ public class Tutorial : MonoBehaviour
         }
         if(count == (int)TutorialProgress.Swipe)
         {
-            targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(true);
             progress = TutorialProgress.Swipe;
+            targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(true);
             FloorManager.Instance.multiTouchOff = false;
             focusImage.gameObject.SetActive(false);
             moveFloor = true;
@@ -586,6 +598,7 @@ public class Tutorial : MonoBehaviour
     {
         tutorialSkipButtons[(int)tutorialTextFormations[count]].gameObject.SetActive(false);
         targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
+        cursor.gameObject.SetActive(false);
         purchaseButton.gameObject.SetActive(true);
         missionButton.gameObject.SetActive(true);
         catalogueButton.gameObject.SetActive(true);
