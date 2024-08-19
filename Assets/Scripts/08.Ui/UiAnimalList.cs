@@ -129,12 +129,28 @@ public class UiAnimalList : Observer
         slots.Clear();
     }
 
+    public void Clear()
+    {
+        foreach(var parent in parents)
+        {
+            parent.Clear();
+        }
+    }
+
     public void Refresh()
     {
         foreach(var parent in parents)
         {
             parent.Clear();
             parent.Refresh();
+        }
+    }
+
+    public void SortAnimal(AnimalSortType type)
+    {
+        foreach(var parent in parents)
+        {
+            parent.SortAnimal(type);
         }
     }
 }

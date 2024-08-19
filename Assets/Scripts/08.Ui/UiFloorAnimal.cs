@@ -95,4 +95,36 @@ public class UiFloorAnimal : MonoBehaviour
             animals[j].animalWork.SetUiAnimalFloorSlot(animals[j].animalWork.uiAnimalFloorSlot);
         }
     }
+
+    public void SortAnimal(AnimalSortType type)
+    {
+        List<Animal> animals = null;
+        switch (type)
+        {
+            case AnimalSortType.Default:
+                animals = floor.animals;
+                break;
+            case AnimalSortType.Acquire:
+                animals = floor.AcquireSortedAnimal;
+                break;
+            case AnimalSortType.Workload:
+                animals = floor.WorkloadSortedAnimal;
+                break;
+            case AnimalSortType.Type:
+                animals = floor.TypeSortedAnimal;
+                break;
+        }
+
+        if (animals == null)
+            return;
+
+        for (int j = 0; j < animals.Count; ++j)
+        {
+            if (animals[j].animalWork == null || animals[j] == null)
+                continue;
+            var animalClick = animals[j].animalWork.gameObject.GetComponent<AnimalClick>();
+            animals[j].animalWork.uiAnimalFloorSlot = Add(animalClick);
+            animals[j].animalWork.SetUiAnimalFloorSlot(animals[j].animalWork.uiAnimalFloorSlot);
+        }
+    }
 }

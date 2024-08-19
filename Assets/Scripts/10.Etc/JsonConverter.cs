@@ -169,6 +169,7 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
                 var animalStat = new AnimalStat((int)animal["Id"]);
                 animalStat.Animal_ID = (int)animal["Id"];
                 animalStat.Stamina = (float)animal["Stamina"];
+                animalStat.AcquireTime = (float)animal["AcquireTime"];
                 animalStat.CurrentFloor = $"B{floorData.floorStat.Floor_Num}";
                 animalSaveData = new AnimalSaveData(animalStat);
 
@@ -217,6 +218,10 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
                 writer.WriteValue(value[i].animalSaveDatas[j].animalStat.Animal_ID);
                 writer.WritePropertyName("Stamina");
                 writer.WriteValue(value[i].animalSaveDatas[j].animalStat.Stamina);
+                writer.WritePropertyName("AcquireTime");
+                writer.WriteValue(value[i].animalSaveDatas[j].animalStat.AcquireTime);
+                writer.WritePropertyName("CurrentFloor");
+                writer.WriteValue(value[i].animalSaveDatas[j].animalStat.CurrentFloor);
                 writer.WriteEndObject();
             }
             writer.WriteEndArray();

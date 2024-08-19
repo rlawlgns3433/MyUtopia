@@ -6,6 +6,35 @@ using UnityEngine;
 
 public class Floor : Subject, IGrowable
 {
+    public List<Animal> AcquireSortedAnimal
+    {
+        get
+        {
+            List<Animal> sorted = new List<Animal>(animals);
+            sorted.Sort((x, y) =>  x.animalStat.AcquireTime.CompareTo(y.animalStat.AcquireTime));
+            return sorted;
+        }
+    }
+    public List<Animal> WorkloadSortedAnimal
+    {
+        get
+        {
+            List<Animal> sorted = new List<Animal>(animals);
+            sorted.Sort((x, y) => y.animalStat.Workload.CompareTo(x.animalStat.Workload));
+            return sorted;
+        }
+    }
+    public List<Animal> TypeSortedAnimal
+    {
+        get
+        {
+            List<Animal> sorted = new List<Animal>(animals);
+            sorted.Sort((x, y) => x.animalStat.AnimalData.Animal_Type.CompareTo(y.animalStat.AnimalData.Animal_Type));
+            return sorted;
+        }
+    }
+
+
     public List<Animal> animals = new List<Animal>();
     public List<Building> buildings = new List<Building>();
     public List<Observer> runtimeObservers = new List<Observer>();
