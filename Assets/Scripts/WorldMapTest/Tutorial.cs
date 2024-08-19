@@ -35,6 +35,7 @@ public class Tutorial : MonoBehaviour
     public bool isClosing = false;
     public bool isStop = false;
     public TestPanel testPanel;
+    public GameObject focusImage;
     private async void Start()
     {
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
@@ -42,8 +43,8 @@ public class Tutorial : MonoBehaviour
         count = 0;
         if (PlayerPrefs.GetInt("TutorialCheck") == 0 || !PlayerPrefs.HasKey("TutorialCheck"))
         {
-            testPanel.ResetSaveData();
             gameObject.SetActive(true);
+            testPanel.ResetSaveData();
             purchaseButton.gameObject.SetActive(false);
             missionButton.gameObject.SetActive(false);
             catalogueButton.gameObject.SetActive(false);
@@ -55,14 +56,48 @@ public class Tutorial : MonoBehaviour
             SetTutorial(count);
             FloorManager.Instance.multiTouchOff = true;
         }
-
+        else
+        {
+            tutorialComplete = true;
+        }
         
+    }
+
+    private void OnEnable()
+    {
+        if (PlayerPrefs.GetInt("TutorialCheck") == 0 || !PlayerPrefs.HasKey("TutorialCheck"))
+        {
+            gameObject.SetActive(true);
+            targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
+            testPanel.ResetSaveData();
+            purchaseButton.gameObject.SetActive(false);
+            missionButton.gameObject.SetActive(false);
+            catalogueButton.gameObject.SetActive(false);
+            floorInfoButton.gameObject.SetActive(false);
+            inventoryButton.gameObject.SetActive(false);
+            animalListButton.gameObject.SetActive(false);
+            target.gameObject.SetActive(true);
+            progress = TutorialProgress.None;
+            SetTutorial(count);
+            FloorManager.Instance.multiTouchOff = true;
+        }
+        else
+        {
+            tutorialComplete = true;
+        }
     }
 
     public async UniTask SetTutorial(int count)
     {
         if (isStop)
             return;
+        if (count < 0)
+            return;
+        if (count <= 0)
+        {
+            targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
+            progress = TutorialProgress.None;
+        }
         if (tutorialComplete)
         {
             moveFloor = false;
@@ -71,22 +106,22 @@ public class Tutorial : MonoBehaviour
             return;
         }
             
-        if(count > targetObjects.Length)
-        {
-            gameObject.SetActive(false);
-        }
         if(!target.gameObject.activeSelf)
         {
             target.gameObject.SetActive(true);
         }
-        if (empty == targetObjects[count])
+        if(count > -1)
         {
-            cursor.gameObject.SetActive(false);
+            if (empty != targetObjects[count])
+            {
+                cursor.gameObject.SetActive(true);
+            }
+            else
+            {
+                cursor.gameObject.SetActive(false);
+            }
         }
-        else
-        {
-            cursor.gameObject.SetActive(true);
-        }
+
         if (targetObjects[count].gameObject.layer == LayerMask.NameToLayer("UI"))
         {
             var rect = targetObjects[count].GetComponent<RectTransform>();
@@ -224,18 +259,31 @@ public class Tutorial : MonoBehaviour
         cursor.gameObject.SetActive(false);
         var rect = empty.GetComponent<RectTransform>();
         TargettingUiObject(rect);
+        if(progress == TutorialProgress.Confirm)
+        {
+            SetTextFormation(TutorialTextFormation.None, "");
+        }
     }
 
     public void SetTutorialProgress()
     {
         if (tutorialComplete)
             return;
+        if(isStop)
+            return;
+
         count++;
+        if(count == 0)
+        {
+            targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
+            progress = TutorialProgress.None;
+        }
         if(count == (int)TutorialProgress.Swipe)
         {
-            targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(true);
             progress = TutorialProgress.Swipe;
+            targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(true);
             FloorManager.Instance.multiTouchOff = false;
+            focusImage.gameObject.SetActive(false);
             moveFloor = true;
         }
         if(count == (int)TutorialProgress.Move5F)
@@ -254,6 +302,7 @@ public class Tutorial : MonoBehaviour
         }
         if (count == (int)TutorialProgress.CloseProduct)
         {
+            focusImage.gameObject.SetActive(true);
             isClosing = true;
             progress = TutorialProgress.CloseProduct;
         }
@@ -315,6 +364,7 @@ public class Tutorial : MonoBehaviour
         }
         if(count == (int)TutorialProgress.AnimalStat)
         {
+            focusImage.gameObject.SetActive(true);
             progress = TutorialProgress.AnimalStat;
         }
         if(count == (int)TutorialProgress.CloseAnimalStat)
@@ -353,6 +403,7 @@ public class Tutorial : MonoBehaviour
         if(count == (int)TutorialProgress.MoveMurgeAnimal)
         {
             progress = TutorialProgress.MoveMurgeAnimal;
+            focusImage.gameObject.SetActive(true);
         }
         if(count == (int)TutorialProgress.CloseAnimalList)
         {
@@ -384,6 +435,7 @@ public class Tutorial : MonoBehaviour
             moveFloor = false;
             targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
             FloorManager.Instance.multiTouchOff = true;
+            focusImage.gameObject.SetActive(true);
             progress = TutorialProgress.None;
         }
         if(count == (int)TutorialProgress.Move5F + 1 && moveSelectFloor)
@@ -426,14 +478,17 @@ public class Tutorial : MonoBehaviour
         }
         if (count == (int)TutorialProgress.Product + 1)
         {
+            focusImage.gameObject.SetActive(false);
             progress = TutorialProgress.None;
         }
         if (count == (int)TutorialProgress.OpenShop + 1)
         {
+            focusImage.gameObject.SetActive(false);
             progress = TutorialProgress.None;
         }
         if (count == (int)TutorialProgress.SellItem + 1)
         {
+            focusImage.gameObject.SetActive(true);
             progress = TutorialProgress.None;
         }
         if(count == (int)TutorialProgress.CloseItemUi + 1)
@@ -452,6 +507,7 @@ public class Tutorial : MonoBehaviour
         }
         if (count == (int)TutorialProgress.AnimalList + 1)
         {
+            focusImage.gameObject.SetActive(false);
             progress = TutorialProgress.None;
         }
         if (count == (int)TutorialProgress.AnimalStat + 1)
@@ -478,6 +534,11 @@ public class Tutorial : MonoBehaviour
         {
             moveSelectFloor = false;
             progress = TutorialProgress.MoveAnimal;
+        }
+        if (count == (int)TutorialProgress.MoveAnimal + 1)
+        {
+            focusImage.gameObject.SetActive(false);
+            progress = TutorialProgress.None;
         }
         if (count == (int)TutorialProgress.MoveMurgeAnimal + 1)
         {
@@ -536,6 +597,8 @@ public class Tutorial : MonoBehaviour
     public void SkipConfirm()
     {
         tutorialSkipButtons[(int)tutorialTextFormations[count]].gameObject.SetActive(false);
+        targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
+        cursor.gameObject.SetActive(false);
         purchaseButton.gameObject.SetActive(true);
         missionButton.gameObject.SetActive(true);
         catalogueButton.gameObject.SetActive(true);
@@ -550,9 +613,12 @@ public class Tutorial : MonoBehaviour
         target.gameObject.SetActive(false);
         PlayerPrefs.SetInt("TutorialCheck", 1);
         UiManager.Instance.ShowMainUi();
-        isStop = false;
-        gameObject.SetActive(false);
         testPanel.SetPlayingData();
+        isStop = false;
+        count = -1;
+        tutorialTouchCount = 0;
+        progress = TutorialProgress.None;
+        gameObject.SetActive(false);
     }
 
     public void SkipCancle()
