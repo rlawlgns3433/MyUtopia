@@ -94,8 +94,9 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             floor.FloorStat.UpgradeTimeLeft = floor.FloorStat.Level_Up_Time - Mathf.CeilToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - UpgradeStartTime);
             clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft);
             clockFormatTimer.timerText.gameObject.SetActive(true);
+            textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
 
-            if(floor.FloorStat.UpgradeTimeLeft <= 0)
+            if (floor.FloorStat.UpgradeTimeLeft <= 0)
             {
                 LevelUp();
                 SetFinishUi();
