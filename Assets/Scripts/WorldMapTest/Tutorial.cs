@@ -91,8 +91,7 @@ public class Tutorial : MonoBehaviour
     {
         if (isStop)
             return;
-        if (count < 0)
-            return;
+
         if (count <= 0)
         {
             targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
