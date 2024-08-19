@@ -44,6 +44,7 @@ public class AnimalStat
     public string Prefab { get; set; }
     public string Profile { get; set; }
     public string CurrentFloor { get; set; }
+    public float AcquireTime { get; set; }
 
     public AnimalStat() { }
     
@@ -52,51 +53,6 @@ public class AnimalStat
         this.AnimalData = DataTableMgr.GetAnimalTable().Get(aniamlId);
     }
 }
-
-//public class FurnitureStat
-//{
-//    private FunitureData furnitureData;
-//    public FunitureData FurnitureData
-//    {
-//        get
-//        {
-//            if (furnitureData == null)
-//            {
-//                furnitureData = new FunitureData();
-//            }
-//            return furnitureData;
-//        }
-//        set
-//        {
-//            furnitureData = value;
-//            Furniture_ID = FurnitureData.Furniture_ID;
-//            Furniture_Name = FurnitureData.Furniture_Name_ID;
-//            Level = FurnitureData.Level;
-//            Level_Max = FurnitureData.Level_Max;
-//            Effect_Type = FurnitureData.Effect_Type;
-//            Effect_Value = FurnitureData.Effect_Value;
-//            Level_Up_Coin_ID = FurnitureData.Level_Up_Coin_ID;
-//            Level_Up_Coin_Value = FurnitureData.Level_Up_Coin_Value;
-//            Prefab = FurnitureData.Prefab;
-//        }
-//    }
-//    public int Furniture_ID { get; set; }
-//    public string Furniture_Name { get; set; }
-//    public int Level { get; set; }
-//    public int Level_Max { get; set; }
-//    public int Effect_Type { get; set; }
-//    public int Effect_Value { get; set; }
-//    public int Level_Up_Coin_ID { get; set; }
-//    public string Level_Up_Coin_Value { get; set; }
-//    public string Prefab { get; set; }
-
-//    public FurnitureStat() { }
-
-//    public FurnitureStat(int furnitureId)
-//    {
-//        this.FurnitureData = DataTableMgr.GetFurnitureTable().Get(furnitureId);
-//    }
-//}
 
 public class FloorStat
 {

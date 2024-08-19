@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using Spine;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -124,10 +126,10 @@ public class AnimalManager : Subject
                 animalWork.Animal.animalStat.CurrentFloor = floor.floorName;
                 Debug.Log($"{animalWork.Animal.animalStat.CurrentFloor}/{floor.floorName}");
                 animalWork.Animal.animalWork = animalWork;
-
                 animalWork.Animal.SetAnimal();
-
                 floor.animals.Add(animalWork.Animal);
+                var now = DateTime.Now;
+                animalWork.Animal.animalStat.AcquireTime = now.Hour * 3600 + now.Minute * 60 + now.Second;
 
                 if (isMerged)
                 {
@@ -148,7 +150,7 @@ public class AnimalManager : Subject
         CatalogueManager.Instance.UnlockAnimal(animalId);
     }
 
-    public void Create(Vector3 position, Floor floor, int animalId, int slotId, AnimalStat animalStat, bool isMerged = false)
+    public void Create(Vector3 position, Floor floor, int animalId, int slotId, AnimalStat animalStat, bool isMerged = false, bool isLoaded = true)
     {
         if (!isMerged)
         {
@@ -180,6 +182,12 @@ public class AnimalManager : Subject
                 animalWork.Animal.SetAnimal();
 
                 floor.animals.Add(animalWork.Animal);
+
+                if(!isLoaded)
+                {
+                    var now = DateTime.Now;
+                    animalStat.AcquireTime = now.Day * 24 * 3600 + now.Hour * 3600 + now.Minute * 60 + now.Second;
+                }
 
                 if (isMerged)
                 {

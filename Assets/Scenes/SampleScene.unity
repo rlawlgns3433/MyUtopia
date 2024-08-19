@@ -23388,7 +23388,7 @@ GameObject:
   - component: {fileID: 463825657}
   - component: {fileID: 463825656}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: Sorting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23490,11 +23490,23 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: "\uACE0\uC5C5\uBB34\uB7C9\uC21C"
       m_Image: {fileID: 0}
-    - m_Text: Option C
+    - m_Text: "\uD0C0\uC785\uBCC4"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2126619454}
+        m_TargetAssemblyTypeName: UiAnimalSort, Assembly-CSharp
+        m_MethodName: OnValueChangeSorting
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &463825658
 MonoBehaviour:
@@ -62018,10 +62030,10 @@ RectTransform:
   - {fileID: 238659929}
   m_Father: {fileID: 1555110150}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 128.4069, y: -31.138977}
-  m_SizeDelta: {x: 250.81381, y: 62.277954}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1366370005
 MonoBehaviour:
@@ -84151,7 +84163,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchorMin.x
@@ -84159,15 +84171,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 55
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -84199,11 +84211,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 37.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -37.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 899404054785079309, guid: 94218825892dca045b86bd79a9f14bb9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -98669,6 +98681,7 @@ GameObject:
   - component: {fileID: 2126619452}
   - component: {fileID: 2126619453}
   - component: {fileID: 2126619451}
+  - component: {fileID: 2126619454}
   m_Layer: 5
   m_Name: AnimalList
   m_TagString: Untagged
@@ -98747,6 +98760,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &2126619454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126619450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08aa986c9cfcc1c4fb50730f1ce9fd94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiAnimalList: {fileID: 0}
+  sorting: {fileID: 463825657}
+  sortType: 0
 --- !u!4 &2126916230 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8181573005815920409, guid: 28caa3be74a4fa444948187943ebc8dc, type: 3}
