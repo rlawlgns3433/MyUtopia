@@ -237,7 +237,7 @@ public class StorageConduct : MonoBehaviour
         }
     }
 
-    public void OpenStorage()
+    public void OpenStorage(Vector2 pos)
     {
         currentValue.gameObject.SetActive(false);
         UiManager.Instance.ShowMainUi();
@@ -251,7 +251,7 @@ public class StorageConduct : MonoBehaviour
                     if (CurrArray[i] > BigNumber.Zero)
                     {
                         Debug.Log($"Emitting particle for currency index {i}, value {CurrArray[i]}");
-                        ParticleSystemEmit(particleSystems[i], i).Forget();
+                        ParticleSystemEmit(particleSystems[i], i, pos).Forget();
                         Debug.Log($"{particleSystems[i].name}/{i}");
                     }
                 }
@@ -269,13 +269,13 @@ public class StorageConduct : MonoBehaviour
 
     //}
 
-    public async UniTask ParticleSystemEmit(ParticleSystem ps, int index)
+    public async UniTask ParticleSystemEmit(ParticleSystem ps, int index , Vector2 pos)
     {
         if (ps != null)
         {
-            var worldPosition = transform.position;
-            var screenPos = Camera.main.WorldToScreenPoint(worldPosition);
-            ps.transform.position = screenPos;
+            //var worldPosition = transform.position;
+            //var screenPos = Camera.main.WorldToScreenPoint(worldPosition);
+            ps.transform.position = pos;
             //var psSetTexture = particleSystems[index].textureSheetAnimation;
             //if (psSetTexture.mode == ParticleSystemAnimationMode.Sprites && sprites[index] != null)
             //{

@@ -37,6 +37,7 @@ public class UiManager : Singleton<UiManager>
         {
 
             ShowStorageUi();
+            tutorial.tutorialComplete = true;
         }
         else
         {
@@ -68,7 +69,6 @@ public class UiManager : Singleton<UiManager>
         if (tutorial != null)
             tutorial.tutorialComplete = false;
         tutorial.isStop = false;
-        tutorial.SetTutorial(0).Forget();
         tutorial.gameObject.SetActive(true);
     }
 

@@ -1,9 +1,6 @@
 using Cysharp.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StorageUi : MonoBehaviour
 {
@@ -17,7 +14,7 @@ public class StorageUi : MonoBehaviour
     private StorageConduct b5FloorStorage;
     private StorageConduct b4FloorStorage;
 
-
+    public Button openButton;
     private BigNumber[] b5currencyArray;
     private BigNumber[] b4currencyArray;
 
@@ -78,7 +75,7 @@ public class StorageUi : MonoBehaviour
 
     public void OnClickAddCurrency()
     {
-        b5FloorStorage.OpenStorage();
-        b4FloorStorage.OpenStorage();
+        b5FloorStorage.OpenStorage(openButton.transform.position);
+        b4FloorStorage.OpenStorage(openButton.transform.position);
     }
 }
