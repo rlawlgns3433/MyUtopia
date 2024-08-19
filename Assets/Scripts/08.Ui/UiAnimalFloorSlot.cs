@@ -5,10 +5,12 @@ using UnityEngine.UI;
 public class UiAnimalFloorSlot : Observer
 {
     public Image imagePortrait;
+    public Image imageExchange;
     public Slider sliderStamina;
     public TextMeshProUGUI textLevel;
     public AnimalData animalData;
     public AnimalClick animalClick;
+
     public bool IsEmpty { get; set; }
     public bool IsClicked { get; set; }
 
