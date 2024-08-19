@@ -328,7 +328,7 @@ public class FloorManager : Singleton<FloorManager>
         floors[floorId] = floor;
     }
 
-    public bool MoveAnimal(string fromFloor, string toFloor, Animal animal)
+    public bool MoveAnimal(string fromFloor, string toFloor, Animal animal, bool isExchange = false)
     {
         if (isCreating)
             return false;
@@ -341,10 +341,12 @@ public class FloorManager : Singleton<FloorManager>
         //var currentFloor = GetCurrentFloor();
         var targetFloor = GetFloor(toFloor);
 
-        if (targetFloor.animals.Count >= targetFloor.FloorStat.Max_Population)
-            return false;
-        if (targetFloor.animals.Count >= targetFloor.FloorStat.Max_Population)
-            return false;
+        if(!isExchange)
+        {
+            if (targetFloor.animals.Count >= targetFloor.FloorStat.Max_Population)
+                return false;
+        }
+
         animal.animalWork.Animal.animalStat.CurrentFloor = toFloor;
         floors[toFloor].animals.Add(animal);
         animal.animalWork.MoveFloor();

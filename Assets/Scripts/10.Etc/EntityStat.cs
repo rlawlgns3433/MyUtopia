@@ -117,6 +117,9 @@ public class FloorStat
     public int Level_Up_Resource_3 { get; set; }
     public string Resource_3_Value { get; set; }
     public bool IsLock { get; set; }
+    public bool IsUpgrading { get; set; } = false;
+    public float UpgradeStartTime { get; set; }
+    public int UpgradeTimeLeft { get; set; }
     public FloorStat() { }
 
     public FloorStat(int floorId)

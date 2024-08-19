@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
@@ -41,8 +42,17 @@ public class Floor : Subject, IGrowable
     public List<SynergyStat> synergyStats = new List<SynergyStat>();
     public Furniture furniture;
 
-    public bool IsUpgrading { get; set; }
-    public float UpgradeStartTime { get; set; }
+    public bool IsUpgrading
+    {
+        get
+        {
+            return FloorStat.IsUpgrading;
+        }
+        set
+        {
+            FloorStat.IsUpgrading = value; 
+        }
+    }
 
 
     [SerializeField]
@@ -93,6 +103,19 @@ public class Floor : Subject, IGrowable
         }
     }
 
+    private void OnApplicationQuit()
+    {
+        if(IsUpgrading)
+        {
+            FloorStat.UpgradeTimeLeft -= Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - FloorStat.UpgradeStartTime);
+            // 정확한 시간을 넘겨줄 필요가 있음 FloorInfoBlock 참고
+        }
+        else
+        {
+            FloorStat.UpgradeTimeLeft = 0;
+            FloorStat.UpgradeStartTime = 0;
+        }
+    }
 
     public virtual async void OnEnable()
     {
@@ -122,7 +145,10 @@ public class Floor : Subject, IGrowable
         if (FloorStat.Grade == FloorStat.Grade_Max)
             return;
 
+        bool isUpgrading = IsUpgrading;
         FloorStat = new FloorStat(floorStat.Floor_ID + 1);
+        FloorStat.IsUpgrading = isUpgrading;
+
         furniture.Refresh();
 
         foreach (var animal in animals)

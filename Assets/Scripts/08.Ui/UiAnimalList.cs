@@ -56,20 +56,19 @@ public class UiAnimalList : Observer
     {
         if (mode == AnimalListMode.Exchange)
         {
-            mode = AnimalListMode.AnimalList;
-            UiManager.Instance.IsAnimalList(true);
+            SetAnimalListMode();
         }
         else
         {
             UiManager.Instance.OffAnimalList();
             mode = AnimalListMode.Exchange;
-        }
 
-        foreach(var parent in parents)
-        {
-            foreach(var slot in parent.uiAnimalFloorSlots)
+            foreach (var parent in parents)
             {
-                slot.imageExchange.gameObject.SetActive(true);
+                foreach (var slot in parent.uiAnimalFloorSlots)
+                {
+                    slot.imageExchange.gameObject.SetActive(true);
+                }
             }
         }
     }
@@ -78,8 +77,7 @@ public class UiAnimalList : Observer
     {
         if (mode == AnimalListMode.Eliminate)
         {
-            mode = AnimalListMode.AnimalList;
-            UiManager.Instance.IsAnimalList(true);
+            SetAnimalListMode();
         }
         else
         {
@@ -109,7 +107,7 @@ public class UiAnimalList : Observer
                 var to = parents[int.Parse(floors[length - i - 1].Substring(1)) - 1];
                 MoveSlot(from, to, slots[i]);
 
-                GameManager.Instance.GetAnimalManager().MoveAnimal(floors[i], floors[length - i - 1], slots[i].animalClick.AnimalWork.Animal);
+                GameManager.Instance.GetAnimalManager().MoveAnimal(floors[i], floors[length - i - 1], slots[i].animalClick.AnimalWork.Animal, true);
             }
         }
 

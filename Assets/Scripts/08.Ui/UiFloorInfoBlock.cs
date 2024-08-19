@@ -12,6 +12,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
     public List<Image> imageProductions = new List<Image>();
     public TextMeshProUGUI textLevel;
     public TextMeshProUGUI textMax;
+    public TextMeshProUGUI textFloorDesc;
     public UiUpgradeCurrency uiUpgradeCurrency;
     public List<UiUpgradeCurrency> uiUpgradeCurrencies = new List<UiUpgradeCurrency>();
     public Button buttonLevelUp;
@@ -19,8 +20,30 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
     public Transform contents;
     public ClockFormatTimer clockFormatTimer;
 
-    public bool IsUpgrading { get => floor.IsUpgrading; set => floor.IsUpgrading = value; }
-    public float UpgradeStartTime { get => floor.UpgradeStartTime; set => floor.UpgradeStartTime = value; }
+    public bool IsUpgrading { get => floor.FloorStat.IsUpgrading; set => floor.FloorStat.IsUpgrading = value; }
+    public float UpgradeStartTime { get => floor.FloorStat.UpgradeStartTime; set => floor.FloorStat.UpgradeStartTime = value; }
+
+    private void Start()
+    {
+        SetTimerWhenStartUp();
+    }
+
+    private void SetTimerWhenStartUp()
+    {
+        if (!IsUpgrading)
+            return;
+        clockFormatTimer.canStartTimer = true;
+        clockFormatTimer.timerText.gameObject.SetActive(true);
+        clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft - Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - floor.FloorStat.UpgradeStartTime));
+
+        foreach (var currency in uiUpgradeCurrencies)
+        {
+            Destroy(currency.gameObject);
+        }
+        uiUpgradeCurrencies.Clear();
+        textMax.gameObject.SetActive(false);
+        clockFormatTimer.StartClockTimer();
+    }
 
     public void FinishUpgrade()
     {
@@ -29,15 +52,15 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
     public void LevelUp()
     {
-        foreach (var floor in FloorManager.Instance.floors.Values)
-        {
-            if (floor.IsUpgrading)
+        //foreach (var floor in FloorManager.Instance.floors.Values)
+        //{
+            if (floor.FloorStat.IsUpgrading)
             {
                 floor.LevelUp();
-                this.floor = floor;
+                //this.floor = floor;
                 return;
             }
-        }
+        //}
     }
 
     public bool Set(Floor floor)
@@ -69,8 +92,23 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         if (IsUpgrading)
         {
-            clockFormatTimer.SetTimer(floor.FloorStat.Level_Up_Time - Mathf.CeilToInt(Time.time - UpgradeStartTime));
+            floor.FloorStat.UpgradeTimeLeft = floor.FloorStat.Level_Up_Time - Mathf.CeilToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - UpgradeStartTime);
+            clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft);
             clockFormatTimer.timerText.gameObject.SetActive(true);
+            textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
+            textFloorDesc.text = DataTableMgr.GetStringTable().Get(floor.FloorStat.FloorData.Floor_Desc);
+
+            if (floor.FloorStat.UpgradeTimeLeft <= 0)
+            {
+                LevelUp();
+                SetFinishUi();
+                FinishUpgrade();
+
+                clockFormatTimer.canStartTimer = true;
+                clockFormatTimer.timerText.gameObject.SetActive(false);
+                IsUpgrading = false;
+            }
+
         }
         else
         {
@@ -89,6 +127,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             return;
 
         textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
+        textFloorDesc.text = DataTableMgr.GetStringTable().Get(floor.FloorStat.FloorData.Floor_Desc);
 
         for (int i = 0; i < floor.buildings.Count; i++)
         {
@@ -150,9 +189,10 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
     public void SetStartUi()
     {
-        if (floor.IsUpgrading)
+        clockFormatTimer.canStartTimer = false;
+
+        if (floor.FloorStat.IsUpgrading)
         {
-            clockFormatTimer.canStartTimer = false;
             return;
         }
 
@@ -164,19 +204,18 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         if (!floor.CheckCurrency())
         {
-            clockFormatTimer.canStartTimer = false;
             return;
         }
 
         clockFormatTimer.canStartTimer = true;
         IsUpgrading = true;
-        UpgradeStartTime = Time.realtimeSinceStartup;
+        UpgradeStartTime = DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second;
 
         floor.SpendCurrency();
 
         clockFormatTimer.timerText.gameObject.SetActive(true);
 
-        clockFormatTimer.SetTimer(/*floor.FloorStat.Level_Up_Time*/5);
+        clockFormatTimer.SetTimer(floor.FloorStat.Level_Up_Time);
 
         foreach (var currency in uiUpgradeCurrencies)
         {

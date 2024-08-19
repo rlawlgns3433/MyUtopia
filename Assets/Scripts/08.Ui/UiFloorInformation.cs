@@ -65,26 +65,6 @@ public class UiFloorInformation : MonoBehaviour
         SetFloorUi();
     }
 
-    public void ClearFloorUi()
-    {
-        //foreach (var uiBuilding in uiBuildings)
-        //{
-        //    Destroy(uiBuilding.gameObject);
-        //}
-        //uiBuildings.Clear();
-
-        //foreach (var uiFurniture in uiFurnitures)
-        //{
-        //    Destroy(uiFurniture.gameObject);
-        //}
-        //uiFurnitures.Clear();
-
-        //foreach (var uiSynergyEffect in uiAnimalSynergyEffects) 시너지
-        //{
-        //    Destroy(uiSynergyEffect.gameObject);
-        //}
-        //uiAnimalSynergyEffects.Clear();
-    }
 
     public void SetFloorUi()
     {
@@ -97,7 +77,7 @@ public class UiFloorInformation : MonoBehaviour
             SetActiveFalseAllBuildingFurniture();
             return;
         }
-
+        RefreshBuildingFurnitureData();
         //foreach (var synergyEffect in currentFloor.synergyStats) 시너지
         //{
         //    UiAnimalSynergyBlock uiAnimalSynergyBlock = Instantiate(synergyEffectInfoPrefab, synergyEffectParent);
