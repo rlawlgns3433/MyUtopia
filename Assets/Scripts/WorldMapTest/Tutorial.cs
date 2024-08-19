@@ -34,6 +34,7 @@ public class Tutorial : MonoBehaviour
     public int targetAnimalId;
     public bool isClosing = false;
     public bool isStop = false;
+    public TestPanel testPanel;
     private async void Start()
     {
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
@@ -41,6 +42,7 @@ public class Tutorial : MonoBehaviour
         count = 0;
         if (PlayerPrefs.GetInt("TutorialCheck") == 0 || !PlayerPrefs.HasKey("TutorialCheck"))
         {
+            testPanel.ResetSaveData();
             gameObject.SetActive(true);
             purchaseButton.gameObject.SetActive(false);
             missionButton.gameObject.SetActive(false);
@@ -119,7 +121,7 @@ public class Tutorial : MonoBehaviour
         SetTargetRayCast(count);
     }
 
-    private void SetTargerRayTrue()
+    private void SetTargetRayTrue()
     {
         var obj = target.GetComponent<Image>();
         obj.raycastTarget = true;
@@ -475,7 +477,7 @@ public class Tutorial : MonoBehaviour
         if (count == (int)TutorialProgress.MurgeAnimalMove5F + 1 && moveSelectFloor)
         {
             moveSelectFloor = false;
-            progress = TutorialProgress.None;
+            progress = TutorialProgress.MoveAnimal;
         }
         if (count == (int)TutorialProgress.MoveMurgeAnimal + 1)
         {
@@ -505,6 +507,7 @@ public class Tutorial : MonoBehaviour
         if (count == (int)TutorialProgress.Clear + 1)
         {
             tutorialComplete = true;
+            progress = TutorialProgress.None;
             target.gameObject.SetActive(false);
             missionButton.gameObject.SetActive(true);
             catalogueButton.gameObject.SetActive(true);
@@ -521,7 +524,7 @@ public class Tutorial : MonoBehaviour
     public void SkipTutorial()
     {
         isStop = true;
-        SetTargerRayTrue();
+        SetTargetRayTrue();
         var index = (int)tutorialTextFormations[count];
         if (index > -1)
         {
@@ -539,13 +542,17 @@ public class Tutorial : MonoBehaviour
         floorInfoButton.gameObject.SetActive(true);
         inventoryButton.gameObject.SetActive(true);
         animalListButton.gameObject.SetActive(true);
+        FloorManager.Instance.multiTouchOff = false;
+        FloorManager.Instance.touchManager.tutorialOffMultiTouch = false;
+        moveFloor = false;
+        moveSelectFloor = false;
         tutorialComplete = true;
-        gameObject.SetActive(false);
         target.gameObject.SetActive(false);
         PlayerPrefs.SetInt("TutorialCheck", 1);
         UiManager.Instance.ShowMainUi();
-        //SetPlayingData() 온클릭에 넣기
         isStop = false;
+        gameObject.SetActive(false);
+        testPanel.SetPlayingData();
     }
 
     public void SkipCancle()

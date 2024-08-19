@@ -350,12 +350,15 @@ public class StorageConduct : MonoBehaviour
 
     public void ResetStorageConduct()
     {
-        for(int i = 0; i< CurrArray.Length; i++)
+        if(CurrArray != null)
         {
-            CurrArray[i] = BigNumber.Zero;
+            for (int i = 0; i < CurrArray.Length; i++)
+            {
+                CurrArray[i] = BigNumber.Zero;
+            }
+            CurrentTotalSeconds = 0;
+            currentValue.gameObject.SetActive(false);
+            CurrWorkLoad = BigNumber.Zero;
         }
-        CurrentTotalSeconds = 0;
-        currentValue.gameObject.SetActive(false);
-        CurrWorkLoad = BigNumber.Zero;
     }
 }
