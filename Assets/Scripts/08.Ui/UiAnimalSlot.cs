@@ -64,6 +64,8 @@ public class UiAnimalSlot : UiAnimalFloorSlot
                     if (slots.Count == 0)
                     {
                         slots.Add(this);
+                        imagePortrait.color = Color.grey;
+                        imageExchange.gameObject.SetActive(false);
                         break;
                     }
 
@@ -72,6 +74,7 @@ public class UiAnimalSlot : UiAnimalFloorSlot
 
                     slots.Add(this);
                     UiManager.Instance.animalListUi.ExchangeAnimal();
+                    UiManager.Instance.animalListUi.SetAnimalListMode();
 
                     break;
                 case AnimalListMode.Eliminate:
@@ -83,6 +86,7 @@ public class UiAnimalSlot : UiAnimalFloorSlot
 
                     slots.Add(this);
                     UiManager.Instance.animalListUi.EliminateAnimal();
+                    UiManager.Instance.animalListUi.SetAnimalListMode();
                     break;
                 default:
                     break;

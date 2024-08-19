@@ -25,11 +25,6 @@ public class UiAnimalList : Observer
         }
     }
 
-    //public UiAnimalFloorSlot SetAnimal(int floorId, AnimalClick animalClick)
-    //{
-    //    return parents[floorId - 1].Add(animalClick);
-    //}
-
     public void MoveSlot(UiFloorAnimal from, UiFloorAnimal to, UiAnimalFloorSlot slot)
     {
         to.Add(slot.animalClick);
@@ -39,6 +34,20 @@ public class UiAnimalList : Observer
             if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MoveMurgeAnimal)
             {
                 FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
+        }
+    }
+
+    public void SetAnimalListMode()
+    {
+        mode = AnimalListMode.AnimalList;
+        UiManager.Instance.IsAnimalList(true);
+        foreach (var parent in parents)
+        {
+            foreach (var slot in parent.uiAnimalFloorSlots)
+            {
+                slot.imageExchange.gameObject.SetActive(false);
+                slot.imagePortrait.color = Color.white;
             }
         }
     }
@@ -54,6 +63,14 @@ public class UiAnimalList : Observer
         {
             UiManager.Instance.OffAnimalList();
             mode = AnimalListMode.Exchange;
+        }
+
+        foreach(var parent in parents)
+        {
+            foreach(var slot in parent.uiAnimalFloorSlots)
+            {
+                slot.imageExchange.gameObject.SetActive(true);
+            }
         }
     }
 
