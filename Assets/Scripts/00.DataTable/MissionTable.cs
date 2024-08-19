@@ -20,7 +20,6 @@ public struct MissionData
     public int Count { get; set; }
     public int Pre_Event_Type { get; set; }
     public int Pre_Event { get; set; }
-    public string Pre_Event_Value { get; set; }
     public int Pre_Mission_ID { get; set; }
     public int Reward_ID { get; set; }
     public int Today_Mission_Point { get; set; }
