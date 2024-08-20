@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ public class UiCraftTable : MonoBehaviour
 
     public UiCraftingSlot uiCraftingSlot;
     public UiRecipeList uiRecipeList;
-
+    public TextMeshProUGUI recipeCount;
 
 
     //private async void OnEnable()
@@ -63,6 +64,7 @@ public class UiCraftTable : MonoBehaviour
         {
             uiRecipeList.Add(new RecipeStat(recipes[i]));
         }
+        recipeCount.text = string.Format("{0}{1}", recipes.Count, StringTextFormatKr.RecipeCount);
 
         Refresh();
 

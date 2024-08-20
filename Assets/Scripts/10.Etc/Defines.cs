@@ -60,6 +60,7 @@ public static class StringTextFormatKr
     public static readonly string Completed = "완료";
     public static readonly string TutorialSkip = "정말 스킵하시겠습니까?";
     public static readonly string WorkLoad = "업무량";
+    public static readonly string RecipeCount = "개";
 }
 public static class MissionTableFormat
 {
