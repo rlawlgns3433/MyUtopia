@@ -53,12 +53,13 @@ public static class Tags
     public static readonly string Floors = "Floors";
 
 }
-public static class ButtonText
+public static class StringTextFormatKr
 {
     public static readonly string Move = "이동";
     public static readonly string Success = "획득";
     public static readonly string Completed = "완료";
     public static readonly string TutorialSkip = "정말 스킵하시겠습니까?";
+    public static readonly string WorkLoad = "업무량";
 }
 public static class SortingLayers
 {

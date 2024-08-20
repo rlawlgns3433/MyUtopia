@@ -50,19 +50,19 @@ public class UiMission : MonoBehaviour
         if (count < missionData.Count)
         {
             button.onClick.AddListener(Move);
-            buttonText.text = ButtonText.Move;
+            buttonText.text = StringTextFormatKr.Move;
         }
         else if (!isComplete && count >= missionData.Count)
         {
             button.onClick.AddListener(MissionClear);
             button.GetComponent<Image>().color = Color.green;
-            buttonText.text = ButtonText.Success;
+            buttonText.text = StringTextFormatKr.Success;
         }
         else if (isComplete)
         {
             button.interactable = false;
             button.GetComponent<Image>().color = Color.white;
-            buttonText.text = ButtonText.Completed;
+            buttonText.text = StringTextFormatKr.Completed;
         }
     }
 

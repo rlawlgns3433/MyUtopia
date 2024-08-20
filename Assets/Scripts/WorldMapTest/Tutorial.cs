@@ -588,7 +588,7 @@ public class Tutorial : MonoBehaviour
         var index = (int)tutorialTextFormations[count];
         if (index > -1)
         {
-            SetTextFormation(tutorialTextFormations[count], ButtonText.TutorialSkip);
+            SetTextFormation(tutorialTextFormations[count], StringTextFormatKr.TutorialSkip);
             tutorialSkipButtons[index].gameObject.SetActive(true);
         }
     }

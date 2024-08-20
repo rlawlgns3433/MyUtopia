@@ -55,11 +55,14 @@ public class ConductBuilding : Building
                 if (CurrencyManager.product[(CurrencyProductType)BuildingStat.Materials_Type] > BuildingStat.Conversion_rate)
                 {
                     CurrencyManager.product[buildingType] += 1;
-                    this.touchProduce = new BigNumber(1);
                     CurrencyManager.product[(CurrencyProductType)BuildingStat.Materials_Type] -= BuildingStat.Conversion_rate;
+                    this.touchProduce = new BigNumber(1);
+                    MissionManager.Instance.AddMissionCountTargetId(buildingId);
                 }
-                MissionManager.Instance.AddMissionCountTargetId(buildingId);
-                Debug.Log($"missionCount =>>{MissionManager.Instance.GetMissionCount(buildingId)}");
+                else
+                {
+                    this.touchProduce = BigNumber.Zero;
+                }
                 if(FloorManager.Instance.touchManager.tutorial != null)
                 {
                     if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MakeIngot)
@@ -77,9 +80,10 @@ public class ConductBuilding : Building
 
     private void DisplayFloatingText(BigNumber bigNumber)
     {
+        if (bigNumber <= BigNumber.Zero)
+            return;
         var pos = transform.position;
         pos.y += 1;
-
         DynamicTextManager.CreateText(pos, bigNumber.ToString(), DynamicTextManager.clickData, 2, 0.5f);
     }
 }

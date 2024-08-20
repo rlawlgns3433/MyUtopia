@@ -79,23 +79,24 @@ public class UiRecipeSlot : MonoBehaviour
             case 0:
                 textRequireCurrency.text = string.Format(format[count],
                     StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID),
-                    recipeStat.Resource_1_Value);
+                    new BigNumber(recipeStat.Resource_1_Value).ToString());
                 break;
             case 1:
                 textRequireCurrency.text = string.Format(format[count],
-                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), recipeStat.Resource_1_Value,
-                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), recipeStat.Resource_2_Value);
+                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), new BigNumber(recipeStat.Resource_1_Value).ToString(),
+                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), new BigNumber(recipeStat.Resource_2_Value).ToString());
                 break;
             case 2:
                 textRequireCurrency.text = string.Format(format[count],
-                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), recipeStat.Resource_1_Value,
-                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), recipeStat.Resource_2_Value,
-                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_3).Resource_Name_ID), recipeStat.Resource_1_Value);
+                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), new BigNumber(recipeStat.Resource_1_Value).ToString(),
+                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), new BigNumber(recipeStat.Resource_2_Value).ToString(),
+                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_3).Resource_Name_ID), new BigNumber(recipeStat.Resource_3_Value).ToString());
                 break;
         }
 
-        textRequireWorkload.text = recipeStat.RecipeData.Workload.ToString();
-        textSaleCoin.text = recipeStat.RecipeData.GetProduct().Sell_Price;
+        textRequireWorkload.text = StringTextFormatKr.WorkLoad+recipeStat.RecipeData.Workload.ToString();
+        //textSaleCoin.text = recipeStat.RecipeData.GetProduct().Sell_Price;
+        textSaleCoin.text = new BigNumber(recipeStat.RecipeData.GetProduct().Sell_Price).ToString();
     }
 
     public void OnCraftButtonClicked()
