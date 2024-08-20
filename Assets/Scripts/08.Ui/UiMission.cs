@@ -28,7 +28,7 @@ public class UiMission : MonoBehaviour
 
     private void UpdateUI()
     {
-        difficultyText.text = missionData.Difficulty.ToString();
+        difficultyText.text = missionData.GetDifficulty();
         missionDescText.text = missionData.GetDesc();
         countText.text = $"{count}/{missionData.Count}";
         SetButton();

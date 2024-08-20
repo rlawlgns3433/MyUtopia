@@ -18,6 +18,7 @@ public class Tutorial : MonoBehaviour
     public GameObject[] tutorialTexts;
     public Button[] skipButtons;
     public GameObject[] tutorialSkipButtons;
+    public ScrollRect[] scrollRects;
     public int count = 0;
     public Button purchaseButton;
     public Button missionButton;
@@ -55,6 +56,7 @@ public class Tutorial : MonoBehaviour
             progress = TutorialProgress.None;
             SetTutorial(count);
             FloorManager.Instance.multiTouchOff = true;
+            SetScrollRect(false);
         }
         else
         {
@@ -80,6 +82,7 @@ public class Tutorial : MonoBehaviour
             progress = TutorialProgress.None;
             SetTutorial(count);
             FloorManager.Instance.multiTouchOff = true;
+            SetScrollRect(false);
         }
         else
         {
@@ -258,7 +261,9 @@ public class Tutorial : MonoBehaviour
         cursor.gameObject.SetActive(false);
         var rect = empty.GetComponent<RectTransform>();
         TargettingUiObject(rect);
-        if(progress == TutorialProgress.Confirm)
+        var obj = target.GetComponent<Image>();
+        obj.raycastTarget = true;
+        if (progress == TutorialProgress.Confirm)
         {
             SetTextFormation(TutorialTextFormation.None, "");
         }
@@ -571,11 +576,12 @@ public class Tutorial : MonoBehaviour
             target.gameObject.SetActive(false);
             missionButton.gameObject.SetActive(true);
             catalogueButton.gameObject.SetActive(true);
-            gameObject.SetActive(false);
             moveFloor = false;
             moveSelectFloor = false;
             FloorManager.Instance.multiTouchOff = false;
             PlayerPrefs.SetInt("TutorialCheck", 1);
+            SetScrollRect(true);
+            gameObject.SetActive(false);
             return;
         }
         SetTutorial(count).Forget();
@@ -617,6 +623,7 @@ public class Tutorial : MonoBehaviour
         count = -1;
         tutorialTouchCount = 0;
         progress = TutorialProgress.None;
+        SetScrollRect(true);
         gameObject.SetActive(false);
     }
 
@@ -626,5 +633,13 @@ public class Tutorial : MonoBehaviour
         tutorialSkipButtons[(int)tutorialTextFormations[count]].gameObject.SetActive(false);
         SetTargetRayCast(count);
         SetTutorial(count).Forget();
+    }
+
+    private void SetScrollRect(bool value)
+    {
+        for(int i = 0; i < scrollRects.Length; i++)
+        {
+            scrollRects[i].enabled = value;
+        }
     }
 }

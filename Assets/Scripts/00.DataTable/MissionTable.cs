@@ -28,6 +28,11 @@ public struct MissionData
     {
         return DataTableMgr.GetStringTable().Get(Mission_Desc_ID);
     }
+
+    public string GetDifficulty()
+    {
+        return DataTableMgr.GetStringTable().Get(string.Format("{0}{1}", MissionTableFormat.Difficulty, Difficulty.ToString()));
+    }
 }
 
 public class MissionTable : DataTable

@@ -61,6 +61,11 @@ public static class StringTextFormatKr
     public static readonly string TutorialSkip = "정말 스킵하시겠습니까?";
     public static readonly string WorkLoad = "업무량";
 }
+public static class MissionTableFormat
+{
+    public static readonly string Difficulty = "Difficulty_";
+}
+
 public static class SortingLayers
 {
     public static readonly string Default = "Default";

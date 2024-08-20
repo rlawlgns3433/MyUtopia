@@ -117,6 +117,7 @@ public class UiCraftingSlot : Observer
                     FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();//Æ©Åä¸®¾ó
                 }
             }
+            sliderProcess.value = 0;
             building.SetSlider();
             textCurrentRemainProcess.text = building.craftingSlider.value.ToString();
         }
