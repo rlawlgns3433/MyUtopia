@@ -55,7 +55,8 @@ public class MissionDataConverter : JsonConverter<SaveMissionData>
             monthlyPoint = jObj["monthlyPoint"].ToObject<float>(),
             dailyMissions = jObj["dailyMissions"].ToObject<List<MissionSaveData>>(),
             weeklyMissions = jObj["weeklyMissions"].ToObject<List<MissionSaveData>>(),
-            monthlyMissions = jObj["monthlyMissions"].ToObject<List<MissionSaveData>>()
+            monthlyMissions = jObj["monthlyMissions"].ToObject<List<MissionSaveData>>(),
+            preMissions = jObj["preMissions"].ToObject<List<PreMissionData>>(),
         };
         return gameData;
     }
@@ -75,6 +76,8 @@ public class MissionDataConverter : JsonConverter<SaveMissionData>
         serializer.Serialize(writer, value.weeklyMissions);
         writer.WritePropertyName("monthlyMissions");
         serializer.Serialize(writer, value.monthlyMissions);
+        writer.WritePropertyName("preMissions");
+        serializer.Serialize(writer, value.preMissions);
         writer.WriteEndObject();
     }
 }

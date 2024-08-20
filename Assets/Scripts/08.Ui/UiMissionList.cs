@@ -8,7 +8,7 @@ public class UiMissionList : MonoBehaviour
 {
     public UiMission uiMissionPrefab;
     public Transform missionParent;
-    public MissionTypes missionType;
+    public MissionDayTypes missionType;
     public Slider missionSlider;
     public float sliderMaxValue;
     public GameObject checkPointHalf;
@@ -26,7 +26,7 @@ public class UiMissionList : MonoBehaviour
 
     private void OnEnable()
     {
-        missionType = MissionTypes.Daily;
+        missionType = MissionDayTypes.Daily;
 
         if (!missionsGenerated) // 미션이 아직 생성되지 않았을 때만 생성
         {
@@ -51,17 +51,17 @@ public class UiMissionList : MonoBehaviour
     {
         Debug.Log($"Adding {value} points to {missionType} missions.");
 
-        if (missionType == MissionTypes.Daily)
+        if (missionType == MissionDayTypes.Daily)
         {
             MissionManager.Instance.dailyPoints += value;
             missionSlider.value = MissionManager.Instance.dailyPoints;
         }
-        else if (missionType == MissionTypes.Weekly)
+        else if (missionType == MissionDayTypes.Weekly)
         {
             MissionManager.Instance.weeklyPoints += value;
             missionSlider.value = MissionManager.Instance.weeklyPoints;
         }
-        else if (missionType == MissionTypes.Monthly)
+        else if (missionType == MissionDayTypes.Monthly)
         {
             MissionManager.Instance.monthlyPoints += value;
             missionSlider.value = MissionManager.Instance.monthlyPoints;
@@ -73,15 +73,15 @@ public class UiMissionList : MonoBehaviour
 
     public void UpdateSlider()
     {
-        if (missionType == MissionTypes.Daily)
+        if (missionType == MissionDayTypes.Daily)
         {
             missionSlider.value = MissionManager.Instance.dailyPoints;
         }
-        else if (missionType == MissionTypes.Weekly)
+        else if (missionType == MissionDayTypes.Weekly)
         {
             missionSlider.value = MissionManager.Instance.weeklyPoints;
         }
-        else if (missionType == MissionTypes.Monthly)
+        else if (missionType == MissionDayTypes.Monthly)
         {
             missionSlider.value = MissionManager.Instance.monthlyPoints;
         }
@@ -172,6 +172,18 @@ public class UiMissionList : MonoBehaviour
         {
             if (mission.Mission_Type == (int)missionType)
             {
+                if(mission.Pre_Mission_ID != 0)
+                {
+                    if(!MissionManager.Instance.CheckPreMissionId(mission.Pre_Mission_ID))
+                    {
+                        continue;
+                    }
+                }
+
+                //if(mission.Pre_Event_Type == 2)
+                //{
+                //    var targetId = mission.Pre_Event;
+                //}
                 MissionManager.Instance.AddMissionCount(mission.Mission_ID, 0);
             }
         }

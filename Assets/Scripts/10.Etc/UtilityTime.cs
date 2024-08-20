@@ -224,7 +224,7 @@ public class UtilityTime : MonoBehaviour
         if (dailyMissionReset)
         {
             previousTimeData.LastDaily = currentDate.ToString("o");
-            MissionManager.Instance.ResetMissions(MissionTypes.Daily);
+            MissionManager.Instance.ResetMissions(MissionDayTypes.Daily);
             Debug.Log("Daily mission reset.");
         }
         else
@@ -235,7 +235,7 @@ public class UtilityTime : MonoBehaviour
         if (weeklyMissionReset)
         {
             previousTimeData.LastWeekly = currentDate.ToString("o");
-            MissionManager.Instance.ResetMissions(MissionTypes.Weekly);
+            MissionManager.Instance.ResetMissions(MissionDayTypes.Weekly);
             Debug.Log("Weekly mission reset.");
         }
         else
@@ -246,14 +246,17 @@ public class UtilityTime : MonoBehaviour
         if (monthlyMissionReset)
         {
             previousTimeData.LastMonthly = currentDate.ToString("o");
-            MissionManager.Instance.ResetMissions(MissionTypes.Monthly);
+            MissionManager.Instance.ResetMissions(MissionDayTypes.Monthly);
             Debug.Log("Monthly mission reset.");
         }
         else
         {
             Debug.Log("Monthly Not reset.");
         }
-
+        if(!dailyMissionReset && !weeklyMissionReset && !monthlyMissionReset)
+        {
+            MissionManager.Instance.LoadGameData();
+        }
         DateTime enterTime = DateTime.Parse(previousTimeData.EnterTime);
         isFirstLoginToday = previousTimeData.FirstLogInDaily == null || enterTime.Date > DateTime.Parse(previousTimeData.FirstLogInDaily).Date;
 

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -68,8 +69,20 @@ public class UiMission : MonoBehaviour
 
     private void Move()
     {
-        var floor = missionData.Target_ID / 10000 % 100;
-        FloorManager.Instance.MoveToSelectFloor($"B{floor}");
+        if (missionData.Check_type == (int)MissionCheckTypes.Murge)
+        {
+            UiManager.Instance.ShowAnimalListUi();
+            return;
+        }
+        else if(missionData.Check_type == (int)MissionCheckTypes.Make)
+        {
+            FloorManager.Instance.MoveToSelectFloor("B3");
+        }
+        else
+        {
+            var floor = missionData.Target_ID / 10000 % 100;
+            FloorManager.Instance.MoveToSelectFloor($"B{floor}");
+        }
         UiManager.Instance.ShowMainUi();
     }
 

@@ -142,13 +142,23 @@ public enum TableIdentifier
     Floor = 2,
     Building = 3,
 }
-public enum MissionTypes
+public enum MissionDayTypes
 {
     Daily = 1,
     Weekly = 2,
     Monthly = 3,
     Event = 4,
 }
+public enum MissionCheckTypes
+{
+    Click = 1,
+    Make = 2,
+    Murge = 3,
+    Sell = 5,
+    Change = 6,
+    Collection = 7,
+}
+
 public enum SceneIds
 {
     None = -1,
