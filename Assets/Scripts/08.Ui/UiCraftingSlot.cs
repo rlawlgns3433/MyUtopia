@@ -99,9 +99,11 @@ public class UiCraftingSlot : Observer
             if (building.recipeStatList.Count > 0)
             {
                 building.CurrentRecipeStat = null;
-                building.Set(building.recipeStatList.Peek());
+                var nextRecipe = building.recipeStatList.Peek();
+                building.Set(nextRecipe);
                 UiManager.Instance.craftTableUi.RefreshAfterCrafting();
                 building.CancelCrafting();
+                recipeCurrentCrafting = nextRecipe;
             }
             else
             {
