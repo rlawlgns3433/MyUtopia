@@ -3,23 +3,19 @@ using UnityEngine.UI;
 using TMPro;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using System.Runtime.Serialization;
 
 public class UiRecipeSlot : MonoBehaviour
 {
-    private static readonly string[] format =
-    {
-        "{0} : {1}",
-        "{0} : {1} / {2} : {3}",
-        "{0} : {1} / {2} : {3} / {4} : {5}"
-    };
+    private static readonly string format = "판매 가격 : {0}";
 
     public Image imagePortrait;
     public TextMeshProUGUI textName;
-    public TextMeshProUGUI textRequireCurrency;
-    public TextMeshProUGUI textRequireWorkload;
+    public TextMeshProUGUI textRequireCurrency; // 리스트 형태로 변경 필요
     public TextMeshProUGUI textSaleCoin;
-    public TextMeshProUGUI textAmount;
-    public Button buttonCraft; // 제작 버튼의 의미는 대기큐에 아이템을 거는 것
+    public Button buttonCraft;
+    public UiRequireCurrencyProduct uiRequireCurrencyProduct;
+    public RequireCurrencyProducts requireCurrencyProducts;
 
     public RecipeStat recipeStat;
     private StringTable stringTable;
@@ -62,41 +58,13 @@ public class UiRecipeSlot : MonoBehaviour
             return;
         this.recipeStat = recipeStat;
 
-        imagePortrait.sprite = await DataTableMgr.GetItemTable().Get(recipeStat.Product_ID).GetImage(); // 현재 이미지 없음
+        imagePortrait.sprite = await DataTableMgr.GetItemTable().Get(recipeStat.Product_ID).GetImage();
         textName.text = recipeStat.RecipeData.GetName();
 
-        int count = -1;
+        //int count = -1;
 
-        if (recipeStat.RecipeData.Resource_1 != 0)
-            count++;
-        if (recipeStat.RecipeData.Resource_2 != 0)
-            count++;
-        if (recipeStat.RecipeData.Resource_3 != 0)
-            count++;
-
-        switch (count)
-        {
-            case 0:
-                textRequireCurrency.text = string.Format(format[count],
-                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID),
-                    new BigNumber(recipeStat.Resource_1_Value).ToString());
-                break;
-            case 1:
-                textRequireCurrency.text = string.Format(format[count],
-                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), new BigNumber(recipeStat.Resource_1_Value).ToString(),
-                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), new BigNumber(recipeStat.Resource_2_Value).ToString());
-                break;
-            case 2:
-                textRequireCurrency.text = string.Format(format[count],
-                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_1).Resource_Name_ID), new BigNumber(recipeStat.Resource_1_Value).ToString(),
-                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_2).Resource_Name_ID), new BigNumber(recipeStat.Resource_2_Value).ToString(),
-                    StringTable.Get(ResourceTable.Get(recipeStat.RecipeData.Resource_3).Resource_Name_ID), new BigNumber(recipeStat.Resource_3_Value).ToString());
-                break;
-        }
-
-        textRequireWorkload.text = StringTextFormatKr.WorkLoad+recipeStat.RecipeData.Workload.ToString();
-        //textSaleCoin.text = recipeStat.RecipeData.GetProduct().Sell_Price;
-        textSaleCoin.text = new BigNumber(recipeStat.RecipeData.GetProduct().Sell_Price).ToString();
+        requireCurrencyProducts.SetData(recipeStat);
+        textSaleCoin.text = string.Format(format, new BigNumber(recipeStat.RecipeData.GetProduct().Sell_Price).ToString());
     }
 
     public void OnCraftButtonClicked()

@@ -169,6 +169,24 @@ public class RecipeStat
     public string Resource_3_Value { get; set; }
     public int Workload { get; set; }
     public int Product_ID { get; set; }
+
+    public Dictionary<int, string> Resources
+    {
+        get
+        {
+            Dictionary<int, string> resources = new Dictionary<int, string>();
+            if (Resource_1 != 0)
+                resources[Resource_1] = Resource_1_Value;
+            if (Resource_2 != 0)
+                resources[Resource_2] = Resource_2_Value;
+            if(Resource_3 != 0)
+                resources[Resource_3] = Resource_3_Value;
+
+            return resources;
+        }
+    }
+
+
     public RecipeStat() { }
 
     public RecipeStat(int recipeId)
