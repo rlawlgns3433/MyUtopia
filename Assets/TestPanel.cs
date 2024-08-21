@@ -19,13 +19,13 @@ public class TestPanel : MonoBehaviour
     // 씬 다시 로드
     public void ResetSaveData()
     {
-        GameManager.Instance.SetPlayerData();
-        SetEmptyData();
         UiManager.Instance.ShowMainUi();
         SaveLoadSystem.Delete((int)SaveLoadSystem.SaveType.Catalouge);
         PlayerPrefs.SetInt("TutorialCheck", 0);
         FloorManager.Instance.MoveToSelectFloor("B1");
         UiManager.Instance.ShowTutorial();
+        SetEmptyData();
+        GameManager.Instance.SetPlayerData();
     }
 
     // 중간 플레이 세이브 파일 로드
@@ -86,8 +86,14 @@ public class TestPanel : MonoBehaviour
     {
         var emptyWorld = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyWorld) as SaveDataV1;
         var emptyCurrency = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyCurrency) as SaveCurrencyDataV1;
-        var emptyProduct = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyProduct) as SaveCurrencyDataV1;
         var emptyCurrencyProduct = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyCurrencyProduct) as SaveCurrencyProductDataV1;
+
+        if (emptyWorld == null)
+            return;
+        if (emptyCurrency == null)
+            return;
+        if (emptyCurrencyProduct == null)
+            return;
 
         // 현재 월드에 적용된 시스템 초기화
         var floors = FloorManager.Instance.floors;
@@ -101,6 +107,7 @@ public class TestPanel : MonoBehaviour
                 storageConduct.ResetStorageConduct();
             }
         }
+
 
         for(int i = 0; i < emptyWorld.floors.Count; ++i)
         {

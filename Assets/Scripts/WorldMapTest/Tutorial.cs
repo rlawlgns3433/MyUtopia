@@ -38,7 +38,8 @@ public class Tutorial : MonoBehaviour
     public TestPanel testPanel;
     public GameObject focusImage;
     public bool activingUiPanel = false;
-    private async void Start()
+
+    private async void OnEnable()
     {
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B4") != null);
@@ -65,32 +66,6 @@ public class Tutorial : MonoBehaviour
         }
         
     }
-
-    private void OnEnable()
-    {
-        if (PlayerPrefs.GetInt("TutorialCheck") == 0 || !PlayerPrefs.HasKey("TutorialCheck"))
-        {
-            gameObject.SetActive(true);
-            targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
-            testPanel.ResetSaveData();
-            purchaseButton.gameObject.SetActive(false);
-            missionButton.gameObject.SetActive(false);
-            catalogueButton.gameObject.SetActive(false);
-            floorInfoButton.gameObject.SetActive(false);
-            inventoryButton.gameObject.SetActive(false);
-            animalListButton.gameObject.SetActive(false);
-            target.gameObject.SetActive(true);
-            progress = TutorialProgress.None;
-            SetTutorial(count);
-            FloorManager.Instance.multiTouchOff = true;
-            SetScrollRect(false);
-        }
-        else
-        {
-            tutorialComplete = true;
-        }
-    }
-
     public async UniTask SetTutorial(int count)
     {
         if (isStop)
