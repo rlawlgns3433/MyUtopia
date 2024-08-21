@@ -197,7 +197,7 @@ public class UiManager : Singleton<UiManager>
                 || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseAnimalStat || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseMurgeAnimalStat
                 || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CloseAnimalList || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Clear)
             {
-                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress().Forget();
             }
         }
         animalListUi.mode = AnimalListMode.AnimalList;
@@ -211,6 +211,13 @@ public class UiManager : Singleton<UiManager>
         mainUi.gameObject.SetActive(false);
 
         var focuseUi = animalFocusUi.gameObject.GetComponent<DTUiPanel>();
+        if (FloorManager.Instance.touchManager.tutorial != null)
+        {
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.ShowAnimalFocus)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress().Forget();
+            }
+        }
         focuseUi.IsActive = true;
 
         sellUi.gameObject.SetActive(false);
@@ -232,13 +239,7 @@ public class UiManager : Singleton<UiManager>
         {
             panel.gameObject.SetActive(false);
         }
-        if(FloorManager.Instance.touchManager.tutorial != null)
-        {
-            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.ShowAnimalFocus)
-            {
-                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
-            }
-        }
+
     }
 
     public void ShowSellUi()
@@ -272,6 +273,13 @@ public class UiManager : Singleton<UiManager>
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         //floorInformationUi.gameObject.SetActive(true);
+        if (FloorManager.Instance.touchManager.tutorial != null)
+        {
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.FloorInfo)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress().Forget();
+            }
+        }
         floorInformationUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
 
         animalListUi.gameObject.SetActive(false);
@@ -284,13 +292,7 @@ public class UiManager : Singleton<UiManager>
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
-        if(FloorManager.Instance.touchManager.tutorial != null)
-        {
-            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.FloorInfo)
-            {
-                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
-            }
-        }
+
     }
 
     public void ShowAnimalListUi()
@@ -301,7 +303,13 @@ public class UiManager : Singleton<UiManager>
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
-
+        if (FloorManager.Instance.touchManager.tutorial != null)
+        {
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.AnimalList || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MoveAnimal)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress().Forget();
+            }
+        }
         animalListUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
         //animalListUi.gameObject.SetActive(true);
         productsUi.gameObject.SetActive(false);
@@ -313,13 +321,7 @@ public class UiManager : Singleton<UiManager>
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
-        if (FloorManager.Instance.touchManager.tutorial != null)
-        {
-            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.AnimalList || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MoveAnimal)
-            {
-                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
-            }
-        }
+
     }
 
     public void ShowProductsUi()
@@ -386,7 +388,13 @@ public class UiManager : Singleton<UiManager>
         floorInformationUi.gameObject.SetActive(false);
         animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
-
+        if (FloorManager.Instance.touchManager.tutorial != null)
+        {
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.OpenCraftTable)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress().Forget();
+            }
+        }
         craftTableUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
         //craftTableUi.gameObject.SetActive(true);
 
@@ -397,20 +405,13 @@ public class UiManager : Singleton<UiManager>
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
-        if (FloorManager.Instance.touchManager.tutorial != null)
-        {
-            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.OpenCraftTable)
-            {
-                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
-            }
-        }
+
     }
 
     public void ShowInvitationUi()
     {
-
-
         uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+
 
         //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
@@ -424,7 +425,13 @@ public class UiManager : Singleton<UiManager>
 
         invitationUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
         //invitationUi.gameObject.SetActive(true);
-
+        if (FloorManager.Instance.touchManager.tutorial != null)
+        {
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.PurchaseAnimal || FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MurgeAnimalPurchase)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+            }
+        }
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
@@ -552,7 +559,7 @@ public class UiManager : Singleton<UiManager>
         {
             if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Product)
             {
-                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress().Forget();
             }
         }
         currencyProductInventoryUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;

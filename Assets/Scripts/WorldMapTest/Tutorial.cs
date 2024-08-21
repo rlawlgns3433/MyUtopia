@@ -47,7 +47,6 @@ public class Tutorial : MonoBehaviour
         if (PlayerPrefs.GetInt("TutorialCheck") == 0 || !PlayerPrefs.HasKey("TutorialCheck"))
         {
             gameObject.SetActive(true);
-            testPanel.ResetSaveData();
             purchaseButton.gameObject.SetActive(false);
             missionButton.gameObject.SetActive(false);
             catalogueButton.gameObject.SetActive(false);
@@ -65,7 +64,6 @@ public class Tutorial : MonoBehaviour
             tutorialComplete = true;
         }
     }
-
     public async UniTask SetTutorial(int count)
     {
         if (isStop)
@@ -249,9 +247,11 @@ public class Tutorial : MonoBehaviour
             return;
         if(isStop)
             return;
-        SetEmpty();
-        await UniTask.WaitUntil(() => !activingUiPanel);
-
+        if(activingUiPanel)
+        {
+            SetEmpty();
+            await UniTask.WaitUntil(() => !activingUiPanel);
+        }
         count++;
         if(count == 0)
         {
@@ -542,6 +542,10 @@ public class Tutorial : MonoBehaviour
             progress = TutorialProgress.None;
         }
         if (count == (int)TutorialProgress.OpenCraftTable + 1)
+        {
+            progress = TutorialProgress.None;
+        }
+        if(count == (int)TutorialProgress.PurchaseAnimal + 1)
         {
             progress = TutorialProgress.None;
         }
