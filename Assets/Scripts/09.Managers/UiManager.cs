@@ -603,7 +603,7 @@ public class UiManager : Singleton<UiManager>
     public void SetCatalougeImage(bool value)
     {
         if (tutorial.gameObject.activeSelf)
-
+            return;
         catalougeImage.SetActive(value);
     }
 

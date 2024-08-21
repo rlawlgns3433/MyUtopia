@@ -54,6 +54,7 @@ public class Tutorial : MonoBehaviour
             inventoryButton.gameObject.SetActive(false);
             animalListButton.gameObject.SetActive(false);
             target.gameObject.SetActive(true);
+            testPanel.ResetSaveData();
             progress = TutorialProgress.None;
             SetTutorial(count);
             FloorManager.Instance.multiTouchOff = true;
@@ -482,8 +483,8 @@ public class Tutorial : MonoBehaviour
         }
         if(count == (int)TutorialProgress.Confirm +1)
         {
-            progress = TutorialProgress.None;
             animalListButton.gameObject.SetActive(true);
+            progress = TutorialProgress.None;
         }
         if (count == (int)TutorialProgress.AnimalList + 1)
         {
@@ -546,6 +547,14 @@ public class Tutorial : MonoBehaviour
             progress = TutorialProgress.None;
         }
         if(count == (int)TutorialProgress.PurchaseAnimal + 1)
+        {
+            progress = TutorialProgress.None;
+        }
+        if (count == (int)TutorialProgress.MurgeAnimalPurchase + 1)
+        {
+            progress = TutorialProgress.None;
+        }
+        if (count == (int)TutorialProgress.ShowAnimalFocus + 1)
         {
             progress = TutorialProgress.None;
         }
