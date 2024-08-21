@@ -24,7 +24,13 @@ public class DTUiPanel : MonoBehaviour
 
                 isActive = value;
                 gameObject.SetActive(isActive);
-                transform.DOScale(Vector3.one, startUpDuration).SetEase(startUpEase); // 스케일 조절중
+                UiManager.Instance.panelBlock.SetActive(true);
+
+                transform.DOScale(Vector3.one, startUpDuration).SetEase(startUpEase).OnComplete(
+                    () =>
+                    {
+                        UiManager.Instance.panelBlock.SetActive(false);
+                    });
             }
             else
             {

@@ -62,32 +62,6 @@ public class Tutorial : MonoBehaviour
         {
             tutorialComplete = true;
         }
-        
-    }
-
-    private void OnEnable()
-    {
-        if (PlayerPrefs.GetInt("TutorialCheck") == 0 || !PlayerPrefs.HasKey("TutorialCheck"))
-        {
-            gameObject.SetActive(true);
-            targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
-            testPanel.ResetSaveData();
-            purchaseButton.gameObject.SetActive(false);
-            missionButton.gameObject.SetActive(false);
-            catalogueButton.gameObject.SetActive(false);
-            floorInfoButton.gameObject.SetActive(false);
-            inventoryButton.gameObject.SetActive(false);
-            animalListButton.gameObject.SetActive(false);
-            target.gameObject.SetActive(true);
-            progress = TutorialProgress.None;
-            SetTutorial(count);
-            FloorManager.Instance.multiTouchOff = true;
-            SetScrollRect(false);
-        }
-        else
-        {
-            tutorialComplete = true;
-        }
     }
 
     public async UniTask SetTutorial(int count)
