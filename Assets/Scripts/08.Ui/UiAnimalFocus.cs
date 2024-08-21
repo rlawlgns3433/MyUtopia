@@ -77,7 +77,26 @@ public class UiAnimalFocus : Observer
         var buttonText = buttonLevelUp.GetComponentInChildren<TextMeshProUGUI>();
         var animalData = animalWork.Animal.animalStat.AnimalData;
 
-        buttonText.text = animalData.Level == animalData.Level_Max ? mergeText : levelUpText;
+        if(animalData.Level == animalData.Level_Max)
+        {
+            buttonText.text = mergeText;
+
+            if(animalWork.Animal.CanMerge(out var target))
+            {
+                UiManager.Instance.animalFocusUi.buttonLevelUp.interactable = true;
+            }
+            else
+            {
+                UiManager.Instance.animalFocusUi.buttonLevelUp.interactable = false;
+            }
+        }
+        else
+        {
+            buttonText.text = levelUpText;
+            UiManager.Instance.animalFocusUi.buttonLevelUp.interactable = true;
+        }
+
+        //buttonText.text = animalData.Level == animalData.Level_Max ? mergeText : levelUpText;
 
         textAnimalName.text = animalData.GetName();
         textAnimalLevel.text = string.Format(levelFormat, animalData.Level, animalData.Level_Max);
