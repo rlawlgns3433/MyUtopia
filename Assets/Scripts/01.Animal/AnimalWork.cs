@@ -113,7 +113,8 @@ public class AnimalWork : Subject, IMergable
                 {
                     if (cts.IsCancellationRequested)
                         break;
-                    Animal.animalStat.Stamina += 1; // Furniture Table의 Effect_Value만큼 증가
+                    Floor floor = FloorManager.Instance.floors[Animal.animalStat.CurrentFloor];
+                    Animal.animalStat.Stamina += floor.FloorStat.Stamina_Recovery; 
                     NotifyObservers();
                     await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
                 }
