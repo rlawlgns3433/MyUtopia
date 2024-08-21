@@ -21,7 +21,7 @@ public class UiFocusOut : MonoBehaviour, IPointerClickHandler
         vc.Follow = null;
         vc.LookAt = null;
     }
-    public async void FocusOut()
+    public void FocusOut()
     {
         if (transposer == null)
         {

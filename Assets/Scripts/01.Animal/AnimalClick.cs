@@ -96,7 +96,6 @@ public class AnimalClick : MonoBehaviour, IClickable
         VirtualCamera = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
         Transposer = VirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         clickEvent += Bump;
-        clickEvent += UiManager.Instance.ShowMainUi;
         //clickEvent += UiManager.Instance.animalFocusUi.Set;
         //clickEvent += Follow;
 

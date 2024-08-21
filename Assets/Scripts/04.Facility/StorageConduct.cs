@@ -240,7 +240,6 @@ public class StorageConduct : MonoBehaviour
     public void OpenStorage(Vector2 pos)
     {
         currentValue.gameObject.SetActive(false);
-        UiManager.Instance.ShowMainUi();
         if (!isClick)
         {
             isClick = true;
