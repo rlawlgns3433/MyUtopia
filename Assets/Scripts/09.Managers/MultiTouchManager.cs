@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -151,7 +152,7 @@ public class MultiTouchManager : MonoBehaviour
                                     return;
                                 if (tutorial.gameObject.activeSelf && tutorial.progress == TutorialProgress.None || tutorial.progress == TutorialProgress.Clear)
                                 {
-                                    tutorial.SetTutorialProgress();
+                                    tutorial.SetTutorialProgress().Forget();
                                 }
                             }
                         }

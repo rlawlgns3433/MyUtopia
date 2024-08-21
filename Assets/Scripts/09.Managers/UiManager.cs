@@ -532,9 +532,6 @@ public class UiManager : Singleton<UiManager>
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
 
-        currencyProductInventoryUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
-        //currencyProductInventoryUi.gameObject.SetActive(true);
-
         if (FloorManager.Instance.touchManager.tutorial != null)
         {
             if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Product)
@@ -542,6 +539,9 @@ public class UiManager : Singleton<UiManager>
                 FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
             }
         }
+        currencyProductInventoryUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //currencyProductInventoryUi.gameObject.SetActive(true);
+
     }
 
     public void SetProductCapacity(int capacity)

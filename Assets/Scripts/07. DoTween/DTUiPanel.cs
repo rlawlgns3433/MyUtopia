@@ -19,18 +19,24 @@ public class DTUiPanel : MonoBehaviour
         {
             if(value)
             {
+                if(FloorManager.Instance.touchManager.tutorial != null)
+                    FloorManager.Instance.touchManager.tutorial.activingUiPanel = true;
                 if (isFinishing)
                     return;
 
                 isActive = value;
                 gameObject.SetActive(isActive);
-                transform.DOScale(Vector3.one, startUpDuration).SetEase(startUpEase); // 스케일 조절중
+                transform.DOScale(Vector3.one, startUpDuration).SetEase(startUpEase).OnComplete(() =>
+                {
+                    if (FloorManager.Instance.touchManager.tutorial != null)
+                        FloorManager.Instance.touchManager.tutorial.activingUiPanel = false;
+                });
+
             }
             else
             {
                 if(isFinishing)
                     UiManager.Instance.panelBlock.SetActive(true);
-
                 transform.DOScale(Vector3.zero, finishDuration).SetEase(finishEase).OnComplete(
                 () => 
                 { 
@@ -38,6 +44,8 @@ public class DTUiPanel : MonoBehaviour
                     gameObject.SetActive(isActive);
                     isFinishing = false;
                     UiManager.Instance.panelBlock.SetActive(false);
+                    if (FloorManager.Instance.touchManager.tutorial != null)
+                        FloorManager.Instance.touchManager.tutorial.activingUiPanel = false;
                 });
             }
         }

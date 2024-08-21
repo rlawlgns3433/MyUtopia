@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [Serializable]
 public struct MissionSaveData
@@ -263,6 +264,65 @@ public class MissionManager : Singleton<MissionManager>
             var missionData = GetMissionData(saveData.missionId);
         }
         monthlyMissionCount = gameData.monthlyMissions.Count;
+        if(missionProgress.Count <=0)
+        {
+            foreach (var mission in missionData)
+            {
+                missionProgress[mission.Mission_ID] = new MissionSaveData
+                {
+                    missionId = mission.Mission_ID,
+                    count = 0,
+                    success = false,
+                    isComplete = false,
+                    openMission = false,
+                    available = false,
+                    repeat = true
+
+                };
+                var missionData = GetMissionData(mission.Mission_ID);
+                var tempMission = missionProgress[mission.Mission_ID];
+                if (missionData.Available == true)
+                {
+                    tempMission.available = true;
+                }
+                if (missionData.Pre_Event_Type == 0 && missionData.Pre_Mission_ID == 0)
+                {
+                    tempMission.openMission = true;
+                }
+                else if (missionData.Pre_Mission_ID != 0)
+                {
+                    if (CheckPreMissionId(missionData.Pre_Mission_ID))
+                    {
+                        tempMission.openMission = true;
+                    }
+                }
+                else if (missionData.Pre_Event_Type == 2)
+                {
+                    var targetFloor = FloorManager.Instance.GetFloor($"B{missionData.Pre_Event / 100 % 10}");
+                    if (targetFloor.FloorStat.Floor_ID >= missionData.Pre_Event)
+                    {
+                        tempMission.openMission = true;
+                    }
+                }
+                else if (missionData.Pre_Event_Type == 3)
+                {
+                    var targetFloor = FloorManager.Instance.GetFloor("B3");
+                    if (targetFloor.buildings != null)
+                    {
+                        foreach (var building in targetFloor.buildings)
+                        {
+                            var craftBuilding = building as CraftingBuilding;
+                            var value = craftBuilding.BuildingStat.Building_ID / 100 % 100;
+                            if (value >= missionData.Pre_Event / 100 % 100)
+                            {
+                                tempMission.openMission = true;
+                            }
+                        }
+                    }
+                }
+                missionProgress[mission.Mission_ID] = tempMission;
+            }
+        }
         if (gameData.preMissions == null || gameData.preMissions.Count == 0)
         {
             foreach (var mission in missionData)

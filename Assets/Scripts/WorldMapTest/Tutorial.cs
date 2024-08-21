@@ -37,6 +37,7 @@ public class Tutorial : MonoBehaviour
     public bool isStop = false;
     public TestPanel testPanel;
     public GameObject focusImage;
+    public bool activingUiPanel = false;
     private async void Start()
     {
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
@@ -123,7 +124,6 @@ public class Tutorial : MonoBehaviour
                 cursor.gameObject.SetActive(false);
             }
         }
-
         if (targetObjects[count].gameObject.layer == LayerMask.NameToLayer("UI"))
         {
             var rect = targetObjects[count].GetComponent<RectTransform>();
@@ -268,13 +268,14 @@ public class Tutorial : MonoBehaviour
             SetTextFormation(TutorialTextFormation.None, "");
         }
     }
-
-    public void SetTutorialProgress()
+    public async UniTask SetTutorialProgress()
     {
         if (tutorialComplete)
             return;
         if(isStop)
             return;
+        SetEmpty();
+        await UniTask.WaitUntil(() => !activingUiPanel);
 
         count++;
         if(count == 0)
