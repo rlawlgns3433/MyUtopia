@@ -77,5 +77,6 @@ public class StorageUi : MonoBehaviour
     {
         b5FloorStorage.OpenStorage(openButton.transform.position);
         b4FloorStorage.OpenStorage(openButton.transform.position);
+        UiManager.Instance.ShowMainUi();
     }
 }

@@ -1,4 +1,6 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -28,11 +30,35 @@ public class UiManager : Singleton<UiManager>
     public bool isAnimalList = false;
     public bool isAnimalMove = false;
     public GameObject panel;
+    public GameObject panelBlock;
     public GameObject catalougeImage;
     public Tutorial tutorial;
+    private List<DTUiPanel> uiTweens = new List<DTUiPanel>();
     //public UiFocusOut focusOutUi;
+
+    private void Awake()
+    {
+        uiTweens.Add(uiCurrencies.GetComponent<DTUiPanel>());
+        uiTweens.Add(mainUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(animalFocusUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(sellUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(floorInformationUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(animalListUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(productsUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(craftTableUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(invitationUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(testPanelUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(patronBoardUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(uiMission.GetComponent<DTUiPanel>());
+        uiTweens.Add(storageUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(uiCatalogue.GetComponent<DTUiPanel>());
+        uiTweens.Add(currencyProductInventoryUi.GetComponent<DTUiPanel>());
+         // 꺼진 오브젝트에 대해서 찾아와야함
+    }
     private void Start()
     {
+        DOTween.Init();
+
         if (PlayerPrefs.GetInt("TutorialCheck") == 1)
         {
 
@@ -74,8 +100,10 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowCurrencyUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
-        mainUi.gameObject.SetActive(false);
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+
+        //uiCurrencies.gameObject.SetActive(true);
+        //mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
@@ -93,8 +121,11 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowStorageUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
-        mainUi.gameObject.SetActive(false);
+
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+
+        //uiCurrencies.gameObject.SetActive(true);
+        //mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
@@ -105,36 +136,58 @@ public class UiManager : Singleton<UiManager>
         invitationUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
-        storageUi.gameObject.SetActive(true);
+
+        //storageUi.gameObject.SetActive(true);
+        storageUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+
         currencyProductInventoryUi.gameObject.SetActive(false);
+
         panel.gameObject.SetActive(true);
+
         uiCatalogue.gameObject.SetActive(false);
     }
 
     public void ShowMainUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
-        mainUi.gameObject.SetActive(true);
-        animalFocusUi.gameObject.SetActive(false);
-        sellUi.gameObject.SetActive(false);
-        floorInformationUi.gameObject.SetActive(false);
-        animalListUi.gameObject.SetActive(false);
-        productsUi.gameObject.SetActive(false);
-        craftTableUi.gameObject.SetActive(false);
-        if(!tutorial.gameObject.activeSelf)
+
+        foreach (var tween in uiTweens)
+        {
+            if (tween.IsActive && !(tween.panel == UiPanels.Main || tween.panel == UiPanels.Currencies))
+            {
+                tween.isFinishing = true;
+            }
+
+            if (tween.panel == UiPanels.Main || tween.panel == UiPanels.Currencies)
+            {
+                tween.IsActive = true;
+            }
+            else
+            {
+                tween.IsActive = false;
+            }
+        }
+        //uiCurrencies.gameObject.SetActive(true);
+        //mainUi.gameObject.SetActive(true);
+        //animalFocusUi.gameObject.SetActive(false);
+        //sellUi.gameObject.SetActive(false);
+        //floorInformationUi.gameObject.SetActive(false);
+        //animalListUi.gameObject.SetActive(false);
+        //productsUi.gameObject.SetActive(false);
+        //craftTableUi.gameObject.SetActive(false);
+        if (!tutorial.gameObject.activeSelf)
         {
             FloorManager.Instance.multiTouchOff = false;
         }
-        invitationUi.gameObject.SetActive(false);
-        testPanelUi.gameObject.SetActive(false);
-        patronBoardUi.gameObject.SetActive(false);
-        uiMission.gameObject.SetActive(false);
-        storageUi.gameObject.SetActive(false);
-        currencyProductInventoryUi.gameObject.SetActive(false);
+        //invitationUi.gameObject.SetActive(false);
+        //testPanelUi.gameObject.SetActive(false);
+        //patronBoardUi.gameObject.SetActive(false);
+        //uiMission.gameObject.SetActive(false);
+        //storageUi.gameObject.SetActive(false);
+        //currencyProductInventoryUi.gameObject.SetActive(false);
         panel.gameObject.SetActive(false);
-        uiCatalogue.gameObject.SetActive(false);
+        //uiCatalogue.gameObject.SetActive(false);
         OffAnimalList();
-        if(FloorManager.Instance.touchManager.tutorial != null)
+        if (FloorManager.Instance.touchManager.tutorial != null)
         {
             if(FloorManager.Instance.touchManager.tutorial.isClosing)
             {
@@ -152,9 +205,14 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowAnimalFocusUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
-        animalFocusUi.gameObject.SetActive(true);
+
+        var focuseUi = animalFocusUi.gameObject.GetComponent<DTUiPanel>();
+        focuseUi.IsActive = true;
+
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
         animalListUi.gameObject.SetActive(false);
@@ -185,10 +243,14 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowSellUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
-        sellUi.gameObject.SetActive(true);
+        //sellUi.gameObject.SetActive(true);
+        sellUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+
         floorInformationUi.gameObject.SetActive(false);
         animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
@@ -204,11 +266,16 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowFloorInformationUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+
+
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
-        floorInformationUi.gameObject.SetActive(true);
+        //floorInformationUi.gameObject.SetActive(true);
+        floorInformationUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+
         animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
@@ -230,12 +297,17 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowAnimalListUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+
+
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
-        animalListUi.gameObject.SetActive(true);
+
+        animalListUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //animalListUi.gameObject.SetActive(true);
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
@@ -256,13 +328,19 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowProductsUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+
+
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
         animalListUi.gameObject.SetActive(false);
-        productsUi.gameObject.SetActive(true);
+
+        productsUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //productsUi.gameObject.SetActive(true);
+
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
@@ -282,14 +360,20 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowCraftTableUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+
+
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
         animalListUi.gameObject.SetActive(false);
         productsUi.gameObject.SetActive(false);
-        craftTableUi.gameObject.SetActive(true);
+
+        craftTableUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //craftTableUi.gameObject.SetActive(true);
+
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
@@ -308,7 +392,11 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowInvitationUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+
+
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -317,7 +405,10 @@ public class UiManager : Singleton<UiManager>
         productsUi.gameObject.SetActive(false);
         craftTableUi.gameObject.SetActive(false);
         FloorManager.Instance.multiTouchOff = true;
-        invitationUi.gameObject.SetActive(true);
+
+        invitationUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //invitationUi.gameObject.SetActive(true);
+
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
@@ -327,7 +418,10 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowTutorialUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+
+
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -346,7 +440,10 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowPatronUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+
+
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -357,7 +454,10 @@ public class UiManager : Singleton<UiManager>
         FloorManager.Instance.multiTouchOff = true;
         invitationUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
-        patronBoardUi.gameObject.SetActive(true);
+
+        patronBoardUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //patronBoardUi.gameObject.SetActive(true);
+
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
@@ -366,7 +466,10 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowMissionUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+
+
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -378,14 +481,20 @@ public class UiManager : Singleton<UiManager>
         invitationUi.gameObject.SetActive(false);
         testPanelUi.gameObject.SetActive(false);
         patronBoardUi.gameObject.SetActive(false);
-        uiMission.gameObject.SetActive(true);
+
+        uiMission.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //uiMission.gameObject.SetActive(true);
+
         currencyProductInventoryUi.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
     }
     public void ShowCatalougeUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+
+
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -399,12 +508,16 @@ public class UiManager : Singleton<UiManager>
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
-        uiCatalogue.gameObject.SetActive(true);
+        uiCatalogue.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //uiCatalogue.gameObject.SetActive(true);
     }
 
     public void ShowCurrencyProductInventoryUi()
     {
-        uiCurrencies.gameObject.SetActive(true);
+
+
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -418,7 +531,10 @@ public class UiManager : Singleton<UiManager>
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
-        currencyProductInventoryUi.gameObject.SetActive(true);
+
+        currencyProductInventoryUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        //currencyProductInventoryUi.gameObject.SetActive(true);
+
         if (FloorManager.Instance.touchManager.tutorial != null)
         {
             if(FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Product)
@@ -464,7 +580,7 @@ public class UiManager : Singleton<UiManager>
     public void SetCatalougeImage(bool value)
     {
         if (tutorial.gameObject.activeSelf)
-            return;
+
         catalougeImage.SetActive(value);
     }
 

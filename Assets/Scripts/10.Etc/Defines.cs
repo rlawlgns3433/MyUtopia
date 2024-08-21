@@ -210,3 +210,23 @@ public enum TutorialProgress
     CompleteLevelUp = 74,
     Clear = 77,
 }
+
+public enum UiPanels
+{
+    Main,
+    Currencies,
+    Panel,
+    AnimalFocus,
+    Sell,
+    FloorInformation,
+    CurrencyProductInventory,
+    AnimalList,
+    Products,
+    UiCraftTable,
+    Invitation,
+    TestPanel,
+    Mission,
+    PatronBoard,
+    Catalogue,
+    Storage,
+}
