@@ -52,83 +52,11 @@ public class Animal : IGrowable, IMovable
                     그 동물을 선택
              */
 
-            AnimalWork target = null;
-            #region Rule1
-            var firstFloorAnimals = FloorManager.Instance.GetFloor("B1").animals;
-
-            foreach (var animal in firstFloorAnimals)
+            if (CanMerge(out var target))
             {
-                if (animal.animalWork.Equals(animalWork))
-                    continue;
-
-                if (animal.animalWork.Animal.animalStat.Animal_ID == animalWork.Animal.animalStat.Animal_ID)
-                {
-                    if (target == null)
-                    {
-                        target = animal.animalWork;
-                    }
-                    else
-                    {
-                        target = animal.animalWork.Animal.animalStat.Stamina < target.Animal.animalStat.Stamina ? animal.animalWork : target;
-                    }
-                }
-            }
-
-            if (target != null)
-            {
-                if (animalStat.AnimalData.Animal_Grade == 5)
-                    return;
-
                 if (animalWork.Merge(target))
                     return;
             }
-            #endregion
-
-            #region Rule2
-
-            foreach (var floor in FloorManager.Instance.floors)
-            {
-                if (floor.Key == "B1")
-                    continue;
-
-                foreach (var animal in floor.Value.animals)
-                {
-                    if (animal.animalWork.Equals(animalWork))
-                        continue;
-
-                    if (animal.animalWork.Animal.animalStat.Animal_ID == animalWork.Animal.animalStat.Animal_ID)
-                    {
-                        if (target == null)
-                        {
-                            target = animal.animalWork;
-                        }
-                        else
-                        {
-                            if (animal.animalWork.Animal.animalStat.Stamina < target.Animal.animalStat.Stamina)
-                            {
-                                target = animal.animalWork;
-                            }
-                            else if (animal.animalWork.Animal.animalStat.Stamina == target.Animal.animalStat.Stamina)
-                            {
-                                if (animal.animalWork.Animal.animalStat.CurrentFloor == target.Animal.animalStat.CurrentFloor)
-                                {
-                                    target = animal.animalWork;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (target != null)
-            {
-                if (animalStat.AnimalData.Animal_Grade == 5)
-                    return;
-
-                if (animalWork.Merge(target))
-                    return;
-            }
-            #endregion
 
             Debug.LogError("Merge Fail");
 
@@ -175,5 +103,80 @@ public class Animal : IGrowable, IMovable
         walkSpeed = 3f;
         runSpeed = 5f;
         idleTime = 2f;
+    }
+
+    public bool CanMerge(out AnimalWork target)
+    {
+        target = null;
+
+        if (animalStat.AnimalData.Animal_Grade == 5)
+            return false;
+
+        #region Rule1
+        var firstFloorAnimals = FloorManager.Instance.GetFloor("B1").animals;
+
+        foreach (var animal in firstFloorAnimals)
+        {
+            if (animal.animalWork.Equals(animalWork))
+                continue;
+
+            if (animal.animalWork.Animal.animalStat.Animal_ID == animalWork.Animal.animalStat.Animal_ID)
+            {
+                if (target == null)
+                {
+                    target = animal.animalWork;
+                }
+                else
+                {
+                    target = animal.animalWork.Animal.animalStat.Stamina < target.Animal.animalStat.Stamina ? animal.animalWork : target;
+                }
+            }
+        }
+
+        if (target != null)
+            return true;
+        #endregion
+
+        #region Rule2
+
+        foreach (var floor in FloorManager.Instance.floors)
+        {
+            if (floor.Key == "B1")
+                continue;
+
+            foreach (var animal in floor.Value.animals)
+            {
+                if (animal.animalWork.Equals(animalWork))
+                    continue;
+
+                if (animal.animalWork.Animal.animalStat.Animal_ID == animalWork.Animal.animalStat.Animal_ID)
+                {
+                    if (target == null)
+                    {
+                        target = animal.animalWork;
+                    }
+                    else
+                    {
+                        if (animal.animalWork.Animal.animalStat.Stamina < target.Animal.animalStat.Stamina)
+                        {
+                            target = animal.animalWork;
+                        }
+                        else if (animal.animalWork.Animal.animalStat.Stamina == target.Animal.animalStat.Stamina)
+                        {
+                            if (animal.animalWork.Animal.animalStat.CurrentFloor == target.Animal.animalStat.CurrentFloor)
+                            {
+                                target = animal.animalWork;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (target != null)
+            return true;
+
+        return false;
+        #endregion
     }
 }

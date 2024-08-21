@@ -27,9 +27,13 @@ public class DTUiPanel : MonoBehaviour
 
                 isActive = value;
                 gameObject.SetActive(isActive);
-                UiManager.Instance.panelBlock.SetActive(true);
 
-                transform.DOScale(Vector3.one, startUpDuration).SetEase(startUpEase).OnComplete(
+                transform.DOScale(Vector3.one, startUpDuration).SetEase(startUpEase)
+                    .OnPlay(
+                    () =>
+                    {
+                        UiManager.Instance.panelBlock.SetActive(true);
+                    }).OnComplete(
                     () =>
                     {
                         if (FloorManager.Instance.touchManager.tutorial != null)
@@ -43,18 +47,24 @@ public class DTUiPanel : MonoBehaviour
             }
             else
             {
-                if(isFinishing)
+                if (isFinishing)
                     UiManager.Instance.panelBlock.SetActive(true);
-                transform.DOScale(Vector3.zero, finishDuration).SetEase(finishEase).OnComplete(
-                () => 
-                { 
-                    isActive = value;
-                    gameObject.SetActive(isActive);
-                    isFinishing = false;
-                    UiManager.Instance.panelBlock.SetActive(false);
-                    if (FloorManager.Instance.touchManager.tutorial != null)
-                        FloorManager.Instance.touchManager.tutorial.activingUiPanel = false;
-                });
+                transform.DOScale(Vector3.zero, finishDuration).SetEase(finishEase)
+                    .OnPlay(
+                        () =>
+                        {
+                            UiManager.Instance.panelBlock.SetActive(true);
+                        })
+                    .OnComplete(
+                    () => 
+                    { 
+                        isActive = value;
+                        gameObject.SetActive(isActive);
+                        isFinishing = false;
+                        UiManager.Instance.panelBlock.SetActive(false);
+                        if (FloorManager.Instance.touchManager.tutorial != null)
+                            FloorManager.Instance.touchManager.tutorial.activingUiPanel = false;
+                    });
             }
         }
     }
