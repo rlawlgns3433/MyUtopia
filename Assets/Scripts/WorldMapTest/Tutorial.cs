@@ -38,7 +38,8 @@ public class Tutorial : MonoBehaviour
     public TestPanel testPanel;
     public GameObject focusImage;
     public bool activingUiPanel = false;
-    private async void Start()
+
+    private async void OnEnable()
     {
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B4") != null);

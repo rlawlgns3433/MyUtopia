@@ -15,20 +15,20 @@ public class TestPanel : MonoBehaviour
         CurrencyManager.product[CurrencyProductType.GoldIngot] += 10000;
     }
 
-    // ÇöÀç ¼¼ÀÌºê ÆÄÀÏ »èÁ¦
-    // ¾À ´Ù½Ã ·Îµå
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Îµï¿½
     public void ResetSaveData()
     {
-        GameManager.Instance.SetPlayerData();   
-        SetEmptyData();
         UiManager.Instance.ShowMainUi();
         SaveLoadSystem.Delete((int)SaveLoadSystem.SaveType.Catalouge);
         PlayerPrefs.SetInt("TutorialCheck", 0);
         FloorManager.Instance.MoveToSelectFloor("B1");
         UiManager.Instance.ShowTutorial();
+        SetEmptyData();
+        GameManager.Instance.SetPlayerData();
     }
 
-    // Áß°£ ÇÃ·¹ÀÌ ¼¼ÀÌºê ÆÄÀÏ ·Îµå
+    // ï¿½ß°ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½
     public void SetPlayingData()
     {
         GameManager.Instance.SetPlayerData();
@@ -36,7 +36,7 @@ public class TestPanel : MonoBehaviour
         var playingWorld = SaveLoadSystem.Load(SaveLoadSystem.SaveType.PlayingWorld) as SaveDataV1;
         var playingCurrency = SaveLoadSystem.Load(SaveLoadSystem.SaveType.PlayingCurrency) as SaveCurrencyDataV1;
 
-        // ÇöÀç ¿ùµå¿¡ Àû¿ëµÈ ½Ã½ºÅÛ ÃÊ±âÈ­
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         var floors = FloorManager.Instance.floors;
 
         foreach (var floor in floors.Values)
@@ -86,10 +86,16 @@ public class TestPanel : MonoBehaviour
     {
         var emptyWorld = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyWorld) as SaveDataV1;
         var emptyCurrency = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyCurrency) as SaveCurrencyDataV1;
-        var emptyProduct = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyProduct) as SaveCurrencyDataV1;
         var emptyCurrencyProduct = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyCurrencyProduct) as SaveCurrencyProductDataV1;
 
-        // ÇöÀç ¿ùµå¿¡ Àû¿ëµÈ ½Ã½ºÅÛ ÃÊ±âÈ­
+        if (emptyWorld == null)
+            return;
+        if (emptyCurrency == null)
+            return;
+        if (emptyCurrencyProduct == null)
+            return;
+
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
         var floors = FloorManager.Instance.floors;
 
         foreach(var floor in floors.Values)
@@ -101,6 +107,7 @@ public class TestPanel : MonoBehaviour
                 storageConduct.ResetStorageConduct();
             }
         }
+
 
         for(int i = 0; i < emptyWorld.floors.Count; ++i)
         {
