@@ -83,6 +83,7 @@ public class UiAnimalSlot : UiAnimalFloorSlot
                         slots.Clear();
                         break;
                     }
+                    imageExchange.gameObject.SetActive(false);
 
                     slots.Add(this);
                     UiManager.Instance.animalListUi.EliminateAnimal();

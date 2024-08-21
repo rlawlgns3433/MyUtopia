@@ -6,6 +6,7 @@ public class UiAnimalFloorSlot : Observer
 {
     public Image imagePortrait;
     public Image imageExchange;
+    public Image imageUnplace;
     public Slider sliderStamina;
     public TextMeshProUGUI textLevel;
     public AnimalData animalData;
