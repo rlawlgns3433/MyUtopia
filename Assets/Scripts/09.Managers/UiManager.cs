@@ -163,7 +163,8 @@ public class UiManager : Singleton<UiManager>
             }
             else
             {
-                tween.IsActive = false;
+                if(tween.isFinishing)
+                    tween.IsActive = false;
             }
         }
         //uiCurrencies.gameObject.SetActive(true);

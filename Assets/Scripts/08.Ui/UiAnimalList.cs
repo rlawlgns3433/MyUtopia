@@ -69,6 +69,7 @@ public class UiAnimalList : Observer
                 foreach (var slot in parent.uiAnimalFloorSlots)
                 {
                     slot.imageExchange.gameObject.SetActive(true);
+                    slot.imageUnplace.gameObject.SetActive(false);
                 }
             }
         }
@@ -89,6 +90,7 @@ public class UiAnimalList : Observer
             {
                 foreach (var slot in parent.uiAnimalFloorSlots)
                 {
+                    slot.imageExchange.gameObject.SetActive(false);
                     slot.imageUnplace.gameObject.SetActive(true);
                 }
             }
