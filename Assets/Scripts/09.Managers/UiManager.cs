@@ -206,7 +206,7 @@ public class UiManager : Singleton<UiManager>
     public void ShowAnimalFocusUi()
     {
         uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
-
+        mainUi.gameObject.SetActive(false);
         //uiCurrencies.gameObject.SetActive(true);
         animalFocusUi.gameObject.transform.localScale = Vector3.zero;
 
