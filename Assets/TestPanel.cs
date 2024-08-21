@@ -23,9 +23,9 @@ public class TestPanel : MonoBehaviour
         SaveLoadSystem.Delete((int)SaveLoadSystem.SaveType.Catalouge);
         PlayerPrefs.SetInt("TutorialCheck", 0);
         FloorManager.Instance.MoveToSelectFloor("B1");
-        UiManager.Instance.ShowTutorial();
         SetEmptyData();
         GameManager.Instance.SetPlayerData();
+        UiManager.Instance.ShowTutorial();
     }
 
     // �߰� �÷��� ���̺� ���� �ε�

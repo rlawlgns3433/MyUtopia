@@ -89,14 +89,14 @@ public class Tutorial : MonoBehaviour
         }
         if(count > -1)
         {
-            if (empty != targetObjects[count])
-            {
-                cursor.gameObject.SetActive(true);
-            }
-            else
-            {
-                cursor.gameObject.SetActive(false);
-            }
+            //if (empty != targetObjects[count])
+            //{
+            //    cursor.gameObject.SetActive(true);
+            //}
+            //else
+            //{
+            //    cursor.gameObject.SetActive(false);
+            //}
         }
         if (targetObjects[count].gameObject.layer == LayerMask.NameToLayer("UI"))
         {

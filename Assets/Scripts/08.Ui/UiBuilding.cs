@@ -86,40 +86,50 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         buildingProfile.type = Image.Type.Sliced;
         buildingProfile.preserveAspect = true;
 
+        foreach (var currency in uiUpgradeCurrencies)
+        {
+            Destroy(currency.gameObject);
+        }
+        uiUpgradeCurrencies.Clear();
+
         if (building.BuildingStat.Level_Up_Coin_Value != "0")
         {
             var currency = Instantiate(uiBuildingUpgradeCurrency, contents);
+            uiUpgradeCurrencies.Add(currency);
             var sprite = await DataTableMgr.GetResourceTable().Get((int)CurrencyType.Coin).GetImage();
             var value = building.BuildingStat.Level_Up_Coin_Value.ToBigNumber();
-            currency.SetCurrency(sprite, value);
-            uiUpgradeCurrencies.Add(currency);
+            if(currency != null)
+                currency.SetCurrency(sprite, value);
         }
 
         if (building.BuildingStat.Level_Up_Resource_1 != 0)
         {
             var currency = Instantiate(uiBuildingUpgradeCurrency, contents);
+            uiUpgradeCurrencies.Add(currency);
             var sprite = await DataTableMgr.GetResourceTable().Get(building.BuildingStat.Level_Up_Resource_1).GetImage();
             var value = building.BuildingStat.Resource_1_Value.ToBigNumber();
-            currency.SetCurrency(sprite, value);
-            uiUpgradeCurrencies.Add(currency);
+            if (currency != null)
+                currency.SetCurrency(sprite, value);
         }
 
         if (building.BuildingStat.Level_Up_Resource_2 != 0)
         {
             var currency = Instantiate(uiBuildingUpgradeCurrency, contents);
+            uiUpgradeCurrencies.Add(currency);
             var sprite = await DataTableMgr.GetResourceTable().Get(building.BuildingStat.Level_Up_Resource_2).GetImage();
             var value = building.BuildingStat.Resource_2_Value.ToBigNumber();
-            currency.SetCurrency(sprite, value);
-            uiUpgradeCurrencies.Add(currency);
+            if (currency != null)
+                currency.SetCurrency(sprite, value);
         }
 
         if (building.BuildingStat.Level_Up_Resource_3 != 0)
         {
             var currency = Instantiate(uiBuildingUpgradeCurrency, contents);
+            uiUpgradeCurrencies.Add(currency);
             var sprite = await DataTableMgr.GetResourceTable().Get(building.BuildingStat.Level_Up_Resource_3).GetImage();
             var value = building.BuildingStat.Resource_3_Value.ToBigNumber();
-            currency.SetCurrency(sprite, value);
-            uiUpgradeCurrencies.Add(currency);
+            if (currency != null)
+                currency.SetCurrency(sprite, value);
         }
 
         if (building.BuildingStat.Level == building.BuildingStat.Level_Max)
@@ -140,7 +150,14 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
 
     public void SetStartUi()
     {
-        if(building.IsUpgrading)
+        foreach (var currency in uiUpgradeCurrencies)
+        {
+            Destroy(currency.gameObject);
+        }
+        uiUpgradeCurrencies.Clear();
+
+
+        if (building.IsUpgrading)
         {
             clockFormatTimer.canStartTimer = false;
             return;

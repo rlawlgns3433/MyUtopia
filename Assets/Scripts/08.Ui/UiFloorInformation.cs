@@ -1,9 +1,6 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
-using UnityEngine.UI;
-using System.Linq;
-using Unity.VisualScripting;
 
 public class UiFloorInformation : MonoBehaviour
 {
@@ -98,6 +95,7 @@ public class UiFloorInformation : MonoBehaviour
             if (uiBuilding.building.BuildingStat.BuildingData.GetName().Equals(newBuilding.BuildingStat.BuildingData.GetName()))
             {
                 uiBuilding.gameObject.SetActive(true);
+                uiBuilding.SetFinishUi();
                 isSucceed = false;
             }
         }

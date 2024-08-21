@@ -12,7 +12,7 @@ public class Building : MonoBehaviour, IClickable, IGrowable
     public Vector3 clickedScale;
     public CurrencyProductType buildingType;
     public int buildingId;
-    public bool IsUpgrading { get; set; }
+    public bool IsUpgrading { get; set; } = false;
 
     private BuildingStat buildingStat;
     public BuildingStat BuildingStat

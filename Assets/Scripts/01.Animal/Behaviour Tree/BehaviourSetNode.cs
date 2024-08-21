@@ -96,6 +96,7 @@ public class BehaviourSetNode : StandardNode
         }
 
         IsSetBehaviour = true;
+        animalController.animator.speed = 1f;
         return behaviourSetSubTree.Execute();
     }
 }
