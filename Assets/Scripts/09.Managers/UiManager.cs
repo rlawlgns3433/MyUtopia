@@ -266,8 +266,6 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowFloorInformationUi()
     {
-
-
         uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
         //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
@@ -297,8 +295,6 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowAnimalListUi()
     {
-
-
         uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
         //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
@@ -328,8 +324,6 @@ public class UiManager : Singleton<UiManager>
 
     public void ShowProductsUi()
     {
-
-
         uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
         //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);
@@ -358,10 +352,32 @@ public class UiManager : Singleton<UiManager>
         }
     }
 
+    public void ShowSettingUi()
+    {
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+
+        //uiCurrencies.gameObject.SetActive(true);
+        mainUi.gameObject.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.SetActive(false);
+        animalListUi.gameObject.SetActive(false);
+        productsUi.gameObject.SetActive(false);
+        craftTableUi.gameObject.SetActive(false);
+        FloorManager.Instance.multiTouchOff = true;
+
+        testPanelUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        invitationUi.gameObject.SetActive(false);
+
+        patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
+        panel.gameObject.SetActive(true);
+        uiCatalogue.gameObject.SetActive(false);
+        currencyProductInventoryUi.gameObject.SetActive(false);
+    }
+
     public void ShowCraftTableUi()
     {
-
-
         uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
         //uiCurrencies.gameObject.SetActive(true);
         mainUi.gameObject.SetActive(false);

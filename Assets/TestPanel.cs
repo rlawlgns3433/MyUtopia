@@ -19,7 +19,7 @@ public class TestPanel : MonoBehaviour
     // ¾À ´Ù½Ã ·Îµå
     public void ResetSaveData()
     {
-        GameManager.Instance.SetPlayerData();
+        GameManager.Instance.SetPlayerData();   
         SetEmptyData();
         UiManager.Instance.ShowMainUi();
         SaveLoadSystem.Delete((int)SaveLoadSystem.SaveType.Catalouge);

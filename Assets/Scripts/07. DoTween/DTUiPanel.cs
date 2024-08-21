@@ -26,12 +26,15 @@ public class DTUiPanel : MonoBehaviour
 
                 isActive = value;
                 gameObject.SetActive(isActive);
-                transform.DOScale(Vector3.one, startUpDuration).SetEase(startUpEase).OnComplete(() =>
-                {
-                    if (FloorManager.Instance.touchManager.tutorial != null)
-                        FloorManager.Instance.touchManager.tutorial.activingUiPanel = false;
-                });
+                UiManager.Instance.panelBlock.SetActive(true);
 
+                transform.DOScale(Vector3.one, startUpDuration).SetEase(startUpEase).OnComplete(
+                    () =>
+                    {
+                        UiManager.Instance.panelBlock.SetActive(false);
+                        if (FloorManager.Instance.touchManager.tutorial != null)
+                            FloorManager.Instance.touchManager.tutorial.activingUiPanel = false;
+                    });
             }
             else
             {

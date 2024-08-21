@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2853716115809091474}
   - component: {fileID: 7334663789235389714}
   - component: {fileID: 8996164851012111202}
-  - component: {fileID: 514488127236534938}
+  - component: {fileID: 6160378972244145351}
   m_Layer: 0
   m_Name: InvitationGate
   m_TagString: Untagged
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1191659130371151551}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.1220426, z: -0, w: 0.9925249}
+  m_LocalRotation: {x: 0, y: 0.1220426, z: 0, w: 0.9925249}
   m_LocalPosition: {x: -3.0731173, y: -0.62039375, z: 4.0976257}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
@@ -106,21 +106,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.8764935, y: 4.919005, z: 1.1209838}
   m_Center: {x: 0.008904338, y: 2.4197671, z: -0.00000029802322}
---- !u!114 &514488127236534938
-MonoBehaviour:
+--- !u!208 &6160378972244145351
+NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1191659130371151551}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca23142b82b77e04c8ef6591e8e89cd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duration: 0.2
-  initialScale: {x: 1, y: 1, z: 1}
-  clickedScale: {x: 1.2, y: 1, z: 1.2}
-  buildingType: 0
-  buildingId: 0
-  isClicked: 0
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 3.4380002, y: 2.46, z: 0.56}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.009000001, y: 2.42, z: 0}
+  m_TimeToStationary: 0.5

@@ -20,4 +20,9 @@ public class UiUpgradeCurrency : MonoBehaviour
             imageCurrency.preserveAspect = preserveAspect;
         }
     }
+
+    public void SetCurrency(BigNumber currency, bool preserveAspect = true, Image.Type type = Image.Type.Simple)
+    {
+        textCurrencyForUpgrade.text = currency.ToString();
+    }
 }

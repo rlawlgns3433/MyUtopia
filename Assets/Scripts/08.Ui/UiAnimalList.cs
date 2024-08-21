@@ -47,6 +47,7 @@ public class UiAnimalList : Observer
             foreach (var slot in parent.uiAnimalFloorSlots)
             {
                 slot.imageExchange.gameObject.SetActive(false);
+                slot.imageUnplace.gameObject.SetActive(false);
                 slot.imagePortrait.color = Color.white;
             }
         }
@@ -81,8 +82,16 @@ public class UiAnimalList : Observer
         }
         else
         {
-            mode = AnimalListMode.Eliminate;
             UiManager.Instance.OffAnimalList();
+            mode = AnimalListMode.Eliminate;
+
+            foreach (var parent in parents)
+            {
+                foreach (var slot in parent.uiAnimalFloorSlots)
+                {
+                    slot.imageUnplace.gameObject.SetActive(true);
+                }
+            }
         }
     }
 
