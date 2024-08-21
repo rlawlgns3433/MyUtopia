@@ -11,6 +11,9 @@ public struct MissionSaveData
     public int count;
     public bool success;
     public bool isComplete;
+    public bool openMission;
+    public bool available;
+    public bool repeat;
 }
 
 [Serializable]
@@ -79,18 +82,73 @@ public class MissionManager : Singleton<MissionManager>
             if (missionData.Target_ID == targetId)
             {
                 AddMissionCount(missionData.Mission_ID, count);
-                return;
+                //return;
             }
         }
     }
 
+    public void AddMissionCountMakeItem(int targetId, int count = 1)
+    {
+        foreach (var missionData in missionTable.GetAllMissions())
+        {
+            if(missionData.Check_type == (int)MissionCheckTypes.Make)
+            {
+                if (missionData.Target_ID == targetId)
+                {
+                    AddMissionCount(missionData.Mission_ID, count);
+                    //return;
+                }
+                else if (missionData.Target_ID == 0)
+                {
+                    if(targetId == 0)
+                    {
+                        AddMissionCount(missionData.Mission_ID, count);
+                    }
+                }
+            }
+
+        }
+    }
+
+    public void AddMissionCountSellItem(int count = 1)
+    {
+        foreach (var missionData in missionTable.GetAllMissions())
+        {
+            if(missionData.Check_type == (int)MissionCheckTypes.Sell)
+            {
+                AddMissionCount(missionData.Mission_ID, count);
+                //return;
+            }
+        }
+    }
+    public void AddMissionCountMurge(int count = 1)
+    {
+        foreach (var missionData in missionTable.GetAllMissions())
+        {
+            if (missionData.Check_type == (int)MissionCheckTypes.Murge)
+            {
+                AddMissionCount(missionData.Mission_ID, count);
+                //return;
+            }
+        }
+    }
     public void AddMissionCount(int missionId, int count)
     {
         if (!missionProgress.ContainsKey(missionId))
         {
-            missionProgress[missionId] = new MissionSaveData { missionId = missionId, count = 0, success = false, isComplete = false };
+            missionProgress[missionId] = new MissionSaveData
+            {
+                missionId = missionId,
+                count = 0,
+                success = false,
+                isComplete = false,
+                openMission = false,
+                available = false,
+                repeat = true
+            };
         }
         var missionSaveData = missionProgress[missionId];
+        Debug.Log($"AddMissionCountmissionId{missionId}=>{missionSaveData.count} /////{missionProgress[missionId].count}");
         missionSaveData.count += count;
 
         var missionData = GetMissionData(missionId);
@@ -100,8 +158,26 @@ public class MissionManager : Singleton<MissionManager>
             missionSaveData.success = true;
             missionSaveData.count = missionData.Count;
         }
+        if(missionData.Pre_Event_Type == 0 && missionData.Pre_Mission_ID == 0)
+        {
+            missionSaveData.openMission = true;
+        }
+        if(missionData.Available == true)
+        {
+            missionSaveData.available = true;
+        }
 
         missionProgress[missionId] = missionSaveData;
+
+        if (missionData.Pre_Mission_ID != 0)
+        {
+            preMissionProgress[missionData.Pre_Mission_ID] = new PreMissionData
+            {
+                missionId = missionData.Pre_Mission_ID,
+                Clear = false
+            };
+        }
+        
     }
 
     public int GetMissionCount(int missionId)
@@ -162,7 +238,6 @@ public class MissionManager : Singleton<MissionManager>
         {
             return;
         }
-
         dailyPoints = gameData.dailyPoint;
         weeklyPoints = gameData.weeklyPoint;
         monthlyPoints = gameData.monthlyPoint;
@@ -188,7 +263,6 @@ public class MissionManager : Singleton<MissionManager>
             var missionData = GetMissionData(saveData.missionId);
         }
         monthlyMissionCount = gameData.monthlyMissions.Count;
-
         if (gameData.preMissions == null || gameData.preMissions.Count == 0)
         {
             foreach (var mission in missionData)
@@ -210,6 +284,7 @@ public class MissionManager : Singleton<MissionManager>
                 preMissionProgress[saveData.missionId] = saveData;
             }
         }
+
     }
 
     public MissionData GetMissionData(int missionId)
@@ -225,14 +300,81 @@ public class MissionManager : Singleton<MissionManager>
     public void ResetMissions(MissionDayTypes missionType)
     {
         LoadGameData();
+        switch (missionType)
+        {
+            case MissionDayTypes.Daily:
+                dailyPoints = 0;
+                break;
+            case MissionDayTypes.Weekly:
+                weeklyPoints = 0;
+                break;
+            case MissionDayTypes.Monthly:
+                monthlyPoints = 0;
+                break;
+        }
+        foreach (var mission in missionData)
+        {
+            if(preMissionProgress.ContainsKey(mission.Mission_ID))
+            {
+                if (preMissionProgress[mission.Mission_ID].Clear)
+                {
+                    foreach(var value in missionData)
+                    {
+                        if(value.Pre_Mission_ID == mission.Mission_ID)
+                            GetMissionSaveData(mission.Mission_ID);
+                    }
+                }
+            }
+        }
         List<MissionSaveData> missionsToReset = GetMissionsByType(missionType);
-
         for (int i = 0; i < missionsToReset.Count; i++)
         {
             var mission = missionsToReset[i];
+            var missionData = GetMissionData(mission.missionId);
             mission.count = 0;
             mission.success = false;
             mission.isComplete = false;
+            mission.openMission = false;
+            mission.available = false;
+            if(missionData.Available == true)
+            {
+                mission.available = true;
+            }
+            if(missionData.Pre_Event_Type == 0 && missionData.Pre_Mission_ID == 0)
+            {
+                mission.openMission = true;
+            }
+            else if(missionData.Pre_Mission_ID != 0)
+            {
+                if(CheckPreMissionId(missionData.Pre_Mission_ID))
+                {
+                    mission.openMission = true;
+                }
+            }
+            else if(missionData.Pre_Event_Type == 2)
+            {
+                var targetFloor = FloorManager.Instance.GetFloor($"B{missionData.Pre_Event / 100 % 10}");
+                if(targetFloor.FloorStat.Floor_ID >= missionData.Pre_Event)
+                {
+                    mission.openMission = true;
+                }
+            }
+            else if(missionData.Pre_Event_Type == 3)
+            {
+                var targetFloor = FloorManager.Instance.GetFloor("B3");
+                if(targetFloor.buildings != null)
+                {
+                    foreach (var building in  targetFloor.buildings)
+                    {
+                        var craftBuilding = building as CraftingBuilding;
+                        var value = craftBuilding.BuildingStat.Building_ID / 100 % 100;
+                        if(value >= missionData.Pre_Event / 100 % 100)
+                        {
+                            mission.openMission = true;
+                        }
+                    }
+                }
+            }
             missionProgress[mission.missionId] = mission;
         }
         SaveGameData();
@@ -243,7 +385,7 @@ public class MissionManager : Singleton<MissionManager>
         {
             return missionProgress[missionId];
         }
-        return new MissionSaveData { missionId = missionId, count = 0, success = false, isComplete = false };
+        return new MissionSaveData { missionId = missionId, count = 0, success = false, isComplete = false, openMission = false, available = false, repeat = true };
     }
 
     public void UpdateMissionSaveData(MissionSaveData updatedData)

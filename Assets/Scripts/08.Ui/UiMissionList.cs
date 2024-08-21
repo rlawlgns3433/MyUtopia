@@ -92,7 +92,7 @@ public class UiMissionList : MonoBehaviour
     private void SetSliderCheckPoint()
     {
         halfPoint = missionSlider.maxValue / 2;
-        twoThirdPoint = missionSlider.maxValue * 2 / 3;
+        twoThirdPoint = missionSlider.maxValue * 0.75f;
         maxPoint = missionSlider.maxValue;
 
         checkPointHalf.GetComponentInChildren<TextMeshProUGUI>().text = ((int)halfPoint).ToString();
@@ -159,6 +159,10 @@ public class UiMissionList : MonoBehaviour
                 continue;
             }
 
+            if (!missionSaveData.openMission)
+                continue;
+            if (!missionSaveData.available)
+                continue;
             var missionInstance = Instantiate(uiMissionPrefab, missionParent);
             missionInstance.SetData(missionData);
             missionInstance.SetSaveData(missionSaveData);
@@ -172,21 +176,12 @@ public class UiMissionList : MonoBehaviour
         {
             if (mission.Mission_Type == (int)missionType)
             {
-                if(mission.Pre_Mission_ID != 0)
-                {
-                    if(!MissionManager.Instance.CheckPreMissionId(mission.Pre_Mission_ID))
-                    {
-                        continue;
-                    }
-                }
-
-                //if(mission.Pre_Event_Type == 2)
-                //{
-                //    var targetId = mission.Pre_Event;
-                //}
                 MissionManager.Instance.AddMissionCount(mission.Mission_ID, 0);
             }
         }
+        MissionManager.Instance.ResetMissions(MissionDayTypes.Daily);
+        //MissionManager.Instance.ResetMissions(MissionDayTypes.Weekly); // 주간 월간 추가 시 주석 해제
+        //MissionManager.Instance.ResetMissions(MissionDayTypes.Monthly);
         MissionManager.Instance.SaveGameData();
     }
 

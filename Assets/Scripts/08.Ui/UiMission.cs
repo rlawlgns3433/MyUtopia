@@ -74,7 +74,7 @@ public class UiMission : MonoBehaviour
             UiManager.Instance.ShowAnimalListUi();
             return;
         }
-        else if(missionData.Check_type == (int)MissionCheckTypes.Make)
+        else if(missionData.Check_type == (int)MissionCheckTypes.Make || missionData.Check_type == (int)MissionCheckTypes.Sell)
         {
             FloorManager.Instance.MoveToSelectFloor("B3");
         }

@@ -95,6 +95,8 @@ public class UiCraftingSlot : Observer
         if (sliderProcess.value >= sliderProcess.maxValue)
         {
             (FloorManager.Instance.GetFloor("B3").storage as StorageProduct).IncreaseProduct(building.CurrentRecipeStat.Product_ID);
+            MissionManager.Instance.AddMissionCountMakeItem(building.CurrentRecipeStat.Product_ID);
+            MissionManager.Instance.AddMissionCountMakeItem(0);
 
             if (building.recipeStatList.Count > 0)
             {

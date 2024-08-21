@@ -83,6 +83,7 @@ public class AnimalWork : Subject, IMergable
                     FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
                 }
             }
+            MissionManager.Instance.AddMissionCountMurge();
             return true;
         }
         return false;

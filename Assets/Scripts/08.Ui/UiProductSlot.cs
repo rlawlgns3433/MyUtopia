@@ -74,5 +74,6 @@ public class UiProductSlot : MonoBehaviour
                 FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
             }
         }
+        MissionManager.Instance.AddMissionCountSellItem();
     }
 }
