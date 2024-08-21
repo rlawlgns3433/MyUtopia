@@ -13,6 +13,12 @@ public class UiRequestInfo : MonoBehaviour
 
     // 교환 테이블 파싱 후 데이터 불러오기
     private ExchangeStat exchangeStat;
+    public UiUpgradeCurrency rewardCoin;
+
+    private void OnEnable()
+    {
+        UiManager.Instance.patronBoardUi.Refresh();
+    }
 
     public void SetData(ExchangeStat exchangeStat)
     {
@@ -31,6 +37,16 @@ public class UiRequestInfo : MonoBehaviour
                     AddItem(new ItemStat(exchangeStat.requireInfos[i].ID), exchangeStat.requireInfos[i].Value);
                     break;
             }
+
+            int count = 0;
+            BigNumber price = BigNumber.Zero;
+            for(int j = 0; j < exchangeStat.RequireCount; ++j)
+            {
+                count += int.Parse(exchangeStat.requireInfos[j].Value);
+                price += new BigNumber(DataTableMgr.GetItemTable().Get(exchangeStat.requireInfos[j].ID).Sell_Price);
+            }
+
+            rewardCoin.SetCurrency(price);
         }
     }
 
