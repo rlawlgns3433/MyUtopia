@@ -208,11 +208,12 @@ public class UiManager : Singleton<UiManager>
         uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
 
         //uiCurrencies.gameObject.SetActive(true);
-        mainUi.gameObject.SetActive(false);
+        animalFocusUi.gameObject.transform.localScale = Vector3.zero;
 
         var focuseUi = animalFocusUi.gameObject.GetComponent<DTUiPanel>();
         focuseUi.IsActive = true;
 
+        sellUi.gameObject.transform.localScale = Vector3.zero;
         sellUi.gameObject.SetActive(false);
         floorInformationUi.gameObject.SetActive(false);
         animalListUi.gameObject.SetActive(false);
@@ -249,6 +250,7 @@ public class UiManager : Singleton<UiManager>
         mainUi.gameObject.SetActive(false);
         animalFocusUi.gameObject.SetActive(false);
         //sellUi.gameObject.SetActive(true);
+        animalFocusUi.gameObject.transform.localScale = Vector3.zero;
         sellUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
 
         floorInformationUi.gameObject.SetActive(false);
