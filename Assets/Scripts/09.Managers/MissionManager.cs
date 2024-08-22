@@ -34,6 +34,7 @@ public class SaveMissionData
     public List<MissionSaveData> weeklyMissions;
     public List<MissionSaveData> monthlyMissions;
     public List<PreMissionData> preMissions;
+    public List<bool> completeDailyMission;
 }
 
 public class MissionManager : Singleton<MissionManager>
@@ -52,6 +53,8 @@ public class MissionManager : Singleton<MissionManager>
     public int dailyMissionCount = 0;
     public int weeklyMissionCount = 0;
     public int monthlyMissionCount = 0;
+
+    public List<bool> dailyMissionCheck = new List<bool>();
 
     private async void Awake()
     {
@@ -211,8 +214,9 @@ public class MissionManager : Singleton<MissionManager>
             weeklyMissions = new List<MissionSaveData>(),
             monthlyMissions = new List<MissionSaveData>(),
             preMissions = new List<PreMissionData>(),
+            completeDailyMission = new List<bool>()
         };
-
+        gameData.completeDailyMission = dailyMissionCheck;
         foreach (var progress in missionProgress.Values)
         {
             var missionData = GetMissionData(progress.missionId);
@@ -312,6 +316,8 @@ public class MissionManager : Singleton<MissionManager>
                         foreach (var building in targetFloor.buildings)
                         {
                             var craftBuilding = building as CraftingBuilding;
+                            if (craftBuilding == null)
+                                continue;
                             var value = craftBuilding.BuildingStat.Building_ID / 100 % 100;
                             if (value >= missionData.Pre_Event / 100 % 100)
                             {
@@ -344,7 +350,18 @@ public class MissionManager : Singleton<MissionManager>
                 preMissionProgress[saveData.missionId] = saveData;
             }
         }
-
+        if(gameData.completeDailyMission.Count != 0)
+        {
+            dailyMissionCheck = gameData.completeDailyMission;
+        }
+        else
+        {
+            dailyMissionCheck = new List<bool>(3);
+            for (int i = 0; i < 3; i++)
+            {
+                dailyMissionCheck.Add(false);
+            }
+        }
     }
 
     public MissionData GetMissionData(int missionId)
@@ -364,6 +381,10 @@ public class MissionManager : Singleton<MissionManager>
         {
             case MissionDayTypes.Daily:
                 dailyPoints = 0;
+                for(int i = 0; i < dailyMissionCheck.Count; ++i)
+                {
+                    dailyMissionCheck[i] = false;
+                }
                 break;
             case MissionDayTypes.Weekly:
                 weeklyPoints = 0;
@@ -427,6 +448,8 @@ public class MissionManager : Singleton<MissionManager>
                     foreach (var building in  targetFloor.buildings)
                     {
                         var craftBuilding = building as CraftingBuilding;
+                        if (craftBuilding == null)
+                            continue;
                         var value = craftBuilding.BuildingStat.Building_ID / 100 % 100;
                         if(value >= missionData.Pre_Event / 100 % 100)
                         {

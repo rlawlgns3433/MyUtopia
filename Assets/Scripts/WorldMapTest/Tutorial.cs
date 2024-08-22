@@ -57,6 +57,7 @@ public class Tutorial : MonoBehaviour
             testPanel.ResetSaveData();
             progress = TutorialProgress.None;
             SetTutorial(count);
+            UiManager.Instance.catalougeImage.gameObject.SetActive(false);
             FloorManager.Instance.multiTouchOff = true;
             SetScrollRect(false);
         }
