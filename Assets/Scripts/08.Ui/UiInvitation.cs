@@ -121,13 +121,13 @@ public class UiInvitation : MonoBehaviour
         balloons.Add(balloon);
         var targetPos = target;
         targetPos.y += targetPosOffset;
-        await balloon.transform.DOMove(targetPos, 3).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
+        await balloon.transform.DOMove(targetPos, 2).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
         targetPos.y += targetPosOffset;
         Instantiate(ps, targetPos, Quaternion.identity);
         ps.Play();
         Destroy(balloon);
         balloons.Remove(balloon);
-        await UniTask.Delay(500);
+        await UniTask.Delay(300);
         if(FloorManager.Instance.touchManager.tutorial != null)
         {
             if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MurgeAnimalConfirm)
