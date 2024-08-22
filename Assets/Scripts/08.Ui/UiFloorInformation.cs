@@ -103,26 +103,8 @@ public class UiFloorInformation : MonoBehaviour
         return isSucceed;
     }
 
-    //public bool ValidateFurnitureData(Building newBuilding)
-    //{
-    //    bool isSucceed = true;
-    //    foreach (var uiFurniture in uiFurnitures)
-    //    {
-    //        if (uiFurniture.building.BuildingStat.BuildingData.Floor_Type != currentFloor.FloorStat.Floor_Type)
-    //            uiFurniture.gameObject.SetActive(false);
-
-    //        if (uiFurniture.building.BuildingStat.BuildingData.GetName().Equals(newBuilding.BuildingStat.BuildingData.GetName()))
-    //        {
-    //            uiFurniture.gameObject.SetActive(true);
-    //            isSucceed = false;
-    //        }
-    //    }
-    //    return isSucceed;
-    //}
-
     public void RefreshBuildingFurnitureData()
     {
-
         foreach (var building in currentFloor.buildings)
         {
             if (!building.BuildingStat.IsLock)

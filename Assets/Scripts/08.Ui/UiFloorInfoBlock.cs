@@ -207,6 +207,8 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             return;
         }
 
+        SoundManager.Instance.OnClickButton(SoundType.LevelUpBuilding);
+
         clockFormatTimer.canStartTimer = true;
         IsUpgrading = true;
         UpgradeStartTime = DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second;

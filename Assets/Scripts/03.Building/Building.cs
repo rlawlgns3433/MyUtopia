@@ -61,6 +61,7 @@ public class Building : MonoBehaviour, IClickable, IGrowable
     protected virtual void Start()
     {
         transform.localScale = initialScale;
+        clickEvent += PlayAudio;
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)
@@ -138,6 +139,23 @@ public class Building : MonoBehaviour, IClickable, IGrowable
             {
                 FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
             }
+        }
+    }
+
+    public void PlayAudio()
+    {
+        switch (buildingType)
+        {
+            case CurrencyProductType.CopperStone:
+            case CurrencyProductType.SilverStone:
+            case CurrencyProductType.GoldStone:
+                SoundManager.Instance.OnClickButton(SoundType.Mining);
+                break;
+            case CurrencyProductType.CopperIngot:
+            case CurrencyProductType.SilverIngot:
+            case CurrencyProductType.GoldIngot:
+                SoundManager.Instance.OnClickButton(SoundType.BlastingFurnace);
+                break;
         }
     }
 }

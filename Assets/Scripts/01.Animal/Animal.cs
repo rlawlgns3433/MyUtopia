@@ -55,7 +55,10 @@ public class Animal : IGrowable, IMovable
             if (CanMerge(out var target))
             {
                 if (animalWork.Merge(target))
+                {
+                    SoundManager.Instance.OnClickButton(SoundType.MergeAnimal);
                     return;
+                }
             }
 
             Debug.LogError("Merge Fail");
@@ -79,7 +82,7 @@ public class Animal : IGrowable, IMovable
             {
                 CurrencyManager.currency[CurrencyType.Coin] -= lvCoin;
                 a.animalStat = animalStat;
-
+                SoundManager.Instance.OnClickButton(SoundType.LevelUpAnimal);
                 break;
             }
         }
@@ -96,6 +99,7 @@ public class Animal : IGrowable, IMovable
         FloorManager.Instance.GetFloor(animalWork.Animal.animalStat.CurrentFloor).RemoveAnimal(this);
         //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(animalWork.Animal.animalStat.CurrentFloor)); ½Ã³ÊÁö
         CurrencyManager.currency[CurrencyType.Coin] += animalStat.Sale_Coin.ToBigNumber();
+        SoundManager.Instance.OnClickButton(SoundType.Selling);
     }
 
     public void SetAnimal()

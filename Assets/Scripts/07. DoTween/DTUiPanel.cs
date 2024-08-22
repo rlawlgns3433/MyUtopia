@@ -29,6 +29,11 @@ public class DTUiPanel : MonoBehaviour
                 gameObject.SetActive(isActive);
 
                 transform.DOScale(Vector3.one, startUpDuration).SetEase(startUpEase)
+                    .OnStart(
+                    () =>
+                    {
+                        SoundManager.Instance.OnClickButton(SoundType.PopUpOpen);
+                    })
                     .OnPlay(
                     () =>
                     {
@@ -50,6 +55,12 @@ public class DTUiPanel : MonoBehaviour
                 if (isFinishing)
                     UiManager.Instance.panelBlock.SetActive(true);
                 transform.DOScale(Vector3.zero, finishDuration).SetEase(finishEase)
+                    .OnStart(
+                    () =>
+                    {
+                        if (panel != UiPanels.Invitation)
+                            SoundManager.Instance.OnClickButton(SoundType.PopUpClose);
+                    })
                     .OnPlay(
                         () =>
                         {

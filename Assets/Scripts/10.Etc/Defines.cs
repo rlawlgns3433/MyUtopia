@@ -240,3 +240,20 @@ public enum UiPanels
     Catalogue,
     Storage,
 }
+
+public enum SoundType
+{
+    BlastingFurnace,
+    Caution,
+    Crafting,
+    Delivering,
+    GetAnimal,
+    GetReward,
+    LevelUpAnimal,
+    LevelUpBuilding,
+    MergeAnimal,
+    Mining,
+    PopUpClose,
+    PopUpOpen,
+    Selling
+}

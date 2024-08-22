@@ -86,11 +86,10 @@ public class UiCraftingSlot : Observer
         }
 
         buttonAccelerate.interactable = true;
-
         UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad += 5000; // 터치 업무량 추가 적용 필요
         sliderProcess.value = UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad.ToFloat();
         textCurrentRemainProcess.text = sliderProcess.value.ToString();
-
+        SoundManager.Instance.OnClickButton(SoundType.Crafting);
 
         if (sliderProcess.value >= sliderProcess.maxValue)
         {

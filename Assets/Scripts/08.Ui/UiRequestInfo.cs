@@ -96,7 +96,7 @@ public class UiRequestInfo : MonoBehaviour
         }
 
         UiManager.Instance.patronBoardUi.requests.Remove(this);
-
+        SoundManager.Instance.OnClickButton(SoundType.Delivering);
         transform.DOScale(Vector3.zero, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => Destroy(gameObject));
         //Destroy(gameObject);
     }

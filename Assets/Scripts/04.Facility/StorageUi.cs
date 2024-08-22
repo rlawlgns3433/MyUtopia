@@ -77,6 +77,7 @@ public class StorageUi : MonoBehaviour
     {
         b5FloorStorage.OpenStorage(openButton.transform.position);
         b4FloorStorage.OpenStorage(openButton.transform.position);
+        SoundManager.Instance.OnClickButton(SoundType.GetAnimal);
         UiManager.Instance.ShowMainUi();
     }
 }
