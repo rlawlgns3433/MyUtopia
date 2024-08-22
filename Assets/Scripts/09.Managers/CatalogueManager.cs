@@ -18,7 +18,7 @@ public class SaveCatalogueData
     public bool isGetFirstAnimal;
 }
 
-public class CatalogueManager : Singleton<CatalogueManager>
+public class CatalogueManager : Singleton<CatalogueManager>, ISingletonCreatable
 {
     private Dictionary<int, AnimalData> animalDictionary = new Dictionary<int, AnimalData>();
     private Dictionary<int, bool> animalCatalogue = new Dictionary<int, bool>();
@@ -184,5 +184,10 @@ public class CatalogueManager : Singleton<CatalogueManager>
         //{
         //    var missionData = DataTableMgr.GetAnimalTable().Get(saveData.id);
         //}
+    }
+
+    public bool ShouldBeCreatedInScene(string sceneName)
+    {
+        return sceneName == "SampleScene";
     }
 }

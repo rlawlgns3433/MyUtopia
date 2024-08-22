@@ -37,7 +37,7 @@ public class SaveMissionData
     public List<bool> completeDailyMission;
 }
 
-public class MissionManager : Singleton<MissionManager>
+public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
 {
     private Dictionary<int, MissionSaveData> missionProgress = new Dictionary<int, MissionSaveData>();
     private Dictionary<int, PreMissionData> preMissionProgress = new Dictionary<int, PreMissionData>();
@@ -62,7 +62,7 @@ public class MissionManager : Singleton<MissionManager>
         missionTable = DataTableMgr.GetMissionTable();
         missionData = new List<MissionData>(missionTable.GetAllMissions());
         await UniTask.WaitUntil(() => UtilityTime.isLoadComplete);
-
+        UtilityTime.Instance.SetMissionData();
         if (!isAddQuitEvent)
         {
             Application.quitting -= SaveGameData;
@@ -497,6 +497,11 @@ public class MissionManager : Singleton<MissionManager>
                 return true;
         }
         return false;
+    }
+
+    public bool ShouldBeCreatedInScene(string sceneName)
+    {
+        return sceneName == "SampleScene";
     }
 }
 

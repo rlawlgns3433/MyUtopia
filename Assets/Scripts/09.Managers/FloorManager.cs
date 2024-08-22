@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class FloorManager : Singleton<FloorManager>
+public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
 {
     public Dictionary<string, Floor> floors = new Dictionary<string, Floor>();
     private int currentFloorIndex = 1;
@@ -397,6 +397,11 @@ public class FloorManager : Singleton<FloorManager>
         {
             floors[$"B{CurrentFloorIndex}"].LevelUp();
         }
+    }
+
+    public bool ShouldBeCreatedInScene(string sceneName)
+    {
+        return sceneName == "SampleScene";
     }
 
     //public void CheckFloorSynergy(Floor floor) ½Ã³ÊÁö

@@ -1,5 +1,9 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+public interface ISingletonCreatable
+{
+    bool ShouldBeCreatedInScene(string sceneName);
+}
 /// <summary>
 /// Be aware this will not prevent a non singleton constructor
 ///   such as `T myT = new T();`
@@ -7,10 +11,9 @@ using UnityEngine;
 /// 
 /// As a note, this is made as MonoBehaviour because we need Coroutines.
 /// </summary>
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour, ISingletonCreatable
 {
     private static T _instance;
-
     private static object _lock = new object();
 
     public static T Instance
@@ -29,32 +32,37 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             {
                 if (_instance == null)
                 {
-                    _instance = (T)FindObjectOfType(typeof(T));
+                    var currentScene = SceneManager.GetActiveScene().name;
 
-                    if (FindObjectsOfType(typeof(T)).Length > 1)
+                    // T가 ISceneDependentSingleton을 구현하고 있으며,
+                    // 현재 씬에서 생성이 허용되는 경우에만 인스턴스를 생성
+                    if (typeof(ISingletonCreatable).IsAssignableFrom(typeof(T)))
                     {
-                        Debug.LogError("[Singleton] Something went really wrong " +
-                            " - there should never be more than 1 singleton!" +
-                            " Reopening the scene might fix it.");
-                        return _instance;
-                    }
+                        var singletonInstance = (T)FindObjectOfType(typeof(T));
 
-                    if (_instance == null)
-                    {
-                        GameObject singleton = new GameObject();
-                        _instance = singleton.AddComponent<T>();
-                        singleton.name = "(singleton) " + typeof(T).ToString();
+                        if (singletonInstance != null)
+                        {
+                            _instance = singletonInstance;
+                        }
+                        else if (typeof(T).GetInterface(nameof(ISingletonCreatable)) != null)
+                        {
+                            var tempObject = new GameObject();
+                            var tempInstance = tempObject.AddComponent<T>();
+                            if (tempInstance.ShouldBeCreatedInScene(currentScene))
+                            {
+                                _instance = tempInstance;
+                                _instance.gameObject.name = "(singleton) " + typeof(T).ToString();
+                                DontDestroyOnLoad(_instance.gameObject);
 
-                        DontDestroyOnLoad(singleton);
-
-                        Debug.Log("[Singleton] An instance of " + typeof(T) +
-                            " is needed in the scene, so '" + singleton +
-                            "' was created with DontDestroyOnLoad.");
-                    }
-                    else
-                    {
-                        Debug.Log("[Singleton] Using instance already created: " +
-                            _instance.gameObject.name);
+                                Debug.Log("[Singleton] An instance of " + typeof(T) +
+                                    " is needed in the scene, so '" + _instance.gameObject.name +
+                                    "' was created with DontDestroyOnLoad.");
+                            }
+                            else
+                            {
+                                Destroy(tempObject);
+                            }
+                        }
                     }
                 }
 
@@ -62,7 +70,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             }
         }
     }
-
     private static bool applicationIsQuitting = false;
     /// <summary>
     /// When Unity quits, it destroys objects in a random order.

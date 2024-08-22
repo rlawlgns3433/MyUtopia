@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Composites;
 using UnityEngine.UI;
 
-public class UiManager : Singleton<UiManager>
+public class UiManager : Singleton<UiManager>, ISingletonCreatable
 {
     public UiCurrencies uiCurrencies;
     public UiMain mainUi;
@@ -534,6 +534,11 @@ public class UiManager : Singleton<UiManager>
         if (tutorial.gameObject.activeSelf)
             return;
         catalougeImage.SetActive(value);
+    }
+
+    public bool ShouldBeCreatedInScene(string sceneName)
+    {
+        return sceneName == "SampleScene";
     }
 
     //public void SetFocusOut()

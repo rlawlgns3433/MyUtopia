@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : Singleton<SoundManager>
+public class SoundManager : Singleton<SoundManager>, ISingletonCreatable
 {
     public AudioSource bgmAudioSource;
     public AudioSource sfxAudioSource;
@@ -61,5 +61,8 @@ public class SoundManager : Singleton<SoundManager>
         sfxAudioSource.Play();
     }
 
-
+    public bool ShouldBeCreatedInScene(string sceneName)
+    {
+        return sceneName == "SampleScene";
+    }
 }

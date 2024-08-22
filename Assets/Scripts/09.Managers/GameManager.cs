@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : Singleton<GameManager>, ISingletonCreatable
 {
     private Dictionary<SceneIds, SceneController> sceneManagers = new Dictionary<SceneIds, SceneController>();
     //private Dictionary<SceneIds, UIManager> uiManagers = new Dictionary<SceneIds, UIManager>();
@@ -51,7 +51,6 @@ public class GameManager : Singleton<GameManager>
         await UniWaitTables();
         await UniTask.WaitUntil(() => UtilityTime.Seconds >= 0);
         await UniLoadWorldData();
-
         //FloorManager.Instance.CheckEntireFloorSynergy(); ½Ã³ÊÁö
     }
 
@@ -331,6 +330,11 @@ public class GameManager : Singleton<GameManager>
         SaveLoadSystem.Save(saveProductData, SaveLoadSystem.SaveType.Product);
 
 
+    }
+
+    public bool ShouldBeCreatedInScene(string sceneName)
+    {
+        return sceneName == "SampleScene";
     }
 }
 

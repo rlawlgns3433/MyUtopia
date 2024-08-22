@@ -34,11 +34,6 @@ public class UiMissionList : MonoBehaviour
         if (!missionsGenerated) // 미션이 아직 생성되지 않았을 때만 생성
         {
             LoadAndDisplayMissions();
-            checkPoints = MissionManager.Instance.dailyMissionCheck;
-            foreach(var m in checkPoints)
-            {
-                Debug.Log($"saveCheckPoints{m}");
-            }
             missionsGenerated = true;
         }
 
@@ -110,6 +105,7 @@ public class UiMissionList : MonoBehaviour
 
     private void CheckMissionPoint()
     {
+        checkPoints = MissionManager.Instance.dailyMissionCheck;
         if (checkPoints[0] && checkPoints[1] && checkPoints[2])
             return;
 

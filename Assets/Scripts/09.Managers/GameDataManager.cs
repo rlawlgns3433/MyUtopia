@@ -1,5 +1,5 @@
 
-public class GameDataManager : Singleton<GameDataManager>
-{
+//public class GameDataManager : Singleton<GameDataManager>
+//{
     
-}
+//}

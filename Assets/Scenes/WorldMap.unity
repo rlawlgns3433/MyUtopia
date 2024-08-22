@@ -206,8 +206,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CubeRotator, Assembly-CSharp
+      - m_Target: {fileID: 1655876424}
+        m_TargetAssemblyTypeName: WorldMapMoveTest, Assembly-CSharp
         m_MethodName: OpenWorld
         m_Mode: 1
         m_Arguments:
@@ -6412,6 +6412,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1655876424 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2157305805419046199, guid: e9384c36859579f40aae61c14bc64cb2, type: 3}
+  m_PrefabInstance: {fileID: 6354364646424400672}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce289c57cb2206c4291081fb9d0270e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1660295933
 GameObject:
   m_ObjectHideFlags: 0
@@ -7397,7 +7408,7 @@ PrefabInstance:
     - target: {fileID: 2157305805419046199, guid: e9384c36859579f40aae61c14bc64cb2, type: 3}
       propertyPath: titlePanel
       value: 
-      objectReference: {fileID: 1010208293}
+      objectReference: {fileID: 2096768784}
     - target: {fileID: 2197160939902955878, guid: e9384c36859579f40aae61c14bc64cb2, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0

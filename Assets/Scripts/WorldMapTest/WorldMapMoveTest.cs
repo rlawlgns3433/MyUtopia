@@ -146,9 +146,8 @@ public class WorldMapMoveTest : MonoBehaviour
     }
     public void OpenWorld()
     {
-        if(!isRotate)
-        {
-            SceneManager.LoadScene("StorageParticle");
-        }
+
+        SceneManager.LoadScene("SampleScene");
+        
     }
 }

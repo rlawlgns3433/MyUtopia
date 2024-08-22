@@ -16,7 +16,7 @@ public class TimeData
     public string FirstLogInDaily { get; set; }
 }
 
-public class UtilityTime : MonoBehaviour
+public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
 {
     private static string filePath = Path.Combine(Application.persistentDataPath, "TimeData.json");
     private static int seconds;
@@ -31,6 +31,8 @@ public class UtilityTime : MonoBehaviour
     private static TimeSpan serverTimeOffset;
     public static bool isLoadComplete = false;
     public static bool isFirstLoginToday { get; private set; }
+    private DateTime currentDate;
+
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void OnApplicationStart()
@@ -209,18 +211,34 @@ public class UtilityTime : MonoBehaviour
         }
     }
 
-    private void CheckMissionsAvailability()
+    public void CheckMissionsAvailability()
     {
-        DateTime currentDate = GetCurrentTime();
-
-        bool wasDailyReset = dailyMissionReset;
-        bool wasWeeklyReset = weeklyMissionReset;
-        bool wasMonthlyReset = monthlyMissionReset;
+        currentDate = GetCurrentTime();
 
         dailyMissionReset = previousTimeData.LastDaily == null || IsDateDifferent(currentDate, DateTime.Parse(previousTimeData.LastDaily), TimeSpan.FromDays(1));
         weeklyMissionReset = previousTimeData.LastWeekly == null || IsDateDifferent(currentDate, DateTime.Parse(previousTimeData.LastWeekly), TimeSpan.FromDays(7));
         monthlyMissionReset = previousTimeData.LastMonthly == null || IsDateDifferent(currentDate, DateTime.Parse(previousTimeData.LastMonthly), TimeSpan.FromDays(30));
 
+        
+        DateTime enterTime = DateTime.Parse(previousTimeData.EnterTime);
+        isFirstLoginToday = previousTimeData.FirstLogInDaily == null || enterTime.Date > DateTime.Parse(previousTimeData.FirstLogInDaily).Date;
+
+        if (isFirstLoginToday)
+        {
+            previousTimeData.FirstLogInDaily = enterTime.ToString("o");
+            Debug.Log("First login today.");
+        }
+        else
+        {
+            Debug.Log("Not first login today.");
+        }
+
+        isLoadComplete = true;
+        SaveTimeDataSync(previousTimeData);
+    }
+
+    public void SetMissionData()
+    {
         if (dailyMissionReset)
         {
             previousTimeData.LastDaily = currentDate.ToString("o");
@@ -253,27 +271,11 @@ public class UtilityTime : MonoBehaviour
         {
             Debug.Log("Monthly Not reset.");
         }
-        if(!dailyMissionReset && !weeklyMissionReset && !monthlyMissionReset)
+        if (!dailyMissionReset && !weeklyMissionReset && !monthlyMissionReset)
         {
             MissionManager.Instance.LoadGameData();
         }
-        DateTime enterTime = DateTime.Parse(previousTimeData.EnterTime);
-        isFirstLoginToday = previousTimeData.FirstLogInDaily == null || enterTime.Date > DateTime.Parse(previousTimeData.FirstLogInDaily).Date;
-
-        if (isFirstLoginToday)
-        {
-            previousTimeData.FirstLogInDaily = enterTime.ToString("o");
-            Debug.Log("First login today.");
-        }
-        else
-        {
-            Debug.Log("Not first login today.");
-        }
-
-        isLoadComplete = true;
-        SaveTimeDataSync(previousTimeData);
     }
-
 
     private bool IsDateDifferent(DateTime currentDate, DateTime lastDate, TimeSpan interval)
     {
@@ -281,5 +283,10 @@ public class UtilityTime : MonoBehaviour
         DateTime lastDateAtMidnight = lastDate.Date;
 
         return (currentDateAtMidnight - lastDateAtMidnight) >= interval;
+    }
+
+    public bool ShouldBeCreatedInScene(string sceneName)
+    {
+        return sceneName == "SampleScene" || sceneName == "WorldMap";
     }
 }
