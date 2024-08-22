@@ -74,12 +74,20 @@ public class UiRecipeSlot : MonoBehaviour
         if (storageProduct.IsFull)
         {
             Debug.Log("Ã¢°í°¡ °¡µæ Ã¡½À´Ï´Ù.");
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.FullStorage);
+            UiManager.Instance.ShowWarningPanelUi();
             return;
         }
 
-        if(storageProduct.Count + UiManager.Instance.craftTableUi.craftingBuilding.recipeStatList.Count + 1 >= storageProduct.BuildingStat.Effect_Value)
+        int count = storageProduct.Count + UiManager.Instance.craftTableUi.craftingBuilding.recipeStatList.Count;
+        if (UiManager.Instance.craftTableUi.uiCraftingSlot.recipeCurrentCrafting != null)
+            count++;
+
+        if (count >= storageProduct.BuildingStat.Effect_Value)
         {
             Debug.Log("¸®½ºÆ®°¡ °¡µæ Ã¡½À´Ï´Ù.");
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.FullList);
+            UiManager.Instance.ShowWarningPanelUi();
             return;
         }
 

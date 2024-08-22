@@ -130,13 +130,24 @@ public class UiCraftTable : MonoBehaviour
                 uiCraftingSlot.waitingSlots[i++].SetData(temp.Dequeue());
             }
         }
+        else if(craftingBuilding.CurrentRecipeStat != null)
+        {
+            uiCraftingSlot.recipeCurrentCrafting = craftingBuilding.CurrentRecipeStat;
+            uiCraftingSlot.imageCurrentCrafting.sprite = await uiCraftingSlot.recipeCurrentCrafting.RecipeData.GetProduct().GetImage();
+            uiCraftingSlot.SetData(uiCraftingSlot.recipeCurrentCrafting);
+        }
         else
         {
             craftingBuilding.CurrentRecipeStat = null;
             craftingBuilding.CancelCrafting();
             craftingBuilding.isCrafting = false;
         }
-
+        //else
+        //{
+        //    craftingBuilding.CurrentRecipeStat = null;
+        //    craftingBuilding.CancelCrafting();
+        //    craftingBuilding.isCrafting = false;
+        //}
     }
 
     public async void RefreshAfterCrafting()

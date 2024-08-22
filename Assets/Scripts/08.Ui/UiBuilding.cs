@@ -195,9 +195,18 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             return;
         }
 
+        if(building.BuildingStat.Level == building.BuildingStat.Level_Max)
+        {
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.MaxLevel);
+            UiManager.Instance.ShowWarningPanelUi();
+            return;
+        }
+
         if (!building.CheckCurrency())
         {
             clockFormatTimer.canStartTimer = false;
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.OutOfMoney);
+            UiManager.Instance.ShowWarningPanelUi();
             return;
         }
 

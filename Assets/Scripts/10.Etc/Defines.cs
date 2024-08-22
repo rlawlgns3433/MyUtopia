@@ -61,6 +61,7 @@ public static class StringTextFormatKr
     public static readonly string TutorialSkip = "정말 스킵하시겠습니까?";
     public static readonly string WorkLoad = "업무량";
     public static readonly string RecipeCount = "개";
+
 }
 public static class MissionTableFormat
 {
@@ -240,6 +241,7 @@ public enum UiPanels
     Catalogue,
     Storage,
     ConfirmPanel,
+    WarningPanel,
 }
 
 public enum SoundType
@@ -257,4 +259,28 @@ public enum SoundType
     PopUpClose,
     PopUpOpen,
     Selling
+}
+
+public static class WaringTexts
+{
+    public static readonly string[] warnings =
+    {
+        "재화가 부족합니다.",
+        "인구수가 가득 찼습니다. 더이상 동물을 추가할 수 없습니다.",
+        "최대 레벨입니다. 더이상 레벨업을 할 수 없습니다.",
+        "창고가 가득 찼습니다. 판매 후 재시도 하세요.",
+        "리스트가 가득 찼습니다. 판매 후 재시도 하세요.",
+        "동물 생성 중입니다.",
+    };
+}
+
+
+public enum WaringType
+{ 
+    OutOfMoney, // 재화가 부족합니다.
+    FullPopulation, // 인구수가 가득 찼습니다. 더이상 동물을 추가할 수 없습니다.
+    MaxLevel, // 최대 레벨입니다. 더이상 레벨업을 할 수 없습니다.
+    FullStorage, // 창고가 가득 찼습니다. 판매 후 재시도 하세요.
+    FullList, // 리스트가 가득 찼습니다. 판매 후 재시도 하세요.
+    CreatingAnimal, // 동물 생성 중입니다.
 }
