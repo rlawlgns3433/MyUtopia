@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 [Serializable]
 public struct CatalogueData
 {
@@ -42,6 +43,11 @@ public class CatalogueManager : Singleton<CatalogueManager>, ISingletonCreatable
     private bool isAddQuitEvent = false;
     private void Awake()
     {
+        if (!ShouldBeCreatedInScene(SceneManager.GetActiveScene().name))
+        {
+            Destroy(gameObject);
+            return;
+        }
         if (!isAddQuitEvent)
         {
             Application.quitting -= SaveCatalougeData;
@@ -68,7 +74,18 @@ public class CatalogueManager : Singleton<CatalogueManager>, ISingletonCreatable
             SaveCatalougeData();
         }
     }
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
 
+        if (applicationIsQuitting)
+            return;
+
+        if (!ShouldBeCreatedInScene(SceneManager.GetActiveScene().name))
+        {
+            _instance = null;
+        }
+    }
     private void LoadAnimal()
     {
         foreach (var animalData in animalTable.GetKeyValuePairs.Values)

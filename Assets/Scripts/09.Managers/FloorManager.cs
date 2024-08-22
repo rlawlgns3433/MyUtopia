@@ -7,6 +7,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
@@ -61,9 +62,25 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
     }
     private void Awake()
     {
+        if (!ShouldBeCreatedInScene(SceneManager.GetActiveScene().name))
+        {
+            Destroy(gameObject);
+            return;
+        }
         vc = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
     }
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
 
+        if (applicationIsQuitting)
+            return;
+
+        if (!ShouldBeCreatedInScene(SceneManager.GetActiveScene().name))
+        {
+            _instance = null;
+        }
+    }
     private void Start()
     {
         if (touchManager == null)
@@ -398,7 +415,10 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
             floors[$"B{CurrentFloorIndex}"].LevelUp();
         }
     }
-
+    public void MoveWorldScene()
+    {
+        SceneManager.LoadScene("WorldMap");
+    }
     public bool ShouldBeCreatedInScene(string sceneName)
     {
         return sceneName == "SampleScene";

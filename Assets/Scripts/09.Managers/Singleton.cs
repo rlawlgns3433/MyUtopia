@@ -13,64 +13,64 @@ public interface ISingletonCreatable
 /// </summary>
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour, ISingletonCreatable
 {
-    private static T _instance;
+    public static T _instance;
     private static object _lock = new object();
 
     public static T Instance
     {
         get
         {
-            if (applicationIsQuitting)
+            if (_instance == null)
             {
-                Debug.LogWarning("[Singleton] Instance '" + typeof(T) +
-                    "' already destroyed on application quit." +
-                    " Won't create again - returning null.");
-                return null;
-            }
-
-            lock (_lock)
-            {
-                if (_instance == null)
+                lock (_lock)
                 {
-                    var currentScene = SceneManager.GetActiveScene().name;
-
-                    // T가 ISceneDependentSingleton을 구현하고 있으며,
-                    // 현재 씬에서 생성이 허용되는 경우에만 인스턴스를 생성
-                    if (typeof(ISingletonCreatable).IsAssignableFrom(typeof(T)))
+                    if (_instance == null)
                     {
-                        var singletonInstance = (T)FindObjectOfType(typeof(T));
+                        var sceneName = SceneManager.GetActiveScene().name;
 
-                        if (singletonInstance != null)
+                        if (typeof(ISingletonCreatable).IsAssignableFrom(typeof(T)))
                         {
-                            _instance = singletonInstance;
-                        }
-                        else if (typeof(T).GetInterface(nameof(ISingletonCreatable)) != null)
-                        {
-                            var tempObject = new GameObject();
-                            var tempInstance = tempObject.AddComponent<T>();
-                            if (tempInstance.ShouldBeCreatedInScene(currentScene))
+                            var existingInstance = (T)FindObjectOfType(typeof(T));
+                            if (existingInstance != null)
                             {
-                                _instance = tempInstance;
-                                _instance.gameObject.name = "(singleton) " + typeof(T).ToString();
-                                DontDestroyOnLoad(_instance.gameObject);
-
-                                Debug.Log("[Singleton] An instance of " + typeof(T) +
-                                    " is needed in the scene, so '" + _instance.gameObject.name +
-                                    "' was created with DontDestroyOnLoad.");
+                                _instance = existingInstance;
                             }
                             else
                             {
-                                Destroy(tempObject);
+                                var tempObject = new GameObject();
+                                var tempInstance = tempObject.AddComponent<T>();
+
+                                if (tempInstance.ShouldBeCreatedInScene(sceneName))
+                                {
+                                    _instance = tempInstance;
+                                    DontDestroyOnLoad(_instance.gameObject);
+                                    Debug.Log("[Singleton] An instance of " + typeof(T) +
+                                        " is needed in the scene, so '" + _instance.gameObject.name +
+                                        "' was created with DontDestroyOnLoad.");
+                                }
+                                else
+                                {
+                                    Destroy(tempObject);
+                                }
                             }
                         }
                     }
                 }
-
-                return _instance;
             }
+            return _instance;
         }
     }
-    private static bool applicationIsQuitting = false;
+
+    public static void DestroySingleton()
+    {
+        if (_instance != null)
+        {
+            Destroy(_instance.gameObject);
+            _instance = null;
+            Debug.Log("[Singleton] Instance of " + typeof(T) + " destroyed.");
+        }
+    }
+    public static bool applicationIsQuitting = false;
     /// <summary>
     /// When Unity quits, it destroys objects in a random order.
     /// In principle, a Singleton is only destroyed when application quits.
@@ -79,7 +79,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour, ISingletonCre
     ///   even after stopping playing the Application. Really bad!
     /// So, this was made to be sure we're not creating that buggy ghost object.
     /// </summary>
-    public void OnDestroy()
+    public virtual void OnDestroy()
     {
         applicationIsQuitting = true;
     }

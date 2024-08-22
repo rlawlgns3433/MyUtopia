@@ -11,7 +11,10 @@ public class BuildingFloor : Floor
         base.Start();
         UniAutoWork(cts.Token).Forget();
     }
-
+    private void OnDestroy()
+    {
+        cts.Cancel();
+    }
     private async UniTask UniAutoWork(CancellationToken cts)
     {
         var storageConduct = this.storageConduct;

@@ -5,12 +5,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class WorldMapMoveTest : MonoBehaviour
 {
     public GameObject titlePanel;
     public GameObject infoPanel;
-    public float speed = 5f;
+    public float speed = 2f;
     public float offsetY = 1.5f;
     private Vector2 mouseDelta;
     private bool isDragging = false;
@@ -22,6 +23,7 @@ public class WorldMapMoveTest : MonoBehaviour
     private Vector3 defaultCameraPosition;
     public TextMeshProUGUI worldName;
     private bool isRotate = false;
+    public Button moveWorldButton;
     private void Awake()
     {
         worldMapMove = new WorldMapMove();
@@ -72,11 +74,11 @@ public class WorldMapMoveTest : MonoBehaviour
         }
     }
 
-    private void SetWorldInfo()
-    {
-        //worldName.text = DataTableMgr.GetWorldTable().Get(int.Parse("101")).GetWorldName();
-        //그외 정보들 출력
-    }
+    //private void SetWorldInfo()
+    //{
+    //    //worldName.text = DataTableMgr.GetWorldTable().Get(int.Parse("101")).GetWorldName();
+    //    //그외 정보들 출력
+    //}
 
     private void OnDragStarted(InputAction.CallbackContext context)
     {
@@ -98,10 +100,17 @@ public class WorldMapMoveTest : MonoBehaviour
         if (isDragging)
         {
             mouseDelta = context.ReadValue<Vector2>();
-            float angleX = mouseDelta.y * speed * Time.deltaTime;
-            float angleY = -mouseDelta.x * speed * Time.deltaTime;
-            transform.Rotate(Vector3.up, angleY, Space.Self);
-            transform.Rotate(Vector3.right, angleX, Space.Self);
+            bool rotateAroundY = Mathf.Abs(mouseDelta.x) > Mathf.Abs(mouseDelta.y);
+            if (rotateAroundY)
+            {
+                float angleY = -mouseDelta.x * speed * Time.deltaTime;
+                transform.Rotate(Vector3.up, angleY, Space.World);
+            }
+            else
+            {
+                float angleX = mouseDelta.y * speed * Time.deltaTime;
+                transform.Rotate(Vector3.right, angleX, Space.World);
+            }
         }
     }
 
@@ -133,6 +142,16 @@ public class WorldMapMoveTest : MonoBehaviour
             if (hit.collider.CompareTag("Worlds"))
             {
                 Debug.Log("Worlds Name: " + hit.collider.gameObject.name);
+                if(hit.collider.gameObject.name == "1_Land of Hope")
+                {
+                    worldName.text = "희망의 땅";
+                    moveWorldButton.interactable = true;
+                }
+                else
+                {
+                    worldName.text = "Coming Soon...";
+                    moveWorldButton.interactable = false;
+                }
             }
             else
             {

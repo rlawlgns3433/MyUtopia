@@ -3,16 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>, ISingletonCreatable
 {
     private Dictionary<SceneIds, SceneController> sceneManagers = new Dictionary<SceneIds, SceneController>();
-    //private Dictionary<SceneIds, UIManager> uiManagers = new Dictionary<SceneIds, UIManager>();
     private AnimalManager animalManager;
     private SceneIds currentSceneId;
+
     public SceneIds CurrentSceneId
     {
         get
@@ -22,7 +21,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         set
         {
             currentSceneId = value;
-            //GetUIManager(currentSceneId).InitializeUI();
             GetSceneController(currentSceneId);
         }
     }
@@ -31,6 +29,12 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
 
     private void Awake()
     {
+        if (!ShouldBeCreatedInScene(SceneManager.GetActiveScene().name))
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Application.quitting += SetPlayerData;
         CurrencyManager.Init();
         CurrentSceneId = SceneIds.WorldLandOfHope;
@@ -46,19 +50,15 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
 
     private async void Start()
     {
-        //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
-        //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
         await UniWaitTables();
         await UniTask.WaitUntil(() => UtilityTime.Seconds >= 0);
         await UniLoadWorldData();
-        //FloorManager.Instance.CheckEntireFloorSynergy(); 시너지
     }
 
     public async UniTask UniLoadWorldData()
     {
         SaveDataV1 saveWorldData = SaveLoadSystem.Load() as SaveDataV1;
 
-        // 데이터대로 동물, 건물, 가구 생성
         if (saveWorldData != null)
         {
             for (int i = 0; i < saveWorldData.floors.Count; ++i)
@@ -75,7 +75,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                 {
                     storageConduct = (floor as BuildingFloor).storageConduct;
                 }
-                 
+
                 foreach (var animal in animals)
                 {
                     var pos = floor.transform.position;
@@ -94,11 +94,11 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                             animal.animalStat.Stamina = 0;
                         }
                     }
-                    if(animal.animalStat.Stamina > 0)
+                    if (animal.animalStat.Stamina > 0)
                     {
                         GetAnimalManager().Create(pos, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
                     }
-                    else if(animal.animalStat.Stamina <= 0)
+                    else if (animal.animalStat.Stamina <= 0)
                     {
                         var moveFloor = FloorManager.Instance.GetFloor("B2");
                         GetAnimalManager().Create(pos, moveFloor, animal.animalStat.Animal_ID, 0, animal.animalStat);
@@ -126,7 +126,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         }
         else
         {
-            // 첫 접속일 때 Unlock된 건물 Unlock
             var floors = FloorManager.Instance.floors;
 
             foreach (var floor in floors.Values)
@@ -179,7 +178,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         if (!sceneManagers.ContainsKey(sceneName))
         {
             sceneManagers[sceneName] = sceneManager;
-            //uiManagers[sceneName] = new UIManager();
         }
     }
 
@@ -191,15 +189,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         }
         return null;
     }
-
-    //public UIManager GetUIManager(SceneIds sceneName)
-    //{
-    //    if (uiManagers.ContainsKey(sceneName))
-    //    {
-    //        return uiManagers[sceneName];
-    //    }
-    //    return null;
-    //}
 
     private void LoadSceneAsync(int sceneIndex)
     {
@@ -237,11 +226,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
             await UniTask.Yield();
         }
 
-        //while (!DataTableMgr.GetFurnitureTable().IsLoaded)
-        //{
-        //    await UniTask.Yield();
-        //}
-
         while (!DataTableMgr.GetItemTable().IsLoaded)
         {
             await UniTask.Yield();
@@ -256,11 +240,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         {
             await UniTask.Yield();
         }
-
-        //while (!DataTableMgr.GetWorldTable().IsLoaded)
-        //{
-        //    await UniTask.Yield();
-        //}        
 
         while (!DataTableMgr.GetSynergyTable().IsLoaded)
         {
@@ -305,7 +284,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                 saveData.floors[saveData.floors.Count - 1].furnitureSaveDatas.Add(new FurnitureSaveData(floor.storage.BuildingStat)); // 창고
         }
 
-
         SaveLoadSystem.Save(saveData);
 
         for (int i = 0; i < CurrencyManager.currencyTypes.Length; ++i)
@@ -313,8 +291,8 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
             saveCurrencyData.currencySaveData.Add(new CurrencySaveData(CurrencyManager.currencyTypes[i], CurrencyManager.currency[CurrencyManager.currencyTypes[i]]));
         }
 
-        SaveLoadSystem.Save(saveCurrencyData, SaveLoadSystem.SaveType.Currency);        
-        
+        SaveLoadSystem.Save(saveCurrencyData, SaveLoadSystem.SaveType.Currency);
+
         for (int i = 0; i < CurrencyManager.productTypes.Length; ++i)
         {
             saveCurrencyProductData.currencySaveData.Add(new CurrencyProductSaveData(CurrencyManager.productTypes[i], CurrencyManager.product[CurrencyManager.productTypes[i]]));
@@ -328,16 +306,26 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
             saveProductData.productSaveData.Add(new ProductSaveData(storageProduct.products.ElementAt(i).Key, storageProduct.products.ElementAt(i).Value));
         }
         SaveLoadSystem.Save(saveProductData, SaveLoadSystem.SaveType.Product);
-
-
     }
 
     public bool ShouldBeCreatedInScene(string sceneName)
     {
         return sceneName == "SampleScene";
     }
-}
 
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        if (applicationIsQuitting)
+            return;
+
+        if (!ShouldBeCreatedInScene(SceneManager.GetActiveScene().name))
+        {
+            _instance = null;
+        }
+    }
+}
 
 public class WorldSelectManager : SceneController
 {

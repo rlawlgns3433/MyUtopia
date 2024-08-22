@@ -52,6 +52,11 @@ public class FloorClick : MonoBehaviour, IClickable, IPointerClickHandler
 
     public void RegisterClickable()
     {
+        if (UiManager.Instance == null)
+        {
+            Debug.LogWarning("UiManager.Instance is null, cannot register clickable.");
+            return;
+        }
         ClickableManager.AddClickable(this, UnFollow, UiManager.Instance.ShowMainUi);
     }
 

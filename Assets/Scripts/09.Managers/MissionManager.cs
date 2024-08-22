@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 [Serializable]
@@ -58,6 +59,11 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
 
     private async void Awake()
     {
+        if (!ShouldBeCreatedInScene(SceneManager.GetActiveScene().name))
+        {
+            Destroy(gameObject);
+            return;
+        }
         await GameManager.Instance.UniWaitTables();
         missionTable = DataTableMgr.GetMissionTable();
         missionData = new List<MissionData>(missionTable.GetAllMissions());
@@ -70,7 +76,18 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
             isAddQuitEvent = true;
         }
     }
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
 
+        if (applicationIsQuitting)
+            return;
+
+        if (!ShouldBeCreatedInScene(SceneManager.GetActiveScene().name))
+        {
+            _instance = null;
+        }
+    }
     private void OnApplicationPause(bool pause)
     {
         if(pause)
@@ -138,6 +155,9 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
     }
     public void AddMissionCount(int missionId, int count)
     {
+        if (FloorManager.Instance.touchManager.tutorial.gameObject.activeSelf)
+            return;
+        
         if (!missionProgress.ContainsKey(missionId))
         {
             missionProgress[missionId] = new MissionSaveData
