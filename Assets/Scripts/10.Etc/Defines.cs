@@ -217,8 +217,8 @@ public enum TutorialProgress
     CloseAnimalList = 67,
     FloorInfo = 70,
     BuildingLevelUp = 74,
-    CompleteLevelUp = 77,
-    Clear = 80,
+    CompleteLevelUp = 76,
+    Clear = 79,
 }
 
 public enum UiPanels
