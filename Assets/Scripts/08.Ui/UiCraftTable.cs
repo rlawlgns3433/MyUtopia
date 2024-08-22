@@ -142,12 +142,6 @@ public class UiCraftTable : MonoBehaviour
             craftingBuilding.CancelCrafting();
             craftingBuilding.isCrafting = false;
         }
-        //else
-        //{
-        //    craftingBuilding.CurrentRecipeStat = null;
-        //    craftingBuilding.CancelCrafting();
-        //    craftingBuilding.isCrafting = false;
-        //}
     }
 
     public async void RefreshAfterCrafting()

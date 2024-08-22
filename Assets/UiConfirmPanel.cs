@@ -33,7 +33,9 @@ public class UiConfirmPanel : MonoBehaviour
         else
         {
             // °æ°í UI
-
+            UiManager.Instance.ShowWarningPanelUi();
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.OutOfMoney);
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
         }
         UiManager.Instance.ShowMainUi();
     }

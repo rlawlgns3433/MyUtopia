@@ -25,7 +25,7 @@ public class BuildingFloor : Floor
                 //if (animal.animalStat.Stamina <= 0)
                 //    autoWorkload += new BigNumber(animal.animalStat.Workload) / 2;
                 //else
-                    autoWorkload += new BigNumber(animal.animalStat.Workload);
+                autoWorkload += new BigNumber(animal.animalStat.Workload);
             }
 
             // 시너지를 통해 업무량 증가 여부
@@ -91,15 +91,18 @@ public class BuildingFloor : Floor
 
                                 CurrencyManager.product[(CurrencyProductType)b.BuildingStat.Materials_Type] -= c * b.BuildingStat.Conversion_rate; // 뺀 후의 값
 
-                                if(temp < CurrencyManager.product[(CurrencyProductType)b.BuildingStat.Materials_Type])
+                                if (temp < CurrencyManager.product[(CurrencyProductType)b.BuildingStat.Materials_Type])
                                 {
                                     CurrencyManager.product[(CurrencyProductType)b.BuildingStat.Materials_Type] = temp;
 
                                     b.accumWorkLoad = BigNumber.Zero;
-
                                     break;
                                 }
 
+                                var pos = b.transform.position;
+                                pos.y += 1;
+
+                                DynamicTextManager.CreateText(pos, c.ToString(), DynamicTextManager.autoWorkData, 2, 0.5f);
                                 CurrencyManager.product[b.buildingType] += c;
                                 //b.accumWorkLoad -= c * b.BuildingStat.Work_Require; 기존
                                 b.accumWorkLoad = BigNumber.Zero;

@@ -40,6 +40,7 @@ public class UiInvitation : MonoBehaviour
         {
             UiManager.Instance.warningPanelUi.SetWaring(WaringType.OutOfMoney);
             UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
         }
 
@@ -48,6 +49,7 @@ public class UiInvitation : MonoBehaviour
         {
             UiManager.Instance.warningPanelUi.SetWaring(WaringType.FullPopulation);
             UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
         }
 
@@ -66,12 +68,14 @@ public class UiInvitation : MonoBehaviour
         {
             UiManager.Instance.warningPanelUi.SetWaring(WaringType.CreatingAnimal);
             UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
         }
         if (currentCount >= maximumCount)
         {
             UiManager.Instance.warningPanelUi.SetWaring(WaringType.FullPopulation);
             UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
         }
 

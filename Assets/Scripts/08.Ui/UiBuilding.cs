@@ -195,10 +195,21 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             return;
         }
 
-        if(building.BuildingStat.Level == building.BuildingStat.Level_Max)
+        //if(building.BuildingStat.Level == building.BuildingStat.Level_Max)
+        //{
+        //    UiManager.Instance.warningPanelUi.SetWaring(WaringType.MaxLevel);
+        //    UiManager.Instance.ShowWarningPanelUi();
+        //    SoundManager.Instance.OnClickButton(SoundType.Caution);
+
+        //    return;
+        //}
+
+        if(!CheckUpgradeCondition())
         {
             UiManager.Instance.warningPanelUi.SetWaring(WaringType.MaxLevel);
             UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
+
             return;
         }
 
@@ -207,6 +218,7 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             clockFormatTimer.canStartTimer = false;
             UiManager.Instance.warningPanelUi.SetWaring(WaringType.OutOfMoney);
             UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
         }
 
@@ -232,6 +244,18 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         // 타이머 설정 이후 다이아 이미지와 함께 추가 필요
 
         SetDia();
+    }
+    public bool CheckUpgradeCondition()
+    {
+        var floor = FloorManager.Instance.floors[$"B{building.BuildingStat.Floor_Type}"];
+
+        if (floor == null)
+            return false;
+
+        if (building.BuildingStat.Level < floor.FloorStat.Grade_Level_Max)
+            return true;
+
+        return false;
     }
 
     // 1. 필요 다이아 개수 계산

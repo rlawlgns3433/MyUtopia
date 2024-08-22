@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using TMPro;
-using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -219,6 +217,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         {
             UiManager.Instance.warningPanelUi.SetWaring(WaringType.MaxLevel);
             UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
         }
 
@@ -226,6 +225,9 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         if (!CheckUpgradeCondition())
         {
             // 모든 건물이 레벨을 충족하지 못함
+            UiManager.Instance.ShowWarningPanelUi();
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.FloorUpgrade);
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
         }
 
@@ -233,6 +235,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         {
             UiManager.Instance.warningPanelUi.SetWaring(WaringType.OutOfMoney);
             UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
         }
 
