@@ -35,6 +35,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         if (!IsUpgrading)
             return;
         clockFormatTimer.canStartTimer = true;
+        imageDia.gameObject.SetActive(true);
         imageTextTimer.gameObject.SetActive(true);
         clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft/* - Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - floor.FloorStat.UpgradeStartTime)*/);
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 public class UiCraftTable : MonoBehaviour
@@ -131,6 +130,13 @@ public class UiCraftTable : MonoBehaviour
                 uiCraftingSlot.waitingSlots[i++].SetData(temp.Dequeue());
             }
         }
+        else
+        {
+            craftingBuilding.CurrentRecipeStat = null;
+            craftingBuilding.CancelCrafting();
+            craftingBuilding.isCrafting = false;
+        }
+
     }
 
     public async void RefreshAfterCrafting()

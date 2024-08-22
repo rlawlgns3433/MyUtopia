@@ -111,7 +111,6 @@ public class UiCraftingSlot : Observer
                 building.CurrentRecipeStat = null;
                 building.CancelCrafting();
                 building.isCrafting = false; // ¡¶¿€ ≥°
-                
             }
             if(FloorManager.Instance.touchManager.tutorial != null)
             {

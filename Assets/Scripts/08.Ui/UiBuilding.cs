@@ -120,6 +120,8 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             var value = building.BuildingStat.Level_Up_Coin_Value.ToBigNumber();
             if (currency != null)
                 currency.SetCurrency(sprite, value);
+            else
+                Destroy(currency.gameObject);
         }
 
         if (building.BuildingStat.Level_Up_Resource_1 != 0)
@@ -130,6 +132,8 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             var value = building.BuildingStat.Resource_1_Value.ToBigNumber();
             if (currency != null)
                 currency.SetCurrency(sprite, value);
+            else
+                Destroy(currency.gameObject);
         }
 
         if (building.BuildingStat.Level_Up_Resource_2 != 0)
@@ -140,6 +144,8 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             var value = building.BuildingStat.Resource_2_Value.ToBigNumber();
             if (currency != null)
                 currency.SetCurrency(sprite, value);
+            else
+                Destroy(currency.gameObject);
         }
 
         if (building.BuildingStat.Level_Up_Resource_3 != 0)
@@ -150,6 +156,8 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             var value = building.BuildingStat.Resource_3_Value.ToBigNumber();
             if (currency != null)
                 currency.SetCurrency(sprite, value);
+            else
+                Destroy(currency.gameObject);
         }
 
         if (building.BuildingStat.Level == building.BuildingStat.Level_Max)
