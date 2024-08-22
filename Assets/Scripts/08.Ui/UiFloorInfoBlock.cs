@@ -11,7 +11,9 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
     private static readonly string lvFormat = "Lv.{0} / Lv.{1}";
     public List<Image> imageProductions = new List<Image>();
     public TextMeshProUGUI textLevel;
-    public TextMeshProUGUI textMax;
+    public Image imageTextMax;
+    public Image imageTextTimer;
+    public Image imageDia;
     public TextMeshProUGUI textFloorDesc;
     public UiUpgradeCurrency uiUpgradeCurrency;
     public List<UiUpgradeCurrency> uiUpgradeCurrencies = new List<UiUpgradeCurrency>();
@@ -33,34 +35,33 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         if (!IsUpgrading)
             return;
         clockFormatTimer.canStartTimer = true;
-        clockFormatTimer.timerText.gameObject.SetActive(true);
-        clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft - Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - floor.FloorStat.UpgradeStartTime));
+        imageTextTimer.gameObject.SetActive(true);
+        clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft/* - Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - floor.FloorStat.UpgradeStartTime)*/);
 
         foreach (var currency in uiUpgradeCurrencies)
         {
             Destroy(currency.gameObject);
         }
         uiUpgradeCurrencies.Clear();
-        textMax.gameObject.SetActive(false);
+        imageTextMax.gameObject.SetActive(false);
         clockFormatTimer.StartClockTimer();
     }
 
     public void FinishUpgrade()
     {
-        clockFormatTimer.timerText.gameObject.SetActive(false);
+        SetDia();
+
+        imageTextTimer.gameObject.SetActive(false);
+        imageDia.gameObject.SetActive(false);
     }
 
     public void LevelUp()
     {
-        //foreach (var floor in FloorManager.Instance.floors.Values)
-        //{
-            if (floor.FloorStat.IsUpgrading)
-            {
-                floor.LevelUp();
-                //this.floor = floor;
-                return;
-            }
-        //}
+        if (floor.FloorStat.IsUpgrading)
+        {
+            floor.LevelUp();
+            return;
+        }
     }
 
     public bool Set(Floor floor)
@@ -94,9 +95,12 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         {
             floor.FloorStat.UpgradeTimeLeft = floor.FloorStat.Level_Up_Time - Mathf.CeilToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - UpgradeStartTime);
             clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft);
-            clockFormatTimer.timerText.gameObject.SetActive(true);
+            imageTextTimer.gameObject.SetActive(true);
             textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
             textFloorDesc.text = DataTableMgr.GetStringTable().Get(floor.FloorStat.FloorData.Floor_Desc);
+
+            SetDia();
+            imageDia.gameObject.SetActive(true);
 
             if (floor.FloorStat.UpgradeTimeLeft <= 0)
             {
@@ -105,7 +109,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
                 FinishUpgrade();
 
                 clockFormatTimer.canStartTimer = true;
-                clockFormatTimer.timerText.gameObject.SetActive(false);
+                imageTextTimer.gameObject.SetActive(false);
                 IsUpgrading = false;
             }
 
@@ -129,6 +133,12 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
         textFloorDesc.text = DataTableMgr.GetStringTable().Get(floor.FloorStat.FloorData.Floor_Desc);
 
+        if (IsUpgrading)
+        {
+            SetDia();
+            return;
+        }
+
         for (int i = 0; i < floor.buildings.Count; i++)
         {
             var building = floor.buildings[i];
@@ -138,7 +148,6 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             imageProductions[i].sprite = await building.BuildingStat.BuildingData.GetProfile();
             imageProductions[i].type = Image.Type.Sliced;
         }
-
 
         if (floor.FloorStat.Level_Up_Coin_Value != "0")
         {
@@ -179,10 +188,10 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         if (floor.FloorStat.Grade == floor.FloorStat.Grade_Max)
         {
-            textMax.gameObject.SetActive(true);
+            imageTextMax.gameObject.SetActive(true);
             return;
         }
-        textMax.gameObject.SetActive(false);
+        imageTextMax.gameObject.SetActive(false);
 
         //textDescription.text = 건물 설명
     }
@@ -193,6 +202,14 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         if (floor.FloorStat.IsUpgrading)
         {
+            // Todo
+            // 클릭 시 다이아 소모하면서 시간 단축
+            // 1. 필요 다이아 개수 계산
+            // 2. 필요 다이아를 소모할 것인지 확인
+            // 3. 필요 다이아를 소모해서 시간 단축과 함께 업그레이드 완료
+            SetDia();
+            UiManager.Instance.ShowConfirmPanelUi();
+            UiManager.Instance.confirmPanelUi.SetText(CalculateDiamond(), this);
             return;
         }
 
@@ -215,7 +232,8 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         floor.SpendCurrency();
 
-        clockFormatTimer.timerText.gameObject.SetActive(true);
+        imageTextTimer.gameObject.SetActive(true);
+        imageDia.gameObject.SetActive(true);
 
         clockFormatTimer.SetTimer(floor.FloorStat.Level_Up_Time);
 
@@ -224,6 +242,10 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             Destroy(currency.gameObject);
         }
         uiUpgradeCurrencies.Clear();
+
+        // Todo
+        // 타이머 설정 이후 다이아 이미지와 함께 추가 필요
+        SetDia();
     }
 
     public bool CheckUpgradeCondition()
@@ -243,5 +265,20 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         }
 
         return true;
+    }
+
+    public BigNumber CalculateDiamond()
+    {
+        if (floor.FloorStat.UpgradeTimeLeft <= 0)
+            return new BigNumber(Mathf.CeilToInt(clockFormatTimer.timerDuration / 30));
+
+        return new BigNumber(Mathf.CeilToInt(floor.FloorStat.UpgradeTimeLeft / 30));
+
+    }
+
+    public void SetDia()
+    {
+        var diamondReCalc = CalculateDiamond();
+        imageDia.GetComponentInChildren<UiUpgradeCurrency>().SetCurrency(diamondReCalc);
     }
 }

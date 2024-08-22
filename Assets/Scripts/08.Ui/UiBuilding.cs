@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,7 +11,9 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
     public Image buildingProfile;
     public TextMeshProUGUI textBuildingName;
     public TextMeshProUGUI textDescription;
-    public TextMeshProUGUI textMax;
+    public Image imageTextMax;
+    public Image imageTextTimer;
+    public Image imageDia;
     public Button buttonLevelUp;
     public Building building;
     public List<UiUpgradeCurrency> uiUpgradeCurrencies = new List<UiUpgradeCurrency>();
@@ -22,8 +25,11 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
 
     public void FinishUpgrade()
     {
-        clockFormatTimer.timerText.gameObject.SetActive(false);
-        if(FloorManager.Instance.touchManager.tutorial != null)
+        SetDia();
+
+        imageTextTimer.gameObject.SetActive(false);
+        imageDia.gameObject.SetActive(false);
+        if (FloorManager.Instance.touchManager.tutorial != null)
         {
             if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CompleteLevelUp)
             {
@@ -47,10 +53,10 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
 
         var uiFloorInformation = UiManager.Instance.floorInformationUi;
 
-        if(uiFloorInformation == null)
+        if (uiFloorInformation == null)
             return false;
 
-        foreach(var uiBuilding in uiFloorInformation.uiBuildings)
+        foreach (var uiBuilding in uiFloorInformation.uiBuildings)
         {
             if (uiBuilding.building.BuildingStat.BuildingData.GetName().Equals(building.BuildingStat.BuildingData.GetName()))
                 return false;
@@ -64,9 +70,12 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         buttonLevelUp.onClick.RemoveAllListeners();
         buttonLevelUp.onClick.AddListener(SetStartUi);
         buttonLevelUp.onClick.AddListener(clockFormatTimer.StartClockTimer);
-        if(IsUpgrading)
+        buttonLevelUp.onClick.AddListener(SetDia);
+        if (IsUpgrading)
         {
-            clockFormatTimer.timerText.gameObject.SetActive(true);
+            SetDia();
+            imageTextTimer.gameObject.SetActive(true);
+            imageDia.gameObject.SetActive(true);
         }
         else
         {
@@ -86,6 +95,17 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         buildingProfile.type = Image.Type.Sliced;
         buildingProfile.preserveAspect = true;
 
+        if (IsUpgrading)
+        {
+            SetDia();
+            return;
+        }
+        else
+        {
+            imageTextTimer.gameObject.SetActive(false);
+            imageDia.gameObject.SetActive(false);
+        }
+
         foreach (var currency in uiUpgradeCurrencies)
         {
             Destroy(currency.gameObject);
@@ -98,7 +118,7 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             uiUpgradeCurrencies.Add(currency);
             var sprite = await DataTableMgr.GetResourceTable().Get((int)CurrencyType.Coin).GetImage();
             var value = building.BuildingStat.Level_Up_Coin_Value.ToBigNumber();
-            if(currency != null)
+            if (currency != null)
                 currency.SetCurrency(sprite, value);
         }
 
@@ -134,18 +154,15 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
 
         if (building.BuildingStat.Level == building.BuildingStat.Level_Max)
         {
-            textMax.gameObject.SetActive(true);
+            imageTextMax.gameObject.SetActive(true);
             buttonLevelUp.interactable = false;
             return;
         }
         else
         {
-            textMax.gameObject.SetActive(false);
+            imageTextMax.gameObject.SetActive(false);
             buttonLevelUp.interactable = true;
         }
-
-        //uiBuildingInfo.buildingProfile.sprite = building.BuildingData.GetProfile();
-        //textDescription.text = 건물 설명
     }
 
     public void SetStartUi()
@@ -156,10 +173,17 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         }
         uiUpgradeCurrencies.Clear();
 
-
         if (building.IsUpgrading)
         {
             clockFormatTimer.canStartTimer = false;
+            // Todo
+            // 클릭 시 다이아 소모하면서 시간 단축
+            // 1. 필요 다이아 개수 계산
+            // 2. 필요 다이아를 소모할 것인지 확인
+            // 3. 필요 다이아를 소모해서 시간 단축과 함께 업그레이드 완료
+            SetDia();
+            UiManager.Instance.ShowConfirmPanelUi();
+            UiManager.Instance.confirmPanelUi.SetText(CalculateDiamond(), this);
             return;
         }
 
@@ -168,14 +192,15 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             clockFormatTimer.canStartTimer = false;
             return;
         }
-        
+
         SoundManager.Instance.OnClickButton(SoundType.LevelUpBuilding);
 
         clockFormatTimer.canStartTimer = true;
         IsUpgrading = true;
         building.SpendCurrency();
 
-        clockFormatTimer.timerText.gameObject.SetActive(true);
+        imageTextTimer.gameObject.SetActive(true);
+        imageDia.gameObject.SetActive(true);
 
         clockFormatTimer.SetTimer(building.BuildingStat.Level_Up_Time);
 
@@ -185,5 +210,28 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         }
 
         uiUpgradeCurrencies.Clear();
+
+        // Todo
+        // 타이머 설정 이후 다이아 이미지와 함께 추가 필요
+
+        SetDia();
+    }
+
+    // 1. 필요 다이아 개수 계산
+    public BigNumber CalculateDiamond()
+    {
+        if (clockFormatTimer.remainingTime <= 0)
+        {
+            UniTask.WaitForSeconds(0.02f);
+            return new BigNumber(Mathf.CeilToInt(clockFormatTimer.timerDuration / 30));
+        }
+
+        return new BigNumber(Mathf.CeilToInt(clockFormatTimer.remainingTime / 30));
+    }
+
+    public void SetDia()
+    {
+        var diamondReCalc = CalculateDiamond();
+        imageDia.GetComponentInChildren<UiUpgradeCurrency>().SetCurrency(diamondReCalc);
     }
 }

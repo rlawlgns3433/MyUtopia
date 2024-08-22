@@ -239,6 +239,7 @@ public enum UiPanels
     PatronBoard,
     Catalogue,
     Storage,
+    ConfirmPanel,
 }
 
 public enum SoundType
