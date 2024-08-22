@@ -74,12 +74,22 @@ public class UiRecipeSlot : MonoBehaviour
         if (storageProduct.IsFull)
         {
             Debug.Log("창고가 가득 찼습니다.");
+            UiManager.Instance.ShowWarningPanelUi();
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.FullStorage);
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
         }
 
-        if(storageProduct.Count + UiManager.Instance.craftTableUi.craftingBuilding.recipeStatList.Count + 1 >= storageProduct.BuildingStat.Effect_Value)
+        int count = storageProduct.Count + UiManager.Instance.craftTableUi.craftingBuilding.recipeStatList.Count;
+        if (UiManager.Instance.craftTableUi.uiCraftingSlot.recipeCurrentCrafting != null)
+            count++;
+
+        if (count >= storageProduct.BuildingStat.Effect_Value)
         {
             Debug.Log("리스트가 가득 찼습니다.");
+            UiManager.Instance.ShowWarningPanelUi();
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.FullList);
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
         }
 
@@ -90,7 +100,12 @@ public class UiRecipeSlot : MonoBehaviour
          */
         // 재화가 충분하다면 실행
         if (!CheckResource())
+        {
+            UiManager.Instance.ShowWarningPanelUi();
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.OutOfMoney);
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
+        }
 
         if (recipeStat.Resource_1 != 0)
         {

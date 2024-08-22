@@ -37,11 +37,21 @@ public class UiInvitation : MonoBehaviour
     public void OnClickConfirm()
     {
         if (CurrencyManager.currency[(CurrencyType)invitationData.Level_Up_Coin_ID] < invitationData.Level_Up_Coin_Value)
+        {
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.OutOfMoney);
+            UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
+        }
 
         var floor = FloorManager.Instance.GetCurrentFloor();
         if (floor.FloorStat.Max_Population <= floor.animals.Count)
+        {
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.FullPopulation);
+            UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
+        }
 
         int maximumCount = floorStat.Max_Population;
         int currentCount = 0;
@@ -55,9 +65,19 @@ public class UiInvitation : MonoBehaviour
             }
         }
         if (FloorManager.Instance.IsCreating)
+        {
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.CreatingAnimal);
+            UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
+        }
         if (currentCount >= maximumCount)
+        {
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.FullPopulation);
+            UiManager.Instance.ShowWarningPanelUi();
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
             return;
+        }
 
         SoundManager.Instance.OnClickButton(SoundType.GetAnimal);
         float totalRate = invitationData.Get_Animal1_Rate + invitationData.Get_Animal2_Rate + invitationData.Get_Animal3_Rate + invitationData.Get_Animal4_Rate + invitationData.Get_Animal5_Rate + invitationData.Get_Animal6_Rate;

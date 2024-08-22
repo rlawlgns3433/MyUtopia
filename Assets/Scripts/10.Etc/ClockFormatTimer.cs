@@ -7,13 +7,13 @@ public class ClockFormatTimer : MonoBehaviour
 {
     //private static readonly string formatTimer = "전체 갱신까지 {0:00}:{1:00}:{2:00}";
     private static readonly string formatTimer = "{0:00}:{1:00}:{2:00}";
-    private int timerDuration = 3600; 
+    public int timerDuration = 3600; 
 
     public TextMeshProUGUI timerText;
     public bool canStartTimer;
     public TimeSpan timespan;
-    private Tween timerTween;
-    private float remainingTime;
+    public Tween timerTween;
+    public float remainingTime;
     private float startTime;
 
     public void StartClockTimer()

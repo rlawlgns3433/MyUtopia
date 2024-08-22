@@ -33,6 +33,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
     public GameObject panelBlock;
     public GameObject catalougeImage;
     public Tutorial tutorial;
+    public UiConfirmPanel confirmPanelUi;
+    public UiWarningPanel warningPanelUi;
     private List<DTUiPanel> uiTweens = new List<DTUiPanel>();
     //public UiFocusOut focusOutUi;
 
@@ -53,6 +55,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         uiTweens.Add(storageUi.GetComponent<DTUiPanel>());
         uiTweens.Add(uiCatalogue.GetComponent<DTUiPanel>());
         uiTweens.Add(currencyProductInventoryUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(confirmPanelUi.GetComponent<DTUiPanel>());
+        uiTweens.Add(warningPanelUi.GetComponent<DTUiPanel>());
          // 꺼진 오브젝트에 대해서 찾아와야함
     }
     private void Start()
@@ -115,6 +119,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         currencyProductInventoryUi.gameObject.SetActive(false);
         panel.gameObject.SetActive(false);
         uiCatalogue.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
     }
 
     public void ShowStorageUi()
@@ -135,6 +141,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         currencyProductInventoryUi.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
     }
 
     public void ShowMainUi()
@@ -142,7 +150,7 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
 
         foreach (var tween in uiTweens)
         {
-            if (tween.IsActive && !(tween.panel == UiPanels.Main || tween.panel == UiPanels.Currencies))
+            if (tween.IsActive && !(tween.panel == UiPanels.Main || tween.panel == UiPanels.Currencies || tween.panel == UiPanels.WarningPanel))
             {
                 tween.isFinishing = true;
             }
@@ -207,6 +215,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         uiMission.gameObject.SetActive(false);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
         if(sellUi.gameObject.activeSelf)
         {
             uiMission.gameObject.SetActive(true);
@@ -236,6 +246,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
     }
 
     public void ShowFloorInformationUi()
@@ -263,6 +275,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
 
     }
 
@@ -290,6 +304,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
 
     }
 
@@ -310,6 +326,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
         if (FloorManager.Instance.touchManager.tutorial != null)
         {
             if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.OpenShop)
@@ -337,6 +355,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
     }
 
     public void ShowCraftTableUi()
@@ -363,6 +383,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
 
     }
 
@@ -390,6 +412,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
     }
 
     public void ShowTutorialUi()
@@ -409,6 +433,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
     }
 
     public void ShowPatronUi()
@@ -429,6 +455,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
         currencyProductInventoryUi.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
     }
 
     public void ShowMissionUi()
@@ -449,6 +477,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         currencyProductInventoryUi.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
         uiCatalogue.gameObject.SetActive(false);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
     }
     public void ShowCatalougeUi()
     {
@@ -466,7 +496,9 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+        confirmPanelUi.gameObject.SetActive(false);
         uiCatalogue.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        warningPanelUi.gameObject.SetActive(false);
     }
 
     public void ShowCurrencyProductInventoryUi()
@@ -485,6 +517,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         patronBoardUi.gameObject.SetActive(false);
         uiMission.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.SetActive(false);
 
         if (FloorManager.Instance.touchManager.tutorial != null)
         {
@@ -496,6 +530,50 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         currencyProductInventoryUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
     }
 
+
+    public void ShowConfirmPanelUi()
+    {
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        mainUi.gameObject.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.GetComponent<DTUiPanel>().IsActive = false;
+        animalListUi.gameObject.SetActive(false);
+        productsUi.gameObject.SetActive(false);
+        craftTableUi.gameObject.SetActive(false);
+        FloorManager.Instance.multiTouchOff = true;
+        invitationUi.gameObject.SetActive(false);
+        testPanelUi.gameObject.SetActive(false);
+        patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
+        panel.gameObject.SetActive(true);
+        confirmPanelUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        warningPanelUi.gameObject.SetActive(false);
+    }
+    public void ShowWarningPanelUi()
+    {
+        uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+        mainUi.gameObject.SetActive(false);
+        animalFocusUi.gameObject.SetActive(false);
+        sellUi.gameObject.SetActive(false);
+        floorInformationUi.gameObject.GetComponent<DTUiPanel>().IsActive = false;
+        animalListUi.gameObject.SetActive(false);
+        productsUi.gameObject.SetActive(false);
+        craftTableUi.gameObject.SetActive(false);
+        FloorManager.Instance.multiTouchOff = true;
+        invitationUi.gameObject.SetActive(false);
+        testPanelUi.gameObject.SetActive(false);
+        patronBoardUi.gameObject.SetActive(false);
+        uiMission.gameObject.SetActive(false);
+        panel.gameObject.SetActive(true);
+        confirmPanelUi.gameObject.SetActive(false);
+        warningPanelUi.gameObject.GetComponent<DTUiPanel>().IsActive = true;
+    }
+
+    public void CloseWaringPanel()
+    {
+        warningPanelUi.gameObject.GetComponent<DTUiPanel>().IsActive = false;
+    }
     public void SetProductCapacity(int capacity)
     {
         productsUi.SetCapacity(capacity);

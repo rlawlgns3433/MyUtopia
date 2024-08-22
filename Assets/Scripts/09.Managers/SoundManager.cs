@@ -45,7 +45,7 @@ public class SoundManager : Singleton<SoundManager>, ISingletonCreatable
             switch (soundType)
             {
                 case SoundType.Selling:
-                //case SoundType.MergeAnimal:
+                case SoundType.Caution:
                 case SoundType.PopUpClose:  // 플레이 하지 않음
                 case SoundType.PopUpOpen:  // 플레이 하지 않음
                 case SoundType.GetAnimal: // 플레이 하지 않음
