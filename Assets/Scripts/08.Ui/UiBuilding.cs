@@ -168,6 +168,8 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             clockFormatTimer.canStartTimer = false;
             return;
         }
+        
+        SoundManager.Instance.OnClickButton(SoundType.LevelUpBuilding);
 
         clockFormatTimer.canStartTimer = true;
         IsUpgrading = true;

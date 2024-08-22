@@ -22,25 +22,25 @@ public class BuildingFloor : Floor
 
             foreach (var animal in animals)
             {
-                if (animal.animalStat.Stamina <= 0)
-                    autoWorkload += new BigNumber(animal.animalStat.Workload) / 2;
-                else
+                //if (animal.animalStat.Stamina <= 0)
+                //    autoWorkload += new BigNumber(animal.animalStat.Workload) / 2;
+                //else
                     autoWorkload += new BigNumber(animal.animalStat.Workload);
             }
 
             // 시너지를 통해 업무량 증가 여부
-            if (synergyStats.Count != 0)
-            {
-                int synergyValue = 0;
-                foreach (var synergy in synergyStats)
-                {
-                    if (synergy.Synergy_Type == 1)
-                    {
-                        synergyValue += Mathf.FloorToInt(synergy.Synergy_Value * 100);
-                    }
-                }
-                autoWorkload = autoWorkload + (autoWorkload * synergyValue) / 100;
-            }
+            //if (synergyStats.Count != 0)
+            //{
+            //    int synergyValue = 0;
+            //    foreach (var synergy in synergyStats)
+            //    {
+            //        if (synergy.Synergy_Type == 1)
+            //        {
+            //            synergyValue += Mathf.FloorToInt(synergy.Synergy_Value * 100);
+            //        }
+            //    }
+            //    autoWorkload = autoWorkload + (autoWorkload * synergyValue) / 100;
+            //}
 
             await UniTask.Delay(1000, cancellationToken: cts);
             if (!autoWorkload.IsZero)

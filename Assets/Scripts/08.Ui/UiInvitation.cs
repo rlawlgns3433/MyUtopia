@@ -38,11 +38,11 @@ public class UiInvitation : MonoBehaviour
     {
         if (CurrencyManager.currency[(CurrencyType)invitationData.Level_Up_Coin_ID] < invitationData.Level_Up_Coin_Value)
             return;
+
         var floor = FloorManager.Instance.GetCurrentFloor();
-        //���� ���� ���� �ִ�ġ�϶� ����
         if (floor.FloorStat.Max_Population <= floor.animals.Count)
             return;
-        // ��ü �������� 1���� max�� �����ϰų� ũ�� ����
+
         int maximumCount = floorStat.Max_Population;
         int currentCount = 0;
         foreach (var currentFloor in FloorManager.Instance.floors.Values)
@@ -59,6 +59,7 @@ public class UiInvitation : MonoBehaviour
         if (currentCount >= maximumCount)
             return;
 
+        SoundManager.Instance.OnClickButton(SoundType.GetAnimal);
         float totalRate = invitationData.Get_Animal1_Rate + invitationData.Get_Animal2_Rate + invitationData.Get_Animal3_Rate + invitationData.Get_Animal4_Rate + invitationData.Get_Animal5_Rate + invitationData.Get_Animal6_Rate;
 
         float[] rates = new float[]

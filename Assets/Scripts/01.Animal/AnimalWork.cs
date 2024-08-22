@@ -132,6 +132,11 @@ public class AnimalWork : Subject, IMergable
                     consumeStamina = floor.FloorStat.Stamina_Recovery;
                     Animal.animalStat.Stamina += consumeStamina;
 
+                    if(Animal.animalStat.Stamina < 1f)
+                    {
+                        animalManager.MoveAnimal(Animal.animalStat.CurrentFloor, "B2", Animal);
+                    }
+
                     NotifyObservers();
                     await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
                 }

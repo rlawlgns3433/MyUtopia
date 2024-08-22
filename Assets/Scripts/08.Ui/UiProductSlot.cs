@@ -43,14 +43,12 @@ public class UiProductSlot : MonoBehaviour
         if (itemStat == null)
             return;
 
+        SoundManager.Instance.OnClickButton(SoundType.Selling);
         CurrencyType type = (CurrencyType)itemStat.Sell_Resource_ID;
         BigNumber price = itemStat.Sell_Price.ToBigNumber();
 
         CurrencyManager.currency[type] += price;
 
-        //CurrencyManager.currency[CurrencyType.Craft] -= 1;
-
-        // 3층의 저장소에 접근
 
         var storage = FloorManager.Instance.floors["B3"].storage as StorageProduct;
 
