@@ -105,10 +105,11 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
         return DateTime.Now;
     }
 
-    private static async UniTask SaveEnterTime()
+    public static async UniTask SaveEnterTime()
     {
         string enterTimeString = await GetServerTimeAsync();
         previousTimeData.EnterTime = enterTimeString;
+        Debug.Log($"SaveEnterTime = > {previousTimeData.EnterTime}");
         await SaveTimeDataAsync(previousTimeData);
     }
 
@@ -119,10 +120,11 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
         await SaveTimeDataAsync(previousTimeData);
     }
 
-    private static void SaveQuitTimeSync()
+    public static void SaveQuitTimeSync()
     {
         float quitTimeFloat = Time.time;
         previousTimeData.QuitTime = quitTimeFloat;
+        Debug.Log($"SaveQuitTime => {previousTimeData.QuitTime}");
         SaveTimeDataSync(previousTimeData);
     }
 

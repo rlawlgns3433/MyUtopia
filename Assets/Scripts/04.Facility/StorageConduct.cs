@@ -96,6 +96,10 @@ public class StorageConduct : MonoBehaviour
             isAddQuitEvent = true;
         }
     }
+    public void OnDisable()
+    {
+        SaveData();
+    }
 
     public async UniTask CheckStorage()
     {
@@ -298,7 +302,7 @@ public class StorageConduct : MonoBehaviour
         }
     }
 
-    private void SaveData()
+    public void SaveData()
     {
         if(floor != null)
         {

@@ -165,7 +165,7 @@ public class WorldMapMoveTest : MonoBehaviour
     }
     public void OpenWorld()
     {
-
+        UtilityTime.SaveEnterTime().Forget();
         SceneManager.LoadScene("SampleScene");
         
     }

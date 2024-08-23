@@ -417,6 +417,10 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
     }
     public void MoveWorldScene()
     {
+        GameManager.Instance.SetPlayerData();
+        MissionManager.Instance.SaveGameData();
+        CatalogueManager.Instance.SaveCatalougeData();
+        UtilityTime.SaveQuitTimeSync();
         SceneManager.LoadScene("WorldMap");
     }
     public bool ShouldBeCreatedInScene(string sceneName)
