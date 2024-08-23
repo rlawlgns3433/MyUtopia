@@ -1,5 +1,8 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Purchasing;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 public class UiProductSlot : MonoBehaviour
@@ -27,7 +30,8 @@ public class UiProductSlot : MonoBehaviour
     public void ClearData()
     {
         this.itemStat = null;
-        imagePortrait.sprite = null;
+
+        imagePortrait.sprite = Addressables.LoadAssetAsync<Sprite>("Transparency").WaitForCompletion();
         textProductName.text = string.Empty;
     }
 

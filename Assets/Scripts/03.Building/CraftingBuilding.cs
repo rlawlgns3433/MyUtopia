@@ -25,15 +25,11 @@ public class CraftingBuilding : Building
     }
     public Queue<RecipeStat> recipeStatList = new Queue<RecipeStat>();
     public Slider craftingSlider;
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        clickEvent += UiManager.Instance.ShowCraftTableUi;
-    }
 
     protected override void Start()
     {
         base.Start();
+        clickEvent += UiManager.Instance.ShowCraftTableUi;
     }
 
     private void Update()

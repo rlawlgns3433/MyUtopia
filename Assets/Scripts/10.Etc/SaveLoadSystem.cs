@@ -30,6 +30,7 @@ public static class SaveLoadSystem
         Missions,
         CurrencyProduct,
         Catalouge,
+        EmptyMission
     }
 
     // 0 (ÀÚµ¿), 1, 2, 3 ...
@@ -47,6 +48,7 @@ public static class SaveLoadSystem
         "SaveMissions.sav",
         "SaveCurrencyProduct.sav",
         "SaveCatalogue.sav",
+        "SaveEmptyMission.sav"
     };
 
     private static string SaveDirectory
@@ -163,6 +165,31 @@ public static class SaveLoadSystem
     }
 
     public static SaveMissionData MissionLoad(SaveType slot = SaveType.Missions)
+    {
+        if (slot < 0 || (int)slot >= SaveFileName.Length)
+        {
+            return default(SaveMissionData);
+        }
+        var path = Path.Combine(SaveDirectory, SaveFileName[(int)slot]);
+        if (!File.Exists(path))
+        {
+            return default(SaveMissionData);
+        }
+
+        using (var reader = new JsonTextReader(new StreamReader(path)))
+        {
+            var serializer = new JsonSerializer
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All
+            };
+            serializer.Converters.Add(new MissionDataConverter());
+
+            return serializer.Deserialize<SaveMissionData>(reader);
+        }
+    }
+
+    public static SaveMissionData EmptyMissionLoad(SaveType slot = SaveType.EmptyMission)
     {
         if (slot < 0 || (int)slot >= SaveFileName.Length)
         {

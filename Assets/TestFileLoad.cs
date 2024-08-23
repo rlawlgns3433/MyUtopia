@@ -19,7 +19,7 @@ public class TestFileLoad : MonoBehaviour
     public List<AssetReferenceTextAsset> assets = new List<AssetReferenceTextAsset>();
     public List<SaveLoadSystem.SaveType> assetTypes = new List<SaveLoadSystem.SaveType>();
 
-    private async void Start()
+    private async void Awake()
     {
         await LoadAndSaveAssets();
     }

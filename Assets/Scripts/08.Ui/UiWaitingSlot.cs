@@ -17,7 +17,7 @@ public class UiWaitingSlot : MonoBehaviour
 
     public void ClearData()
     {
+        imageWaiting.sprite = Addressables.LoadAssetAsync<Sprite>("Transparency").WaitForCompletion();
         recipeStat = null;
-        imageWaiting.sprite = spriteNull;
     }
 }

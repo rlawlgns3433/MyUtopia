@@ -44,6 +44,7 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
 
     private async void Start()
     {
+        await UniTask.WaitForSeconds(0.5f);
         await LoadPreviousTimeData();
         await CalculateElapsedTime();
         await SaveEnterTime();

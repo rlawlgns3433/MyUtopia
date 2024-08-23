@@ -4,11 +4,6 @@ using UnityEngine.EventSystems;
 public class ConductBuilding : Building
 {
     private BigNumber touchProduce;
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        clickEvent += RefreshCurrency;
-    }
 
     public override void OnPointerClick(PointerEventData eventData)
     {
@@ -19,6 +14,7 @@ public class ConductBuilding : Building
     protected override void Start()
     {
         base.Start();
+        clickEvent += RefreshCurrency;
     }
 
     private void RefreshCurrency()
