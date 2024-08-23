@@ -54,7 +54,7 @@ public class UiProductSlot : MonoBehaviour
         CurrencyManager.currency[type] += price;
 
 
-        var storage = FloorManager.Instance.floors["B3"].storage as StorageProduct;
+        var storage = FloorManager.Instance.GetFloor("B3").storage as StorageProduct;
 
         storage.DecreaseProduct(itemStat.Item_ID);
 

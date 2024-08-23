@@ -32,7 +32,7 @@ public class AnimalController : MonoBehaviour
     {
         get
         {
-            var floor = FloorManager.Instance.floors[animalWork.Animal.animalStat.CurrentFloor];
+            var floor = FloorManager.Instance.GetFloor(animalWork.Animal.animalStat.CurrentFloor);
             wayPoints = floor.GetComponent<FloorWaypoint>().waypoints;
 
             return wayPoints;

@@ -56,7 +56,6 @@ public class WalkBehaviourNode : StandardNode
         }
 
         // 실제 행동에 대한 코드
-        Debug.Log("Walking");
 
         if (!animalController.DestinationSet || animalController.IsEndMovement)
         {

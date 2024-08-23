@@ -153,7 +153,7 @@ public class TestPanel : MonoBehaviour
             CurrencyManager.product[CurrencyManager.productTypes[i]] = emptyCurrencyProduct.currencySaveData[i].value;
         }
 
-        var storageProduct = (FloorManager.Instance.floors["B3"].storage as StorageProduct);
+        var storageProduct = (FloorManager.Instance.GetFloor("B3").storage as StorageProduct);
         storageProduct.SetEmpty();
     }
 

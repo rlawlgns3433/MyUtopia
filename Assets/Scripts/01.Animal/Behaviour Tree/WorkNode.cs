@@ -25,8 +25,6 @@ public class WorkNode : StandardNode
         animalController.animalState = AnimalState.Work;
         animalController.behaviorTreeRoot.IsSetBehaviour = true;
 
-        Debug.Log("Work");
-
         return true;
     }
 }

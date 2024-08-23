@@ -43,7 +43,6 @@ public class WayPointNode : StandardNode
         animalController.animalState = AnimalState.Run;
         animalController.behaviorTreeRoot.IsSetBehaviour = true;
         animalController.SetDestination(wayPoint);
-        Debug.Log("WayPointNode");
 
         return true;
     }

@@ -191,7 +191,7 @@ public class GameManager : Singleton<GameManager>
         SaveProductDataV1 saveProductData = SaveLoadSystem.Load(SaveLoadSystem.SaveType.Product) as SaveProductDataV1;
         if (saveProductData != null)
         {
-            var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
+            var storageProduct = FloorManager.Instance.GetFloor("B3").storage as StorageProduct;
             for (int i = 0; i < saveProductData.productSaveData.Count; ++i)
             {
                 storageProduct.IncreaseProduct(saveProductData.productSaveData[i].productId, saveProductData.productSaveData[i].productValue);
@@ -319,7 +319,7 @@ public class GameManager : Singleton<GameManager>
                 break;
 
             string format = $"B{i + 1}";
-            var floor = FloorManager.Instance.floors[format];
+            var floor = FloorManager.Instance.GetFloor(format);
             saveData.floors.Add(new FloorSaveData(floor.FloorStat));
             foreach (var animal in floor.animals)
             {
@@ -352,7 +352,7 @@ public class GameManager : Singleton<GameManager>
 
         SaveLoadSystem.Save(saveCurrencyProductData, SaveLoadSystem.SaveType.CurrencyProduct);
 
-        var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
+        var storageProduct = FloorManager.Instance.GetFloor("B3").storage as StorageProduct;
         for (int i = 0; i < storageProduct.products.Count; ++i)
         {
             saveProductData.productSaveData.Add(new ProductSaveData(storageProduct.products.ElementAt(i).Key, storageProduct.products.ElementAt(i).Value));

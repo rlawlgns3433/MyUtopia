@@ -114,7 +114,7 @@ public class AnimalWork : Subject, IMergable
                 {
                     if (cts.IsCancellationRequested)
                         break;
-                    Floor floor = FloorManager.Instance.floors[Animal.animalStat.CurrentFloor];
+                    Floor floor = FloorManager.Instance.GetFloor(Animal.animalStat.CurrentFloor);
                     Animal.animalStat.Stamina += floor.FloorStat.Stamina_Recovery; 
                     NotifyObservers();
                     await UniTask.Delay(1000, false, PlayerLoopTiming.Update, cts);
@@ -128,7 +128,7 @@ public class AnimalWork : Subject, IMergable
                         break;
                     //Animal.animalStat.Stamina = Animal.animalStat.Stamina - 1 + staminaReductionRate; ½Ã³ÊÁö
 
-                    Floor floor = FloorManager.Instance.floors[Animal.animalStat.CurrentFloor];
+                    Floor floor = FloorManager.Instance.GetFloor(Animal.animalStat.CurrentFloor);
                     consumeStamina = floor.FloorStat.Stamina_Recovery;
                     Animal.animalStat.Stamina += consumeStamina;
 

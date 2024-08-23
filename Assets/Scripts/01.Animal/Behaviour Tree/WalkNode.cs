@@ -31,7 +31,6 @@ public class WalkNode : StandardNode
         animalController.animator.Play(AnimationHash.eyeAnnoyed, animalController.animator.GetLayerIndex("Shapekey"));
         animalController.behaviorTreeRoot.IsSetBehaviour = true;
 
-        Debug.Log("Walk");
 
         return true;
     }

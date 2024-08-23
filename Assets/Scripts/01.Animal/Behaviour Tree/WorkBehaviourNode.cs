@@ -84,7 +84,6 @@ public class WorkBehaviourNode : StandardNode
         }
 
         // 실제 행동에 대한 코드
-        Debug.Log("Working");
 
         action?.Invoke();
 

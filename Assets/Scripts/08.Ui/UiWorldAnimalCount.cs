@@ -13,7 +13,10 @@ public class UiWorldAnimalCount : Observer
     public override void Notify(Subject subject)
     {
         int currentAnimalCount = 0;
-        int maximumCount = FloorManager.Instance.floors["B1"].FloorStat.Max_Population;
+        if (FloorManager.Instance.GetFloor("B1") == null)
+            return;
+
+        int maximumCount = FloorManager.Instance.GetFloor("B1").FloorStat.Max_Population;
 
         foreach (var floor in FloorManager.Instance.floors)
         {

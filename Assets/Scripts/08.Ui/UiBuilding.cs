@@ -247,7 +247,7 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
     }
     public bool CheckUpgradeCondition()
     {
-        var floor = FloorManager.Instance.floors[$"B{building.BuildingStat.Floor_Type}"];
+        var floor = FloorManager.Instance.GetFloor($"B{building.BuildingStat.Floor_Type}");
 
         if (floor == null)
             return false;

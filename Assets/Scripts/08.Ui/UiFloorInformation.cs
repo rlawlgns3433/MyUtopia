@@ -56,7 +56,7 @@ public class UiFloorInformation : MonoBehaviour
         if (!FloorManager.Instance.floors.ContainsKey(floorId))
             return;
 
-        currentFloor = FloorManager.Instance.floors[floorId];
+        currentFloor = FloorManager.Instance.GetFloor(floorId);
         floorStat = currentFloor.FloorStat;
 
         SetFloorUi();

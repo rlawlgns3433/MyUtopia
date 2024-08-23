@@ -50,7 +50,6 @@ public class RestBehaviourNode : StandardNode
             ExitNode();
 
         // 실제 행동에 대한 코드
-        Debug.Log("Resting");
         action?.Invoke();
 
         return true;

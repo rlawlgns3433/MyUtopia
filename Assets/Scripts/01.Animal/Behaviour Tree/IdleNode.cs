@@ -30,7 +30,6 @@ public class IdleNode : Node
     {
         animalController.animalState = AnimalState.Idle;
         animalController.behaviorTreeRoot.IsSetBehaviour = true;
-        Debug.Log("Idle");
 
         return true;
     }

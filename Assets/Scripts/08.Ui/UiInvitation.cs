@@ -22,7 +22,7 @@ public class UiInvitation : MonoBehaviour
     //private int createCount = 0;
     public void Set()
     {
-        floor = FloorManager.Instance.floors["B1"];
+        floor = FloorManager.Instance.GetFloor("B1");
         floorStat = floor.FloorStat;
         SetUi();
     }

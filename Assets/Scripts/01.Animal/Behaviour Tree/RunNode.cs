@@ -23,7 +23,6 @@ public class RunNode : StandardNode
         animalController.behaviorTreeRoot.IsSetBehaviour = true;
         animalController.animator.Play(AnimationHash.Walk, animalController.animator.GetLayerIndex("Base Layer"));
         animalController.animator.Play(AnimationHash.eyeAnnoyed, animalController.animator.GetLayerIndex("Shapekey"));
-        Debug.Log("Run");
         return true;
     }
 }
