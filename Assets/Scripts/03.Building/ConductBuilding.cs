@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,17 +9,25 @@ public class ConductBuilding : Building
     public override void OnPointerClick(PointerEventData eventData)
     {
         base.OnPointerClick(eventData);
+        RefreshCurrency();
         DisplayFloatingText(touchProduce);
     }
 
     protected override void Start()
     {
         base.Start();
-        clickEvent += RefreshCurrency;
     }
 
     private void RefreshCurrency()
     {
+        UniTask.WaitUntil(() => BuildingStat != null);
+
+        if(BuildingStat.BuildingData == BuildingTable.defaultData)
+        {
+            BuildingStat = new BuildingStat(buildingId);
+            Debug.Log("Null Building Stat");
+        }
+
         switch (buildingType)
         {
             case CurrencyProductType.CopperStone:
@@ -26,12 +35,21 @@ public class ConductBuilding : Building
             case CurrencyProductType.GoldStone:
                 if (BuildingStat.IsLock)
                     return;
-
+                if (BuildingStat.Touch_Produce == null)
+                {
+                    Debug.Log("Err TouchProduce");
+                }
                 var touchProduce = new BigNumber(BuildingStat.Touch_Produce);
+         
                 CurrencyManager.product[buildingType] += touchProduce;
+                if (CurrencyManager.product == null)
+                {
+                    Debug.Log("Err Currency product");
+                }
+
                 this.touchProduce = touchProduce; // 플로팅 텍스트용
                 MissionManager.Instance.AddMissionCountTargetId(buildingId);
-                if(FloorManager.Instance.touchManager.tutorial != null)
+                if (FloorManager.Instance.touchManager.tutorial != null)
                 {
                     if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.TouchCopper)
                     {
@@ -53,12 +71,26 @@ public class ConductBuilding : Building
                     CurrencyManager.product[buildingType] += 1;
                     CurrencyManager.product[(CurrencyProductType)BuildingStat.Materials_Type] -= BuildingStat.Conversion_rate;
                     this.touchProduce = new BigNumber(1);
+                    if (CurrencyManager.product == null)
+                    {
+                        Debug.Log("Err TouchProduce");
+                    }
                     MissionManager.Instance.AddMissionCountTargetId(buildingId);
                 }
                 else
                 {
                     this.touchProduce = BigNumber.Zero;
+                    if (CurrencyManager.product == null)
+                    {
+                        Debug.Log("Err TouchProduce");
+                    }
                 }
+
+                if (FloorManager.Instance.touchManager == null)
+                {
+                    Debug.Log("Err touchManager");
+                }
+
                 if(FloorManager.Instance.touchManager.tutorial != null)
                 {
                     if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.MakeIngot)

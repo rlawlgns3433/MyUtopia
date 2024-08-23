@@ -30,6 +30,8 @@ public class CraftingBuilding : Building
     {
         base.Start();
         clickEvent += UiManager.Instance.ShowCraftTableUi;
+
+
     }
 
     private void Update()

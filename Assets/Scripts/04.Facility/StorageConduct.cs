@@ -198,7 +198,7 @@ public class StorageConduct : MonoBehaviour
         await UniTask.Yield();
     }
 
-    private void SaveDataOnQuit()
+    public void SaveDataOnQuit()
     {
         SaveData();
     }

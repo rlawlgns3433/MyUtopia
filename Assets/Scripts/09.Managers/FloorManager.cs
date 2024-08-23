@@ -322,6 +322,9 @@ public class FloorManager : Singleton<FloorManager>
 
     public void AddFloor(string floorId, Floor floor)
     {
+        if (floorId == "B0")
+            return;
+
         if (floors.ContainsKey(floorId))
             return;
 

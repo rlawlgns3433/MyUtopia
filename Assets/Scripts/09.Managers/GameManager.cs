@@ -31,6 +31,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         Application.quitting += SetPlayerData;
         CurrencyManager.Init();
         CurrentSceneId = SceneIds.WorldLandOfHope;
@@ -50,6 +51,7 @@ public class GameManager : Singleton<GameManager>
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
         await UniWaitTables();
         await UniTask.WaitUntil(() => UtilityTime.Seconds >= 0);
+        await UniTask.WaitForSeconds(0.5f);
         await UniLoadWorldData();
 
         //FloorManager.Instance.CheckEntireFloorSynergy(); 시너지
@@ -62,6 +64,8 @@ public class GameManager : Singleton<GameManager>
         // 데이터대로 동물, 건물, 가구 생성
         if (saveWorldData != null)
         {
+            Debug.Log("Load Save World First Time");
+
             for (int i = 0; i < saveWorldData.floors.Count; ++i)
             {
                 var floorSaveData = saveWorldData.floors[i];
@@ -130,17 +134,39 @@ public class GameManager : Singleton<GameManager>
             // 첫 접속일 때 Unlock된 건물 Unlock
             var floors = FloorManager.Instance.floors;
 
+            if(floors== null )
+            {
+                Debug.Log("floors Null");
+            }
             foreach (var floor in floors.Values)
             {
                 foreach (var building in floor.buildings)
                 {
+                    if(building == null)
+                    {
+                        Debug.Log("building Null");
+                    }
+
                     if (building.BuildingStat.Building_ID == floor.FloorStat.Unlock_Facility)
                     {
+                        building.BuildingStat = new BuildingStat(building.buildingId);
                         building.BuildingStat.IsLock = false;
+
+                        if(building.BuildingStat == null || building.BuildingStat.BuildingData == BuildingTable.defaultData)
+                        {
+                            Debug.Log("building Default");
+                        }
                         break;
                     }
                 }
             }
+            Debug.Log("First Enter");
+
+            //if (UiManager.Instance.testPanelUi == null)
+            //{
+            //    Debug.Log("testPanel Null");
+            //}
+            //UiManager.Instance.testPanelUi.SetEmptyData();
             UiManager.Instance.productsUi.capacity = 6;
         }
 
@@ -289,6 +315,9 @@ public class GameManager : Singleton<GameManager>
 
         for (int i = 0; i < FloorManager.Instance.floors.Count; ++i)
         {
+            if (i >= 5)
+                break;
+
             string format = $"B{i + 1}";
             var floor = FloorManager.Instance.floors[format];
             saveData.floors.Add(new FloorSaveData(floor.FloorStat));

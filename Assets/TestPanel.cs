@@ -23,8 +23,8 @@ public class TestPanel : MonoBehaviour
         SaveLoadSystem.Delete((int)SaveLoadSystem.SaveType.Catalouge);
         PlayerPrefs.SetInt("TutorialCheck", 0);
         FloorManager.Instance.MoveToSelectFloor("B1");
-        SetEmptyData();
-        GameManager.Instance.SetPlayerData();
+        //SetEmptyData();
+        //GameManager.Instance.SetPlayerData();
         UiManager.Instance.ShowTutorial();
     }
 
@@ -89,11 +89,21 @@ public class TestPanel : MonoBehaviour
         var emptyCurrencyProduct = SaveLoadSystem.Load(SaveLoadSystem.SaveType.EmptyCurrencyProduct) as SaveCurrencyProductDataV1;
 
         if (emptyWorld == null)
+        {
+            Debug.Log("emptyWorld is null");
             return;
+        }
         if (emptyCurrency == null)
+        {
+            Debug.Log("emptyCurrency is null");
             return;
+        }
         if (emptyCurrencyProduct == null)
+        {
+            Debug.Log("emptyCurrencyProduct is null");
             return;
+        }
+        Debug.Log("Not Null");
 
         // ���� ���忡 ����� �ý��� �ʱ�ȭ
         var floors = FloorManager.Instance.floors;
@@ -149,6 +159,10 @@ public class TestPanel : MonoBehaviour
 
     public void OnClickApplicationQuit()
     {
+        GameManager.Instance.SetPlayerData();
+        MissionManager.Instance.SaveGameData();
+        CatalogueManager.Instance.SaveCatalougeData();
+        UiManager.Instance.storageUi.SaveStorageData();
         Application.Quit();
     }
 }

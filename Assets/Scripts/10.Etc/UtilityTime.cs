@@ -47,7 +47,6 @@ public class UtilityTime : MonoBehaviour
         await CalculateElapsedTime();
         await SaveEnterTime();
         await SyncServerTime();
-        CheckMissionsAvailability();
     }
 
     private void OnApplicationPause(bool pauseStatus)
@@ -56,11 +55,6 @@ public class UtilityTime : MonoBehaviour
         {
             SaveQuitTimeSync();
         }
-    }
-
-    private void OnApplicationQuit()
-    {
-        SaveQuitTimeSync();
     }
 
     private static async UniTask SyncServerTime()
@@ -210,7 +204,7 @@ public class UtilityTime : MonoBehaviour
         }
     }
 
-    private void CheckMissionsAvailability()
+    public static void CheckMissionsAvailability()
     {
         DateTime currentDate = GetCurrentTime();
 
@@ -276,7 +270,7 @@ public class UtilityTime : MonoBehaviour
     }
 
 
-    private bool IsDateDifferent(DateTime currentDate, DateTime lastDate, TimeSpan interval)
+    private static bool IsDateDifferent(DateTime currentDate, DateTime lastDate, TimeSpan interval)
     {
         DateTime currentDateAtMidnight = currentDate.Date;
         DateTime lastDateAtMidnight = lastDate.Date;

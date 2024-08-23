@@ -63,6 +63,9 @@ public class MissionManager : Singleton<MissionManager>
         missionData = new List<MissionData>(missionTable.GetAllMissions());
         await UniTask.WaitUntil(() => UtilityTime.isLoadComplete);
 
+        UtilityTime.CheckMissionsAvailability();
+
+
         if (!isAddQuitEvent)
         {
             Application.quitting -= SaveGameData;
@@ -138,6 +141,9 @@ public class MissionManager : Singleton<MissionManager>
     }
     public void AddMissionCount(int missionId, int count)
     {
+        if (FloorManager.Instance.touchManager.tutorial.gameObject.activeSelf)
+            return;
+
         if (!missionProgress.ContainsKey(missionId))
         {
             missionProgress[missionId] = new MissionSaveData

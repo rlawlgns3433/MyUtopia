@@ -60,6 +60,8 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         if (floor.FloorStat.IsUpgrading)
         {
             floor.LevelUp();
+            floor.FloorStat.UpgradeStartTime = 0;
+            floor.FloorStat.UpgradeTimeLeft = 0;
             return;
         }
     }
@@ -96,6 +98,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             floor.FloorStat.UpgradeTimeLeft = floor.FloorStat.Level_Up_Time - Mathf.CeilToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - UpgradeStartTime);
             clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft);
             imageTextTimer.gameObject.SetActive(true);
+            clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft);
             textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
             textFloorDesc.text = DataTableMgr.GetStringTable().Get(floor.FloorStat.FloorData.Floor_Desc);
 
@@ -136,6 +139,8 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         if (IsUpgrading)
         {
             SetDia();
+            imageDia.gameObject.SetActive(true);
+            imageTextTimer.gameObject.SetActive(true);
             return;
         }
 
@@ -248,6 +253,7 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         floor.SpendCurrency();
 
         imageTextTimer.gameObject.SetActive(true);
+
         imageDia.gameObject.SetActive(true);
 
         clockFormatTimer.SetTimer(floor.FloorStat.Level_Up_Time);

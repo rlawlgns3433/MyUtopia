@@ -19,7 +19,7 @@ public class Building : MonoBehaviour, IClickable, IGrowable
     {
         get
         {
-            if(buildingStat == null)
+            if(buildingStat == null || buildingStat.BuildingData == BuildingTable.defaultData)
             {
                 buildingStat = new BuildingStat(buildingId);
             }

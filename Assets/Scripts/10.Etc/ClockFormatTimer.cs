@@ -56,12 +56,12 @@ public class ClockFormatTimer : MonoBehaviour
         IGrowable growable = GetComponent<IGrowable>();
         IUISetupable uISetupable = GetComponent<IUISetupable>();
 
-        growable.LevelUp();
         if(growable.IsUpgrading)
         {
-            uISetupable.SetFinishUi();
+            growable.LevelUp();
             uISetupable.FinishUpgrade();
             growable.IsUpgrading = false;
+            uISetupable.SetFinishUi();
         }
         // 타이머 끝났을 때 작업
     }

@@ -11,8 +11,8 @@ public class StorageUi : MonoBehaviour
     private int b4Count = 0;
     private Floor b5Floor;
     private Floor b4Floor;
-    private StorageConduct b5FloorStorage;
-    private StorageConduct b4FloorStorage;
+    public StorageConduct b5FloorStorage;
+    public StorageConduct b4FloorStorage;
 
     public Button openButton;
     private BigNumber[] b5currencyArray;
@@ -79,5 +79,11 @@ public class StorageUi : MonoBehaviour
         b4FloorStorage.OpenStorage(openButton.transform.position);
         SoundManager.Instance.OnClickButton(SoundType.GetAnimal);
         UiManager.Instance.ShowMainUi();
+    }
+
+    public void SaveStorageData()
+    {
+        b5FloorStorage.SaveDataOnQuit();
+        b4FloorStorage.SaveDataOnQuit();
     }
 }
