@@ -34,8 +34,6 @@ public struct BigNumber
 
     public BigNumber(string number)
     {
-        Debug.Log($"Err BigNumber {number}");
-
         bigNumber = new List<int>((number.Length + 2) / 3);
         isZero = false;
 
@@ -48,15 +46,12 @@ public struct BigNumber
 
         if (number.Contains("."))
         {
-            Debug.Log($"Err BigNumber Contains{number}");
-
             var parts = number.Split('.');
             number = parts[0] + parts[1];
         }
 
         for (int i = number.Length; i > 0; i -= 3)
         {
-            Debug.Log($"Err BigNumber for Statement{number}");
 
             int startIndex = Math.Max(i - 3, 0);
             int length = i - startIndex;

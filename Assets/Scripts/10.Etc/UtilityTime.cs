@@ -47,6 +47,7 @@ public class UtilityTime : MonoBehaviour
         await CalculateElapsedTime();
         await SaveEnterTime();
         await SyncServerTime();
+        CheckMissionsAvailability();
     }
 
     private void OnApplicationPause(bool pauseStatus)
@@ -204,7 +205,7 @@ public class UtilityTime : MonoBehaviour
         }
     }
 
-    public static void CheckMissionsAvailability()
+    public void CheckMissionsAvailability()
     {
         DateTime currentDate = GetCurrentTime();
 
@@ -224,7 +225,7 @@ public class UtilityTime : MonoBehaviour
         }
         else
         {
-            Debug.Log("Daily Not reset.");
+            MissionManager.Instance.LoadGameData();
         }
 
         if (weeklyMissionReset)

@@ -61,9 +61,7 @@ public class MissionManager : Singleton<MissionManager>
         await GameManager.Instance.UniWaitTables();
         missionTable = DataTableMgr.GetMissionTable();
         missionData = new List<MissionData>(missionTable.GetAllMissions());
-        await UniTask.WaitUntil(() => UtilityTime.isLoadComplete);
 
-        UtilityTime.CheckMissionsAvailability();
 
 
         if (!isAddQuitEvent)
@@ -78,7 +76,7 @@ public class MissionManager : Singleton<MissionManager>
     {
         if(pause)
         {
-            SaveGameData().Forget();
+            SaveGameData();
         }
     }
 
@@ -198,18 +196,19 @@ public class MissionManager : Singleton<MissionManager>
     public List<MissionSaveData> GetMissionsByType(MissionDayTypes missionType)
     {
         List<MissionSaveData> missions = new List<MissionSaveData>();
-
+        Debug.Log($"MissionManager missionProgressCount= {missionProgress.Count}");
         foreach (var missionData in missionProgress.Values)
         {
             if (GetMissionData(missionData.missionId).Mission_Type == (int)missionType)
             {
                 missions.Add(missionData);
+                Debug.Log($"GetMissionSaveData {missionData.count}");
             }
         }
         return missions;
     }
 
-    public async UniTaskVoid SaveGameData()
+    public void SaveGameData()
     {
         SaveMissionData gameData = new SaveMissionData
         {

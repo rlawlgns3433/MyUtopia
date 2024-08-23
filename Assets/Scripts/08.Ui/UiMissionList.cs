@@ -30,12 +30,11 @@ public class UiMissionList : MonoBehaviour
     private void OnEnable()
     {
         missionType = MissionDayTypes.Daily;
-
-        if (!missionsGenerated) // 미션이 아직 생성되지 않았을 때만 생성
+        if (!missionsGenerated)
         {
             LoadAndDisplayMissions();
             checkPoints = MissionManager.Instance.dailyMissionCheck;
-            foreach(var m in checkPoints)
+            foreach (var m in checkPoints)
             {
                 Debug.Log($"saveCheckPoints{m}");
             }
@@ -53,6 +52,11 @@ public class UiMissionList : MonoBehaviour
                 mission.SetButton();
             }
         }
+    }
+
+    private void Start()
+    {
+
     }
 
     public void UpdateSliderValue(float value)
@@ -167,7 +171,7 @@ public class UiMissionList : MonoBehaviour
     {
         ClearMissionList();
         List<MissionSaveData> missions = MissionManager.Instance.GetMissionsByType(missionType);
-
+        Debug.Log($"missionCount // {missions.Count}");
         if (missions.Count > 0)
         {
             Debug.Log($"Loaded {missions.Count} missions of type {missionType}");
