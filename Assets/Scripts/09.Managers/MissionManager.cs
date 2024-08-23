@@ -241,7 +241,7 @@ public class MissionManager : Singleton<MissionManager>
         SaveMissionData gameData = SaveLoadSystem.MissionLoad();
         if (gameData == null)
         {
-            return;
+            gameData = SaveLoadSystem.EmptyMissionLoad(SaveLoadSystem.SaveType.EmptyMission);
         }
         dailyPoints = gameData.dailyPoint;
         weeklyPoints = gameData.weeklyPoint;

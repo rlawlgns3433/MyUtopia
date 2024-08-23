@@ -1,5 +1,7 @@
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class GameDataManager : Singleton<GameDataManager>
+public class GameDataManager : MonoBehaviour
 {
-    
 }

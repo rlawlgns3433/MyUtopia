@@ -53,13 +53,9 @@ public class Building : MonoBehaviour, IClickable, IGrowable
         }
     }
 
-    protected virtual void OnEnable()
-    {
-        RegisterClickable();
-    }
-
     protected virtual void Start()
     {
+        RegisterClickable();
         transform.localScale = initialScale;
         clickEvent += PlayAudio;
     }
