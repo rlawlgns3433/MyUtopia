@@ -210,7 +210,7 @@ public class UiMissionList : MonoBehaviour
         MissionManager.Instance.ResetMissions(MissionDayTypes.Daily);
         //MissionManager.Instance.ResetMissions(MissionDayTypes.Weekly); // 주간 월간 추가 시 주석 해제
         //MissionManager.Instance.ResetMissions(MissionDayTypes.Monthly);
-        MissionManager.Instance.SaveGameData();
+        //MissionManager.Instance.SaveGameData();
     }
 
     private void ClearMissionList()

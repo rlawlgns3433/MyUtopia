@@ -20,6 +20,7 @@ public class StorageUi : MonoBehaviour
 
     private async void Start()
     {
+        openButton.interactable = false;
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B4") != null);
         b5Floor = FloorManager.Instance.GetFloor("B5");
@@ -65,6 +66,8 @@ public class StorageUi : MonoBehaviour
                 slotUi.SetSprite(b4FloorStorage.currencyTypes[i]).Forget();
             }
         }
+
+        openButton.interactable = true;
     }
 
     private async UniTask WaitLoadCompleteStorage(StorageConduct b5Storage, StorageConduct b4Storage)

@@ -56,7 +56,7 @@ public class MissionManager : Singleton<MissionManager>
 
     public List<bool> dailyMissionCheck = new List<bool>();
 
-    private async void Awake()
+    private async void Start()
     {
         await GameManager.Instance.UniWaitTables();
         missionTable = DataTableMgr.GetMissionTable();
@@ -68,8 +68,8 @@ public class MissionManager : Singleton<MissionManager>
 
         if (!isAddQuitEvent)
         {
-            Application.quitting -= SaveGameData;
-            Application.quitting += SaveGameData;
+            //Application.quitting -= SaveGameData;
+            //Application.quitting += SaveGameData;
             isAddQuitEvent = true;
         }
     }
@@ -78,7 +78,7 @@ public class MissionManager : Singleton<MissionManager>
     {
         if(pause)
         {
-            SaveGameData();
+            SaveGameData().Forget();
         }
     }
 
@@ -209,7 +209,7 @@ public class MissionManager : Singleton<MissionManager>
         return missions;
     }
 
-    public void SaveGameData()
+    public async UniTaskVoid SaveGameData()
     {
         SaveMissionData gameData = new SaveMissionData
         {
@@ -225,13 +225,22 @@ public class MissionManager : Singleton<MissionManager>
         gameData.completeDailyMission = dailyMissionCheck;
         foreach (var progress in missionProgress.Values)
         {
+            Debug.Log($"Mission : {progress.missionId}, Count : {progress.count}");
+
             var missionData = GetMissionData(progress.missionId);
             if (missionData.Mission_Type == (int)MissionDayTypes.Daily)
+            {
+                Debug.Log($"Mission : {progress.missionId}, Count : {progress.count}");
                 gameData.dailyMissions.Add(progress);
+            }
             else if (missionData.Mission_Type == (int)MissionDayTypes.Weekly)
                 gameData.weeklyMissions.Add(progress);
             else if (missionData.Mission_Type == (int)MissionDayTypes.Monthly)
                 gameData.monthlyMissions.Add(progress);
+            else
+            {
+                Debug.Log("ERR Mission");
+            }
         }
 
         foreach (var preMission in preMissionProgress.Values)

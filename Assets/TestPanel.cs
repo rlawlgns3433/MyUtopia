@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -163,6 +164,9 @@ public class TestPanel : MonoBehaviour
         MissionManager.Instance.SaveGameData();
         CatalogueManager.Instance.SaveCatalougeData();
         UiManager.Instance.storageUi.SaveStorageData();
+
+        UniTask.WaitForSeconds(1f);
+
         Application.Quit();
     }
 }
