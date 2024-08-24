@@ -61,6 +61,7 @@ public static class StringTextFormatKr
     public static readonly string TutorialSkip = "정말 스킵하시겠습니까?";
     public static readonly string WorkLoad = "업무량";
     public static readonly string RecipeCount = "개";
+    public static readonly string formatSalePrice = "판매가 : {0}";
 
 }
 public static class MissionTableFormat
@@ -269,7 +270,7 @@ public static class WaringTexts
         "보유 가능한 총 동물 수를 초과하였습니다.",
         "최대 레벨에 도달하였습니다. 계층을 업그레이드 해주세요!",
         "보유 가능한 특산품의 수를 초과하였습니다. 판매 후 재시도해주세요.",
-        "보유 가능한 특산품의 수를 초과하였습니다. 판매 후 재시도해주세요.",
+        "특산품 리스트의 최대치를 초과하였습니다",
         "아직 동물 고용이 진행중입니다. 잠시만 기다려주세요.",
         "계층 내 건물들을 먼저 최대 레벨로 만들어주세요.",
     };

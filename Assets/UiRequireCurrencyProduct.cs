@@ -8,11 +8,11 @@ using UnityEngine.UI;
 public class UiRequireCurrencyProduct : MonoBehaviour
 {
     public int type;
-    public string requireCount;
+    public BigNumber requireCount;
     public Image imageCurrencyProduct;
     public TextMeshProUGUI textCount;
 
-    public async void SetData(int type, string requireCount)
+    public async void SetData(int type, BigNumber requireCount)
     {
         this.type = type;
         this.requireCount = requireCount;
@@ -21,6 +21,6 @@ public class UiRequireCurrencyProduct : MonoBehaviour
         imageCurrencyProduct.type = Image.Type.Simple;
         imageCurrencyProduct.preserveAspect = true;
 
-        textCount.text = new BigNumber(requireCount).ToString();
+        textCount.text = requireCount.ToString();
     }
 }

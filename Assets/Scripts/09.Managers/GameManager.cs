@@ -406,14 +406,14 @@ public class GameManager : Singleton<GameManager>
             {
                 foreach (var res in (building as CraftingBuilding).CurrentRecipeStat.Resources)
                 {
-                    CurrencyManager.product[(CurrencyProductType)res.Key] += res.Value.ToBigNumber();
+                    CurrencyManager.product[(CurrencyProductType)res.Key] += res.Value;
                 }
 
                 foreach (var recipe in (building as CraftingBuilding).recipeStatList)
                 {
                     foreach (var res in recipe.Resources)
                     {
-                        CurrencyManager.product[(CurrencyProductType)res.Key] += res.Value.ToBigNumber();
+                        CurrencyManager.product[(CurrencyProductType)res.Key] += res.Value;
                     }
                 }
             }

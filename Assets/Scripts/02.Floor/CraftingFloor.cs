@@ -41,20 +41,6 @@ public class CraftingFloor : Floor
                 autoWorkload += new BigNumber(animal.animalStat.Workload);
             }
 
-            // 시너지를 통해 업무량 증가 여부
-            if (synergyStats.Count != 0)
-            {
-                int synergyValue = 0;
-                foreach (var synergy in synergyStats)
-                {
-                    if(synergy.Synergy_Type == 1)
-                    {
-                        synergyValue += Mathf.FloorToInt(synergy.Synergy_Value * 100);
-                    }
-                }
-                autoWorkload = autoWorkload + (autoWorkload * synergyValue) / 100;
-            }
-
             await UniTask.Delay(1000, cancellationToken: cts);
             if (!autoWorkload.IsZero)
             {
@@ -71,40 +57,15 @@ public class CraftingFloor : Floor
                         (b as CraftingBuilding).isCrafting = false; // 제작 끝
                         continue;
                     }
+                    if(!(b as CraftingBuilding).craftingSlider.gameObject.activeSelf)
+                        (b as CraftingBuilding).craftingSlider.gameObject.SetActive(true);
 
                     b.accumWorkLoad += autoWorkload;
 
-                    while ((b as CraftingBuilding).CurrentRecipeStat != null && b.accumWorkLoad >= (b as CraftingBuilding).CurrentRecipeStat.Workload)
+                    if(b.accumWorkLoad > (b as CraftingBuilding).CurrentRecipeStat.Workload)
                     {
-                        if ((storage as StorageProduct).IsFull)
-                        {
-                            (b as CraftingBuilding).isCrafting = false; // 제작 끝
-                            break;
-                        }
-                        // 생성
-                        (storage as StorageProduct).IncreaseProduct((b as CraftingBuilding).CurrentRecipeStat.Product_ID);
-                        
-
-                        (b as CraftingBuilding).CancelCrafting();
-
-                        if((b as CraftingBuilding).recipeStatList.Count > 0)
-                        {
-                            (b as CraftingBuilding).CurrentRecipeStat = null;
-                            (b as CraftingBuilding).Set((b as CraftingBuilding).recipeStatList.Peek());
-                            UiManager.Instance.craftTableUi.RefreshAfterCrafting();
-                            (b as CraftingBuilding).SetSlider();
-                            break;
-                        }
-
-                        (b as CraftingBuilding).CurrentRecipeStat = null;
-                        (b as CraftingBuilding).isCrafting = false; // 제작 끝
-                        UiManager.Instance.craftTableUi.Refresh();
-                    }
-
-                    if ((storage as StorageProduct).IsFull)
-                    {
-                        (b as CraftingBuilding).isCrafting = false; // 제작 끝
-                        continue;
+                        (b as CraftingBuilding).FinishCrafting();
+                        b.accumWorkLoad = BigNumber.Zero;
                     }
                 }
                 NotifyObservers();

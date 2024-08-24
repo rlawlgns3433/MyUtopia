@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 public class CraftingBuilding : Building
 {
@@ -17,10 +14,6 @@ public class CraftingBuilding : Building
         set
         {
             currentRecipeStat = value;
-            if(currentRecipeStat == null)
-                UiManager.Instance.craftTableUi.uiCraftingSlot.buttonAccelerate.interactable = false;
-            else
-                UiManager.Instance.craftTableUi.uiCraftingSlot.buttonAccelerate.interactable = true;
         }
     }
     public Queue<RecipeStat> recipeStatList = new Queue<RecipeStat>();
@@ -40,6 +33,7 @@ public class CraftingBuilding : Building
         }
         else
         {
+            craftingSlider.value = 0;
             craftingSlider.gameObject.SetActive(false);
         }
     }
@@ -50,38 +44,12 @@ public class CraftingBuilding : Building
         if(currentRecipeStat != null)
         {
             craftingSlider.maxValue = currentRecipeStat.Workload;
-            craftingSlider.value = craftingSlider.minValue;
         }
         else
         {
             craftingSlider.maxValue = 1;
             craftingSlider.value = 0;
         }
-    }
-
-    public void CancelCrafting()
-    {
-        if(CurrentRecipeStat != null)
-        {
-            MissionManager.Instance.AddMissionCountMakeItem(CurrentRecipeStat.Product_ID);
-            MissionManager.Instance.AddMissionCountMakeItem(0);
-        }
-
-        UiManager.Instance.craftTableUi.uiCraftingSlot.recipeCurrentCrafting = null;
-
-        if (recipeStatList.Count <= 0 && currentRecipeStat == null)
-        {
-            AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>("Plane_Square_Round_3");
-            handle.Completed += (AsyncOperationHandle<Sprite> obj) =>
-            {
-                UiManager.Instance.craftTableUi.uiCraftingSlot.imageCurrentCrafting.sprite = obj.Result;
-            };
-
-            UiManager.Instance.craftTableUi.uiCraftingSlot.textCurrentCraftingName.text = "ÀÌ¸§";
-        }
-
-        craftingSlider.gameObject.SetActive(false);
-        accumWorkLoad = BigNumber.Zero;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
@@ -94,29 +62,29 @@ public class CraftingBuilding : Building
         if (recipeStat == null)
             return;
 
-        if(currentRecipeStat == null)
+        if(CurrentRecipeStat == null)
             CurrentRecipeStat = recipeStat;
+        else
+            recipeStatList.Enqueue(recipeStat);
 
         isCrafting = true;
 
         SetSlider();
     }
 
-    public void UseResources()
+    public void FinishCrafting()
     {
-        if (currentRecipeStat.Resource_1 != 0)
+        var storageProduct = (FloorManager.Instance.GetFloor("B3") as CraftingFloor).storage as StorageProduct;
+        storageProduct.IncreaseProduct(CurrentRecipeStat.Product_ID);
+        CurrentRecipeStat = null;
+        isCrafting = false;
+
+        if(recipeStatList.Count > 0)
         {
-            CurrencyManager.currency[(CurrencyType)currentRecipeStat.Resource_1] -= currentRecipeStat.Resource_1_Value.ToBigNumber();
+            Set(recipeStatList.Dequeue());
+            SetSlider();
         }
 
-        if (currentRecipeStat.Resource_2 != 0)
-        {
-            CurrencyManager.currency[(CurrencyType)currentRecipeStat.Resource_2] -= currentRecipeStat.Resource_2_Value.ToBigNumber();
-        }
-
-        if (currentRecipeStat.Resource_3 != 0)
-        {
-            CurrencyManager.currency[(CurrencyType)currentRecipeStat.Resource_3] -= currentRecipeStat.Resource_3_Value.ToBigNumber();
-        }
+        UiManager.Instance.craftTableUi.uiCraftingSlot.RefreshAll();
     }
 }

@@ -1,152 +1,97 @@
-using UnityEngine.UI;
-using TMPro;
-using Unity.VisualScripting;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.UI;
 
 public class UiCraftingSlot : Observer
 {
-    private static readonly string format = "{0} / {1}";
-    public Image imageCurrentCrafting;
-    public RecipeStat recipeCurrentCrafting;
-    public List<UiWaitingSlot> waitingSlots = new List<UiWaitingSlot>();
-    public TextMeshProUGUI textCurrentCraftingName;
-    public TextMeshProUGUI textCurrentRemainProcess;
+    public CraftingBuilding craftingBuilding;
+    public Image imageCurrentSlot;
+    public TextMeshProUGUI textCurrentSlot;
+    public List<Image> imagesWaiting = new List<Image>();
     public Slider sliderProcess;
     public Button buttonAccelerate;
-    public bool CanHoldWaitingSlot
+
+    public override void Notify(Subject subject)
     {
-        get
+        if (craftingBuilding == null)
+            return;
+
+        sliderProcess.value = craftingBuilding.craftingSlider.value;
+    }
+
+    public void SetData(CraftingBuilding craftingBuilding)
+    {
+        this.craftingBuilding = craftingBuilding;
+        sliderProcess.maxValue = this.craftingBuilding.craftingSlider.maxValue;
+        sliderProcess.value = this.craftingBuilding.craftingSlider.value;
+
+        RefreshCurrentSlot();
+        RefreshWaitingList();
+    }
+
+    public async void RefreshCurrentSlot()
+    {
+        if (craftingBuilding.CurrentRecipeStat != null)
         {
-            foreach(var slot in waitingSlots)
+            buttonAccelerate.interactable = true;
+            imageCurrentSlot.sprite = await craftingBuilding.CurrentRecipeStat.RecipeData.GetProduct().GetImage();
+            textCurrentSlot.text = craftingBuilding.CurrentRecipeStat.RecipeData.GetName();
+        }
+        else
+        {
+            sliderProcess.value = 0;
+            buttonAccelerate.interactable = false;
+            imageCurrentSlot.sprite = Addressables.LoadAssetAsync<Sprite>("Plane_Square_Round_3").WaitForCompletion();
+            textCurrentSlot.text = "이름";
+        }
+    }
+
+    public async void RefreshWaitingList()
+    {
+        if (craftingBuilding.recipeStatList.Count > 0)
+        {
+            Queue<RecipeStat> copyList = new Queue<RecipeStat>(craftingBuilding.recipeStatList);
+            for (int i = 0; i < imagesWaiting.Count; i++)
             {
-                if(slot.recipeStat == null)
+                if (copyList.Count > 0)
                 {
-                    return true;
+                    imagesWaiting[i].sprite = await copyList.Dequeue().RecipeData.GetProduct().GetImage();
+                }
+                else
+                {
+                    imagesWaiting[i].sprite = Addressables.LoadAssetAsync<Sprite>("Transparency").WaitForCompletion();
                 }
             }
-
-            return false;
         }
-    }
-
-    private void OnEnable()
-    {
-        if (recipeCurrentCrafting == null)
+        else
         {
-            buttonAccelerate.interactable = false;
-            return;
-        }
-    }
-
-    private void OnDestroy()
-    {
-        Destroy(imageCurrentCrafting.gameObject);
-        Destroy(sliderProcess.gameObject);
-        Destroy(gameObject);
-    }
-
-    public void SetWaitingList(RecipeStat recipeStat)
-    {
-        foreach (var slot in waitingSlots)
-        {
-            if (slot.recipeStat == null)
+            for (int i = 0; i < imagesWaiting.Count; i++)
             {
-                UiManager.Instance.craftTableUi.craftingBuilding.recipeStatList.Enqueue(recipeStat);
-                slot.SetData(recipeStat);
-                return;
+                imagesWaiting[i].sprite = Addressables.LoadAssetAsync<Sprite>("Plane_Square_Round_3").WaitForCompletion();
             }
         }
     }
 
-    public async virtual void SetData(RecipeStat recipeStat) // 레시피로 변경
+    public void RefreshAll()
     {
-        if (recipeStat == null)
-            return;
-
-        recipeCurrentCrafting = recipeStat;
-        sliderProcess.minValue = 0f;
-        sliderProcess.maxValue = recipeCurrentCrafting.RecipeData.Workload;
-        imageCurrentCrafting.sprite = await recipeCurrentCrafting.RecipeData.GetProduct().GetImage();
-        textCurrentCraftingName.text = recipeCurrentCrafting.RecipeData.GetName();
-        textCurrentRemainProcess.text = string.Format(format, sliderProcess.value.ToString(), recipeStat.RecipeData.Workload);
-        buttonAccelerate.interactable = recipeCurrentCrafting != null ? true : false;
-
-        var floor = FloorManager.Instance.GetFloor("B3");
-        floor.AttachObserver(this);
+        RefreshCurrentSlot();
+        RefreshWaitingList();
     }
 
     public void OnClickAccelerate()
     {
-        var building = UiManager.Instance.craftTableUi.craftingBuilding;
+        craftingBuilding.accumWorkLoad += 5000;
+        sliderProcess.value = craftingBuilding.craftingSlider.value;
 
-        if(recipeCurrentCrafting == null)
+        if(sliderProcess.value >= sliderProcess.maxValue)
         {
-            buttonAccelerate.interactable = false;
-            return;
-        }
-
-        buttonAccelerate.interactable = true;
-        UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad += 5000; // 터치 업무량 추가 적용 필요
-        sliderProcess.value = UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad.ToFloat();
-        textCurrentRemainProcess.text = sliderProcess.value.ToString();
-        SoundManager.Instance.OnClickButton(SoundType.Crafting);
-
-        if (sliderProcess.value >= sliderProcess.maxValue)
-        {
-            (FloorManager.Instance.GetFloor("B3").storage as StorageProduct).IncreaseProduct(building.CurrentRecipeStat.Product_ID);
-            MissionManager.Instance.AddMissionCountMakeItem(building.CurrentRecipeStat.Product_ID);
-            MissionManager.Instance.AddMissionCountMakeItem(0);
-
-            if (building.recipeStatList.Count > 0)
-            {
-                building.CurrentRecipeStat = null;
-                var nextRecipe = building.recipeStatList.Peek();
-                building.Set(nextRecipe);
-                UiManager.Instance.craftTableUi.RefreshAfterCrafting();
-                building.CancelCrafting();
-                recipeCurrentCrafting = nextRecipe;
-            }
-            else
-            {
-                building.CurrentRecipeStat = null;
-                building.CancelCrafting();
-                building.isCrafting = false; // 제작 끝
-            }
-            if(FloorManager.Instance.touchManager.tutorial != null)
-            {
-                if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Accelerate)
-                {
-                    FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();//튜토리얼
-                }
-            }
+            craftingBuilding.FinishCrafting();
+            craftingBuilding.accumWorkLoad = BigNumber.Zero;
             sliderProcess.value = 0;
-            building.SetSlider();
-            textCurrentRemainProcess.text = building.craftingSlider.value.ToString();
-        }
-    }
-
-    public override void Notify(Subject subject)
-    {
-        sliderProcess.value = UiManager.Instance.craftTableUi.craftingBuilding.accumWorkLoad.ToFloat();
-        textCurrentRemainProcess.text = sliderProcess.value.ToString();
-    }
-
-
-    public void ReturnResources()
-    {
-        if (recipeCurrentCrafting.Resource_1 != 0)
-        {
-            CurrencyManager.currency[(CurrencyType)recipeCurrentCrafting.Resource_1] += recipeCurrentCrafting.Resource_1_Value.ToBigNumber();
-        }
-
-        if (recipeCurrentCrafting.Resource_2 != 0)
-        {
-            CurrencyManager.currency[(CurrencyType)recipeCurrentCrafting.Resource_2] += recipeCurrentCrafting.Resource_2_Value.ToBigNumber();
-        }
-
-        if (recipeCurrentCrafting.Resource_3 != 0)
-        {
-            CurrencyManager.currency[(CurrencyType)recipeCurrentCrafting.Resource_3] += recipeCurrentCrafting.Resource_3_Value.ToBigNumber();
+            RefreshCurrentSlot();
+            RefreshWaitingList();
         }
     }
 }
