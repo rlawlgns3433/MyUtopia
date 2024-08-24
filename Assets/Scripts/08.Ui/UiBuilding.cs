@@ -21,8 +21,12 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
     public Transform contents; // 하위에 업그레이드 시 재화가 얼마나 필요한 지
     public ClockFormatTimer clockFormatTimer;
 
-    public bool IsUpgrading { get => building.IsUpgrading; set => building.IsUpgrading = value; }
-
+    public bool IsUpgrading { get => building.BuildingStat.IsUpgrading; set => building.BuildingStat.IsUpgrading = value; }
+    public double UpgradeTimeLeft
+    {
+        get => building.BuildingStat.UpgradeTimeLeft;
+        set => building.BuildingStat.UpgradeTimeLeft = value;
+    }
     public void FinishUpgrade()
     {
         SetDia();
@@ -73,6 +77,19 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         buttonLevelUp.onClick.AddListener(SetDia);
         if (IsUpgrading)
         {
+            if (clockFormatTimer.canStartTimer)
+            {
+                clockFormatTimer.SetTimer((int)building.BuildingStat.UpgradeTimeLeft);
+                clockFormatTimer.StartClockTimer();
+                clockFormatTimer.canStartTimer = false;
+                IsUpgrading = true;
+                foreach (var currency in uiUpgradeCurrencies)
+                {
+                    Destroy(currency.gameObject);
+                }
+                uiUpgradeCurrencies.Clear();
+            }
+
             SetDia();
             imageTextTimer.gameObject.SetActive(true);
             imageDia.gameObject.SetActive(true);
@@ -186,16 +203,9 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
 
     public void SetStartUi()
     {
-        clockFormatTimer.canStartTimer = false;
-
-        if (building.IsUpgrading)
+        if (building.BuildingStat.IsUpgrading)
         {
             clockFormatTimer.canStartTimer = false;
-            // Todo
-            // 클릭 시 다이아 소모하면서 시간 단축
-            // 1. 필요 다이아 개수 계산
-            // 2. 필요 다이아를 소모할 것인지 확인
-            // 3. 필요 다이아를 소모해서 시간 단축과 함께 업그레이드 완료
             SetDia();
             UiManager.Instance.ShowConfirmPanelUi();
             UiManager.Instance.confirmPanelUi.SetText(CalculateDiamond(), this);

@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
 public class UiFloorInformation : MonoBehaviour
 {
@@ -40,10 +41,14 @@ public class UiFloorInformation : MonoBehaviour
         }
     }
 
-    private void Awake()
+    private async void Awake()
     {
         uiBuildings = new List<UiBuildingInfo>();
         resourceTable = DataTableMgr.GetResourceTable();
+
+        await UniWaitFloors();
+        await UniTask.WaitUntil(() => GameManager.Instance.isLoadedWorld);
+        GenerateEntireBuilding();
     }
     public void SetFloorData()
     {
@@ -117,6 +122,7 @@ public class UiFloorInformation : MonoBehaviour
                 if (ValidateBuildingData(building))
                 {
                     UiBuildingInfo uiBuildingInfo = Instantiate(buildingInfoPrefab, buildingParent);
+                    uiBuildingInfo.gameObject.SetActive(false);
                     bool isSucceed = uiBuildingInfo.Set(building);
 
                     if (isSucceed)
@@ -127,6 +133,32 @@ public class UiFloorInformation : MonoBehaviour
             }
         }
     }
+
+    public void GenerateEntireBuilding()
+    {
+        foreach (var floor in FloorManager.Instance.floors.Values)
+        {
+            if (floor.FloorStat.Floor_Num <= 2)
+                continue;
+
+            foreach (var building in floor.buildings)
+            {
+                if (!building.BuildingStat.IsLock)
+                {
+                    if (ValidateBuildingData(building))
+                    {
+                        UiBuildingInfo uiBuildingInfo = Instantiate(buildingInfoPrefab, buildingParent);
+                        bool isSucceed = uiBuildingInfo.Set(building);
+
+                        if (isSucceed)
+                        {
+                            uiBuildings.Add(uiBuildingInfo);
+                        }
+                    }
+                }
+            }
+        }
+     }
 
     public void SetActiveFalseAllBuildingFurniture()
     {
@@ -144,6 +176,14 @@ public class UiFloorInformation : MonoBehaviour
                 uiFloorInfoBlocks[i].gameObject.SetActive(true);
             else
                 uiFloorInfoBlocks[i].gameObject.SetActive(false);
+        }
+    }
+
+    public async UniTask UniWaitFloors()
+    {
+        while (FloorManager.Instance.floors.Count < 5)
+        {
+            await UniTask.Yield();
         }
     }
 }

@@ -96,6 +96,9 @@ public class Floor : Subject, IGrowable
             offLineWorkLoad = value;
         }
     }
+
+    public double UpgradeTimeLeft { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
     public float disabledTime;
     public Floor() { }
     public Floor(int floorId)

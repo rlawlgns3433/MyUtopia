@@ -26,22 +26,22 @@ public class GameManager : Singleton<GameManager>
     }
 
     public bool isPlayingData;
-
+    public bool isLoadedWorld;
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        Application.quitting += SetPlayerData;
+        //Application.quitting += SetPlayerData; // ¸ð¹ÙÀÏ ºôµå X
         CurrencyManager.Init();
         CurrentSceneId = SceneIds.WorldLandOfHope;
     }
 
-    //private void OnApplicationPause(bool pause) // ¸ð¹ÙÀÏ ºôµå 
-    //{
-    //    if (pause)
-    //    {
-    //        SetPlayerData();
-    //    }
-    //}
+    private void OnApplicationPause(bool pause) // ¸ð¹ÙÀÏ ºôµå 
+    {
+        if (pause)
+        {
+            SetPlayerData();
+        }
+    }
 
 
 
@@ -55,7 +55,7 @@ public class GameManager : Singleton<GameManager>
         await UniTask.WaitUntil(
             () =>
             {
-                if(++count > 10)
+                if(++count > 20)
                     return true;
 
                 return UtilityTime.Seconds > 0;
@@ -82,6 +82,15 @@ public class GameManager : Singleton<GameManager>
 
                 var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
                 floor.FloorStat = floorSaveData.floorStat;
+
+                if(floor.FloorStat.IsUpgrading)
+                {
+                    floor.FloorStat.UpgradeTimeLeft -= UtilityTime.Seconds;
+                    if (floor.FloorStat.UpgradeTimeLeft < 0)
+                    {
+                        floor.FloorStat.UpgradeTimeLeft = 0;
+                    }
+                }
 
                 for(int j = 0; j < floor.FloorStat.Grade; ++j)
                 {
@@ -137,7 +146,17 @@ public class GameManager : Singleton<GameManager>
                 {
                     if (buildings.Count == 0)
                         break;
-                    floor.buildings[j].BuildingStat.IsLock = false;
+
+                    if (buildings[j].buildingStat.IsUpgrading)
+                    {
+                        buildings[j].buildingStat.UpgradeTimeLeft -= UtilityTime.Seconds;
+                        if(buildings[j].buildingStat.UpgradeTimeLeft < 0)
+                        {
+                            buildings[j].buildingStat.UpgradeTimeLeft = 0;
+                        }
+                    }
+
+                    buildings[j].buildingStat.IsLock = false;
                     floor.buildings[j].gameObject.SetActive(true);
                 }
 
@@ -221,6 +240,8 @@ public class GameManager : Singleton<GameManager>
             UiManager.Instance.productsUi.capacity = storageProduct.BuildingStat.Effect_Value;
         }
         await UniTask.WaitForSeconds(1);
+
+        isLoadedWorld = true;
     }
 
     public void RegisterSceneManager(SceneIds sceneName, SceneController sceneManager)

@@ -28,8 +28,15 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         set => floor.FloorStat.IsUpgrading = value;
     }
 
+    public double UpgradeTimeLeft
+    {
+        get => floor.FloorStat.UpgradeTimeLeft;
+        set => floor.FloorStat.UpgradeTimeLeft = value;
+    }
+
     public void FinishUpgrade()
     {
+        SetDia();
         imageDia.gameObject.SetActive(false);
         imageTextTimer.gameObject.SetActive(false);
     }
@@ -65,6 +72,20 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         if (IsUpgrading)
         {
+            if (clockFormatTimer.canStartTimer)
+            {
+                clockFormatTimer.SetTimer((int)floor.FloorStat.UpgradeTimeLeft);
+                clockFormatTimer.StartClockTimer();
+                clockFormatTimer.canStartTimer = false;
+                IsUpgrading = true;
+
+                foreach (var currency in uiUpgradeCurrencies)
+                {
+                    Destroy(currency.gameObject);
+                }
+                uiUpgradeCurrencies.Clear();
+            }
+
             SetDia();
             imageTextTimer.gameObject.SetActive(true);
             imageDia.gameObject.SetActive(true);
@@ -181,15 +202,9 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
     public void SetStartUi()
     {
-        clockFormatTimer.canStartTimer = false;
-
         if (floor.FloorStat.IsUpgrading)
         {
-            // Todo
-            // 클릭 시 다이아 소모하면서 시간 단축
-            // 1. 필요 다이아 개수 계산
-            // 2. 필요 다이아를 소모할 것인지 확인
-            // 3. 필요 다이아를 소모해서 시간 단축과 함께 업그레이드 완료
+            clockFormatTimer.canStartTimer = false;
             SetDia();
             UiManager.Instance.ShowConfirmPanelUi();
             UiManager.Instance.confirmPanelUi.SetText(CalculateDiamond(), this);
@@ -207,7 +222,6 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         if (!CheckUpgradeCondition())
         {
-            // 모든 건물이 레벨을 충족하지 못함
             UiManager.Instance.ShowWarningPanelUi();
             UiManager.Instance.warningPanelUi.SetWaring(WaringType.FloorUpgrade);
             SoundManager.Instance.OnClickButton(SoundType.Caution);
@@ -227,7 +241,6 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         clockFormatTimer.canStartTimer = true;
         IsUpgrading = true;
         floor.SpendCurrency();
-
         imageTextTimer.gameObject.SetActive(true);
         imageDia.gameObject.SetActive(true);
         clockFormatTimer.SetTimer(floor.FloorStat.Level_Up_Time);

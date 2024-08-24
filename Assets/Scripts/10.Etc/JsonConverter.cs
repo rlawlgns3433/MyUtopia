@@ -164,7 +164,7 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
             FloorSaveData floorData = new FloorSaveData((int)floorProperties["Id"]);
             floorData.floorStat.IsLock = (bool)floorProperties["IsLock"];
             floorData.floorStat.IsUpgrading = (bool)floorProperties["IsUpgrading"];
-            floorData.floorStat.UpgradeTimeLeft = (int)floorProperties["UpgradeTimeLeft"];
+            floorData.floorStat.UpgradeTimeLeft = (double)floorProperties["UpgradeTimeLeft"];
 
             var animals = floorProperties["Animals"];
             foreach (var animal in animals)
@@ -186,6 +186,8 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
                 BuildingSaveData buildingData;
                 var builidingStat = new BuildingStat((int)building["Id"]);
                 builidingStat.IsLock = (bool)building["IsLock"];
+                builidingStat.IsUpgrading = (bool)building["IsUpgrading"];
+                builidingStat.UpgradeTimeLeft = (double)building["UpgradeTimeLeft"];
                 buildingData = new BuildingSaveData(builidingStat);
                 floorData.buildingSaveDatas.Add(buildingData);
             }
@@ -247,6 +249,10 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
                 writer.WriteValue(value[i].buildingSaveDatas[j].buildingStat.Building_ID);                
                 writer.WritePropertyName("IsLock");
                 writer.WriteValue(value[i].buildingSaveDatas[j].buildingStat.IsLock);
+                writer.WritePropertyName("IsUpgrading");
+                writer.WriteValue(value[i].buildingSaveDatas[j].buildingStat.IsUpgrading);
+                writer.WritePropertyName("UpgradeTimeLeft");
+                writer.WriteValue(value[i].buildingSaveDatas[j].buildingStat.UpgradeTimeLeft);
                 writer.WriteEndObject();
             }
             writer.WriteEndArray();

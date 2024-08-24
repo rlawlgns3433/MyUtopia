@@ -119,7 +119,7 @@ public class FloorStat
     public string Resource_3_Value { get; set; }
     public bool IsLock { get; set; }
     public bool IsUpgrading { get; set; } = false;
-    public int UpgradeTimeLeft { get; set; }
+    public double UpgradeTimeLeft { get; set; }
     public FloorStat() { }
 
     public FloorStat(int floorId)
@@ -309,6 +309,8 @@ public class BuildingStat
     public string Resource_3_Value { get; set; }
     public string Prefab { get; set; }
     public bool IsLock { get; set; } = true;
+    public bool IsUpgrading { get; set; } = false;
+    public double UpgradeTimeLeft { get; set; }
 
     public BuildingStat() { }
 

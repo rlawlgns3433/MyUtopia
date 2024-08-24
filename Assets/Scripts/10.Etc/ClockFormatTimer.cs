@@ -10,16 +10,31 @@ public class ClockFormatTimer : MonoBehaviour
     public int timerDuration = 3600; 
 
     public TextMeshProUGUI timerText;
-    public bool canStartTimer;
+    public bool canStartTimer = true;
     public TimeSpan timespan;
     public Tween timerTween;
     public float remainingTime;
     private float startTime;
+    private IGrowable growable;
+    private IUISetupable uISetupable;
+
+    private void Start()
+    {
+        growable = GetComponent<IGrowable>();
+        uISetupable = GetComponent<IUISetupable>();
+    }
 
     public void StartClockTimer()
     {
         if (!canStartTimer)
             return;
+
+        if(growable == null)
+            growable = GetComponent<IGrowable>();
+
+        if(uISetupable == null)
+            uISetupable = GetComponent<IUISetupable>();
+
         timerText.gameObject.SetActive(true);
         StartClockTimer(timerDuration);
     }
@@ -44,6 +59,8 @@ public class ClockFormatTimer : MonoBehaviour
         int minutes = Mathf.FloorToInt((remainingTime % 3600) / 60);
         int seconds = Mathf.FloorToInt(remainingTime % 60);
 
+        growable.UpgradeTimeLeft = Mathf.FloorToInt(remainingTime);
+
         timerText.text = string.Format(formatTimer, hours, minutes, seconds);
     }
 
@@ -52,9 +69,6 @@ public class ClockFormatTimer : MonoBehaviour
         // 타이머 사용하는 곳
         // 단골 게시판 SetPatronUi, 건물 업그레이드 SetBuildingUi, 시설물 업그레이드 SetFurnitureUi, 계층 업그레이드 SetFloorUi = > SetUi
         timerText.text = string.Format(formatTimer, 0, 0, 0);
-
-        IGrowable growable = GetComponent<IGrowable>();
-        IUISetupable uISetupable = GetComponent<IUISetupable>();
 
         if(growable.IsUpgrading)
         {

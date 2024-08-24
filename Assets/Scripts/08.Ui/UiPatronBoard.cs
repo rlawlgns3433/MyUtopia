@@ -25,6 +25,11 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
     }
     public ClockFormatTimer clockFormatTimer;
     public bool IsUpgrading { get => building.IsUpgrading; set => building.IsUpgrading = value; }
+    public double UpgradeTimeLeft 
+    {
+        get => building.BuildingStat.UpgradeTimeLeft;
+        set => building.BuildingStat.UpgradeTimeLeft = value;
+    }
 
     private void Start()
     {
