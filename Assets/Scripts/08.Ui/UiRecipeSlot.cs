@@ -69,7 +69,7 @@ public class UiRecipeSlot : MonoBehaviour
 
     public void OnCraftButtonClicked()
     {
-        var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
+        var storageProduct = FloorManager.Instance.GetFloor("B3").storage as StorageProduct;
 
         if (storageProduct.IsFull)
         {
@@ -142,7 +142,7 @@ public class UiRecipeSlot : MonoBehaviour
 
     public bool CheckResource(int amount = 1)
     {
-        var storageProduct = FloorManager.Instance.floors["B3"].storage as StorageProduct;
+        var storageProduct = FloorManager.Instance.GetFloor("B3").storage as StorageProduct;
 
         if (storageProduct.IsFull)
             return false;

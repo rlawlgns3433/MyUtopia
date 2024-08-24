@@ -36,7 +36,7 @@ public class WalkBehaviourNode : StandardNode
         animalController.SetTime = 0;
         animalController.StateTimer = 0;
         animalController.DestinationSet = false;
-        animalController.behaviorTreeRoot.IsSetBehaviour = false;
+        animalController.BehaviorTreeRoot.IsSetBehaviour = false;
     }
 
     public override bool Execute()
@@ -56,7 +56,6 @@ public class WalkBehaviourNode : StandardNode
         }
 
         // 실제 행동에 대한 코드
-        Debug.Log("Walking");
 
         if (!animalController.DestinationSet || animalController.IsEndMovement)
         {

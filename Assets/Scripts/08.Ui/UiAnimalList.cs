@@ -41,6 +41,8 @@ public class UiAnimalList : Observer
     public void SetAnimalListMode()
     {
         mode = AnimalListMode.AnimalList;
+
+        slots.Clear();
         UiManager.Instance.IsAnimalList(true);
         foreach (var parent in parents)
         {

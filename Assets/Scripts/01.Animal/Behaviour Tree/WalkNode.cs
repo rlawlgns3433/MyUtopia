@@ -29,9 +29,8 @@ public class WalkNode : StandardNode
         animalController.animalState = AnimalState.Walk;
         animalController.animator.Play(AnimationHash.Walk, animalController.animator.GetLayerIndex("Base Layer"));
         animalController.animator.Play(AnimationHash.eyeAnnoyed, animalController.animator.GetLayerIndex("Shapekey"));
-        animalController.behaviorTreeRoot.IsSetBehaviour = true;
+        animalController.BehaviorTreeRoot.IsSetBehaviour = true;
 
-        Debug.Log("Walk");
 
         return true;
     }

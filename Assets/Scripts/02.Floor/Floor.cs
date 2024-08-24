@@ -63,9 +63,11 @@ public class Floor : Subject, IGrowable
     {
         get
         {
-            if (floorStat == null)
+            if (floorStat == null || floorStat.FloorData == FloorTable.defaultData)
             {
                 floorStat = new FloorStat(floorId);
+                FloorManager.Instance.AddFloor($"B{floorStat.Floor_Num}", this);
+
             }
             return floorStat;
         }
@@ -94,6 +96,7 @@ public class Floor : Subject, IGrowable
             offLineWorkLoad = value;
         }
     }
+    public float disabledTime;
     public Floor() { }
     public Floor(int floorId)
     {
@@ -103,17 +106,21 @@ public class Floor : Subject, IGrowable
         }
     }
 
-    private void OnApplicationQuit()
+    private void OnApplicationPause(bool pause)
     {
-        if(IsUpgrading)
+        if(pause)
         {
-            FloorStat.UpgradeTimeLeft -= Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - FloorStat.UpgradeStartTime);
-            // 정확한 시간을 넘겨줄 필요가 있음 FloorInfoBlock 참고
-        }
-        else
-        {
-            FloorStat.UpgradeTimeLeft = 0;
-            FloorStat.UpgradeStartTime = 0;
+            if (IsUpgrading)
+            {
+                FloorStat.UpgradeTimeLeft = FloorStat.UpgradeTimeLeft - Mathf.FloorToInt(Time.time - disabledTime);
+                //FloorStat.UpgradeTimeLeft -= Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - FloorStat.UpgradeStartTime);
+                // 정확한 시간을 넘겨줄 필요가 있음 FloorInfoBlock 참고
+            }
+            else
+            {
+                FloorStat.UpgradeTimeLeft = 0;
+                FloorStat.UpgradeStartTime = 0;
+            }
         }
     }
 
@@ -154,7 +161,7 @@ public class Floor : Subject, IGrowable
         foreach (var animal in animals)
         {
             var controller = animal.animalWork.GetComponent<AnimalController>();
-            controller.behaviorTreeRoot.InitializeBehaviorTree();
+            controller.BehaviorTreeRoot.InitializeBehaviorTree();
         }
     }
 

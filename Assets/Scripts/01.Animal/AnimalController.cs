@@ -21,7 +21,23 @@ public class AnimalController : MonoBehaviour
     public AnimalWork animalWork;
     public Animator animator;
     private NavMeshAgent agent;
-    public BehaviourSetNode behaviorTreeRoot;
+    private BehaviourSetNode behaviorTreeRoot;
+    public BehaviourSetNode BehaviorTreeRoot
+    {
+        get
+        {
+            if(behaviorTreeRoot == null)
+            {
+                InitializeBehaviorTree();
+            }
+
+            return behaviorTreeRoot;
+        }
+        set
+        {
+            behaviorTreeRoot = value;
+        }
+    }
     private bool destinationSet;
     public float range = 10.0f;
     private float timer = 0f;
@@ -32,7 +48,7 @@ public class AnimalController : MonoBehaviour
     {
         get
         {
-            var floor = FloorManager.Instance.floors[animalWork.Animal.animalStat.CurrentFloor];
+            var floor = FloorManager.Instance.GetFloor(animalWork.Animal.animalStat.CurrentFloor);
             wayPoints = floor.GetComponent<FloorWaypoint>().waypoints;
 
             return wayPoints;
@@ -80,7 +96,10 @@ public class AnimalController : MonoBehaviour
 
     private void Start()
     {
-        InitializeBehaviorTree();
+        if (behaviorTreeRoot == null)
+        {
+            InitializeBehaviorTree();
+        }
     }
 
     private void InitializeBehaviorTree()

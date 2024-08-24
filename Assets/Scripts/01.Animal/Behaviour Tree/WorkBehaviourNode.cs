@@ -55,7 +55,7 @@ public class WorkBehaviourNode : StandardNode
     {
         animalController.SetTime = 0;
         animalController.StateTimer = 0;
-        animalController.behaviorTreeRoot.IsSetBehaviour = false;
+        animalController.BehaviorTreeRoot.IsSetBehaviour = false;
         first = true;
 
         if (animalController.CurrentWaypoint == null)
@@ -84,7 +84,6 @@ public class WorkBehaviourNode : StandardNode
         }
 
         // 실제 행동에 대한 코드
-        Debug.Log("Working");
 
         action?.Invoke();
 

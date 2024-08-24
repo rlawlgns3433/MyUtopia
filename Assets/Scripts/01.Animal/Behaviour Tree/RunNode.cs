@@ -20,10 +20,9 @@ public class RunNode : StandardNode
     public override bool Execute()
     {
         animalController.animalState = AnimalState.Run;
-        animalController.behaviorTreeRoot.IsSetBehaviour = true;
+        animalController.BehaviorTreeRoot.IsSetBehaviour = true;
         animalController.animator.Play(AnimationHash.Walk, animalController.animator.GetLayerIndex("Base Layer"));
         animalController.animator.Play(AnimationHash.eyeAnnoyed, animalController.animator.GetLayerIndex("Shapekey"));
-        Debug.Log("Run");
         return true;
     }
 }

@@ -22,7 +22,7 @@ public class UiMissionList : MonoBehaviour
     //private bool halfPointCheck = false;
     //private bool twoThirdCheck = false;
     //private bool maxPointCheck = false;
-    private List<UiMission> dailyMissionList = new List<UiMission>(); // ¸®½ºÆ® ÃÊ±âÈ­
+    private List<UiMission> dailyMissionList = new List<UiMission>(); // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­
     public ParticleSystem ps;
     private bool missionsGenerated = false;
     private List<bool> checkPoints = new List<bool>();
@@ -30,10 +30,14 @@ public class UiMissionList : MonoBehaviour
     private void OnEnable()
     {
         missionType = MissionDayTypes.Daily;
-
-        if (!missionsGenerated) // ¹Ì¼ÇÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾Ê¾ÒÀ» ¶§¸¸ »ý¼º
+        if (!missionsGenerated)
         {
             LoadAndDisplayMissions();
+            checkPoints = MissionManager.Instance.dailyMissionCheck;
+            foreach (var m in checkPoints)
+            {
+                Debug.Log($"saveCheckPoints{m}");
+            }
             missionsGenerated = true;
         }
 
@@ -48,6 +52,11 @@ public class UiMissionList : MonoBehaviour
                 mission.SetButton();
             }
         }
+    }
+
+    private void Start()
+    {
+
     }
 
     public void UpdateSliderValue(float value)
@@ -98,9 +107,13 @@ public class UiMissionList : MonoBehaviour
         twoThirdPoint = missionSlider.maxValue * 0.75f;
         maxPoint = missionSlider.maxValue;
 
-        checkPointHalf.GetComponentInChildren<TextMeshProUGUI>().text = ((int)halfPoint).ToString();
-        checkPointTwoThird.GetComponentInChildren<TextMeshProUGUI>().text = ((int)twoThirdPoint).ToString();
-        checkPointMax.GetComponentInChildren<TextMeshProUGUI>().text = ((int)maxPoint).ToString();
+        //checkPointHalf.GetComponentInChildren<TextMeshProUGUI>().text = ((int)halfPoint).ToString();
+        //checkPointTwoThird.GetComponentInChildren<TextMeshProUGUI>().text = ((int)twoThirdPoint).ToString();
+        //checkPointMax.GetComponentInChildren<TextMeshProUGUI>().text = ((int)maxPoint).ToString();
+        var reward = DataTableMgr.GetRewardTable().Get(12101001);
+        checkPointHalf.GetComponentInChildren<TextMeshProUGUI>().text = reward.Reward1_Value;
+        checkPointTwoThird.GetComponentInChildren<TextMeshProUGUI>().text = reward.Reward1_Value;
+        checkPointMax.GetComponentInChildren<TextMeshProUGUI>().text = reward.Reward1_Value;
     }
 
     private void CheckMissionPoint()
@@ -109,7 +122,7 @@ public class UiMissionList : MonoBehaviour
         if (checkPoints[0] && checkPoints[1] && checkPoints[2])
             return;
 
-        if (missionSlider.value >= halfPoint && !checkPoints[0])//Á¶°Ç °Ë»ç ¾î¶»°Ô ÇÒÁö? ½ÃÀÛÇÒ¶§ °ª ÇÒ´çÇÏ´Âµ¥...
+        if (missionSlider.value >= halfPoint && !checkPoints[0])//ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ ï¿½î¶»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½Ï´Âµï¿½...
         {
             SetCheckpoint(checkPointHalf, 0);
         }
@@ -163,7 +176,7 @@ public class UiMissionList : MonoBehaviour
     {
         ClearMissionList();
         List<MissionSaveData> missions = MissionManager.Instance.GetMissionsByType(missionType);
-
+        Debug.Log($"missionCount // {missions.Count}");
         if (missions.Count > 0)
         {
             Debug.Log($"Loaded {missions.Count} missions of type {missionType}");
@@ -204,9 +217,9 @@ public class UiMissionList : MonoBehaviour
             }
         }
         MissionManager.Instance.ResetMissions(MissionDayTypes.Daily);
-        //MissionManager.Instance.ResetMissions(MissionDayTypes.Weekly); // ÁÖ°£ ¿ù°£ Ãß°¡ ½Ã ÁÖ¼® ÇØÁ¦
+        //MissionManager.Instance.ResetMissions(MissionDayTypes.Weekly); // ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         //MissionManager.Instance.ResetMissions(MissionDayTypes.Monthly);
-        MissionManager.Instance.SaveGameData();
+        //MissionManager.Instance.SaveGameData();
     }
 
     private void ClearMissionList()

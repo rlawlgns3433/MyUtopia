@@ -38,10 +38,7 @@ public class CraftingFloor : Floor
 
             foreach (var animal in animals)
             {
-                if (animal.animalStat.Stamina <= 0)
-                    autoWorkload += new BigNumber(animal.animalStat.Workload) / 2;
-                else
-                    autoWorkload += new BigNumber(animal.animalStat.Workload);
+                autoWorkload += new BigNumber(animal.animalStat.Workload);
             }
 
             // 시너지를 통해 업무량 증가 여부

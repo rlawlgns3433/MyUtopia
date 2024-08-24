@@ -11,8 +11,8 @@ public class StorageUi : MonoBehaviour
     private int b4Count = 0;
     private Floor b5Floor;
     private Floor b4Floor;
-    private StorageConduct b5FloorStorage;
-    private StorageConduct b4FloorStorage;
+    public StorageConduct b5FloorStorage;
+    public StorageConduct b4FloorStorage;
 
     public Button openButton;
     private BigNumber[] b5currencyArray;
@@ -20,6 +20,7 @@ public class StorageUi : MonoBehaviour
 
     private async void Start()
     {
+        openButton.interactable = false;
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B4") != null);
         b5Floor = FloorManager.Instance.GetFloor("B5");
@@ -65,6 +66,8 @@ public class StorageUi : MonoBehaviour
                 slotUi.SetSprite(b4FloorStorage.currencyTypes[i]).Forget();
             }
         }
+
+        openButton.interactable = true;
     }
 
     private async UniTask WaitLoadCompleteStorage(StorageConduct b5Storage, StorageConduct b4Storage)
@@ -79,5 +82,11 @@ public class StorageUi : MonoBehaviour
         b4FloorStorage.OpenStorage(openButton.transform.position);
         SoundManager.Instance.OnClickButton(SoundType.GetAnimal);
         UiManager.Instance.ShowMainUi();
+    }
+
+    public void SaveStorageData()
+    {
+        b5FloorStorage.SaveDataOnQuit();
+        b4FloorStorage.SaveDataOnQuit();
     }
 }

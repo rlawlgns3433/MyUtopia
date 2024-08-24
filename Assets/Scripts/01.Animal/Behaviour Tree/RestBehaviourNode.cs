@@ -35,7 +35,7 @@ public class RestBehaviourNode : StandardNode
     {
         animalController.SetTime = 0;
         animalController.StateTimer = 0;
-        animalController.behaviorTreeRoot.IsSetBehaviour = false;
+        animalController.BehaviorTreeRoot.IsSetBehaviour = false;
     }
 
     public override bool Execute()
@@ -50,7 +50,6 @@ public class RestBehaviourNode : StandardNode
             ExitNode();
 
         // 실제 행동에 대한 코드
-        Debug.Log("Resting");
         action?.Invoke();
 
         return true;

@@ -1,10 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.Composites;
 using UnityEngine.UI;
 
 public class UiManager : Singleton<UiManager>, ISingletonCreatable
@@ -17,7 +14,6 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
     public UiAnimalList animalListUi;
     public UiProducts productsUi;
     public UiCraftTable craftTableUi;
-    //public UiTutorial tutorialUi;
     public UiInvitation invitationUi;
     public TestPanel testPanelUi;
     public UiPatronBoard patronBoardUi;
@@ -36,7 +32,6 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
     public UiConfirmPanel confirmPanelUi;
     public UiWarningPanel warningPanelUi;
     private List<DTUiPanel> uiTweens = new List<DTUiPanel>();
-    //public UiFocusOut focusOutUi;
 
     private void Awake()
     {

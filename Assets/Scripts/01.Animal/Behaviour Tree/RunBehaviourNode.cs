@@ -60,7 +60,6 @@ public class RunBehaviourNode : StandardNode
         }
 
         // 실제 행동에 대한 코드
-        Debug.Log("Running");
 
         if (!animalController.DestinationSet)
             action?.Invoke();

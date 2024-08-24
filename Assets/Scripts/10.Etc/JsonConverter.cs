@@ -2,10 +2,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using Unity.VisualScripting;
-using UnityEngine.Playables;
 
 public class QuitTimeConverter : JsonConverter<TimeData>
 {
@@ -16,7 +12,7 @@ public class QuitTimeConverter : JsonConverter<TimeData>
         timeData.EnterTime = jObj["enterTime"]?.ToString();
         if (jObj["quitTime"] != null)
         {
-            timeData.QuitTime = jObj["quitTime"].ToObject<float>();
+            timeData.QuitTime = jObj["quitTime"].ToString();
         }
         timeData.LastDaily = jObj["lastDaily"]?.ToString();
         timeData.LastWeekly = jObj["lastWeekly"]?.ToString();

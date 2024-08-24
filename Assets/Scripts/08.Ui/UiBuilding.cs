@@ -98,6 +98,8 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         if (IsUpgrading)
         {
             SetDia();
+            imageDia.gameObject.SetActive(true);
+            imageTextTimer.gameObject.SetActive(true);
             return;
         }
         else
@@ -160,26 +162,31 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
                 Destroy(currency.gameObject);
         }
 
-        if (building.BuildingStat.Level == building.BuildingStat.Level_Max)
+        var floor = FloorManager.Instance.GetFloor($"B{building.BuildingStat.Floor_Type}");
+
+        if (building.BuildingStat.Level == floor.FloorStat.Grade_Level_Max)
         {
             imageTextMax.gameObject.SetActive(true);
-            buttonLevelUp.interactable = false;
+            foreach(var currency in uiUpgradeCurrencies)
+            {
+                currency.gameObject.SetActive(false);
+            }
+
             return;
         }
         else
         {
             imageTextMax.gameObject.SetActive(false);
-            buttonLevelUp.interactable = true;
+            foreach (var currency in uiUpgradeCurrencies)
+            {
+                currency.gameObject.SetActive(true);
+            }
         }
     }
 
     public void SetStartUi()
     {
-        foreach (var currency in uiUpgradeCurrencies)
-        {
-            Destroy(currency.gameObject);
-        }
-        uiUpgradeCurrencies.Clear();
+        clockFormatTimer.canStartTimer = false;
 
         if (building.IsUpgrading)
         {
@@ -194,15 +201,6 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             UiManager.Instance.confirmPanelUi.SetText(CalculateDiamond(), this);
             return;
         }
-
-        //if(building.BuildingStat.Level == building.BuildingStat.Level_Max)
-        //{
-        //    UiManager.Instance.warningPanelUi.SetWaring(WaringType.MaxLevel);
-        //    UiManager.Instance.ShowWarningPanelUi();
-        //    SoundManager.Instance.OnClickButton(SoundType.Caution);
-
-        //    return;
-        //}
 
         if(!CheckUpgradeCondition())
         {
@@ -247,7 +245,7 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
     }
     public bool CheckUpgradeCondition()
     {
-        var floor = FloorManager.Instance.floors[$"B{building.BuildingStat.Floor_Type}"];
+        var floor = FloorManager.Instance.GetFloor($"B{building.BuildingStat.Floor_Type}");
 
         if (floor == null)
             return false;

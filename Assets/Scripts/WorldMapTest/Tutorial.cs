@@ -39,7 +39,7 @@ public class Tutorial : MonoBehaviour
     public GameObject focusImage;
     public bool activingUiPanel = false;
 
-    private async void OnEnable()
+    private async void Start()
     {
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B4") != null);
@@ -73,6 +73,8 @@ public class Tutorial : MonoBehaviour
 
         if (count <= 0)
         {
+            Debug.Log($"under zero : {count}");
+
             targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
             progress = TutorialProgress.None;
         }
@@ -99,6 +101,11 @@ public class Tutorial : MonoBehaviour
             //    cursor.gameObject.SetActive(false);
             //}
         }
+        if(targetObjects[count] == null)
+        {
+            Debug.Log($"target Objects count : {count}");
+        }
+
         if (targetObjects[count].gameObject.layer == LayerMask.NameToLayer("UI"))
         {
             var rect = targetObjects[count].GetComponent<RectTransform>();
@@ -309,7 +316,7 @@ public class Tutorial : MonoBehaviour
         }
         if(count == (int)TutorialProgress.CreateItem)
         {
-            CurrencyManager.product[(CurrencyProductType.CopperIngot)] = new BigNumber(5000);
+            CurrencyManager.product[(CurrencyProductType.CopperIngot)] = new BigNumber(450);
             progress = TutorialProgress.CreateItem;
         }
         if(count == ( int)TutorialProgress.Accelerate)

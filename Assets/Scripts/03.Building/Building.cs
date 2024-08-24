@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
 using UnityEngine;
@@ -14,12 +13,13 @@ public class Building : MonoBehaviour, IClickable, IGrowable
     public int buildingId;
     public bool IsUpgrading { get; set; } = false;
 
+
     private BuildingStat buildingStat;
     public BuildingStat BuildingStat
     {
         get
         {
-            if(buildingStat == null)
+            if(buildingStat == null || buildingStat.BuildingData == BuildingTable.defaultData)
             {
                 buildingStat = new BuildingStat(buildingId);
             }

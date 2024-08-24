@@ -33,7 +33,7 @@ public class Furniture : MonoBehaviour
         foreach (var animal in CurrentFloor.animals)
         {
             var controller = animal.animalWork.GetComponent<AnimalController>();
-            controller.behaviorTreeRoot.InitializeBehaviorTree();
+            controller.BehaviorTreeRoot.InitializeBehaviorTree();
         }
     }
 

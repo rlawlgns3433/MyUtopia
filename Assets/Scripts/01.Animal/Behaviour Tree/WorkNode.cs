@@ -23,9 +23,7 @@ public class WorkNode : StandardNode
     public override bool Execute()
     {
         animalController.animalState = AnimalState.Work;
-        animalController.behaviorTreeRoot.IsSetBehaviour = true;
-
-        Debug.Log("Work");
+        animalController.BehaviorTreeRoot.IsSetBehaviour = true;
 
         return true;
     }

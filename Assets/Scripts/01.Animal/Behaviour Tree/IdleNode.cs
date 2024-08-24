@@ -29,8 +29,7 @@ public class IdleNode : Node
     public override bool Execute()
     {
         animalController.animalState = AnimalState.Idle;
-        animalController.behaviorTreeRoot.IsSetBehaviour = true;
-        Debug.Log("Idle");
+        animalController.BehaviorTreeRoot.IsSetBehaviour = true;
 
         return true;
     }

@@ -39,6 +39,7 @@ public struct BigNumber
 
         if (string.IsNullOrEmpty(number) || number == "0")
         {
+            Debug.Log($"Err BigNumber if statement {number}");
             this = Zero;
             return;
         }
@@ -51,6 +52,7 @@ public struct BigNumber
 
         for (int i = number.Length; i > 0; i -= 3)
         {
+
             int startIndex = Math.Max(i - 3, 0);
             int length = i - startIndex;
             string chunk = number.Substring(startIndex, length);
