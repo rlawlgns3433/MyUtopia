@@ -78,12 +78,17 @@ public class UiManager : Singleton<UiManager>
     {
         isAnimalList = condition;
         isAnimalMove = !condition;
+        animalListUi.buttonEliminate.gameObject.SetActive(true);
+        animalListUi.buttonExchange.gameObject.SetActive(true);
     }
 
     public void IsAnimalMove(bool condition)
     {
         isAnimalList = !condition;
         isAnimalMove = condition;
+
+        animalListUi.buttonEliminate.gameObject.SetActive(false);
+        animalListUi.buttonExchange.gameObject.SetActive(false);
     }
 
     public void OffAnimalList()
