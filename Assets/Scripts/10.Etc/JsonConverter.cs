@@ -165,7 +165,6 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
             floorData.floorStat.IsLock = (bool)floorProperties["IsLock"];
             floorData.floorStat.IsUpgrading = (bool)floorProperties["IsUpgrading"];
             floorData.floorStat.UpgradeTimeLeft = (int)floorProperties["UpgradeTimeLeft"];
-            floorData.floorStat.UpgradeStartTime = (int)floorProperties["UpgradeStartTime"];
 
             var animals = floorProperties["Animals"];
             foreach (var animal in animals)
@@ -216,9 +215,6 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
 
             writer.WritePropertyName("IsUpgrading");
             writer.WriteValue(value[i].floorStat.IsUpgrading);
-
-            writer.WritePropertyName("UpgradeStartTime");
-            writer.WriteValue(value[i].floorStat.UpgradeStartTime);
 
             writer.WritePropertyName("UpgradeTimeLeft");
             writer.WriteValue(value[i].floorStat.UpgradeTimeLeft);

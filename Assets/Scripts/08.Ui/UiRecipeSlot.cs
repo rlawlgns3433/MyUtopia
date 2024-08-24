@@ -84,6 +84,15 @@ public class UiRecipeSlot : MonoBehaviour
         if (UiManager.Instance.craftTableUi.uiCraftingSlot.recipeCurrentCrafting != null)
             count++;
 
+        if(UiManager.Instance.craftTableUi.craftingBuilding.recipeStatList.Count >= 4)
+        {
+            Debug.Log("¸®½ºÆ®°¡ °¡µæ Ã¡½À´Ï´Ù.");
+            UiManager.Instance.ShowWarningPanelUi();
+            UiManager.Instance.warningPanelUi.SetWaring(WaringType.FullList);
+            SoundManager.Instance.OnClickButton(SoundType.Caution);
+            return;
+        }
+
         if (count >= storageProduct.BuildingStat.Effect_Value)
         {
             Debug.Log("¸®½ºÆ®°¡ °¡µæ Ã¡½À´Ï´Ù.");
@@ -107,19 +116,9 @@ public class UiRecipeSlot : MonoBehaviour
             return;
         }
 
-        if (recipeStat.Resource_1 != 0)
+        foreach(var currency in recipeStat.Resources)
         {
-            CurrencyManager.product[(CurrencyProductType)recipeStat.Resource_1] -= recipeStat.Resource_1_Value.ToBigNumber();
-        }
-
-        if (recipeStat.Resource_2 != 0)
-        {
-            CurrencyManager.product[(CurrencyProductType)recipeStat.Resource_2] -= recipeStat.Resource_2_Value.ToBigNumber();
-        }
-
-        if (recipeStat.Resource_3 != 0)
-        {
-            CurrencyManager.product[(CurrencyProductType)recipeStat.Resource_3] -= recipeStat.Resource_3_Value.ToBigNumber();
+            CurrencyManager.product[(CurrencyProductType)currency.Key] -= currency.Value.ToBigNumber();
         }
 
         var uiCraftingTable = UiManager.Instance.craftTableUi;
@@ -132,6 +131,7 @@ public class UiRecipeSlot : MonoBehaviour
         {
             uiCraftingTable.uiCraftingSlot.SetData(recipeStat);
         }
+
         uiCraftingTable.craftingBuilding.Set(recipeStat);
         if(FloorManager.Instance.touchManager.tutorial != null)
         {

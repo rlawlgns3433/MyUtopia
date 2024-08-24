@@ -2,8 +2,6 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -37,13 +35,15 @@ public class GameManager : Singleton<GameManager>
         CurrentSceneId = SceneIds.WorldLandOfHope;
     }
 
-    private void OnApplicationPause(bool pause)
-    {
-        if (pause)
-        {
-            SetPlayerData();
-        }
-    }
+    //private void OnApplicationPause(bool pause) // ¸ð¹ÙÀÏ ºôµå 
+    //{
+    //    if (pause)
+    //    {
+    //        SetPlayerData();
+    //    }
+    //}
+
+
 
     private async void Start()
     {
@@ -82,6 +82,14 @@ public class GameManager : Singleton<GameManager>
 
                 var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
                 floor.FloorStat = floorSaveData.floorStat;
+
+                for(int j = 0; j < floor.FloorStat.Grade; ++j)
+                {
+                    if (j >= floor.furniture.furnitures.Count)
+                        break;
+
+                    floor.furniture.furnitures[j].SetActive(true);
+                }
 
                 StorageConduct storageConduct = null;
                 if ((floor as BuildingFloor) != null)
@@ -357,8 +365,40 @@ public class GameManager : Singleton<GameManager>
             saveCurrencyData.currencySaveData.Add(new CurrencySaveData(CurrencyManager.currencyTypes[i], CurrencyManager.currency[CurrencyManager.currencyTypes[i]]));
         }
 
-        SaveLoadSystem.Save(saveCurrencyData, SaveLoadSystem.SaveType.Currency);        
-        
+        SaveLoadSystem.Save(saveCurrencyData, SaveLoadSystem.SaveType.Currency);
+
+        //for (int i = 0; i < CurrencyManager.productTypes.Length; ++i)
+        //{
+        //    saveCurrencyProductData.currencySaveData.Add(new CurrencyProductSaveData(CurrencyManager.productTypes[i], CurrencyManager.product[CurrencyManager.productTypes[i]]));
+        //}
+
+        var buildingFloor = FloorManager.Instance.GetFloor("B3") as CraftingFloor;
+        for (int i = 0; i < buildingFloor.buildings.Count; ++i)
+        {
+            if (buildingFloor.buildings[i].BuildingStat.IsLock)
+                continue;
+
+            var building = buildingFloor.buildings[i];
+            if ((building as CraftingBuilding) == null)
+                continue;
+
+            if ((building as CraftingBuilding).isCrafting)
+            {
+                foreach (var res in (building as CraftingBuilding).CurrentRecipeStat.Resources)
+                {
+                    CurrencyManager.product[(CurrencyProductType)res.Key] += res.Value.ToBigNumber();
+                }
+
+                foreach (var recipe in (building as CraftingBuilding).recipeStatList)
+                {
+                    foreach (var res in recipe.Resources)
+                    {
+                        CurrencyManager.product[(CurrencyProductType)res.Key] += res.Value.ToBigNumber();
+                    }
+                }
+            }
+        }
+
         for (int i = 0; i < CurrencyManager.productTypes.Length; ++i)
         {
             saveCurrencyProductData.currencySaveData.Add(new CurrencyProductSaveData(CurrencyManager.productTypes[i], CurrencyManager.product[CurrencyManager.productTypes[i]]));
