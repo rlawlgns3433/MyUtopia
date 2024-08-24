@@ -30,19 +30,18 @@ public class GameManager : Singleton<GameManager>
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        //Application.quitting += SetPlayerData; // 모바일 빌드 X
+        Application.quitting += SetPlayerData; // 모바일 빌드 X
         CurrencyManager.Init();
         CurrentSceneId = SceneIds.WorldLandOfHope;
     }
 
-    private void OnApplicationPause(bool pause) // 모바일 빌드 
-    {
-        if (pause)
-        {
-            SetPlayerData();
-        }
-    }
-
+    //private void OnApplicationPause(bool pause) // 모바일 빌드 
+    //{
+    //    if (pause)
+    //    {
+    //        SetPlayerData();
+    //    }
+    //}
 
 
     private async void Start()

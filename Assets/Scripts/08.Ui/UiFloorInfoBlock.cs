@@ -87,6 +87,8 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             }
 
             SetDia();
+            textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
+            textFloorDesc.text = DataTableMgr.GetStringTable().Get(floor.FloorStat.FloorData.Floor_Desc);
             imageTextTimer.gameObject.SetActive(true);
             imageDia.gameObject.SetActive(true);
         }
