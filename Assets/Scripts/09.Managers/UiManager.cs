@@ -309,7 +309,8 @@ public class UiManager : Singleton<UiManager>
         currencyProductInventoryUi.gameObject.SetActive(false);
         confirmPanelUi.gameObject.SetActive(false);
         warningPanelUi.gameObject.SetActive(false);
-
+        animalListUi.buttonEliminate.gameObject.SetActive(true);
+        animalListUi.buttonExchange.gameObject.SetActive(true);
     }
 
     public void ShowProductsUi()
