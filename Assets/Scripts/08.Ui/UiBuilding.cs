@@ -98,6 +98,8 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
         if (IsUpgrading)
         {
             SetDia();
+            imageDia.gameObject.SetActive(true);
+            imageTextTimer.gameObject.SetActive(true);
             return;
         }
         else
@@ -184,11 +186,7 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
 
     public void SetStartUi()
     {
-        foreach (var currency in uiUpgradeCurrencies)
-        {
-            Destroy(currency.gameObject);
-        }
-        uiUpgradeCurrencies.Clear();
+        clockFormatTimer.canStartTimer = false;
 
         if (building.IsUpgrading)
         {
@@ -203,15 +201,6 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
             UiManager.Instance.confirmPanelUi.SetText(CalculateDiamond(), this);
             return;
         }
-
-        //if(building.BuildingStat.Level == building.BuildingStat.Level_Max)
-        //{
-        //    UiManager.Instance.warningPanelUi.SetWaring(WaringType.MaxLevel);
-        //    UiManager.Instance.ShowWarningPanelUi();
-        //    SoundManager.Instance.OnClickButton(SoundType.Caution);
-
-        //    return;
-        //}
 
         if(!CheckUpgradeCondition())
         {

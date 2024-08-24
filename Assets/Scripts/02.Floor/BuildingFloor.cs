@@ -65,9 +65,7 @@ public class BuildingFloor : Floor
                                 //b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingStat.Work_Require; 기존
                                 b.accumWorkLoad = BigNumber.Zero;
 
-                                var pos = b.transform.position;
-                                pos.y += 1;
-
+                                var pos = b.displayDummy.transform.position;
                                 DynamicTextManager.CreateText(pos, c.ToString(), DynamicTextManager.autoWorkData, 2, 0.5f);
                             }
                             else
@@ -99,9 +97,7 @@ public class BuildingFloor : Floor
                                     break;
                                 }
 
-                                var pos = b.transform.position;
-                                pos.y += 1;
-
+                                var pos = b.displayDummy.transform.position;
                                 DynamicTextManager.CreateText(pos, c.ToString(), DynamicTextManager.autoWorkData, 2, 0.5f);
                                 CurrencyManager.product[b.buildingType] += c;
                                 //b.accumWorkLoad -= c * b.BuildingStat.Work_Require; 기존

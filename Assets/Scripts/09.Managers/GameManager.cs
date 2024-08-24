@@ -103,6 +103,8 @@ public class GameManager : Singleton<GameManager>
                     }
                     if(animal.animalStat.Stamina > 0)
                     {
+                        animal.animalStat.Stamina = Mathf.Min(animal.animalStat.AnimalData.Stamina, animal.animalStat.Stamina);
+
                         GetAnimalManager().Create(pos, floor, animal.animalStat.Animal_ID, 0, animal.animalStat);
                     }
                     else if(animal.animalStat.Stamina <= 0)

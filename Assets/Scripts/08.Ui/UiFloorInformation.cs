@@ -9,12 +9,36 @@ public class UiFloorInformation : MonoBehaviour
     public UiBuildingInfo buildingInfoPrefab;
     public Transform buildingParent;
     public TextMeshProUGUI textFloorName;
-    public UiFloorInfoBlock uiFloorInfoBlock;
 
+    public List<UiFloorInfoBlock> uiFloorInfoBlocks;
     public List<UiBuildingInfo> uiBuildings;
     private ResourceTable resourceTable;
-    public Floor currentFloor;
-    public FloorStat floorStat;
+    private Floor currentFloor;
+    public Floor CurrentFloor
+    {
+        get
+        {
+            currentFloor = FloorManager.Instance.GetCurrentFloor();
+            return currentFloor;
+        }
+        set
+        {
+            currentFloor = value;
+        }
+    }
+    private FloorStat floorStat;
+    public FloorStat FloorStat
+    {
+        get
+        {
+            floorStat = CurrentFloor.FloorStat;
+            return floorStat;
+        }
+        set
+        {
+            floorStat = value;
+        }
+    }
 
     private void Awake()
     {
@@ -29,8 +53,8 @@ public class UiFloorInformation : MonoBehaviour
         if (floor == null)
             return;
 
-        currentFloor = floor;
-        floorStat = currentFloor.FloorStat;
+        CurrentFloor = floor;
+        floorStat = CurrentFloor.FloorStat;
 
         SetFloorUi();
     }
@@ -40,8 +64,8 @@ public class UiFloorInformation : MonoBehaviour
         if (!FloorManager.Instance.floors.ContainsKey(floorId))
             return;
 
-        currentFloor = FloorManager.Instance.GetFloor(floorId);
-        floorStat = currentFloor.FloorStat;
+        CurrentFloor = FloorManager.Instance.GetFloor(floorId);
+        floorStat = CurrentFloor.FloorStat;
 
         SetFloorUi();
     }
@@ -50,10 +74,10 @@ public class UiFloorInformation : MonoBehaviour
     public void SetFloorUi()
     {
         textFloorName.text = floorStat.FloorData.GetFloorName();
+        uiFloorInfoBlocks[floorStat.Floor_Num - 1].Set(CurrentFloor);
+        RefreshFloorInfoBlock();
 
-        uiFloorInfoBlock.Set(currentFloor);
-
-        if (currentFloor.FloorStat.Floor_Num <= 2)
+        if (CurrentFloor.FloorStat.Floor_Num <= 2)
         {
             SetActiveFalseAllBuildingFurniture();
             return;
@@ -67,7 +91,7 @@ public class UiFloorInformation : MonoBehaviour
 
         foreach (var uiBuilding in uiBuildings)
         {
-            if (uiBuilding.building.BuildingStat.Floor_Type != currentFloor.FloorStat.Floor_Type)
+            if (uiBuilding.building.BuildingStat.Floor_Type != CurrentFloor.FloorStat.Floor_Type)
                 uiBuilding.gameObject.SetActive(false);
 
             if (uiBuilding.building.BuildingStat.BuildingData.GetName().Equals(newBuilding.BuildingStat.BuildingData.GetName()))
@@ -83,7 +107,7 @@ public class UiFloorInformation : MonoBehaviour
 
     public void RefreshBuildingFurnitureData()
     {
-        foreach (var building in currentFloor.buildings)
+        foreach (var building in CurrentFloor.buildings)
         {
             if (!building.BuildingStat.IsLock)
             {
@@ -106,6 +130,17 @@ public class UiFloorInformation : MonoBehaviour
         foreach (var uiBuilding in uiBuildings)
         {
             uiBuilding.gameObject.SetActive(false);
+        }
+    }
+
+    public void RefreshFloorInfoBlock()
+    {
+        for(int i = 0; i < uiFloorInfoBlocks.Count; i++)
+        {
+            if (floorStat.Floor_Num - 1 == i)
+                uiFloorInfoBlocks[i].gameObject.SetActive(true);
+            else
+                uiFloorInfoBlocks[i].gameObject.SetActive(false);
         }
     }
 }

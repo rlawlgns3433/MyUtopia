@@ -110,8 +110,7 @@ public class ConductBuilding : Building
     {
         if (bigNumber <= BigNumber.Zero)
             return;
-        var pos = transform.position;
-        pos.y += 1;
+        var pos = displayDummy.transform.position;
         DynamicTextManager.CreateText(pos, bigNumber.ToString(), DynamicTextManager.clickData, 2, 0.5f);
     }
 }

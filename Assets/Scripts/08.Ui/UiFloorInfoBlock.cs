@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -20,90 +21,61 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
     public Floor floor;
     public Transform contents;
     public ClockFormatTimer clockFormatTimer;
-    private float disabledTime;
 
     public bool IsUpgrading 
     { 
         get => floor.FloorStat.IsUpgrading;
-
-        set 
-        {
-            floor.FloorStat.IsUpgrading = value;
-            if(!value)
-            {
-                floor.FloorStat.UpgradeTimeLeft = 0;
-                floor.FloorStat.UpgradeStartTime = 0;
-            }
-        } 
-    }
-    public float UpgradeStartTime { get => floor.FloorStat.UpgradeStartTime; set => floor.FloorStat.UpgradeStartTime = value; }
-
-    private void Start()
-    {
-        SetTimerWhenStartUp();
+        set => floor.FloorStat.IsUpgrading = value;
     }
 
-    private void OnDisable()
-    {
-        floor.FloorStat.UpgradeTimeLeft = Mathf.FloorToInt(clockFormatTimer.remainingTime);
-        floor.disabledTime = Time.time;
-    }
+    //private void Start()
+    //{
+    //    SetTimerWhenStartUp();
+    //}
 
-    private void SetTimerWhenStartUp()
-    {
-        if (!IsUpgrading)
-            return;
-        clockFormatTimer.canStartTimer = true;
-        imageDia.gameObject.SetActive(true);
-        imageTextTimer.gameObject.SetActive(true);
+    //private void OnDisable()
+    //{
+    //    floor.FloorStat.UpgradeTimeLeft = Mathf.FloorToInt(clockFormatTimer.remainingTime);
+    //    floor.disabledTime = Time.time;
+    //}
 
-        if(floor.FloorStat.UpgradeTimeLeft < 1)
-        {
-            floor.FloorStat.UpgradeTimeLeft = 1;
-        }
+    //private void SetTimerWhenStartUp()
+    //{
+    //    if (!IsUpgrading)
+    //        return;
+    //    clockFormatTimer.canStartTimer = true;
+    //    imageDia.gameObject.SetActive(true);
+    //    imageTextTimer.gameObject.SetActive(true);
 
-        clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft/* - Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - floor.FloorStat.UpgradeStartTime)*/);
+    //    if(floor.FloorStat.UpgradeTimeLeft < 1)
+    //    {
+    //        floor.FloorStat.UpgradeTimeLeft = 1;
+    //    }
 
-        foreach (var currency in uiUpgradeCurrencies)
-        {
-            Destroy(currency.gameObject);
-        }
-        uiUpgradeCurrencies.Clear();
-        imageTextMax.gameObject.SetActive(false);
-        clockFormatTimer.StartClockTimer();
-    }
+    //    clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft/* - Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - floor.FloorStat.UpgradeStartTime)*/);
+
+    //    foreach (var currency in uiUpgradeCurrencies)
+    //    {
+    //        Destroy(currency.gameObject);
+    //    }
+    //    uiUpgradeCurrencies.Clear();
+    //    imageTextMax.gameObject.SetActive(false);
+    //    clockFormatTimer.StartClockTimer();
+    //}
 
     public void FinishUpgrade()
     {
-        if(IsUpgrading)
-        {
-            SetDia();
-            imageDia.gameObject.SetActive(true);
-            imageTextTimer.gameObject.SetActive(true);
-            return;
-        }
-        imageTextTimer.gameObject.SetActive(false);
         imageDia.gameObject.SetActive(false);
+        imageTextTimer.gameObject.SetActive(false);
     }
 
     public void LevelUp()
     {
-        if (floor.FloorStat.IsUpgrading)
-        {
-            floor.LevelUp();
-            floor.FloorStat.UpgradeStartTime = 0;
-            floor.FloorStat.UpgradeTimeLeft = 0;
-            return;
-        }
+        floor.LevelUp();
     }
 
     public bool Set(Floor floor)
     {
-        foreach (var production in imageProductions)
-        {
-            production.sprite = null;
-        }
-
         foreach (var currency in uiUpgradeCurrencies)
         {
             Destroy(currency.gameObject);
@@ -115,51 +87,26 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         if (uiFloorInformation == null)
             return false;
 
-        this.floor = floor;
 
         if (floor.FloorStat.FloorData.Floor_ID == 0)
             return false;
 
+        this.floor = floor;
+
         buttonLevelUp.onClick.RemoveAllListeners();
         buttonLevelUp.onClick.AddListener(SetStartUi);
         buttonLevelUp.onClick.AddListener(clockFormatTimer.StartClockTimer);
+        buttonLevelUp.onClick.AddListener(SetDia);
 
         if (IsUpgrading)
         {
-            if (floor.FloorStat.UpgradeTimeLeft < 1)
-            {
-                floor.FloorStat.UpgradeTimeLeft = floor.FloorStat.Level_Up_Time;
-            }
-            else
-            {
-                floor.FloorStat.UpgradeTimeLeft = floor.FloorStat.Level_Up_Time - Mathf.CeilToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - UpgradeStartTime);
-            }
-
-            clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft - Mathf.FloorToInt(Time.time - floor.disabledTime));
-            imageTextTimer.gameObject.SetActive(true);
-            //clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft - Mathf.FloorToInt(Time.time - disabledTime));
-            textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
-            textFloorDesc.text = DataTableMgr.GetStringTable().Get(floor.FloorStat.FloorData.Floor_Desc);
-
             SetDia();
+            imageTextTimer.gameObject.SetActive(true);
             imageDia.gameObject.SetActive(true);
-
-            if (floor.FloorStat.UpgradeTimeLeft <= 0)
-            {
-                LevelUp();
-                SetFinishUi();
-                FinishUpgrade();
-
-                clockFormatTimer.canStartTimer = true;
-                imageTextTimer.gameObject.SetActive(false);
-                IsUpgrading = false;
-            }
-
         }
         else
         {
             SetFinishUi();
-            FinishUpgrade();
         }
 
         return true;
@@ -201,48 +148,70 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         if (floor.FloorStat.Level_Up_Coin_Value != "0")
         {
             var currency = Instantiate(uiUpgradeCurrency, contents);
+            uiUpgradeCurrencies.Add(currency);
             var sprite = await DataTableMgr.GetResourceTable().Get((int)CurrencyType.Coin).GetImage();
             var value = floor.FloorStat.Level_Up_Coin_Value.ToBigNumber();
-            currency.SetCurrency(sprite, value);
-            uiUpgradeCurrencies.Add(currency);
+            if (currency != null)
+                currency.SetCurrency(sprite, value);
+            else
+                Destroy(currency.gameObject);
         }
 
         if (floor.FloorStat.Level_Up_Resource_1 != 0)
         {
             var currency = Instantiate(uiUpgradeCurrency, contents);
+            uiUpgradeCurrencies.Add(currency);
             var sprite = await DataTableMgr.GetResourceTable().Get(floor.FloorStat.Level_Up_Resource_1).GetImage();
             var value = floor.FloorStat.Resource_1_Value.ToBigNumber();
-            currency.SetCurrency(sprite, value);
-            uiUpgradeCurrencies.Add(currency);
+            if (currency != null)
+                currency.SetCurrency(sprite, value);
+            else
+                Destroy(currency.gameObject);
         }
 
         if (floor.FloorStat.Level_Up_Resource_2 != 0)
         {
             var currency = Instantiate(uiUpgradeCurrency, contents);
+            uiUpgradeCurrencies.Add(currency);
             var sprite = await DataTableMgr.GetResourceTable().Get(floor.FloorStat.Level_Up_Resource_2).GetImage();
             var value = floor.FloorStat.Resource_2_Value.ToBigNumber();
-            currency.SetCurrency(sprite, value);
-            uiUpgradeCurrencies.Add(currency);
+            if (currency != null)
+                currency.SetCurrency(sprite, value);
+            else
+                Destroy(currency.gameObject);
         }
 
         if (floor.FloorStat.Level_Up_Resource_3 != 0)
         {
             var currency = Instantiate(uiUpgradeCurrency, contents);
+            uiUpgradeCurrencies.Add(currency);
             var sprite = await DataTableMgr.GetResourceTable().Get(floor.FloorStat.Level_Up_Resource_3).GetImage();
             var value = floor.FloorStat.Resource_3_Value.ToBigNumber();
-            currency.SetCurrency(sprite, value);
-            uiUpgradeCurrencies.Add(currency);
+            if (currency != null)
+                currency.SetCurrency(sprite, value);
+            else
+                Destroy(currency.gameObject);
         }
 
 
         if (floor.FloorStat.Grade == floor.FloorStat.Grade_Max)
         {
             imageTextMax.gameObject.SetActive(true);
+            foreach (var currency in uiUpgradeCurrencies)
+            {
+                currency.gameObject.SetActive(false);
+            }
             return;
         }
-        imageTextMax.gameObject.SetActive(false);
+        else
+        {
+            imageTextMax.gameObject.SetActive(false);
 
-        //textDescription.text = 건물 설명
+            foreach (var currency in uiUpgradeCurrencies)
+            {
+                currency.gameObject.SetActive(true);
+            }
+        }
     }
 
     public void SetStartUi()
@@ -292,14 +261,10 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         clockFormatTimer.canStartTimer = true;
         IsUpgrading = true;
-        UpgradeStartTime = DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second;
-
         floor.SpendCurrency();
 
         imageTextTimer.gameObject.SetActive(true);
-
         imageDia.gameObject.SetActive(true);
-
         clockFormatTimer.SetTimer(floor.FloorStat.Level_Up_Time);
 
         foreach (var currency in uiUpgradeCurrencies)
@@ -334,23 +299,18 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
     public BigNumber CalculateDiamond()
     {
-        if (floor.FloorStat.UpgradeTimeLeft <= 0)
+        if (clockFormatTimer.remainingTime <= 0)
+        {
+            UniTask.WaitForSeconds(0.02f);
             return new BigNumber(Mathf.CeilToInt(clockFormatTimer.timerDuration / 30));
+        }
 
-        return new BigNumber(Mathf.CeilToInt(floor.FloorStat.UpgradeTimeLeft / 30));
-
+        return new BigNumber(Mathf.CeilToInt(clockFormatTimer.remainingTime / 30));
     }
 
     public void SetDia()
     {
         var diamondReCalc = CalculateDiamond();
-
-        if(diamondReCalc < 0)
-        {
-            IsUpgrading = false;
-            SetFinishUi();
-        }
-        
         imageDia.GetComponentInChildren<UiUpgradeCurrency>().SetCurrency(diamondReCalc);
     }
 }
