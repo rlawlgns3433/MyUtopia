@@ -96,6 +96,7 @@ public class Floor : Subject, IGrowable
             offLineWorkLoad = value;
         }
     }
+    public float disabledTime;
     public Floor() { }
     public Floor(int floorId)
     {
@@ -111,7 +112,8 @@ public class Floor : Subject, IGrowable
         {
             if (IsUpgrading)
             {
-                FloorStat.UpgradeTimeLeft -= Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - FloorStat.UpgradeStartTime);
+                FloorStat.UpgradeTimeLeft = FloorStat.UpgradeTimeLeft - Mathf.FloorToInt(Time.time - disabledTime);
+                //FloorStat.UpgradeTimeLeft -= Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - FloorStat.UpgradeStartTime);
                 // 정확한 시간을 넘겨줄 필요가 있음 FloorInfoBlock 참고
             }
             else
@@ -159,7 +161,7 @@ public class Floor : Subject, IGrowable
         foreach (var animal in animals)
         {
             var controller = animal.animalWork.GetComponent<AnimalController>();
-            controller.behaviorTreeRoot.InitializeBehaviorTree();
+            controller.BehaviorTreeRoot.InitializeBehaviorTree();
         }
     }
 

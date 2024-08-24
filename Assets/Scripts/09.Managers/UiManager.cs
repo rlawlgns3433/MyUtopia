@@ -1,10 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.Composites;
 using UnityEngine.UI;
 
 public class UiManager : Singleton<UiManager>
@@ -17,7 +14,6 @@ public class UiManager : Singleton<UiManager>
     public UiAnimalList animalListUi;
     public UiProducts productsUi;
     public UiCraftTable craftTableUi;
-    //public UiTutorial tutorialUi;
     public UiInvitation invitationUi;
     public TestPanel testPanelUi;
     public UiPatronBoard patronBoardUi;
@@ -36,7 +32,6 @@ public class UiManager : Singleton<UiManager>
     public UiConfirmPanel confirmPanelUi;
     public UiWarningPanel warningPanelUi;
     private List<DTUiPanel> uiTweens = new List<DTUiPanel>();
-    //public UiFocusOut focusOutUi;
 
     private void Awake()
     {
@@ -86,12 +81,18 @@ public class UiManager : Singleton<UiManager>
     {
         isAnimalList = !condition;
         isAnimalMove = condition;
+
+        animalListUi.buttonEliminate.gameObject.SetActive(false);
+        animalListUi.buttonExchange.gameObject.SetActive(false);
     }
 
     public void OffAnimalList()
     {
         isAnimalList = false;
         isAnimalMove = false;
+
+        animalListUi.buttonEliminate.gameObject.SetActive(true);
+        animalListUi.buttonExchange.gameObject.SetActive(true);
     }
 
     public void ShowTutorial()

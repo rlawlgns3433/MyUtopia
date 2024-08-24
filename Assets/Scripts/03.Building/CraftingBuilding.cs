@@ -63,6 +63,12 @@ public class CraftingBuilding : Building
 
     public void CancelCrafting()
     {
+        if(CurrentRecipeStat != null)
+        {
+            MissionManager.Instance.AddMissionCountMakeItem(CurrentRecipeStat.Product_ID);
+            MissionManager.Instance.AddMissionCountMakeItem(0);
+        }
+
         UiManager.Instance.craftTableUi.uiCraftingSlot.recipeCurrentCrafting = null;
 
         if (recipeStatList.Count <= 0 && currentRecipeStat == null)

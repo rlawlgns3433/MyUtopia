@@ -35,7 +35,7 @@ public class RestBehaviourNode : StandardNode
     {
         animalController.SetTime = 0;
         animalController.StateTimer = 0;
-        animalController.behaviorTreeRoot.IsSetBehaviour = false;
+        animalController.BehaviorTreeRoot.IsSetBehaviour = false;
     }
 
     public override bool Execute()

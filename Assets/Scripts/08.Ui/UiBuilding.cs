@@ -160,16 +160,25 @@ public class UiBuildingInfo : MonoBehaviour, IUISetupable, IGrowable
                 Destroy(currency.gameObject);
         }
 
-        if (building.BuildingStat.Level == building.BuildingStat.Level_Max)
+        var floor = FloorManager.Instance.GetFloor($"B{building.BuildingStat.Floor_Type}");
+
+        if (building.BuildingStat.Level == floor.FloorStat.Grade_Level_Max)
         {
             imageTextMax.gameObject.SetActive(true);
-            buttonLevelUp.interactable = false;
+            foreach(var currency in uiUpgradeCurrencies)
+            {
+                currency.gameObject.SetActive(false);
+            }
+
             return;
         }
         else
         {
             imageTextMax.gameObject.SetActive(false);
-            buttonLevelUp.interactable = true;
+            foreach (var currency in uiUpgradeCurrencies)
+            {
+                currency.gameObject.SetActive(true);
+            }
         }
     }
 

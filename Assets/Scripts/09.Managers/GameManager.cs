@@ -50,8 +50,7 @@ public class GameManager : Singleton<GameManager>
         //RegisterSceneManager(SceneIds.WorldSelect, new WorldSelectManager());
         //RegisterSceneManager(SceneIds.WorldLandOfHope, new WorldLandOfHopeManager());
         await UniWaitTables();
-        await UniTask.WaitUntil(() => UtilityTime.Seconds >= 0);
-        await UniTask.WaitForSeconds(0.5f);
+        await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
         await UniLoadWorldData();
 
         //FloorManager.Instance.CheckEntireFloorSynergy(); ½Ã³ÊÁö
@@ -89,13 +88,16 @@ public class GameManager : Singleton<GameManager>
                     {
                         animal.animalStat.Stamina += UtilityTime.Seconds;
                     }
-                    if (floorSaveData.floorStat.Floor_Num > 3)
+                    if (floorSaveData.floorStat.Floor_Num >= 3)
                     {
                         animal.animalStat.Stamina -= UtilityTime.Seconds;
                         Debug.Log($"AnimalStatTest{animal.animalStat.Stamina}");
                         if (animal.animalStat.Stamina <= 0)
                         {
-                            storageConduct.OffLineWorkLoad += Mathf.Abs(animal.animalStat.Stamina);
+                            if(storageConduct != null)
+                            {
+                                storageConduct.OffLineWorkLoad += Mathf.Abs(animal.animalStat.Stamina);
+                            }
                             animal.animalStat.Stamina = 0;
                         }
                     }
@@ -106,6 +108,7 @@ public class GameManager : Singleton<GameManager>
                     else if(animal.animalStat.Stamina <= 0)
                     {
                         var moveFloor = FloorManager.Instance.GetFloor("B2");
+                        animal.animalStat.CurrentFloor = "B2";
                         GetAnimalManager().Create(pos, moveFloor, animal.animalStat.Animal_ID, 0, animal.animalStat);
                     }
                 }

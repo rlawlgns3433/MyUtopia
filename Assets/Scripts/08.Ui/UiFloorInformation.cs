@@ -7,35 +7,19 @@ public class UiFloorInformation : MonoBehaviour
     private static readonly string levelFormat = "{0} / {1}";
 
     public UiBuildingInfo buildingInfoPrefab;
-    //public UiFurnitureInfo furnitureInfoPrefab;
-    //public UiAnimalSynergyBlock synergyEffectInfoPrefab; 시너지
-    //public UiFurnitureEffectBlock furnitureEffectPrefab;
-
-    //public Transform furnitureParent;
     public Transform buildingParent;
-    //public Transform furnitureEffectParent;
-    //public Transform synergyEffectParent;
-
     public TextMeshProUGUI textFloorName;
-
     public UiFloorInfoBlock uiFloorInfoBlock;
 
     public List<UiBuildingInfo> uiBuildings;
-    //public List<UiFurnitureInfo> uiFurnitures;
-    //public List<UiAnimalSynergyBlock> uiAnimalSynergyEffects; 시너지
-    //public List<UiFurnitureEffectBlock> uiFurnitureEffects;
-
     private ResourceTable resourceTable;
-
     public Floor currentFloor;
-
     public FloorStat floorStat;
 
     private void Awake()
     {
         uiBuildings = new List<UiBuildingInfo>();
         resourceTable = DataTableMgr.GetResourceTable();
-        //uiFurnitures = new List<UiFurnitureInfo>();
     }
 
     public void SetFloorData()
@@ -75,12 +59,6 @@ public class UiFloorInformation : MonoBehaviour
             return;
         }
         RefreshBuildingFurnitureData();
-        //foreach (var synergyEffect in currentFloor.synergyStats) 시너지
-        //{
-        //    UiAnimalSynergyBlock uiAnimalSynergyBlock = Instantiate(synergyEffectInfoPrefab, synergyEffectParent);
-        //    uiAnimalSynergyBlock.Set(synergyEffect);
-        //    uiAnimalSynergyEffects.Add(uiAnimalSynergyBlock);
-        //}
     }
 
     public bool ValidateBuildingData(Building newBuilding)
@@ -121,20 +99,6 @@ public class UiFloorInformation : MonoBehaviour
                 }
             }
         }
-
-        //foreach (var furniture in currentFloor.furnitures)
-        //{
-        //    if (ValidateFurnitureData(furniture))
-        //    {
-        //        UiFurnitureInfo uiFurnitureInfo = Instantiate(furnitureInfoPrefab, furnitureParent);
-        //        bool isSucceed = uiFurnitureInfo.Set(furniture);
-
-        //        if (isSucceed)
-        //        {
-        //            uiFurnitures.Add(uiFurnitureInfo);
-        //        }
-        //    }
-        //}
     }
 
     public void SetActiveFalseAllBuildingFurniture()
@@ -143,10 +107,5 @@ public class UiFloorInformation : MonoBehaviour
         {
             uiBuilding.gameObject.SetActive(false);
         }
-
-        //foreach (var uiFurniture in uiFurnitures)
-        //{
-        //    uiFurniture.gameObject.SetActive(false);
-        //}
     }
 }

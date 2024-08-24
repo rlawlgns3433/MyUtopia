@@ -50,5 +50,6 @@ public class UiAnimalFloorSlot : Observer
         if (animalClick == null)
             return;
         sliderStamina.value = animalClick.AnimalWork.Animal.animalStat.Stamina;
+        Debug.Log(sliderStamina.value);
     }
 }

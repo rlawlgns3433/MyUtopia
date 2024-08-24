@@ -135,6 +135,7 @@ public class AnimalWork : Subject, IMergable
                     if(Animal.animalStat.Stamina < 1f)
                     {
                         animalManager.MoveAnimal(Animal.animalStat.CurrentFloor, "B2", Animal);
+                        UiManager.Instance.mainUi.animalInventoryUi.UpdateInventory();
                     }
 
                     NotifyObservers();

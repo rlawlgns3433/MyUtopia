@@ -36,7 +36,7 @@ public class WalkBehaviourNode : StandardNode
         animalController.SetTime = 0;
         animalController.StateTimer = 0;
         animalController.DestinationSet = false;
-        animalController.behaviorTreeRoot.IsSetBehaviour = false;
+        animalController.BehaviorTreeRoot.IsSetBehaviour = false;
     }
 
     public override bool Execute()

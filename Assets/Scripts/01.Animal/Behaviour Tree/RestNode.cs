@@ -23,7 +23,7 @@ public class RestNode : StandardNode
     public override bool Execute()
     {
         animalController.animalState = AnimalState.Rest;
-        animalController.behaviorTreeRoot.IsSetBehaviour = true;
+        animalController.BehaviorTreeRoot.IsSetBehaviour = true;
         animalController.animator.Play(AnimationHash.Walk, animalController.animator.GetLayerIndex("Base Layer"));
         animalController.animator.Play(AnimationHash.eyeAnnoyed, animalController.animator.GetLayerIndex("Shapekey"));
 

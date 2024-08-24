@@ -37,11 +37,10 @@ public class AnimalManager : Subject
         if(FloorManager.Instance.MoveAnimal(fromFloor, toFloor, animalClick.AnimalWork.Animal, isExchange))
         {
             animalClick.gameObject.SetActive(false);
-            animalClick.gameObject.GetComponent<AnimalController>().behaviorTreeRoot.InitializeBehaviorTree();
+            animalClick.gameObject.GetComponent<AnimalController>().BehaviorTreeRoot.InitializeBehaviorTree();
             animalClick.gameObject.transform.SetParent(FloorManager.Instance.GetFloor(toFloor).transform);
             animalClick.gameObject.transform.localPosition = -Vector3.forward * 3f;
             animalClick.gameObject.SetActive(true);
-
             //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(fromFloor)); ½Ã³ÊÁö
             //FloorManager.Instance.CheckFloorSynergy(FloorManager.Instance.GetFloor(toFloor));
         }
@@ -180,6 +179,10 @@ public class AnimalManager : Subject
                 {
                     var now = DateTime.Now;
                     animalStat.AcquireTime = now.Day * 24 * 3600 + now.Hour * 3600 + now.Minute * 60 + now.Second;
+                }
+                else
+                {
+                    MoveAnimal(animalWork.Animal.animalStat.CurrentFloor, floor.floorName, animalWork.Animal);
                 }
 
                 if (isMerged)

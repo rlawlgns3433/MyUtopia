@@ -20,13 +20,33 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
     public Floor floor;
     public Transform contents;
     public ClockFormatTimer clockFormatTimer;
+    private float disabledTime;
 
-    public bool IsUpgrading { get => floor.FloorStat.IsUpgrading; set => floor.FloorStat.IsUpgrading = value; }
+    public bool IsUpgrading 
+    { 
+        get => floor.FloorStat.IsUpgrading;
+
+        set 
+        {
+            floor.FloorStat.IsUpgrading = value;
+            if(!value)
+            {
+                floor.FloorStat.UpgradeTimeLeft = 0;
+                floor.FloorStat.UpgradeStartTime = 0;
+            }
+        } 
+    }
     public float UpgradeStartTime { get => floor.FloorStat.UpgradeStartTime; set => floor.FloorStat.UpgradeStartTime = value; }
 
     private void Start()
     {
         SetTimerWhenStartUp();
+    }
+
+    private void OnDisable()
+    {
+        floor.FloorStat.UpgradeTimeLeft = Mathf.FloorToInt(clockFormatTimer.remainingTime);
+        floor.disabledTime = Time.time;
     }
 
     private void SetTimerWhenStartUp()
@@ -36,6 +56,12 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         clockFormatTimer.canStartTimer = true;
         imageDia.gameObject.SetActive(true);
         imageTextTimer.gameObject.SetActive(true);
+
+        if(floor.FloorStat.UpgradeTimeLeft < 1)
+        {
+            floor.FloorStat.UpgradeTimeLeft = 1;
+        }
+
         clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft/* - Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - floor.FloorStat.UpgradeStartTime)*/);
 
         foreach (var currency in uiUpgradeCurrencies)
@@ -49,8 +75,13 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
     public void FinishUpgrade()
     {
-        SetDia();
-
+        if(IsUpgrading)
+        {
+            SetDia();
+            imageDia.gameObject.SetActive(true);
+            imageTextTimer.gameObject.SetActive(true);
+            return;
+        }
         imageTextTimer.gameObject.SetActive(false);
         imageDia.gameObject.SetActive(false);
     }
@@ -95,10 +126,18 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
 
         if (IsUpgrading)
         {
-            floor.FloorStat.UpgradeTimeLeft = floor.FloorStat.Level_Up_Time - Mathf.CeilToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - UpgradeStartTime);
-            clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft);
+            if (floor.FloorStat.UpgradeTimeLeft < 1)
+            {
+                floor.FloorStat.UpgradeTimeLeft = floor.FloorStat.Level_Up_Time;
+            }
+            else
+            {
+                floor.FloorStat.UpgradeTimeLeft = floor.FloorStat.Level_Up_Time - Mathf.CeilToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - UpgradeStartTime);
+            }
+
+            clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft - Mathf.FloorToInt(Time.time - floor.disabledTime));
             imageTextTimer.gameObject.SetActive(true);
-            clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft);
+            //clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft - Mathf.FloorToInt(Time.time - disabledTime));
             textLevel.text = string.Format(lvFormat, floor.FloorStat.Grade, floor.FloorStat.Grade_Max);
             textFloorDesc.text = DataTableMgr.GetStringTable().Get(floor.FloorStat.FloorData.Floor_Desc);
 
@@ -142,6 +181,11 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
             imageDia.gameObject.SetActive(true);
             imageTextTimer.gameObject.SetActive(true);
             return;
+        }
+        else
+        {
+            imageDia.gameObject.SetActive(false);
+            imageTextTimer.gameObject.SetActive(false);
         }
 
         for (int i = 0; i < floor.buildings.Count; i++)
@@ -300,6 +344,13 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
     public void SetDia()
     {
         var diamondReCalc = CalculateDiamond();
+
+        if(diamondReCalc < 0)
+        {
+            IsUpgrading = false;
+            SetFinishUi();
+        }
+        
         imageDia.GetComponentInChildren<UiUpgradeCurrency>().SetCurrency(diamondReCalc);
     }
 }
