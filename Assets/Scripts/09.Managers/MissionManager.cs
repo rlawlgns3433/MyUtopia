@@ -67,7 +67,6 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
         await GameManager.Instance.UniWaitTables();
         missionTable = DataTableMgr.GetMissionTable();
         missionData = new List<MissionData>(missionTable.GetAllMissions());
-        await UniTask.WaitUntil(() => UtilityTime.isLoadComplete);
         UtilityTime.Instance.SetMissionData();
         if (!isAddQuitEvent)
         {
@@ -270,40 +269,55 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
         Debug.Log("MissionDataSaveComplete");
     }
 
-    public void LoadGameData()
+    public async UniTask LoadGameData()
     {
         SaveMissionData gameData = SaveLoadSystem.MissionLoad();
-        Debug.Log($"gameData : {gameData} // count{gameData.dailyMissions.Count} // {gameData.preMissions.Count}");
         if (gameData == null)
         {
             gameData = SaveLoadSystem.EmptyMissionLoad(SaveLoadSystem.SaveType.EmptyMission);
+            if (gameData == null || gameData.completeDailyMission.Count == 0)
+            {
+                dailyMissionCheck = new List<bool>(3);
+                for (int i = 0; i < 3; i++)
+                {
+                    dailyMissionCheck.Add(false);
+                }
+            }
         }
-        dailyPoints = gameData.dailyPoint;
-        weeklyPoints = gameData.weeklyPoint;
-        monthlyPoints = gameData.monthlyPoint;
-        missionProgress.Clear();
-
-        foreach (var saveData in gameData.dailyMissions)
+        else
         {
-            missionProgress[saveData.missionId] = saveData;
-            var missionData = GetMissionData(saveData.missionId);
-        }
-        dailyMissionCount = gameData.dailyMissions.Count;
+            dailyPoints = gameData.dailyPoint;
+            weeklyPoints = gameData.weeklyPoint;
+            monthlyPoints = gameData.monthlyPoint;
+            missionProgress.Clear();
 
-        foreach (var saveData in gameData.weeklyMissions)
-        {
-            missionProgress[saveData.missionId] = saveData;
-            var missionData = GetMissionData(saveData.missionId);
-        }
-        weeklyMissionCount = gameData.weeklyMissions.Count;
+            foreach (var saveData in gameData.dailyMissions)
+            {
+                missionProgress[saveData.missionId] = saveData;
+                var missionData = GetMissionData(saveData.missionId);
+            }
+            dailyMissionCount = gameData.dailyMissions.Count;
 
-        foreach (var saveData in gameData.monthlyMissions)
-        {
-            missionProgress[saveData.missionId] = saveData;
-            var missionData = GetMissionData(saveData.missionId);
+            foreach (var saveData in gameData.weeklyMissions)
+            {
+                missionProgress[saveData.missionId] = saveData;
+                var missionData = GetMissionData(saveData.missionId);
+            }
+            weeklyMissionCount = gameData.weeklyMissions.Count;
+
+            foreach (var saveData in gameData.monthlyMissions)
+            {
+                missionProgress[saveData.missionId] = saveData;
+                var missionData = GetMissionData(saveData.missionId);
+            }
+            monthlyMissionCount = gameData.monthlyMissions.Count;
+            if (gameData.completeDailyMission.Count != 0 || gameData != null)
+            {
+                dailyMissionCheck = gameData.completeDailyMission;
+            }
         }
-        monthlyMissionCount = gameData.monthlyMissions.Count;
-        if(missionProgress.Count <=0)
+        
+        if(missionProgress.Count <=0 && gameData == null)
         {
             foreach (var mission in missionData)
             {
@@ -364,7 +378,7 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
                 missionProgress[mission.Mission_ID] = tempMission;
             }
         }
-        if (gameData.preMissions == null || gameData.preMissions.Count == 0)
+        if (gameData == null || gameData.preMissions == null || gameData.preMissions.Count == 0)
         {
             foreach (var mission in missionData)
             {
@@ -378,23 +392,11 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
                 }
             }
         }
-        else
+        else if(gameData != null)
         {
             foreach (var saveData in gameData.preMissions)
             {
                 preMissionProgress[saveData.missionId] = saveData;
-            }
-        }
-        if(gameData.completeDailyMission.Count != 0)
-        {
-            dailyMissionCheck = gameData.completeDailyMission;
-        }
-        else
-        {
-            dailyMissionCheck = new List<bool>(3);
-            for (int i = 0; i < 3; i++)
-            {
-                dailyMissionCheck.Add(false);
             }
         }
     }

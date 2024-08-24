@@ -82,7 +82,7 @@ public class WorldMapMoveTest : MonoBehaviour
 
     private void OnDragStarted(InputAction.CallbackContext context)
     {
-        if(!titlePanel.gameObject.activeSelf || isRotate)
+        if(!titlePanel.gameObject.activeSelf)
             isDragging = true;
     }
 
@@ -100,15 +100,18 @@ public class WorldMapMoveTest : MonoBehaviour
         if (isDragging)
         {
             mouseDelta = context.ReadValue<Vector2>();
+            if (mouseDelta.sqrMagnitude < 0.1f)
+                return;
+
             bool rotateAroundY = Mathf.Abs(mouseDelta.x) > Mathf.Abs(mouseDelta.y);
             if (rotateAroundY)
             {
-                float angleY = -mouseDelta.x * speed * Time.deltaTime;
+                float angleY = -mouseDelta.x * speed;
                 transform.Rotate(Vector3.up, angleY, Space.World);
             }
             else
             {
-                float angleX = mouseDelta.y * speed * Time.deltaTime;
+                float angleX = mouseDelta.y * speed;
                 transform.Rotate(Vector3.right, angleX, Space.World);
             }
         }

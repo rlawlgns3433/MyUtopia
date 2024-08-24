@@ -113,6 +113,18 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
         string enterTimeString = await GetServerTimeAsync();
         previousTimeData.EnterTime = enterTimeString;
         Debug.Log($"SaveEnterTime = > {previousTimeData.EnterTime}");
+        if(previousTimeData.LastDaily == null)
+        {
+            previousTimeData.LastDaily = enterTimeString;
+        }
+        if(previousTimeData.LastWeekly == null)
+        {
+            previousTimeData.LastWeekly = enterTimeString;
+        }
+        if(previousTimeData.LastMonthly == null)
+        {
+            previousTimeData.LastMonthly = enterTimeString;
+        }
         await SaveTimeDataAsync(previousTimeData);
     }
 
@@ -201,19 +213,22 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
 
     public void CheckMissionsAvailability()
     {
-        currentDate = GetCurrentTime();
+        currentDate = GetCurrentTime().Date;
 
-        dailyMissionReset = previousTimeData.LastDaily == null || IsDateDifferent(currentDate, DateTime.Parse(previousTimeData.LastDaily), TimeSpan.FromDays(1));
-        weeklyMissionReset = previousTimeData.LastWeekly == null || IsDateDifferent(currentDate, DateTime.Parse(previousTimeData.LastWeekly), TimeSpan.FromDays(7));
-        monthlyMissionReset = previousTimeData.LastMonthly == null || IsDateDifferent(currentDate, DateTime.Parse(previousTimeData.LastMonthly), TimeSpan.FromDays(30));
+        DateTime lastDailyDate = DateTime.Parse(previousTimeData.LastDaily).Date;
+        DateTime lastWeeklyDate = DateTime.Parse(previousTimeData.LastWeekly).Date;
+        DateTime lastMonthlyDate = DateTime.Parse(previousTimeData.LastMonthly).Date;
 
-        
-        DateTime enterTime = DateTime.Parse(previousTimeData.EnterTime);
-        isFirstLoginToday = previousTimeData.FirstLogInDaily == null || enterTime.Date > DateTime.Parse(previousTimeData.FirstLogInDaily).Date;
+        dailyMissionReset = lastDailyDate < currentDate;
+        weeklyMissionReset = lastWeeklyDate.AddDays(7) <= currentDate;
+        monthlyMissionReset = lastMonthlyDate.AddMonths(1) <= currentDate;
+
+        DateTime enterTime = DateTime.Parse(previousTimeData.EnterTime).Date;
+        isFirstLoginToday = previousTimeData.FirstLogInDaily == null || enterTime > DateTime.Parse(previousTimeData.FirstLogInDaily).Date;
 
         if (isFirstLoginToday)
         {
-            previousTimeData.FirstLogInDaily = enterTime.ToString("o");
+            previousTimeData.FirstLogInDaily = currentDate.ToString("o");
             Debug.Log("First login today.");
         }
         else
@@ -255,18 +270,15 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
         {
             Debug.Log("Monthly Not reset.");
         }
-        if (!dailyMissionReset && !weeklyMissionReset && !monthlyMissionReset)
-        {
-            MissionManager.Instance.LoadGameData();
-        }
+        //if (!dailyMissionReset && !weeklyMissionReset && !monthlyMissionReset)
+        //{
+        //    MissionManager.Instance.LoadGameData();
+        //}
     }
 
     private static bool IsDateDifferent(DateTime currentDate, DateTime lastDate, TimeSpan interval)
     {
-        DateTime currentDateAtMidnight = currentDate.Date;
-        DateTime lastDateAtMidnight = lastDate.Date;
-
-        return (currentDateAtMidnight - lastDateAtMidnight) >= interval;
+        return currentDate.Date > lastDate.Date;
     }
 
     public bool ShouldBeCreatedInScene(string sceneName)
