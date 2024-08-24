@@ -107,9 +107,13 @@ public class UiMissionList : MonoBehaviour
         twoThirdPoint = missionSlider.maxValue * 0.75f;
         maxPoint = missionSlider.maxValue;
 
-        checkPointHalf.GetComponentInChildren<TextMeshProUGUI>().text = ((int)halfPoint).ToString();
-        checkPointTwoThird.GetComponentInChildren<TextMeshProUGUI>().text = ((int)twoThirdPoint).ToString();
-        checkPointMax.GetComponentInChildren<TextMeshProUGUI>().text = ((int)maxPoint).ToString();
+        //checkPointHalf.GetComponentInChildren<TextMeshProUGUI>().text = ((int)halfPoint).ToString();
+        //checkPointTwoThird.GetComponentInChildren<TextMeshProUGUI>().text = ((int)twoThirdPoint).ToString();
+        //checkPointMax.GetComponentInChildren<TextMeshProUGUI>().text = ((int)maxPoint).ToString();
+        var reward = DataTableMgr.GetRewardTable().Get(12101001);
+        checkPointHalf.GetComponentInChildren<TextMeshProUGUI>().text = reward.Reward1_Value;
+        checkPointTwoThird.GetComponentInChildren<TextMeshProUGUI>().text = reward.Reward1_Value;
+        checkPointMax.GetComponentInChildren<TextMeshProUGUI>().text = reward.Reward1_Value;
     }
 
     private void CheckMissionPoint()

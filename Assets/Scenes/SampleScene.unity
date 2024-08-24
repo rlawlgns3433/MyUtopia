@@ -18137,17 +18137,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 444668, guid: 18f46b9dce8624c868b9cd945d73c3cf, type: 3}
   m_PrefabInstance: {fileID: 1490624996}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &307416163 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5366515410521792034, guid: ba248b7478965974691887ea984c3f18, type: 3}
-  m_PrefabInstance: {fileID: 59617660}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a009e504dd2c7ad41b745d950c92d9e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &307416165 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1797628086153483821, guid: ba248b7478965974691887ea984c3f18, type: 3}
@@ -27821,7 +27810,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -22.199873}
+  m_AnchoredPosition: {x: 0, y: -23.799871}
   m_SizeDelta: {x: 37.0023, y: 13.5073}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &526706941
@@ -31469,7 +31458,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -22.199873}
+  m_AnchoredPosition: {x: 0, y: -23.799871}
   m_SizeDelta: {x: 37.0023, y: 13.5073}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &591953092
@@ -37045,6 +37034,7 @@ MonoBehaviour:
   floorId: 2010401
   storage: {fileID: 0}
   floorName: B4
+  disabledTime: 0
   storageConduct: {fileID: 407434648}
 --- !u!65 &707424777
 BoxCollider:
@@ -44956,6 +44946,7 @@ MonoBehaviour:
   floorId: 2010201
   storage: {fileID: 0}
   floorName: B2
+  disabledTime: 0
 --- !u!33 &848280135
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -60512,7 +60503,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -22.2}
+  m_AnchoredPosition: {x: 0, y: -23.8}
   m_SizeDelta: {x: 37.0023, y: 13.5073}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1177411932
@@ -81157,6 +81148,7 @@ MonoBehaviour:
   floorId: 2010501
   storage: {fileID: 0}
   floorName: B5
+  disabledTime: 0
   storageConduct: {fileID: 1478139214}
 --- !u!65 &1586996400
 BoxCollider:
@@ -86485,6 +86477,7 @@ MonoBehaviour:
   floorId: 2010101
   storage: {fileID: 0}
   floorName: B1
+  disabledTime: 0
 --- !u!33 &1696216551
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -90904,9 +90897,8 @@ MonoBehaviour:
   buildingInfoPrefab: {fileID: 1976660855142808068, guid: 0ceda83c82d880c44841d87ee6bd900c, type: 3}
   buildingParent: {fileID: 248712519}
   textFloorName: {fileID: 718323927}
-  uiFloorInfoBlock: {fileID: 307416163}
+  uiFloorInfoBlocks: []
   uiBuildings: []
-  currentFloor: {fileID: 0}
 --- !u!224 &1806773328
 RectTransform:
   m_ObjectHideFlags: 0
@@ -96922,6 +96914,7 @@ MonoBehaviour:
   floorId: 2010301
   storage: {fileID: 2126916231}
   floorName: B3
+  disabledTime: 0
 --- !u!65 &1913298788
 BoxCollider:
   m_ObjectHideFlags: 0
