@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 public class TimeData
 {
     public string EnterTime { get; set; }
-    public float QuitTime { get; set; }
+    public string QuitTime { get; set; }
     public string LastDaily { get; set; }
     public string LastWeekly { get; set; }
     public string LastMonthly { get; set; }
@@ -22,7 +22,7 @@ public class UtilityTime : MonoBehaviour
     private static int seconds;
     public static int Seconds { get { return seconds; } private set { seconds = value; } }
 
-    private static TimeData previousTimeData;
+    private TimeData previousTimeData;
 
     public static bool dailyMissionReset { get; private set; }
     public static bool weeklyMissionReset { get; private set; }
@@ -42,7 +42,7 @@ public class UtilityTime : MonoBehaviour
 
     private async void Start()
     {
-        await UniTask.WaitForSeconds(0.5f);
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
         await LoadPreviousTimeData();
         await CalculateElapsedTime();
         await SaveEnterTime();
@@ -58,12 +58,19 @@ public class UtilityTime : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        SaveQuitTimeSync();
+    }
+
     private static async UniTask SyncServerTime()
     {
         string serverTimeString = await GetServerTimeAsync();
-        DateTime serverTime = DateTime.Parse(serverTimeString);
-        DateTime localTime = DateTime.Now;
-        serverTimeOffset = serverTime - localTime;
+        if (DateTime.TryParse(serverTimeString, out DateTime serverTime))
+        {
+            DateTime localTime = DateTime.Now;
+            serverTimeOffset = serverTime - localTime;
+        }
     }
 
     private static DateTime GetCurrentTime()
@@ -99,44 +106,42 @@ public class UtilityTime : MonoBehaviour
         return DateTime.Now;
     }
 
-    private static async UniTask SaveEnterTime()
+    private async UniTask SaveEnterTime()
     {
         string enterTimeString = await GetServerTimeAsync();
         previousTimeData.EnterTime = enterTimeString;
         await SaveTimeDataAsync(previousTimeData);
     }
 
-    private static async UniTask SaveQuitTime()
+    private async UniTask SaveQuitTime()
     {
-        float quitTimeFloat = Time.time;
-        previousTimeData.QuitTime = quitTimeFloat;
+        var quitTime = GetCurrentTime();
+        previousTimeData.QuitTime = quitTime.ToString("o");
         await SaveTimeDataAsync(previousTimeData);
     }
 
-    private static void SaveQuitTimeSync()
+    private void SaveQuitTimeSync()
     {
-        float quitTimeFloat = Time.time;
-        previousTimeData.QuitTime = quitTimeFloat;
+        var quitTime = GetCurrentTime();
+        previousTimeData.QuitTime = quitTime.ToString("o");
         SaveTimeDataSync(previousTimeData);
     }
 
-    private static async UniTask CalculateElapsedTime()
+    private async UniTask CalculateElapsedTime()
     {
-        if (!string.IsNullOrEmpty(previousTimeData.EnterTime) && previousTimeData.QuitTime > 0)
+        if (!string.IsNullOrEmpty(previousTimeData.EnterTime) && !string.IsNullOrEmpty(previousTimeData.QuitTime))
         {
             string serverTimeString = await GetServerTimeAsync();
             DateTime serverTime = DateTime.Parse(serverTimeString);
             DateTime enterTime = DateTime.Parse(previousTimeData.EnterTime);
-            float quitTime = previousTimeData.QuitTime;
+            DateTime quitTime = DateTime.Parse(previousTimeData.QuitTime);
 
-            DateTime quitDateTime = enterTime.AddSeconds(quitTime);
-
-            TimeSpan elapsedTime = serverTime - quitDateTime;
+            TimeSpan elapsedTime = serverTime - quitTime;
             Seconds = (int)elapsedTime.TotalSeconds;
         }
     }
 
-    private static async UniTask LoadPreviousTimeData()
+    private async UniTask LoadPreviousTimeData()
     {
         previousTimeData = await LoadTimeDataAsync();
         if (previousTimeData == null)
@@ -152,10 +157,11 @@ public class UtilityTime : MonoBehaviour
             using (var sr = new StreamReader(filePath))
             using (var jr = new JsonTextReader(sr))
             {
-                var deserializer = new JsonSerializer();
-                deserializer.TypeNameHandling = TypeNameHandling.All;
-                TimeData data = await UniTask.RunOnThreadPool(() => deserializer.Deserialize<TimeData>(jr));
-                return data;
+                var deserializer = new JsonSerializer
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                };
+                return await UniTask.RunOnThreadPool(() => deserializer.Deserialize<TimeData>(jr));
             }
         }
         return new TimeData();
@@ -173,22 +179,6 @@ public class UtilityTime : MonoBehaviour
             };
             serializer.Serialize(jw, timeData);
         }
-    }
-
-    private static TimeData LoadTimeDataSync()
-    {
-        if (File.Exists(filePath))
-        {
-            using (var sr = new StreamReader(filePath))
-            using (var jr = new JsonTextReader(sr))
-            {
-                var deserializer = new JsonSerializer();
-                deserializer.TypeNameHandling = TypeNameHandling.All;
-                TimeData data = deserializer.Deserialize<TimeData>(jr);
-                return data;
-            }
-        }
-        return new TimeData();
     }
 
     private static async UniTask SaveTimeDataAsync(TimeData timeData)
@@ -234,10 +224,6 @@ public class UtilityTime : MonoBehaviour
             MissionManager.Instance.ResetMissions(MissionDayTypes.Weekly);
             Debug.Log("Weekly mission reset.");
         }
-        else
-        {
-            Debug.Log("Weekly Not reset.");
-        }
 
         if (monthlyMissionReset)
         {
@@ -245,14 +231,12 @@ public class UtilityTime : MonoBehaviour
             MissionManager.Instance.ResetMissions(MissionDayTypes.Monthly);
             Debug.Log("Monthly mission reset.");
         }
-        else
-        {
-            Debug.Log("Monthly Not reset.");
-        }
-        if(!dailyMissionReset && !weeklyMissionReset && !monthlyMissionReset)
+
+        if (!dailyMissionReset && !weeklyMissionReset && !monthlyMissionReset)
         {
             MissionManager.Instance.LoadGameData();
         }
+
         DateTime enterTime = DateTime.Parse(previousTimeData.EnterTime);
         isFirstLoginToday = previousTimeData.FirstLogInDaily == null || enterTime.Date > DateTime.Parse(previousTimeData.FirstLogInDaily).Date;
 
@@ -261,15 +245,10 @@ public class UtilityTime : MonoBehaviour
             previousTimeData.FirstLogInDaily = enterTime.ToString("o");
             Debug.Log("First login today.");
         }
-        else
-        {
-            Debug.Log("Not first login today.");
-        }
 
         isLoadComplete = true;
         SaveTimeDataSync(previousTimeData);
     }
-
 
     private static bool IsDateDifferent(DateTime currentDate, DateTime lastDate, TimeSpan interval)
     {

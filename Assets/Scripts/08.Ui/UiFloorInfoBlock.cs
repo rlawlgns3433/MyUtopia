@@ -28,41 +28,6 @@ public class UiFloorInfoBlock : MonoBehaviour, IUISetupable, IGrowable
         set => floor.FloorStat.IsUpgrading = value;
     }
 
-    //private void Start()
-    //{
-    //    SetTimerWhenStartUp();
-    //}
-
-    //private void OnDisable()
-    //{
-    //    floor.FloorStat.UpgradeTimeLeft = Mathf.FloorToInt(clockFormatTimer.remainingTime);
-    //    floor.disabledTime = Time.time;
-    //}
-
-    //private void SetTimerWhenStartUp()
-    //{
-    //    if (!IsUpgrading)
-    //        return;
-    //    clockFormatTimer.canStartTimer = true;
-    //    imageDia.gameObject.SetActive(true);
-    //    imageTextTimer.gameObject.SetActive(true);
-
-    //    if(floor.FloorStat.UpgradeTimeLeft < 1)
-    //    {
-    //        floor.FloorStat.UpgradeTimeLeft = 1;
-    //    }
-
-    //    clockFormatTimer.SetTimer(floor.FloorStat.UpgradeTimeLeft/* - Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - floor.FloorStat.UpgradeStartTime)*/);
-
-    //    foreach (var currency in uiUpgradeCurrencies)
-    //    {
-    //        Destroy(currency.gameObject);
-    //    }
-    //    uiUpgradeCurrencies.Clear();
-    //    imageTextMax.gameObject.SetActive(false);
-    //    clockFormatTimer.StartClockTimer();
-    //}
-
     public void FinishUpgrade()
     {
         imageDia.gameObject.SetActive(false);
