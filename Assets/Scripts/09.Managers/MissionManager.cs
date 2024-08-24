@@ -157,11 +157,6 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
     {
         if (FloorManager.Instance.touchManager.tutorial.gameObject.activeSelf)
             return;
-<<<<<<< HEAD
-        
-=======
-
->>>>>>> CBTTest
         if (!missionProgress.ContainsKey(missionId))
         {
             missionProgress[missionId] = new MissionSaveData
@@ -268,11 +263,17 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
         }
 
         SaveLoadSystem.Save(gameData);
+        foreach (var mission in gameData.dailyMissions)
+        {
+            Debug.Log($"SaveMission id: {mission.missionId} / count: {mission.count}");
+        }
+        Debug.Log("MissionDataSaveComplete");
     }
 
     public void LoadGameData()
     {
         SaveMissionData gameData = SaveLoadSystem.MissionLoad();
+        Debug.Log($"gameData : {gameData} // count{gameData.dailyMissions.Count} // {gameData.preMissions.Count}");
         if (gameData == null)
         {
             gameData = SaveLoadSystem.EmptyMissionLoad(SaveLoadSystem.SaveType.EmptyMission);

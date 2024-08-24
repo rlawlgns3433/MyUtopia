@@ -22,7 +22,7 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
     private static int seconds;
     public static int Seconds { get { return seconds; } private set { seconds = value; } }
 
-    private TimeData previousTimeData;
+    private static TimeData previousTimeData;
 
     public static bool dailyMissionReset { get; private set; }
     public static bool weeklyMissionReset { get; private set; }
@@ -44,7 +44,7 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
 
     private async void Start()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+        //await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
         await LoadPreviousTimeData();
         await CalculateElapsedTime();
         await SaveEnterTime();
@@ -128,6 +128,7 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
         var quitTime = GetCurrentTime();
         previousTimeData.QuitTime = quitTime.ToString("o");
         SaveTimeDataSync(previousTimeData);
+        Debug.Log("QuitTimeSaveComplete");
     }
 
     private async UniTask CalculateElapsedTime()

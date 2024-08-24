@@ -104,7 +104,7 @@ public class StorageConduct : MonoBehaviour
     public async UniTask CheckStorage()
     {
         await UniWaitFurnitureTable();
-        await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
+        //await UniTask.WaitUntil(() => UtilityTime.Seconds > 0);
         //MaxSeconds = FurnitureStat.Effect_Value;
         CurrArray = new BigNumber[currencyTypes.Count];
         values = new BigNumber[currencyTypes.Count];

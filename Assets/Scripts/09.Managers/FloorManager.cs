@@ -418,14 +418,23 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
             floors[$"B{CurrentFloorIndex}"].LevelUp();
         }
     }
-    public void MoveWorldScene()
+    public async UniTask MoveWorldScene()
     {
         GameManager.Instance.SetPlayerData();
         MissionManager.Instance.SaveGameData();
         CatalogueManager.Instance.SaveCatalougeData();
         UtilityTime.SaveQuitTimeSync();
+        Debug.Log("SaveStart");
+        await UniTask.WaitForSeconds(2);
+        Debug.Log("DelayStop");
         SceneManager.LoadScene("WorldMap");
     }
+
+    public void LoadWorld()
+    {
+        MoveWorldScene().Forget();
+    }
+
     public bool ShouldBeCreatedInScene(string sceneName)
     {
         return sceneName == "SampleScene";

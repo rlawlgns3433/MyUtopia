@@ -174,6 +174,7 @@ public class CatalogueManager : Singleton<CatalogueManager>, ISingletonCreatable
         };
         saveData.isGetFirstAnimal = firstGetAnimal;
         SaveLoadSystem.Save(saveData);
+        Debug.Log("CatalogueSaveComplete");
     }
 
     public void LoadCatalougeData()

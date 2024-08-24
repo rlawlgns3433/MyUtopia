@@ -52,15 +52,15 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
     {
         await UniWaitTables();
         await UniTask.WaitForSeconds(0.5f);
-        int count = 0;
-        await UniTask.WaitUntil(
-            () =>
-            {
-                if(++count > 10)
-                    return true;
+        //int count = 0;
+        //await UniTask.WaitUntil(
+        //    () =>
+        //    {
+        //        if(++count > 10)
+        //            return true;
 
-                return UtilityTime.Seconds > 0;
-            });
+        //        return UtilityTime.Seconds > 0;
+        //    });
         await UniLoadWorldData();
     }
 
@@ -348,6 +348,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
             saveProductData.productSaveData.Add(new ProductSaveData(storageProduct.products.ElementAt(i).Key, storageProduct.products.ElementAt(i).Value));
         }
         SaveLoadSystem.Save(saveProductData, SaveLoadSystem.SaveType.Product);
+        Debug.Log("GameManager SaveComplete");
     }
 
     public bool ShouldBeCreatedInScene(string sceneName)

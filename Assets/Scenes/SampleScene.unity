@@ -74782,7 +74782,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 82434538}
         m_TargetAssemblyTypeName: FloorManager, Assembly-CSharp
-        m_MethodName: MoveWorldScene
+        m_MethodName: LoadWorld
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -90909,7 +90909,8 @@ MonoBehaviour:
   buildingInfoPrefab: {fileID: 1976660855142808068, guid: 0ceda83c82d880c44841d87ee6bd900c, type: 3}
   buildingParent: {fileID: 248712519}
   textFloorName: {fileID: 718323927}
-  uiFloorInfoBlocks: []
+  uiFloorInfoBlocks:
+  - {fileID: 5366515410521792034, guid: ba248b7478965974691887ea984c3f18, type: 3}
   uiBuildings: []
 --- !u!224 &1806773328
 RectTransform:
