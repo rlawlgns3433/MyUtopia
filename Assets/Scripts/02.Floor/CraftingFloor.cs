@@ -50,6 +50,8 @@ public class CraftingFloor : Floor
                         continue;
                     if (b.BuildingStat.Level == 0)
                         continue;
+                    if ((b as CraftingBuilding) == null)
+                        continue;
                     if (!(b as CraftingBuilding).isCrafting)
                         continue;
                     if ((storage as StorageProduct).IsFull)
