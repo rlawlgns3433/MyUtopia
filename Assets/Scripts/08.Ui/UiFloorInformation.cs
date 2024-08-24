@@ -45,7 +45,6 @@ public class UiFloorInformation : MonoBehaviour
         uiBuildings = new List<UiBuildingInfo>();
         resourceTable = DataTableMgr.GetResourceTable();
     }
-
     public void SetFloorData()
     {
         var floor = FloorManager.Instance.GetCurrentFloor();
@@ -73,9 +72,13 @@ public class UiFloorInformation : MonoBehaviour
 
     public void SetFloorUi()
     {
-        textFloorName.text = floorStat.FloorData.GetFloorName();
-        uiFloorInfoBlocks[floorStat.Floor_Num - 1].Set(CurrentFloor);
-        RefreshFloorInfoBlock();
+        int index = floorStat.Floor_Num - 1;
+        if (index >= 0 && index < uiFloorInfoBlocks.Count)
+        {
+            textFloorName.text = floorStat.FloorData.GetFloorName();
+            uiFloorInfoBlocks[index].Set(CurrentFloor);
+            RefreshFloorInfoBlock();
+        }
 
         if (CurrentFloor.FloorStat.Floor_Num <= 2)
         {
@@ -135,7 +138,7 @@ public class UiFloorInformation : MonoBehaviour
 
     public void RefreshFloorInfoBlock()
     {
-        for(int i = 0; i < uiFloorInfoBlocks.Count; i++)
+        for (int i = 0; i < uiFloorInfoBlocks.Count; i++)
         {
             if (floorStat.Floor_Num - 1 == i)
                 uiFloorInfoBlocks[i].gameObject.SetActive(true);

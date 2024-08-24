@@ -52,6 +52,9 @@ public class UiManager : Singleton<UiManager>
         uiTweens.Add(currencyProductInventoryUi.GetComponent<DTUiPanel>());
         uiTweens.Add(confirmPanelUi.GetComponent<DTUiPanel>());
         uiTweens.Add(warningPanelUi.GetComponent<DTUiPanel>());
+
+        floorInformationUi.gameObject.SetActive(true);
+        floorInformationUi.gameObject.SetActive(false);
          // 꺼진 오브젝트에 대해서 찾아와야함
     }
     private void Start()
