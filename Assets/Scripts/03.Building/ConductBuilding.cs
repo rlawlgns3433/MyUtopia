@@ -110,7 +110,23 @@ public class ConductBuilding : Building
     {
         if (bigNumber <= BigNumber.Zero)
             return;
-        var pos = displayDummy.transform.position;
+
+        var pos = transform.position;
+
+        switch (buildingType)
+        {
+            case CurrencyProductType.CopperStone:
+            case CurrencyProductType.SilverStone:
+            case CurrencyProductType.GoldStone:
+                pos.y += 1.5f;
+                break;
+            case CurrencyProductType.CopperIngot:
+            case CurrencyProductType.SilverIngot:
+            case CurrencyProductType.GoldIngot:
+                pos.y += 3f;
+                break;
+        }
+
         DynamicTextManager.CreateText(pos, bigNumber.ToString(), DynamicTextManager.clickData, 2, 0.5f);
     }
 }

@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
 using UnityEngine;
@@ -13,7 +12,6 @@ public class Building : MonoBehaviour, IClickable, IGrowable
     public CurrencyProductType buildingType;
     public int buildingId;
     public bool IsUpgrading { get; set; } = false;
-    public GameObject displayDummy;
 
 
     private BuildingStat buildingStat;

@@ -53,6 +53,8 @@ public class BuildingFloor : Floor
                         continue;
 
                     b.accumWorkLoad += autoWorkload;
+                    var pos = b.transform.position;
+
                     switch (b.buildingType)
                     {
                         case CurrencyProductType.CopperStone:
@@ -65,7 +67,7 @@ public class BuildingFloor : Floor
                                 //b.accumWorkLoad = b.accumWorkLoad - c * b.BuildingStat.Work_Require; 기존
                                 b.accumWorkLoad = BigNumber.Zero;
 
-                                var pos = b.displayDummy.transform.position;
+                                pos.y += 1.5f;
                                 DynamicTextManager.CreateText(pos, c.ToString(), DynamicTextManager.autoWorkData, 2, 0.5f);
                             }
                             else
@@ -92,12 +94,11 @@ public class BuildingFloor : Floor
                                 if (temp < CurrencyManager.product[(CurrencyProductType)b.BuildingStat.Materials_Type])
                                 {
                                     CurrencyManager.product[(CurrencyProductType)b.BuildingStat.Materials_Type] = temp;
-
                                     b.accumWorkLoad = BigNumber.Zero;
                                     break;
                                 }
 
-                                var pos = b.displayDummy.transform.position;
+                                pos.y += 3f;
                                 DynamicTextManager.CreateText(pos, c.ToString(), DynamicTextManager.autoWorkData, 2, 0.5f);
                                 CurrencyManager.product[b.buildingType] += c;
                                 //b.accumWorkLoad -= c * b.BuildingStat.Work_Require; 기존
