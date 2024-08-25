@@ -92,7 +92,6 @@ public class CurrencyProductSaveData
     }
 }
 
-
 public class ProductSaveData
 {
     public int productId;
@@ -103,6 +102,19 @@ public class ProductSaveData
     {
         this.productId = productId;
         this.productValue = productValue;
+    }
+}
+
+public class PatronBoardSaveData
+{
+    public int id;
+    public bool isCompleted;
+
+    public PatronBoardSaveData() { }
+    public PatronBoardSaveData(int id, bool isCompleted)
+    {
+        this.id = id;
+        this.isCompleted = isCompleted;
     }
 }
 
@@ -172,6 +184,23 @@ public class SaveProductDataV1 : SaveData
         return null;
     }
 }
+
+public class SavePatronDataV1 : SaveData
+{
+    public List<PatronBoardSaveData> patronboardSaveData;
+    public DateTime dateTime;
+    public SavePatronDataV1()
+    {
+        patronboardSaveData = new List<PatronBoardSaveData>();
+        dateTime = DateTime.UtcNow;
+        Version = 1;
+    }
+    public override SaveData VersionUp()
+    {
+        return null;
+    }
+}
+
 
 public class SaveDataV2 : SaveData
 {

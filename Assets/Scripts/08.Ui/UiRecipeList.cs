@@ -1,7 +1,4 @@
-using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class UiRecipeList : MonoBehaviour
@@ -18,21 +15,13 @@ public class UiRecipeList : MonoBehaviour
         return slot;
     }
 
-    private List<int> GetRecipes(int buildingLevel)
+    public void Clear()
     {
-        var recipes = (from recipe in DataTableMgr.GetRecipeTable().GetKeyValuePairs.Values
-                       where recipe.Unlock_Lv <= buildingLevel
-                       select recipe.Recipe_ID).ToList();
-
-        return recipes;
-    }
-
-    public async UniTask UniWaitBuildingTable()
-    {
-        while (!DataTableMgr.GetBuildingTable().IsLoaded)
+        foreach (var slot in recipeSlots)
         {
-            await UniTask.Yield();
+            Destroy(slot.gameObject);
         }
-        return;
+
+        recipeSlots.Clear();
     }
 }

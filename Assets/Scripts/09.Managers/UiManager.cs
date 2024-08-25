@@ -53,6 +53,9 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         uiTweens.Add(currencyProductInventoryUi.GetComponent<DTUiPanel>());
         uiTweens.Add(confirmPanelUi.GetComponent<DTUiPanel>());
         uiTweens.Add(warningPanelUi.GetComponent<DTUiPanel>());
+
+        floorInformationUi.gameObject.SetActive(true);
+        floorInformationUi.gameObject.SetActive(false);
          // 꺼진 오브젝트에 대해서 찾아와야함
     }
     private async void Start()
@@ -83,12 +86,17 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
     {
         isAnimalList = condition;
         isAnimalMove = !condition;
+        animalListUi.buttonEliminate.gameObject.SetActive(true);
+        animalListUi.buttonExchange.gameObject.SetActive(true);
     }
 
     public void IsAnimalMove(bool condition)
     {
         isAnimalList = !condition;
         isAnimalMove = condition;
+
+        animalListUi.buttonEliminate.gameObject.SetActive(false);
+        animalListUi.buttonExchange.gameObject.SetActive(false);
     }
 
     public void OffAnimalList()
@@ -311,7 +319,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         currencyProductInventoryUi.gameObject.SetActive(false);
         confirmPanelUi.gameObject.SetActive(false);
         warningPanelUi.gameObject.SetActive(false);
-
+        animalListUi.buttonEliminate.gameObject.SetActive(true);
+        animalListUi.buttonExchange.gameObject.SetActive(true);
     }
 
     public void ShowProductsUi()

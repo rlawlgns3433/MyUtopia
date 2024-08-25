@@ -119,8 +119,7 @@ public class FloorStat
     public string Resource_3_Value { get; set; }
     public bool IsLock { get; set; }
     public bool IsUpgrading { get; set; } = false;
-    public float UpgradeStartTime { get; set; }
-    public int UpgradeTimeLeft { get; set; }
+    public double UpgradeTimeLeft { get; set; }
     public FloorStat() { }
 
     public FloorStat(int floorId)
@@ -171,17 +170,17 @@ public class RecipeStat
     public int Workload { get; set; }
     public int Product_ID { get; set; }
 
-    public Dictionary<int, string> Resources
+    public Dictionary<int, BigNumber> Resources
     {
         get
         {
-            Dictionary<int, string> resources = new Dictionary<int, string>();
+            Dictionary<int, BigNumber> resources = new Dictionary<int, BigNumber>();
             if (Resource_1 != 0)
-                resources[Resource_1] = Resource_1_Value;
+                resources[Resource_1] = Resource_1_Value.ToBigNumber();
             if (Resource_2 != 0)
-                resources[Resource_2] = Resource_2_Value;
+                resources[Resource_2] = Resource_2_Value.ToBigNumber();
             if(Resource_3 != 0)
-                resources[Resource_3] = Resource_3_Value;
+                resources[Resource_3] = Resource_3_Value.ToBigNumber();
 
             return resources;
         }
@@ -310,6 +309,8 @@ public class BuildingStat
     public string Resource_3_Value { get; set; }
     public string Prefab { get; set; }
     public bool IsLock { get; set; } = true;
+    public bool IsUpgrading { get; set; } = false;
+    public double UpgradeTimeLeft { get; set; }
 
     public BuildingStat() { }
 
@@ -469,6 +470,7 @@ public class ExchangeStat
         }
     }
     public List<RequrieExchangeInfo> requireInfos = new List<RequrieExchangeInfo>();
+    public bool IsCompleted { get; set; } = false;
 
     public ExchangeStat() { }
 

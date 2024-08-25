@@ -25,7 +25,8 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
     }
 
     public bool isPlayingData;
-
+    public bool isLoadedWorld;
+    public bool hasPatronBoardDateTime;
     private void Awake()
     {
         if (!ShouldBeCreatedInScene(SceneManager.GetActiveScene().name))
@@ -34,12 +35,12 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
             return;
         }
         Application.targetFrameRate = 60;
-        Application.quitting += SetPlayerData;
+        //Application.quitting += SetPlayerData; // ����� ���� X
         CurrencyManager.Init();
         CurrentSceneId = SceneIds.WorldLandOfHope;
     }
 
-    private void OnApplicationPause(bool pause)
+    private void OnApplicationPause(bool pause) // ����� ���� 
     {
         if (pause)
         {
@@ -47,19 +48,20 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         }
     }
 
+
     private async void Start()
     {
         await UniWaitTables();
         await UniTask.WaitForSeconds(0.5f);
-        //int count = 0;
-        //await UniTask.WaitUntil(
-        //    () =>
-        //    {
-        //        if(++count > 10)
-        //            return true;
+        int count = 0;
+        await UniTask.WaitUntil(
+            () =>
+            {
+                if(++count > 20)
+                    return true;
 
-        //        return UtilityTime.Seconds > 0;
-        //    });
+                return UtilityTime.Seconds > 0;
+            });
         await UniLoadWorldData();
     }
 
@@ -79,6 +81,23 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
 
                 var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
                 floor.FloorStat = floorSaveData.floorStat;
+
+                if(floor.FloorStat.IsUpgrading)
+                {
+                    floor.FloorStat.UpgradeTimeLeft -= UtilityTime.Seconds;
+                    if (floor.FloorStat.UpgradeTimeLeft < 0)
+                    {
+                        floor.FloorStat.UpgradeTimeLeft = 0;
+                    }
+                }
+
+                for(int j = 0; j < floor.FloorStat.Grade; ++j)
+                {
+                    if (j >= floor.furniture.furnitures.Count)
+                        break;
+
+                    floor.furniture.furnitures[j].SetActive(true);
+                }
 
                 StorageConduct storageConduct = null;
                 if ((floor as BuildingFloor) != null)
@@ -126,7 +145,17 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                 {
                     if (buildings.Count == 0)
                         break;
-                    floor.buildings[j].BuildingStat.IsLock = false;
+
+                    if (buildings[j].buildingStat.IsUpgrading)
+                    {
+                        buildings[j].buildingStat.UpgradeTimeLeft -= UtilityTime.Seconds;
+                        if(buildings[j].buildingStat.UpgradeTimeLeft < 0)
+                        {
+                            buildings[j].buildingStat.UpgradeTimeLeft = 0;
+                        }
+                    }
+
+                    buildings[j].buildingStat.IsLock = false;
                     floor.buildings[j].gameObject.SetActive(true);
                 }
 
@@ -208,7 +237,39 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
             }
             UiManager.Instance.productsUi.capacity = storageProduct.BuildingStat.Effect_Value;
         }
+
+        SavePatronDataV1 savePatronBoard = SaveLoadSystem.Load(SaveLoadSystem.SaveType.PatronBoard) as SavePatronDataV1;
+        var floorB3 = FloorManager.Instance.GetFloor("B3");
+        var patronBoard = floorB3.buildings[2] as PatronBoard;
+        if (savePatronBoard != null)
+        {
+            if(savePatronBoard.dateTime.Day != DateTime.UtcNow.Day)
+            {
+                patronBoard.isSaveFileLoaded = false;
+            }
+            else
+            {
+                hasPatronBoardDateTime = true;
+                patronBoard.isSaveFileLoaded = true;
+
+                for (int i = 0; i < savePatronBoard.patronboardSaveData.Count; ++i)
+                {
+                    if (savePatronBoard.patronboardSaveData[i].isCompleted)
+                        continue;
+                    patronBoard.requests.Add(savePatronBoard.patronboardSaveData[i].id);
+                    patronBoard.exchangeStats.Add(new ExchangeStat(savePatronBoard.patronboardSaveData[i].id));
+                }
+            }
+        }
+        else
+        {
+            patronBoard.isSaveFileLoaded = false;
+        }
+
+
         await UniTask.WaitForSeconds(1);
+
+        isLoadedWorld = true;
     }
 
     public void RegisterSceneManager(SceneIds sceneName, SceneController sceneManager)
@@ -307,6 +368,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         var saveCurrencyData = new SaveCurrencyDataV1();
         var saveProductData = new SaveProductDataV1();
         var saveCurrencyProductData = new SaveCurrencyProductDataV1();
+        var savePatronboardData = new SavePatronDataV1();
 
         for (int i = 0; i < FloorManager.Instance.floors.Count; ++i)
         {
@@ -338,6 +400,32 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         }
 
         SaveLoadSystem.Save(saveCurrencyData, SaveLoadSystem.SaveType.Currency);
+        var buildingFloor = FloorManager.Instance.GetFloor("B3") as CraftingFloor;
+        for (int i = 0; i < buildingFloor.buildings.Count; ++i)
+        {
+            if (buildingFloor.buildings[i].BuildingStat.IsLock)
+                continue;
+
+            var building = buildingFloor.buildings[i];
+            if ((building as CraftingBuilding) == null)
+                continue;
+
+            if ((building as CraftingBuilding).isCrafting)
+            {
+                foreach (var res in (building as CraftingBuilding).CurrentRecipeStat.Resources)
+                {
+                    CurrencyManager.product[(CurrencyProductType)res.Key] += res.Value;
+                }
+
+                foreach (var recipe in (building as CraftingBuilding).recipeStatList)
+                {
+                    foreach (var res in recipe.Resources)
+                    {
+                        CurrencyManager.product[(CurrencyProductType)res.Key] += res.Value;
+                    }
+                }
+            }
+        }
 
         for (int i = 0; i < CurrencyManager.productTypes.Length; ++i)
         {
@@ -371,8 +459,17 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         {
             _instance = null;
         }
+        var patronboard = FloorManager.Instance.GetFloor("B3").buildings[2] as PatronBoard;
+        if(!patronboard.BuildingStat.IsLock)
+        {
+            for(int i = 0; i < patronboard.requests.Count; ++i)
+            {
+                savePatronboardData.patronboardSaveData.Add(new PatronBoardSaveData(patronboard.requests[i], patronboard.exchangeStats[i].IsCompleted));
+            }
+            SaveLoadSystem.Save(savePatronboardData, SaveLoadSystem.SaveType.PatronBoard);
+
+        }
     }
-}
 
 public class WorldSelectManager : SceneController
 {

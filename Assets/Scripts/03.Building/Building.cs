@@ -53,6 +53,8 @@ public class Building : MonoBehaviour, IClickable, IGrowable
         }
     }
 
+    public double UpgradeTimeLeft { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
     protected virtual void Start()
     {
         RegisterClickable();

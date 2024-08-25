@@ -26,6 +26,7 @@ public class Animal : IGrowable, IMovable
     private float idleTime;
     public float IdleTime { get => idleTime; set => idleTime = value; }
     public bool IsUpgrading { get; set; }
+    public double UpgradeTimeLeft { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
     public event Action clickEvent;
 

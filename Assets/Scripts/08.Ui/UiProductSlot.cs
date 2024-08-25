@@ -53,10 +53,48 @@ public class UiProductSlot : MonoBehaviour
 
         CurrencyManager.currency[type] += price;
 
-
-        var storage = FloorManager.Instance.GetFloor("B3").storage as StorageProduct;
-
+        var floor = FloorManager.Instance.GetFloor("B3");
+        var storage = floor.storage as StorageProduct;
         storage.DecreaseProduct(itemStat.Item_ID);
+
+        int lockCount = 0;
+        foreach(var building in floor.buildings)
+        {
+            if (building.BuildingStat.IsLock)
+                lockCount++;
+        }
+
+        switch (lockCount)
+        {
+            case 0:
+            case 1:
+                if(storage.Count <= 6)
+                {
+                    foreach(var building in floor.buildings)
+                    {
+                        if ((building as CraftingBuilding) == null)
+                            continue;
+
+                        if(!building.BuildingStat.IsLock && (building as CraftingBuilding).CurrentRecipeStat != null)
+                        {
+                            (building as CraftingBuilding).isCrafting = true;
+                        }
+                    }
+                }
+                break;
+            case 2:
+                if (storage.Count <= 7)
+                {
+                    foreach (var building in floor.buildings)
+                    {
+                        if (!building.BuildingStat.IsLock && (building as CraftingBuilding).CurrentRecipeStat != null)
+                        {
+                            (building as CraftingBuilding).isCrafting = true;
+                        }
+                    }
+                }
+                break;
+        }
 
         ClearData();
 

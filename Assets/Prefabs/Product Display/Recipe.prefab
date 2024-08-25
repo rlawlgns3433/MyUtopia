@@ -1320,7 +1320,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: -287024894390985599}
         m_TargetAssemblyTypeName: UiRecipeSlot, Assembly-CSharp
-        m_MethodName: OnCraftButtonClicked
+        m_MethodName: OnClickCrafting
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1599,12 +1599,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87e3d9754b3d42547a9e0f20ffd96845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imagePortrait: {fileID: 5974501485489483147}
+  imageProfile: {fileID: 5974501485489483147}
+  buttonCrafting: {fileID: 5191952115209665489}
+  textSalePrice: {fileID: 1671643904718760825}
   textName: {fileID: 8005356869698062295}
-  textRequireCurrency: {fileID: 0}
-  textSaleCoin: {fileID: 1671643904718760825}
-  buttonCraft: {fileID: 5191952115209665489}
-  uiRequireCurrencyProduct: {fileID: 6816571314886872868, guid: 7adb4452b69f76c40bb56de9ad2b6b0d, type: 3}
   requireCurrencyProducts: {fileID: 2795104169498175671}
 --- !u!1 &8479949180489662345
 GameObject:

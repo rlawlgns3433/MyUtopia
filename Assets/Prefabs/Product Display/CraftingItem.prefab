@@ -298,7 +298,6 @@ GameObject:
   - component: {fileID: 8842729703604118055}
   - component: {fileID: 2205277123973579554}
   - component: {fileID: 8229030251276220497}
-  - component: {fileID: 6105930243264556414}
   m_Layer: 5
   m_Name: IconBackground (2)
   m_TagString: Untagged
@@ -384,20 +383,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &6105930243264556414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2543086350684548524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e852be4addda562458ebc5f1c5e978e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteNull: {fileID: 0}
-  imageWaiting: {fileID: 2826990906813618899}
 --- !u!1 &3404177661730009646
 GameObject:
   m_ObjectHideFlags: 0
@@ -1533,7 +1518,6 @@ GameObject:
   - component: {fileID: 6301540442705833744}
   - component: {fileID: 8812990533262120816}
   - component: {fileID: 1462926143914554277}
-  - component: {fileID: 7070718054292927266}
   m_Layer: 5
   m_Name: IconBackground (1)
   m_TagString: Untagged
@@ -1619,20 +1603,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &7070718054292927266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5799371285061504047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e852be4addda562458ebc5f1c5e978e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteNull: {fileID: 0}
-  imageWaiting: {fileID: 9073666631080131782}
 --- !u!1 &6200409752925411337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2038,7 +2008,6 @@ GameObject:
   - component: {fileID: 3652328038083300484}
   - component: {fileID: 2501555022487109607}
   - component: {fileID: 5401966471385007508}
-  - component: {fileID: 5811119451977114673}
   m_Layer: 5
   m_Name: IconBackground
   m_TagString: Untagged
@@ -2124,20 +2093,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &5811119451977114673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6655433500790977859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e852be4addda562458ebc5f1c5e978e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteNull: {fileID: 0}
-  imageWaiting: {fileID: 5124857983541902174}
 --- !u!1 &6756285354894911871
 GameObject:
   m_ObjectHideFlags: 0
@@ -2248,14 +2203,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2906a722ea4ac09458ec5d3f6cd62e3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageCurrentCrafting: {fileID: 76458699500485291}
-  waitingSlots:
-  - {fileID: 5811119451977114673}
-  - {fileID: 7070718054292927266}
-  - {fileID: 6105930243264556414}
-  - {fileID: 5097540016000313716}
-  textCurrentCraftingName: {fileID: 3494530453348635653}
-  textCurrentRemainProcess: {fileID: 2878786878718289388}
+  craftingBuilding: {fileID: 0}
+  imageCurrentSlot: {fileID: 76458699500485291}
+  textCurrentSlot: {fileID: 3494530453348635653}
+  imagesWaiting:
+  - {fileID: 5124857983541902174}
+  - {fileID: 9073666631080131782}
+  - {fileID: 2826990906813618899}
+  - {fileID: 7991425114452737892}
   sliderProcess: {fileID: 2573584444961644272}
   buttonAccelerate: {fileID: 8122253761226345933}
 --- !u!1 &7998282980968673520
@@ -2270,7 +2225,6 @@ GameObject:
   - component: {fileID: 5633365261907830238}
   - component: {fileID: 1638757283932195208}
   - component: {fileID: 1624778616667847889}
-  - component: {fileID: 5097540016000313716}
   m_Layer: 5
   m_Name: IconBackground (3)
   m_TagString: Untagged
@@ -2356,20 +2310,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &5097540016000313716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7998282980968673520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e852be4addda562458ebc5f1c5e978e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteNull: {fileID: 0}
-  imageWaiting: {fileID: 7991425114452737892}
 --- !u!1 &8102475880540294150
 GameObject:
   m_ObjectHideFlags: 0

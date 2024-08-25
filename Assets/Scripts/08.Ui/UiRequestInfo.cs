@@ -76,7 +76,7 @@ public class UiRequestInfo : MonoBehaviour
         }
 
         UiManager.Instance.patronBoardUi.Refresh();
-
+        exchangeStat.IsCompleted = true;
         // 보상 지급
         var rewardStat = new RewardStat(exchangeStat.Reward_ID);
         if (rewardStat == null)

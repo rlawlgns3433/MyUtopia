@@ -96,6 +96,9 @@ public class Floor : Subject, IGrowable
             offLineWorkLoad = value;
         }
     }
+
+    public double UpgradeTimeLeft { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
     public float disabledTime;
     public Floor() { }
     public Floor(int floorId)
@@ -103,24 +106,6 @@ public class Floor : Subject, IGrowable
         if(floorStat == null || floorStat.Floor_ID == 0)
         {
             floorStat = new FloorStat(floorId);
-        }
-    }
-
-    private void OnApplicationPause(bool pause)
-    {
-        if(pause)
-        {
-            if (IsUpgrading)
-            {
-                FloorStat.UpgradeTimeLeft = FloorStat.UpgradeTimeLeft - Mathf.FloorToInt(Time.time - disabledTime);
-                //FloorStat.UpgradeTimeLeft -= Mathf.FloorToInt(DateTime.UtcNow.Hour * 3600 + DateTime.UtcNow.Minute * 60 + DateTime.UtcNow.Second - FloorStat.UpgradeStartTime);
-                // 정확한 시간을 넘겨줄 필요가 있음 FloorInfoBlock 참고
-            }
-            else
-            {
-                FloorStat.UpgradeTimeLeft = 0;
-                FloorStat.UpgradeStartTime = 0;
-            }
         }
     }
 
