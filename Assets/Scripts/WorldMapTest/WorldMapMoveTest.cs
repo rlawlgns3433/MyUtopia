@@ -28,6 +28,7 @@ public class WorldMapMoveTest : MonoBehaviour
 
     private async void Awake()
     {
+        Application.targetFrameRate = 60;
         worldMapMove = new WorldMapMove();
         dragAction = worldMapMove.WorldMap.Drag;
         moveAction = worldMapMove.WorldMap.Move;
@@ -196,5 +197,10 @@ public class WorldMapMoveTest : MonoBehaviour
             tcs.TrySetResult();
         };
         await tcs.Task;
+    }
+
+    public void OnClickQuitGame()
+    {
+        Application.Quit();
     }
 }

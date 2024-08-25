@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 
 public class DynamicTextManager : MonoBehaviour
 {
@@ -63,15 +64,21 @@ public class DynamicTextManager : MonoBehaviour
         else
         {
             newText = GetText();
-            newText.SetActive(true);
-            newText.transform.position = position;
-            newText.transform.rotation = Quaternion.identity;
+            if(newText != null)
+            {
+                newText.SetActive(true);
+                newText.transform.position = position;
+                newText.transform.rotation = Quaternion.identity;
+            }
         }
 
         data.moveDistance = moveDistance;
         data.moveDuration = moveDuration;
-        newText.transform.GetComponent<DynamicText>().Initialise(text, data);
-        newText.transform.DOMove(newText.transform.position + Vector3.up * moveDistance, moveDuration).OnComplete(() => ReturnText(newText));
+        if(newText != null)
+        {
+            newText.transform.GetComponent<DynamicText>().Initialise(text, data);
+            newText.transform.DOMove(newText.transform.position + Vector3.up * moveDistance, moveDuration).OnComplete(() => ReturnText(newText));
+        }
     }
 
     // Ç®¸µ Àü
