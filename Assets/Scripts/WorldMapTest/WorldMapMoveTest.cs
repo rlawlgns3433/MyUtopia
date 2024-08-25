@@ -179,7 +179,7 @@ public class WorldMapMoveTest : MonoBehaviour
     {
         LoadingManager.Instance.ShowLoadingPanel();
         await LoadingManager.Instance.FadeIn(1);
-        await SceneManager.LoadSceneAsync("SampleScene");
+        await SceneManager.LoadSceneAsync("SampleScene CBTJH");
         await WaitForDataLoadComplete();
     }
     private async UniTask WaitForDataLoadComplete()

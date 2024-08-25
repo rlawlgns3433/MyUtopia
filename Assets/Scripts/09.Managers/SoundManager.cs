@@ -63,6 +63,6 @@ public class SoundManager : Singleton<SoundManager>, ISingletonCreatable
 
     public bool ShouldBeCreatedInScene(string sceneName)
     {
-        return sceneName == "SampleScene";
+        return sceneName == "SampleScene CBTJH";
     }
 }

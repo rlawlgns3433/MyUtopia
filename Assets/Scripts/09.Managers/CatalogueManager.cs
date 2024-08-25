@@ -206,6 +206,6 @@ public class CatalogueManager : Singleton<CatalogueManager>, ISingletonCreatable
 
     public bool ShouldBeCreatedInScene(string sceneName)
     {
-        return sceneName == "SampleScene";
+        return sceneName == "SampleScene CBTJH";
     }
 }

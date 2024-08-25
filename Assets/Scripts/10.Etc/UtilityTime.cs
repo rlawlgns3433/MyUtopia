@@ -283,6 +283,6 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
 
     public bool ShouldBeCreatedInScene(string sceneName)
     {
-        return sceneName == "SampleScene" || sceneName == "WorldMap";
+        return sceneName == "SampleScene CBTJH" || sceneName == "WorldMap";
     }
 }

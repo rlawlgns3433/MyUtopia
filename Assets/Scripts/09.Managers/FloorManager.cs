@@ -437,7 +437,7 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
 
     public bool ShouldBeCreatedInScene(string sceneName)
     {
-        return sceneName == "SampleScene";
+        return sceneName == "SampleScene CBTJH";
     }
 
     //public void CheckFloorSynergy(Floor floor) ½Ã³ÊÁö

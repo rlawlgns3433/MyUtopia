@@ -119,6 +119,14 @@ public class UiMissionList : MonoBehaviour
     private void CheckMissionPoint()
     {
         checkPoints = MissionManager.Instance.dailyMissionCheck;
+        if(checkPoints.Count <= 0)
+        {
+            for(int i = 0; i < 3; ++i)
+            {
+                checkPoints.Add(false);
+                Debug.Log($"checkPoints List Count {checkPoints.Count}");
+            }
+        }
         if (checkPoints[0] && checkPoints[1] && checkPoints[2])
             return;
 

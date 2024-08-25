@@ -538,7 +538,7 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
 
     public bool ShouldBeCreatedInScene(string sceneName)
     {
-        return sceneName == "SampleScene";
+        return sceneName == "SampleScene CBTJH";
     }
 }
 

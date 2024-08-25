@@ -57,7 +57,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         await UniTask.WaitUntil(
             () =>
             {
-                if(++count > 20)
+                if (++count > 20)
                     return true;
 
                 return UtilityTime.Seconds > 0;
@@ -82,7 +82,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                 var floor = FloorManager.Instance.GetFloor($"B{floorSaveData.floorStat.Floor_Num}");
                 floor.FloorStat = floorSaveData.floorStat;
 
-                if(floor.FloorStat.IsUpgrading)
+                if (floor.FloorStat.IsUpgrading)
                 {
                     floor.FloorStat.UpgradeTimeLeft -= UtilityTime.Seconds;
                     if (floor.FloorStat.UpgradeTimeLeft < 0)
@@ -91,7 +91,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                     }
                 }
 
-                for(int j = 0; j < floor.FloorStat.Grade; ++j)
+                for (int j = 0; j < floor.FloorStat.Grade; ++j)
                 {
                     if (j >= floor.furniture.furnitures.Count)
                         break;
@@ -119,7 +119,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                         Debug.Log($"AnimalStatTest{animal.animalStat.Stamina}");
                         if (animal.animalStat.Stamina <= 0)
                         {
-                            if(storageConduct != null)
+                            if (storageConduct != null)
                             {
                                 storageConduct.OffLineWorkLoad += Mathf.Abs(animal.animalStat.Stamina);
                             }
@@ -149,7 +149,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                     if (buildings[j].buildingStat.IsUpgrading)
                     {
                         buildings[j].buildingStat.UpgradeTimeLeft -= UtilityTime.Seconds;
-                        if(buildings[j].buildingStat.UpgradeTimeLeft < 0)
+                        if (buildings[j].buildingStat.UpgradeTimeLeft < 0)
                         {
                             buildings[j].buildingStat.UpgradeTimeLeft = 0;
                         }
@@ -173,7 +173,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         {
             var floors = FloorManager.Instance.floors;
 
-            if(floors== null )
+            if (floors == null)
             {
                 Debug.Log("floors Null");
             }
@@ -181,7 +181,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
             {
                 foreach (var building in floor.buildings)
                 {
-                    if(building == null)
+                    if (building == null)
                     {
                         Debug.Log("building Null");
                     }
@@ -191,7 +191,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                         building.BuildingStat = new BuildingStat(building.buildingId);
                         building.BuildingStat.IsLock = false;
 
-                        if(building.BuildingStat == null || building.BuildingStat.BuildingData == BuildingTable.defaultData)
+                        if (building.BuildingStat == null || building.BuildingStat.BuildingData == BuildingTable.defaultData)
                         {
                             Debug.Log("building Default");
                         }
@@ -243,7 +243,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         var patronBoard = floorB3.buildings[2] as PatronBoard;
         if (savePatronBoard != null)
         {
-            if(savePatronBoard.dateTime.Day != DateTime.UtcNow.Day)
+            if (savePatronBoard.dateTime.Day != DateTime.UtcNow.Day)
             {
                 patronBoard.isSaveFileLoaded = false;
             }
@@ -441,11 +441,21 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         }
         SaveLoadSystem.Save(saveProductData, SaveLoadSystem.SaveType.Product);
         Debug.Log("GameManager SaveComplete");
+        var patronboard = FloorManager.Instance.GetFloor("B3").buildings[2] as PatronBoard;
+        if (!patronboard.BuildingStat.IsLock)
+        {
+            for (int i = 0; i < patronboard.requests.Count; ++i)
+            {
+                savePatronboardData.patronboardSaveData.Add(new PatronBoardSaveData(patronboard.requests[i], patronboard.exchangeStats[i].IsCompleted));
+            }
+            SaveLoadSystem.Save(savePatronboardData, SaveLoadSystem.SaveType.PatronBoard);
+
+        }
     }
 
     public bool ShouldBeCreatedInScene(string sceneName)
     {
-        return sceneName == "SampleScene";
+        return sceneName == "SampleScene CBTJH";
     }
 
     public override void OnDestroy()
@@ -459,38 +469,29 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         {
             _instance = null;
         }
-        var patronboard = FloorManager.Instance.GetFloor("B3").buildings[2] as PatronBoard;
-        if(!patronboard.BuildingStat.IsLock)
-        {
-            for(int i = 0; i < patronboard.requests.Count; ++i)
-            {
-                savePatronboardData.patronboardSaveData.Add(new PatronBoardSaveData(patronboard.requests[i], patronboard.exchangeStats[i].IsCompleted));
-            }
-            SaveLoadSystem.Save(savePatronboardData, SaveLoadSystem.SaveType.PatronBoard);
+    }
 
+    public class WorldSelectManager : SceneController
+    {
+        public override void Start()
+        {
+            base.Start();
         }
     }
 
-public class WorldSelectManager : SceneController
-{
-    public override void Start()
+    public class WorldLandOfHopeManager : SceneController
     {
-        base.Start();
+        public override void Start()
+        {
+            base.Start();
+        }
     }
-}
 
-public class WorldLandOfHopeManager : SceneController
-{
-    public override void Start()
+    public class SceneController : MonoBehaviour
     {
-        base.Start();
-    }
-}
-
-public class SceneController : MonoBehaviour
-{
-    public virtual void Start()
-    {
-        Debug.Log("Base SceneController Start");
+        public virtual void Start()
+        {
+            Debug.Log("Base SceneController Start");
+        }
     }
 }
