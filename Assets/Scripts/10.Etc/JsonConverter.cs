@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class QuitTimeConverter : JsonConverter<TimeData>
 {
@@ -414,6 +415,7 @@ public class PatronBoardConverter : JsonConverter<List<PatronBoardSaveData>>
             writer.WriteValue(value[i].id);
             writer.WritePropertyName($"IsCompleted");
             writer.WriteValue(value[i].isCompleted);
+            Debug.Log($"{value[i].id} : {value[i].isCompleted}");
             writer.WriteEndObject();
         }
         writer.WriteEndArray();

@@ -40,7 +40,7 @@ public class UiProducts : MonoBehaviour
         //int size = CurrencyManager.currency[CurrencyType.Craft].ToInt() > capacity ? capacity : CurrencyManager.currency[CurrencyType.Craft].ToInt();
 
         int size = 0;
-        var kvProducts = (FloorManager.Instance.GetFloor("B3").storage as StorageProduct).products;
+        var kvProducts = (FloorManager.Instance.GetFloor("B3").storage as StorageProduct).Products;
         foreach (var kv in kvProducts)
         {
             size += kv.Value;
