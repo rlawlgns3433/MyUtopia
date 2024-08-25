@@ -48,7 +48,8 @@ public class StorageProduct : Storage
 
         foreach(var item in DataTableMgr.GetItemTable().GetKeyValuePairs.Values)
         {
-            Products.Add(item.Item_ID, 0);
+            if(!Products.ContainsKey(item.Item_ID))
+                Products.Add(item.Item_ID, 0);
         }
     }
 
