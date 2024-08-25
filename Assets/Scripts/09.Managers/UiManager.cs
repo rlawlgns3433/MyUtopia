@@ -73,6 +73,7 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
             ShowTutorial();
         }
         await UniTask.Delay (2000);
+        SoundManager.Instance.SetVolume();
         await LoadingManager.Instance.FadeOut(1);
         LoadingManager.Instance.HideLoadingPanel();
     }
@@ -371,6 +372,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         currencyProductInventoryUi.gameObject.SetActive(false);
         confirmPanelUi.gameObject.SetActive(false);
         warningPanelUi.gameObject.SetActive(false);
+        var setting = testPanelUi.GetComponent<UiSetting>();
+        setting.SetSlider();
     }
 
     public void ShowCraftTableUi()

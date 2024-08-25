@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class WorldMapMoveTest : MonoBehaviour
+public class WorldMapManager : MonoBehaviour
 {
     public GameObject titlePanel;
     public GameObject infoPanel;
@@ -25,6 +25,7 @@ public class WorldMapMoveTest : MonoBehaviour
     private bool isRotate = false;
     public Button moveWorldButton;
     public GameObject loadingManager;
+    public GameObject optionPanel;
 
     private async void Awake()
     {
@@ -43,6 +44,11 @@ public class WorldMapMoveTest : MonoBehaviour
             GameObject loadingManagerInstance = Instantiate(loadingManager);
             DontDestroyOnLoad(loadingManagerInstance);
         }
+        else
+        {
+            WorldMapSoundManager.Instance.SetVolume();
+        }
+        
         await LoadingManager.Instance.FadeOut(1);
         LoadingManager.Instance.HideLoadingPanel();
     }
@@ -179,10 +185,12 @@ public class WorldMapMoveTest : MonoBehaviour
     public async void OpenWorld()
     {
         LoadingManager.Instance.ShowLoadingPanel();
+        WorldMapSoundManager.Instance.SaveVolume();
         await LoadingManager.Instance.FadeIn(1);
         await SceneManager.LoadSceneAsync("SampleScene CBTJH");
         await WaitForDataLoadComplete();
     }
+
     private async UniTask WaitForDataLoadComplete()
     {
         var uiManager = UiManager.Instance;
@@ -197,6 +205,21 @@ public class WorldMapMoveTest : MonoBehaviour
             tcs.TrySetResult();
         };
         await tcs.Task;
+    }
+
+    public void OnClickOptionUi()
+    {
+        optionPanel.gameObject.SetActive(true);
+        var uiSetting = optionPanel.GetComponent<WorldMapUiSetting>();
+        if(uiSetting != null)
+        {
+            uiSetting.SetSlider();
+        }
+    }
+
+    public void OnClickQuitOptionUi()
+    {
+        optionPanel.gameObject.SetActive(false);
     }
 
     public void OnClickQuitGame()

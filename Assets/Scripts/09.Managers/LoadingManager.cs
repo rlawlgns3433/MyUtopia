@@ -9,6 +9,10 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
 {
     public GameObject loadingPanel;
     public GameObject loadingImage;
+    public float worldBgmValue = 1;
+    public float worldSfxValue = 1;
+    public bool worldBgmIsMute = false;
+    public bool worldSfxIsMute = false;
     private async void Awake()
     {
         await UniTask.WaitUntil(() => this != null);

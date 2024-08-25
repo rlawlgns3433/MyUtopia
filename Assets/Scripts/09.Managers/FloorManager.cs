@@ -421,6 +421,7 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
     public async UniTask MoveWorldScene()
     {
         LoadingManager.Instance.ShowLoadingPanel();
+        SoundManager.Instance.SaveVolume();
         await LoadingManager.Instance.FadeIn(1);
         GameManager.Instance.SetPlayerData();
         MissionManager.Instance.SaveGameData();

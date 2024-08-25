@@ -55,4 +55,35 @@ public class UiSetting : MonoBehaviour
         imageSfxMute.gameObject.SetActive(true);
         SoundManager.Instance.IsSfxMute = true;
     }
+
+    public void SetSlider()
+    {
+        bgmSlider.value = SoundManager.Instance.bgmAudioSource.volume;
+        sfxSlider.value = SoundManager.Instance.sfxAudioSource.volume;
+        SetMute();
+    }
+
+    public void SetMute()
+    {
+        if (SoundManager.Instance.IsBgmMute)
+        {
+            imageBgmMute.gameObject.SetActive(true);
+            SoundManager.Instance.IsBgmMute = true;
+        }
+        else
+        {
+            imageBgmMute.gameObject.SetActive(false);
+            SoundManager.Instance.IsBgmMute = false;
+        }
+        if (SoundManager.Instance.IsSfxMute)
+        {
+            imageSfxMute.gameObject.SetActive(true);
+            SoundManager.Instance.IsSfxMute = true;
+        }
+        else
+        {
+            imageSfxMute.gameObject.SetActive(false);
+            SoundManager.Instance.IsSfxMute = false;
+        }
+    }
 }
