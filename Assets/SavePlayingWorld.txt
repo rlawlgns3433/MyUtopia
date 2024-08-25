@@ -3,11 +3,18 @@
   "floors": {
     "floors": {
       "B1": {
-        "Id": 2010101,
+        "Id": 2010102,
         "IsLock": false,
         "IsUpgrading": false,
         "UpgradeTimeLeft": 0.0,
-        "Animals": [],
+        "Animals": [
+          {
+            "Id": 110103010,
+            "Stamina": 13791.4385,
+            "AcquireTime": 56591.0,
+            "CurrentFloor": "B1"
+          }
+        ],
         "Buildings": []
       },
       "B2": {
@@ -15,31 +22,50 @@
         "IsLock": false,
         "IsUpgrading": false,
         "UpgradeTimeLeft": 0.0,
-        "Animals": [],
+        "Animals": [
+          {
+            "Id": 110601001,
+            "Stamina": 1517.0,
+            "AcquireTime": 56574.0,
+            "CurrentFloor": "B2"
+          },
+          {
+            "Id": 110201001,
+            "Stamina": 1287.0,
+            "AcquireTime": 2107.0,
+            "CurrentFloor": "B2"
+          },
+          {
+            "Id": 110201001,
+            "Stamina": 1521.0,
+            "AcquireTime": 56591.0,
+            "CurrentFloor": "B2"
+          }
+        ],
         "Buildings": []
       },
       "B3": {
-        "Id": 2010301,
+        "Id": 2010303,
         "IsLock": false,
         "IsUpgrading": false,
         "UpgradeTimeLeft": 0.0,
         "Animals": [],
         "Buildings": [
           {
-            "Id": 3030101,
+            "Id": 3030601,
             "IsLock": false,
             "IsUpgrading": false,
             "UpgradeTimeLeft": 0.0
           },
           {
-            "Id": 3030102,
-            "IsLock": true,
+            "Id": 3030602,
+            "IsLock": false,
             "IsUpgrading": false,
             "UpgradeTimeLeft": 0.0
           },
           {
             "Id": 3030104,
-            "IsLock": true,
+            "IsLock": false,
             "IsUpgrading": false,
             "UpgradeTimeLeft": 0.0
           }
@@ -77,14 +103,7 @@
         "IsLock": false,
         "IsUpgrading": false,
         "UpgradeTimeLeft": 0.0,
-        "Animals": [
-		  {
-            "Id": 110102001,
-            "Stamina": 3559.0,
-            "AcquireTime": 65712.0,
-            "CurrentFloor": "B5"
-          }
-		  ],
+        "Animals": [],
         "Buildings": [
           {
             "Id": 3050202,

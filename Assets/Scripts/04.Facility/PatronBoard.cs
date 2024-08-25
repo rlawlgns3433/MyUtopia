@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 public class PatronBoard : Building
@@ -13,7 +14,10 @@ public class PatronBoard : Building
         await UniTask.WaitUntil(() => GameManager.Instance.isLoadedWorld);
 
         if(!isSaveFileLoaded)
+        {
             SetRequests();
+        }
+        UnityEngine.Debug.Log("isSaveFileLoaded: " + isSaveFileLoaded);
         // 시간 조건
     }
 
@@ -38,6 +42,8 @@ public class PatronBoard : Building
         {
             var exchange = new ExchangeStat(request);
             exchangeStats.Add(exchange);
+
+            UnityEngine.Debug.Log("exchange: " + request);
         }
 
         return requests;

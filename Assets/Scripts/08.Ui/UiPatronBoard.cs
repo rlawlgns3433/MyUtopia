@@ -60,10 +60,13 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
             patronBoard.exchangeStats.Add(exchange);
             requests.Add(requestInfo);
         }
+
+        Debug.Log($"UiPatronBoard SetRequests patronBoard.exchangeStats.Count {patronBoard.exchangeStats.Count}");
     }
 
     public List<int> LoadRequests(int level)
     {
+        Debug.Log($"UiPatronBoard LoadRequests patronBoard.requests.Count {patronBoard.requests.Count}");
         return patronBoard.requests;
     }
 

@@ -247,17 +247,22 @@ public class GameManager : Singleton<GameManager>
         {
             if(savePatronBoard.dateTime.Day != DateTime.UtcNow.Day)
             {
+                Debug.Log("Day Not Matched");
                 patronBoard.isSaveFileLoaded = false;
             }
             else
             {
                 hasPatronBoardDateTime = true;
                 patronBoard.isSaveFileLoaded = true;
+                Debug.Log($"Loaded SavePatronFile savePatronBoard.patronboardSaveData.Count {savePatronBoard.patronboardSaveData.Count}");
 
                 for (int i = 0; i < savePatronBoard.patronboardSaveData.Count; ++i)
                 {
+                    Debug.Log($"savePatronBoard.patronboardSaveData[i].isCompleted {savePatronBoard.patronboardSaveData[i].isCompleted}");
                     if (savePatronBoard.patronboardSaveData[i].isCompleted)
+                    {
                         continue;
+                    }
                     patronBoard.requests.Add(savePatronBoard.patronboardSaveData[i].id);
                     patronBoard.exchangeStats.Add(new ExchangeStat(savePatronBoard.patronboardSaveData[i].id));
                 }
@@ -267,11 +272,11 @@ public class GameManager : Singleton<GameManager>
         {
             patronBoard.isSaveFileLoaded = false;
         }
+        isLoadedWorld = true;
 
 
         await UniTask.WaitForSeconds(1);
 
-        isLoadedWorld = true;
     }
 
     public void RegisterSceneManager(SceneIds sceneName, SceneController sceneManager)
@@ -454,9 +459,9 @@ public class GameManager : Singleton<GameManager>
         SaveLoadSystem.Save(saveCurrencyProductData, SaveLoadSystem.SaveType.CurrencyProduct);
 
         var storageProduct = FloorManager.Instance.GetFloor("B3").storage as StorageProduct;
-        for (int i = 0; i < storageProduct.products.Count; ++i)
+        for (int i = 0; i < storageProduct.Products.Count; ++i)
         {
-            saveProductData.productSaveData.Add(new ProductSaveData(storageProduct.products.ElementAt(i).Key, storageProduct.products.ElementAt(i).Value));
+            saveProductData.productSaveData.Add(new ProductSaveData(storageProduct.Products.ElementAt(i).Key, storageProduct.Products.ElementAt(i).Value));
         }
         SaveLoadSystem.Save(saveProductData, SaveLoadSystem.SaveType.Product);
 
@@ -465,6 +470,7 @@ public class GameManager : Singleton<GameManager>
         {
             for(int i = 0; i < patronboard.requests.Count; ++i)
             {
+                Debug.Log($"patronboard.requests.Count : {patronboard.requests.Count}");
                 savePatronboardData.patronboardSaveData.Add(new PatronBoardSaveData(patronboard.requests[i], patronboard.exchangeStats[i].IsCompleted));
             }
             SaveLoadSystem.Save(savePatronboardData, SaveLoadSystem.SaveType.PatronBoard);

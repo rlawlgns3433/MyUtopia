@@ -5,7 +5,22 @@ using UnityEngine;
 
 public class StorageProduct : Storage
 {
-    public Dictionary<int, int> products = new Dictionary<int, int>();
+    public Dictionary<int, int> products;
+    public Dictionary<int, int> Products
+    {
+        get
+        {
+            if(products == null)
+            {
+                products = new Dictionary<int, int>();
+                foreach (var item in DataTableMgr.GetItemTable().GetKeyValuePairs.Values)
+                {
+                    products.Add(item.Item_ID, 0);
+                }
+            }
+            return products;
+        }
+    }
     public bool IsFull
     {
         get
@@ -18,7 +33,7 @@ public class StorageProduct : Storage
         get
         {
             int count = 0;
-            foreach(var kv in products)
+            foreach(var kv in Products)
             {
                 count += kv.Value;
             }
@@ -33,24 +48,24 @@ public class StorageProduct : Storage
 
         foreach(var item in DataTableMgr.GetItemTable().GetKeyValuePairs.Values)
         {
-            products.Add(item.Item_ID, 0);
+            Products.Add(item.Item_ID, 0);
         }
     }
 
     public void IncreaseProduct(int id , int count = 1)
     {
-        if (!products.ContainsKey(id))
-            products.Add(id, 0);
+        if (!Products.ContainsKey(id))
+            Products.Add(id, 0);
 
-        products[id] += count;
+        Products[id] += count;
     }
 
     public void DecreaseProduct(int id, int count = 1)
     {
-        if (!products.ContainsKey(id))
+        if (!Products.ContainsKey(id))
             return;
 
-        products[id] -= count;
+        Products[id] -= count;
     }
 
     public async UniTask UniWaitItemTable()
@@ -63,11 +78,11 @@ public class StorageProduct : Storage
 
     public void SetEmpty()
     {
-        products.Clear();
+        Products.Clear();
 
         foreach (var item in DataTableMgr.GetItemTable().GetKeyValuePairs.Values)
         {
-            products.Add(item.Item_ID, 0);
+            Products.Add(item.Item_ID, 0);
         }
     }
 }

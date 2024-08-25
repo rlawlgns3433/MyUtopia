@@ -32,9 +32,11 @@ public class UiRequestInfo : MonoBehaviour
             switch (exchangeStat.requireInfos[i].Type)
             {
                 case 1:
+                    Debug.LogError("ResourceStat: " + exchangeStat.requireInfos[i].ID + " Value: " + exchangeStat.requireInfos[i].Value);
                     AddItem(new ResourceStat(exchangeStat.requireInfos[i].ID), exchangeStat.requireInfos[i].Value);
                     break;
                 case 2:
+                    Debug.LogError("ItemStat: " + exchangeStat.requireInfos[i].ID + " Value: " + exchangeStat.requireInfos[i].Value);
                     AddItem(new ItemStat(exchangeStat.requireInfos[i].ID), exchangeStat.requireInfos[i].Value);
                     break;
             }
@@ -76,7 +78,17 @@ public class UiRequestInfo : MonoBehaviour
         }
 
         UiManager.Instance.patronBoardUi.Refresh();
-        exchangeStat.IsCompleted = true;
+
+        foreach(var exchange in UiManager.Instance.patronBoardUi.patronBoard.exchangeStats)
+        {
+            if(exchange.Exchange_ID == exchangeStat.Exchange_ID)
+            {
+                Debug.Log($"Stat true");
+                exchange.IsCompleted = true;
+                break;
+            }
+        }
+
         // 보상 지급
         var rewardStat = new RewardStat(exchangeStat.Reward_ID);
         if (rewardStat == null)
@@ -111,7 +123,7 @@ public class UiRequestInfo : MonoBehaviour
     public void AddItem(ItemStat itemStat, string requireCount)
     {
         var itemInfo = Instantiate(itemInfoPrefab, itemInfoParent);
-        itemInfo.SetData(itemStat, new BigNumber(UiManager.Instance.patronBoardUi.StorageProduct.products[itemStat.Item_ID]), requireCount); // 부모 클래스에서 스토리지를 가져옴
+        itemInfo.SetData(itemStat, new BigNumber(UiManager.Instance.patronBoardUi.StorageProduct.Products[itemStat.Item_ID]), requireCount); // 부모 클래스에서 스토리지를 가져옴
         itemInfos.Add(itemInfo);
     }
 
@@ -121,7 +133,7 @@ public class UiRequestInfo : MonoBehaviour
         {
             if (itemInfo.itemStat != null)
             {
-                itemInfo.SetData(itemInfo.itemStat, new BigNumber(UiManager.Instance.patronBoardUi.StorageProduct.products[itemInfo.itemStat.Item_ID]), itemInfo.requireCount.ToSimpleString());
+                itemInfo.SetData(itemInfo.itemStat, new BigNumber(UiManager.Instance.patronBoardUi.StorageProduct.Products[itemInfo.itemStat.Item_ID]), itemInfo.requireCount.ToSimpleString());
 
             }
             else if (itemInfo.resourceStat != null)
