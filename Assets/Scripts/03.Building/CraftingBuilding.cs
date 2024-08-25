@@ -79,7 +79,13 @@ public class CraftingBuilding : Building
 
         MissionManager.Instance.AddMissionCountMakeItem(CurrentRecipeStat.Product_ID);
         MissionManager.Instance.AddMissionCountMakeItem(0);
-
+        if (FloorManager.Instance.touchManager.tutorial != null)
+        {
+            if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Accelerate)
+            {
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();//Æ©Åä¸®¾ó
+            }
+        }
         CurrentRecipeStat = null;
         isCrafting = false;
 

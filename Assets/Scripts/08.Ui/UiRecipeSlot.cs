@@ -82,6 +82,13 @@ public class UiRecipeSlot : MonoBehaviour
             UseCurrencyProduct();
             UiManager.Instance.craftTableUi.craftingBuilding.Set(recipeStat);
             UiManager.Instance.craftTableUi.uiCraftingSlot.SetData(UiManager.Instance.craftTableUi.craftingBuilding);
+            if (FloorManager.Instance.touchManager.tutorial != null)
+            {
+                if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.CreateItem)
+                {
+                    FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();//Æ©Åä¸®¾ó
+                }
+            }
         }
     }
 }
