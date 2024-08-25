@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +33,7 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
     public UiConfirmPanel confirmPanelUi;
     public UiWarningPanel warningPanelUi;
     private List<DTUiPanel> uiTweens = new List<DTUiPanel>();
-
+    public event Action OnDataLoadComplete;
     private void Awake()
     {
         uiTweens.Add(uiCurrencies.GetComponent<DTUiPanel>());
@@ -54,7 +55,7 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         uiTweens.Add(warningPanelUi.GetComponent<DTUiPanel>());
          // 꺼진 오브젝트에 대해서 찾아와야함
     }
-    private void Start()
+    private async void Start()
     {
         DOTween.Init();
 
@@ -68,7 +69,14 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         {
             ShowTutorial();
         }
-            
+        await UniTask.Delay (2000);
+        await LoadingManager.Instance.FadeOut(1);
+        LoadingManager.Instance.HideLoadingPanel();
+    }
+
+    public void AddEvent()
+    {
+
     }
 
     public void IsAnimalList(bool condition)
@@ -89,7 +97,7 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         isAnimalMove = false;
     }
 
-    public void ShowTutorial()
+    public async void ShowTutorial()
     {
         if (tutorial != null)
             tutorial.tutorialComplete = false;
@@ -118,7 +126,7 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         warningPanelUi.gameObject.SetActive(false);
     }
 
-    public void ShowStorageUi()
+    public async void ShowStorageUi()
     {
 
         uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
@@ -138,6 +146,8 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         uiCatalogue.gameObject.SetActive(false);
         confirmPanelUi.gameObject.SetActive(false);
         warningPanelUi.gameObject.SetActive(false);
+        await UniTask.Delay(1000);
+        OnDataLoadComplete?.Invoke();
     }
 
     public void ShowMainUi()

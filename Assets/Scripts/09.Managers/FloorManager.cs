@@ -420,14 +420,14 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
     }
     public async UniTask MoveWorldScene()
     {
+        LoadingManager.Instance.ShowLoadingPanel();
+        await LoadingManager.Instance.FadeIn(1);
         GameManager.Instance.SetPlayerData();
         MissionManager.Instance.SaveGameData();
         CatalogueManager.Instance.SaveCatalougeData();
         UtilityTime.SaveQuitTimeSync();
-        Debug.Log("SaveStart");
         await UniTask.WaitForSeconds(2);
-        Debug.Log("DelayStop");
-        SceneManager.LoadScene("WorldMap");
+        await SceneManager.LoadSceneAsync("WorldMap");
     }
 
     public void LoadWorld()

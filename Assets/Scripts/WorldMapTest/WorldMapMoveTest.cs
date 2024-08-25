@@ -24,7 +24,9 @@ public class WorldMapMoveTest : MonoBehaviour
     public TextMeshProUGUI worldName;
     private bool isRotate = false;
     public Button moveWorldButton;
-    private void Awake()
+    public GameObject loadingManager;
+
+    private async void Awake()
     {
         worldMapMove = new WorldMapMove();
         dragAction = worldMapMove.WorldMap.Drag;
@@ -35,6 +37,13 @@ public class WorldMapMoveTest : MonoBehaviour
         if(infoPanel.gameObject.activeSelf)
             infoPanel.gameObject.SetActive(false);
         defaultCameraPosition = Camera.main.transform.position;
+        if (LoadingManager.Instance == null)
+        {
+            GameObject loadingManagerInstance = Instantiate(loadingManager);
+            DontDestroyOnLoad(loadingManagerInstance);
+        }
+        await LoadingManager.Instance.FadeOut(1);
+        LoadingManager.Instance.HideLoadingPanel();
     }
 
     private void OnEnable()
@@ -166,10 +175,26 @@ public class WorldMapMoveTest : MonoBehaviour
             Debug.Log("No object hit.");
         }
     }
-    public void OpenWorld()
+    public async void OpenWorld()
     {
-        UtilityTime.SaveEnterTime().Forget();
-        SceneManager.LoadScene("SampleScene");
-        
+        LoadingManager.Instance.ShowLoadingPanel();
+        await LoadingManager.Instance.FadeIn(1);
+        await SceneManager.LoadSceneAsync("SampleScene");
+        await WaitForDataLoadComplete();
+    }
+    private async UniTask WaitForDataLoadComplete()
+    {
+        var uiManager = UiManager.Instance;
+        while (uiManager == null)
+        {
+            uiManager = UiManager.Instance;
+            await UniTask.Yield();
+        }
+        var tcs = new UniTaskCompletionSource();
+        uiManager.OnDataLoadComplete += () =>
+        {
+            tcs.TrySetResult();
+        };
+        await tcs.Task;
     }
 }

@@ -11,7 +11,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
     private Dictionary<SceneIds, SceneController> sceneManagers = new Dictionary<SceneIds, SceneController>();
     private AnimalManager animalManager;
     private SceneIds currentSceneId;
-
     public SceneIds CurrentSceneId
     {
         get
@@ -299,6 +298,11 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
 
     public void SetPlayerData()
     {
+        if (this == null)
+        {
+            Debug.Log("gameManager Null");
+            return;
+        }
         var saveData = new SaveDataV1();
         var saveCurrencyData = new SaveCurrencyDataV1();
         var saveProductData = new SaveProductDataV1();
