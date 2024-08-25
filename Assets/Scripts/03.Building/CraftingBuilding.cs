@@ -76,10 +76,15 @@ public class CraftingBuilding : Building
     {
         var storageProduct = (FloorManager.Instance.GetFloor("B3") as CraftingFloor).storage as StorageProduct;
         storageProduct.IncreaseProduct(CurrentRecipeStat.Product_ID);
+
+        MissionManager.Instance.AddMissionCountMakeItem(CurrentRecipeStat.Product_ID);
+        MissionManager.Instance.AddMissionCountMakeItem(0);
+
         CurrentRecipeStat = null;
         isCrafting = false;
 
-        if(recipeStatList.Count > 0)
+
+        if (recipeStatList.Count > 0)
         {
             Set(recipeStatList.Dequeue());
             SetSlider();

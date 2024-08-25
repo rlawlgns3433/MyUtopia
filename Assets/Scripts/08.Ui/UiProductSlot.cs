@@ -66,11 +66,15 @@ public class UiProductSlot : MonoBehaviour
 
         switch (lockCount)
         {
+            case 0:
             case 1:
                 if(storage.Count <= 6)
                 {
                     foreach(var building in floor.buildings)
                     {
+                        if ((building as CraftingBuilding) == null)
+                            continue;
+
                         if(!building.BuildingStat.IsLock && (building as CraftingBuilding).CurrentRecipeStat != null)
                         {
                             (building as CraftingBuilding).isCrafting = true;

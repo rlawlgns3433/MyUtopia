@@ -470,6 +470,7 @@ public class ExchangeStat
         }
     }
     public List<RequrieExchangeInfo> requireInfos = new List<RequrieExchangeInfo>();
+    public bool IsCompleted { get; set; } = false;
 
     public ExchangeStat() { }
 

@@ -30,7 +30,8 @@ public static class SaveLoadSystem
         Missions,
         CurrencyProduct,
         Catalouge,
-        EmptyMission
+        EmptyMission,
+        PatronBoard,
     }
 
     // 0 (ÀÚµ¿), 1, 2, 3 ...
@@ -48,7 +49,8 @@ public static class SaveLoadSystem
         "SaveMissions.sav",
         "SaveCurrencyProduct.sav",
         "SaveCatalogue.sav",
-        "SaveEmptyMission.sav"
+        "SaveEmptyMission.sav",
+        "SavePatronBoard.sav",
     };
 
     private static string SaveDirectory
@@ -81,6 +83,7 @@ public static class SaveLoadSystem
             serializer.Converters.Add(new WorldConverter());
             serializer.Converters.Add(new CurrencyConverter());
             serializer.Converters.Add(new CurrencyProductConverter());
+            serializer.Converters.Add(new PatronBoardConverter());
             serializer.Serialize(writer, data);
         }
 
@@ -108,6 +111,7 @@ public static class SaveLoadSystem
             serializer.Converters.Add(new WorldConverter());
             serializer.Converters.Add(new CurrencyConverter());
             serializer.Converters.Add(new CurrencyProductConverter());
+            serializer.Converters.Add(new PatronBoardConverter());
 
             data = serializer.Deserialize<SaveData>(reader);
         }

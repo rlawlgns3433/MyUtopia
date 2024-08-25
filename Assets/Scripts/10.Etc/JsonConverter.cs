@@ -391,3 +391,32 @@ public class ProductConverter : JsonConverter<List<ProductSaveData>>
         writer.WriteEndObject();
     }
 }
+
+public class PatronBoardConverter : JsonConverter<List<PatronBoardSaveData>>
+{
+    public override List<PatronBoardSaveData> ReadJson(JsonReader reader, Type objectType, List<PatronBoardSaveData> existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        JObject jObj = JObject.Load(reader);
+        JArray productArray = (JArray)jObj["Products"];
+        return productArray.ToObject<List<PatronBoardSaveData>>();
+    }
+
+
+    public override void WriteJson(JsonWriter writer, List<PatronBoardSaveData> value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+        writer.WritePropertyName("Products");
+        writer.WriteStartArray();
+        for (int i = 0; i < value.Count; ++i)
+        {
+            writer.WriteStartObject();
+            writer.WritePropertyName($"Id");
+            writer.WriteValue(value[i].id);
+            writer.WritePropertyName($"IsCompleted");
+            writer.WriteValue(value[i].isCompleted);
+            writer.WriteEndObject();
+        }
+        writer.WriteEndArray();
+        writer.WriteEndObject();
+    }
+}

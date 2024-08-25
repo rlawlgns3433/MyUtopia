@@ -27,21 +27,22 @@ public class GameManager : Singleton<GameManager>
 
     public bool isPlayingData;
     public bool isLoadedWorld;
+    public bool hasPatronBoardDateTime;
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        Application.quitting += SetPlayerData; // ¸ð¹ÙÀÏ ºôµå X
+        //Application.quitting += SetPlayerData; // ¸ð¹ÙÀÏ ºôµå X
         CurrencyManager.Init();
         CurrentSceneId = SceneIds.WorldLandOfHope;
     }
 
-    //private void OnApplicationPause(bool pause) // ¸ð¹ÙÀÏ ºôµå 
-    //{
-    //    if (pause)
-    //    {
-    //        SetPlayerData();
-    //    }
-    //}
+    private void OnApplicationPause(bool pause) // ¸ð¹ÙÀÏ ºôµå 
+    {
+        if (pause)
+        {
+            SetPlayerData();
+        }
+    }
 
 
     private async void Start()
@@ -238,6 +239,36 @@ public class GameManager : Singleton<GameManager>
             }
             UiManager.Instance.productsUi.capacity = storageProduct.BuildingStat.Effect_Value;
         }
+
+        SavePatronDataV1 savePatronBoard = SaveLoadSystem.Load(SaveLoadSystem.SaveType.PatronBoard) as SavePatronDataV1;
+        var floorB3 = FloorManager.Instance.GetFloor("B3");
+        var patronBoard = floorB3.buildings[2] as PatronBoard;
+        if (savePatronBoard != null)
+        {
+            if(savePatronBoard.dateTime.Day != DateTime.UtcNow.Day)
+            {
+                patronBoard.isSaveFileLoaded = false;
+            }
+            else
+            {
+                hasPatronBoardDateTime = true;
+                patronBoard.isSaveFileLoaded = true;
+
+                for (int i = 0; i < savePatronBoard.patronboardSaveData.Count; ++i)
+                {
+                    if (savePatronBoard.patronboardSaveData[i].isCompleted)
+                        continue;
+                    patronBoard.requests.Add(savePatronBoard.patronboardSaveData[i].id);
+                    patronBoard.exchangeStats.Add(new ExchangeStat(savePatronBoard.patronboardSaveData[i].id));
+                }
+            }
+        }
+        else
+        {
+            patronBoard.isSaveFileLoaded = false;
+        }
+
+
         await UniTask.WaitForSeconds(1);
 
         isLoadedWorld = true;
@@ -354,6 +385,7 @@ public class GameManager : Singleton<GameManager>
         var saveCurrencyData = new SaveCurrencyDataV1();
         var saveProductData = new SaveProductDataV1();
         var saveCurrencyProductData = new SaveCurrencyProductDataV1();
+        var savePatronboardData = new SavePatronDataV1();
 
         for (int i = 0; i < FloorManager.Instance.floors.Count; ++i)
         {
@@ -386,11 +418,6 @@ public class GameManager : Singleton<GameManager>
         }
 
         SaveLoadSystem.Save(saveCurrencyData, SaveLoadSystem.SaveType.Currency);
-
-        //for (int i = 0; i < CurrencyManager.productTypes.Length; ++i)
-        //{
-        //    saveCurrencyProductData.currencySaveData.Add(new CurrencyProductSaveData(CurrencyManager.productTypes[i], CurrencyManager.product[CurrencyManager.productTypes[i]]));
-        //}
 
         var buildingFloor = FloorManager.Instance.GetFloor("B3") as CraftingFloor;
         for (int i = 0; i < buildingFloor.buildings.Count; ++i)
@@ -433,7 +460,15 @@ public class GameManager : Singleton<GameManager>
         }
         SaveLoadSystem.Save(saveProductData, SaveLoadSystem.SaveType.Product);
 
-
+        var patronboard = FloorManager.Instance.GetFloor("B3").buildings[2] as PatronBoard;
+        if(!patronboard.BuildingStat.IsLock)
+        {
+            for(int i = 0; i < patronboard.requests.Count; ++i)
+            {
+                savePatronboardData.patronboardSaveData.Add(new PatronBoardSaveData(patronboard.requests[i], patronboard.exchangeStats[i].IsCompleted));
+            }
+            SaveLoadSystem.Save(savePatronboardData, SaveLoadSystem.SaveType.PatronBoard);
+        }
     }
 }
 

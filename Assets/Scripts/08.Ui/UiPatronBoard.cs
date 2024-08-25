@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
@@ -10,7 +9,7 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
     public UiRequestInfo requestPrefab;
     public TextMeshProUGUI textRefreshTimer;
     public Transform requestParent;
-    public Building building;
+    public PatronBoard patronBoard;
     private StorageProduct storageProduct;
     public StorageProduct StorageProduct
     {
@@ -24,11 +23,11 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
         }
     }
     public ClockFormatTimer clockFormatTimer;
-    public bool IsUpgrading { get => building.IsUpgrading; set => building.IsUpgrading = value; }
+    public bool IsUpgrading { get => patronBoard.IsUpgrading; set => patronBoard.IsUpgrading = value; }
     public double UpgradeTimeLeft 
     {
-        get => building.BuildingStat.UpgradeTimeLeft;
-        set => building.BuildingStat.UpgradeTimeLeft = value;
+        get => patronBoard.BuildingStat.UpgradeTimeLeft;
+        set => patronBoard.BuildingStat.UpgradeTimeLeft = value;
     }
 
     private void Start()
@@ -47,28 +46,25 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
     public void SetFinishUi()
     {
         SetRequests();
-        //ResetTimer();
     }
 
     public void SetRequests()
     {
-        var loadRequests = LoadRequests(building.BuildingStat.Level);
+        var loadRequests = LoadRequests(patronBoard.BuildingStat.Level);
 
         foreach (var request in loadRequests)
         {
             var requestInfo = Instantiate(requestPrefab, requestParent);
-            requestInfo.SetData(new ExchangeStat(request.Exchange_ID));
+            var exchange = new ExchangeStat(request);
+            requestInfo.SetData(exchange);
+            patronBoard.exchangeStats.Add(exchange);
             requests.Add(requestInfo);
         }
     }
 
-    public List<ExchangeData> LoadRequests(int level)
+    public List<int> LoadRequests(int level)
     {
-        var requests = (from request in DataTableMgr.GetExchangeTable().GetKeyValuePairs.Values
-                                      where request.Exchange_Level <= level
-                                      select request).ToList();
-
-        return requests;
+        return patronBoard.requests;
     }
 
     public void Refresh()
@@ -81,7 +77,7 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
 
     public void LevelUp()
     {
-        building.LevelUp();
+        patronBoard.LevelUp();
     }
 
     private void ResetTimer()

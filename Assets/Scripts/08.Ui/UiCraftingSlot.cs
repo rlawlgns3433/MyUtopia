@@ -35,6 +35,8 @@ public class UiCraftingSlot : Observer
     {
         if (craftingBuilding.CurrentRecipeStat != null)
         {
+            sliderProcess.maxValue = this.craftingBuilding.CurrentRecipeStat.Workload;
+
             buttonAccelerate.interactable = true;
             imageCurrentSlot.sprite = await craftingBuilding.CurrentRecipeStat.RecipeData.GetProduct().GetImage();
             textCurrentSlot.text = craftingBuilding.CurrentRecipeStat.RecipeData.GetName();
