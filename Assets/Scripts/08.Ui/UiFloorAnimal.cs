@@ -4,22 +4,14 @@ using UnityEngine.UI;
 
 public class UiFloorAnimal : MonoBehaviour
 {
+    public AnimalSortType sortType = AnimalSortType.Default;
     public UiAnimalFloorSlot slotPrefab;
     public List<UiAnimalFloorSlot> uiAnimalFloorSlots = new List<UiAnimalFloorSlot>();
     public Floor floor;
 
     private void OnEnable()
     {
-        var animals = floor.animals;
-
-        for (int j = 0; j < animals.Count; ++j)
-        {
-            if (animals[j].animalWork == null || animals[j] == null)
-                continue;
-            var animalClick = animals[j].animalWork.gameObject.GetComponent<AnimalClick>();
-            animals[j].animalWork.uiAnimalFloorSlot = Add(animalClick);
-            animals[j].animalWork.SetUiAnimalFloorSlot(animals[j].animalWork.uiAnimalFloorSlot);
-        }
+        SortAnimal(sortType);
     }
 
     private void OnDisable()
@@ -99,7 +91,9 @@ public class UiFloorAnimal : MonoBehaviour
     public void SortAnimal(AnimalSortType type)
     {
         List<Animal> animals = null;
-        switch (type)
+        sortType = type;
+
+        switch (sortType)
         {
             case AnimalSortType.Default:
                 animals = floor.animals;
