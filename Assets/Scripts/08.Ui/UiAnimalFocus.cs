@@ -112,6 +112,15 @@ public class UiAnimalFocus : Observer
         {
             levelUpCostGo.SetActive(true);
             textLevelUpCost.gameObject.SetActive(true);
+            BigNumber lvCoin = new BigNumber(animalWork.Animal.animalStat.AnimalData.Level_Up_Coin_Value);
+            if (CurrencyManager.currency[CurrencyType.Coin] < lvCoin)
+            {
+                textLevelUpCost.color = Color.red;
+            }
+            else
+            {
+                textLevelUpCost.color = Color.white;
+            }
             textLevelUpCost.text = animalWork.Animal.animalStat.Level_Up_Coin_Value.ToBigNumber().ToString();
         }
         textSellCost.text = animalWork.Animal.animalStat.Sale_Coin.ToBigNumber().ToString();
