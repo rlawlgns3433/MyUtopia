@@ -107,6 +107,49 @@ public class UiRequestInfo : MonoBehaviour
             }
         }
 
+        var floor = FloorManager.Instance.GetFloor("B3");
+        var storage = floor.storage as StorageProduct;
+
+        int lockCount = 0;
+        foreach (var building in floor.buildings)
+        {
+            if (building.BuildingStat.IsLock)
+                lockCount++;
+        }
+
+        switch (lockCount)
+        {
+            case 0:
+            case 1:
+                if (storage.Count <= 6)
+                {
+                    foreach (var building in floor.buildings)
+                    {
+                        if ((building as CraftingBuilding) == null)
+                            continue;
+
+                        if (!building.BuildingStat.IsLock && (building as CraftingBuilding).CurrentRecipeStat != null)
+                        {
+                            (building as CraftingBuilding).isCrafting = true;
+                        }
+                    }
+                }
+                break;
+            case 2:
+                if (storage.Count <= 7)
+                {
+                    foreach (var building in floor.buildings)
+                    {
+                        if (!building.BuildingStat.IsLock && (building as CraftingBuilding).CurrentRecipeStat != null)
+                        {
+                            (building as CraftingBuilding).isCrafting = true;
+                        }
+                    }
+                }
+                break;
+        }
+
+
         UiManager.Instance.patronBoardUi.requests.Remove(this);
         SoundManager.Instance.OnClickButton(SoundType.Delivering);
         transform.DOScale(Vector3.zero, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => Destroy(gameObject));
