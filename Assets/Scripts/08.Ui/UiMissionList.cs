@@ -54,11 +54,6 @@ public class UiMissionList : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-
-    }
-
     public void UpdateSliderValue(float value)
     {
         Debug.Log($"Adding {value} points to {missionType} missions.");
@@ -238,6 +233,26 @@ public class UiMissionList : MonoBehaviour
             {
                 Destroy(child.gameObject);
             }
+        }
+    }
+
+    public void CheckMissionImage()
+    {
+        bool check = false;
+        for(int i = 0; i < dailyMissionList.Count; i++)
+        {
+            if (dailyMissionList[i].count >= dailyMissionList[i].missionData.Count && !dailyMissionList[i].isComplete)
+            {
+                check = true;
+            }
+        }
+        if(check)
+        {
+            UiManager.Instance.SetMissionImage(true);
+        }
+        else
+        {
+            UiManager.Instance.SetMissionImage(false);
         }
     }
 }

@@ -10,8 +10,8 @@ public class UiMission : MonoBehaviour
     public TextMeshProUGUI missionDescText;
     public TextMeshProUGUI countText;
     public Button button;
-    private int count;
-    private bool isComplete = false;
+    public int count;
+    public bool isComplete = false;
 
     public void SetData(MissionData data)
     {

@@ -28,6 +28,7 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
     public bool isAnimalMove = false;
     public GameObject panel;
     public GameObject panelBlock;
+    public GameObject missionImage;
     public GameObject catalougeImage;
     public Tutorial tutorial;
     public UiConfirmPanel confirmPanelUi;
@@ -197,6 +198,10 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
             {
                 FloorManager.Instance.touchManager.tutorial.SetTutorialProgress().Forget();
             }
+        }
+        if(uiMission != null && uiMission.gameObject.activeSelf)
+        {
+            uiMission.CheckMissionImage();
         }
         animalListUi.mode = AnimalListMode.AnimalList;
     }
@@ -631,6 +636,12 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         catalougeImage.SetActive(value);
     }
 
+    public void SetMissionImage(bool value)
+    {
+        if (tutorial.gameObject.activeSelf)
+            return;
+        missionImage.SetActive(value);
+    }
     public bool ShouldBeCreatedInScene(string sceneName)
     {
         return sceneName == "SampleScene CBTJH";

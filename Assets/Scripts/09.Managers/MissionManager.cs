@@ -177,6 +177,10 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
 
         if (missionSaveData.count >= missionData.Count)
         {
+            if(!missionSaveData.success)
+            {
+                UiManager.Instance.SetMissionImage(true);
+            }
             missionSaveData.success = true;
             missionSaveData.count = missionData.Count;
         }
