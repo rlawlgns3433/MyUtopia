@@ -158,7 +158,7 @@ public class StorageConduct : MonoBehaviour
                 {
                     if(tempValue - tempOffLineValue >= 0)
                     {
-                        CurrArray[i] += tempValue - tempOffLineValue;
+                        CurrArray[i] += tempOffLineValue;
                     }
                 }
                 //if (CurrArray[i] != 0)
@@ -311,6 +311,8 @@ public class StorageConduct : MonoBehaviour
         else
         {
             floor = FloorManager.Instance.GetFloor($"B{floorIndex}");
+            if (floor == null)
+                return;
             CurrWorkLoad = floor.autoWorkload;
         }
 
