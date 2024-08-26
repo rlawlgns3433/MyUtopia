@@ -20,6 +20,7 @@ public class StorageUi : MonoBehaviour
 
     private async void Start()
     {
+        await UniTask.WaitUntil(() => GameManager.Instance.isLoadedWorld);
         openButton.interactable = false;
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B4") != null);
@@ -68,10 +69,14 @@ public class StorageUi : MonoBehaviour
         }
 
         openButton.interactable = true;
+        await UniTask.Delay(1000);
+        UiManager.Instance.SetEvent();
     }
 
     private async UniTask WaitLoadCompleteStorage(StorageConduct b5Storage, StorageConduct b4Storage)
     {
+        b5Storage.CheckStorage().Forget();
+        b4Storage.CheckStorage().Forget();
         await UniTask.WaitUntil(() => b5Storage.isLoadComplete);
         await UniTask.WaitUntil(() => b4Storage.isLoadComplete);
     }

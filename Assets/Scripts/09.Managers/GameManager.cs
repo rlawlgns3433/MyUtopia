@@ -115,15 +115,16 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                     }
                     if (floorSaveData.floorStat.Floor_Num >= 3)
                     {
+                        var currentSutamina = animal.animalStat.Stamina;
                         animal.animalStat.Stamina -= UtilityTime.Seconds;
                         Debug.Log($"AnimalStatTest{animal.animalStat.Stamina}");
                         if (animal.animalStat.Stamina <= 0)
                         {
                             if (storageConduct != null)
                             {
-                                storageConduct.OffLineWorkLoad += Mathf.Abs(animal.animalStat.Stamina);
+                                storageConduct.OffLineWorkLoad += Mathf.Abs(currentSutamina);
                             }
-                            animal.animalStat.Stamina = 0;
+                            //animal.animalStat.Stamina = 0;
                         }
                     }
                     if (animal.animalStat.Stamina > 0)
@@ -136,6 +137,12 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                     {
                         var moveFloor = FloorManager.Instance.GetFloor("B2");
                         animal.animalStat.CurrentFloor = "B2";
+                        animal.animalStat.Stamina = Mathf.Abs(animal.animalStat.Stamina);
+                        var animalMaxSutamina = DataTableMgr.GetAnimalTable().Get(animal.animalStat.Animal_ID).Stamina;
+                        if(animal.animalStat.Stamina >= animalMaxSutamina)
+                        {
+                            animal.animalStat.Stamina = animalMaxSutamina;
+                        }
                         GetAnimalManager().Create(pos, moveFloor, animal.animalStat.Animal_ID, 0, animal.animalStat);
                     }
                 }
@@ -163,10 +170,10 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                 {
                     floor.buildings[j].BuildingStat = buildings[j].buildingStat;
                 }
-                if (storageConduct != null)
-                {
-                    await storageConduct.CheckStorage();
-                }
+                //if (storageConduct != null)
+                //{
+                //    await storageConduct.CheckStorage();
+                //}
             }
         }
         else

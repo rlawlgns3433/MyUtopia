@@ -308,6 +308,11 @@ public class StorageConduct : MonoBehaviour
         {
             CurrWorkLoad = floor.autoWorkload;
         }
+        else
+        {
+            floor = FloorManager.Instance.GetFloor($"B{floorIndex}");
+            CurrWorkLoad = floor.autoWorkload;
+        }
 
         Debug.Log("Saving data...");
         if (CurrWorkLoad == 0 || CurrWorkLoad == default)
@@ -318,9 +323,16 @@ public class StorageConduct : MonoBehaviour
         {
             CurrArray = new BigNumber[currencyTypes.Count];
         }
-        if (UtilityTime.Seconds == 0 || CurrWorkLoad == 0)
+        if (UtilityTime.Seconds == 0)
         {
-            currentTotalSeconds = 0;
+            if(CurrWorkLoad == 0)
+            {
+                currentTotalSeconds = 0;
+            }
+        }
+        else
+        {
+            currentTotalSeconds += UtilityTime.Seconds;
         }
         string filePath = Path.Combine(Application.persistentDataPath, $"B{floorIndex}.json");
         StorageData storageData = new StorageData

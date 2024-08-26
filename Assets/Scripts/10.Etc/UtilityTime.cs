@@ -143,7 +143,7 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
         Debug.Log("QuitTimeSaveComplete");
     }
 
-    private async UniTask CalculateElapsedTime()
+    public async UniTask CalculateElapsedTime()
     {
         if (!string.IsNullOrEmpty(previousTimeData.EnterTime) && !string.IsNullOrEmpty(previousTimeData.QuitTime))
         {
