@@ -184,6 +184,7 @@ public class WorldMapManager : MonoBehaviour
     }
     public async void OpenWorld()
     {
+        await UtilityTime.Instance.CalculateElapsedTime();
         LoadingManager.Instance.ShowLoadingPanel();
         WorldMapSoundManager.Instance.SaveVolume();
         await LoadingManager.Instance.FadeIn(1);

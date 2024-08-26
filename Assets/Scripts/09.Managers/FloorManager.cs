@@ -425,6 +425,7 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
         await LoadingManager.Instance.FadeIn(1);
         GameManager.Instance.SetPlayerData();
         MissionManager.Instance.SaveGameData();
+        UiManager.Instance.storageUi.SaveStorageData();
         CatalogueManager.Instance.SaveCatalougeData();
         UtilityTime.SaveQuitTimeSync();
         await UniTask.WaitForSeconds(2);

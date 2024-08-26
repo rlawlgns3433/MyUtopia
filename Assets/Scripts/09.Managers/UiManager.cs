@@ -138,7 +138,6 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
 
     public async void ShowStorageUi()
     {
-
         uiCurrencies.gameObject.GetComponent<DTUiPanel>().IsActive = true;
         animalFocusUi.gameObject.SetActive(false);
         sellUi.gameObject.SetActive(false);
@@ -156,8 +155,6 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         uiCatalogue.gameObject.SetActive(false);
         confirmPanelUi.gameObject.SetActive(false);
         warningPanelUi.gameObject.SetActive(false);
-        await UniTask.Delay(1000);
-        OnDataLoadComplete?.Invoke();
     }
 
     public void ShowMainUi()
@@ -645,6 +642,11 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
     public bool ShouldBeCreatedInScene(string sceneName)
     {
         return sceneName == "SampleScene CBTJH";
+    }
+
+    public void SetEvent()
+    {
+        OnDataLoadComplete?.Invoke();
     }
 
     //public void SetFocusOut()
