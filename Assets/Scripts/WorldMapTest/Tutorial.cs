@@ -258,9 +258,6 @@ public class Tutorial : MonoBehaviour
             return;
         if(isStop)
             return;
-        if (settingTutorial)
-            return;
-        settingTutorial = true;
         if(activingUiPanel)
         {
             SetEmpty();

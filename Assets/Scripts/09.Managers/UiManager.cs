@@ -233,14 +233,15 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         currencyProductInventoryUi.gameObject.SetActive(false);
         confirmPanelUi.gameObject.SetActive(false);
         warningPanelUi.gameObject.SetActive(false);
-        if(sellUi.gameObject.activeSelf)
-        {
-            uiMission.gameObject.SetActive(true);
-        }
-        else
-        {
-            panel.gameObject.SetActive(false);
-        }
+        panel.gameObject.SetActive(true);
+        //if (sellUi.gameObject.activeSelf)
+        //{
+        //    uiMission.gameObject.SetActive(true);
+        //}
+        //else
+        //{
+        //    panel.gameObject.SetActive(false);
+        //}
 
     }
 
