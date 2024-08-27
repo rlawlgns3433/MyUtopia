@@ -183,7 +183,12 @@ public enum TutorialTextFormation
     Middle,
     Bottom,
 }
-
+public enum WorldMapTutorialProgress
+{
+    None = -1,
+    Drag = 4,
+    SelectWorld = 6,
+}
 public enum TutorialProgress
 {
     None = -1,

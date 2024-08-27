@@ -4,6 +4,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -26,7 +27,11 @@ public class WorldMapManager : MonoBehaviour
     public Button moveWorldButton;
     public GameObject loadingManager;
     public GameObject optionPanel;
-
+    public WorldMapTutorial worldMapTutorial;
+    private Quaternion rotation;
+    private bool checkTutorial = false;
+    private Vector2 initialMousePosition;
+    private const float DragThreshold = 5f;
     private async void Awake()
     {
         Application.targetFrameRate = 60;
@@ -51,6 +56,7 @@ public class WorldMapManager : MonoBehaviour
         
         await LoadingManager.Instance.FadeOut(1);
         LoadingManager.Instance.HideLoadingPanel();
+        rotation = transform.rotation;
     }
 
     private void OnEnable()
@@ -79,6 +85,17 @@ public class WorldMapManager : MonoBehaviour
 
     private void OnTouchTitlePanel(InputAction.CallbackContext context)
     {
+        if (!checkTutorial)
+        {
+            worldMapTutorial.gameObject.SetActive(true);
+            worldMapTutorial.CheckTutorial();
+            checkTutorial = true;
+        }
+        if(worldMapTutorial.gameObject.activeSelf)
+        {
+            if (worldMapTutorial.progress == WorldMapTutorialProgress.None)
+                worldMapTutorial.SetTutorialProgress();
+        }
         if (titlePanel.gameObject.activeSelf)
         {
             titlePanel.gameObject.SetActive(false);
@@ -98,24 +115,61 @@ public class WorldMapManager : MonoBehaviour
 
     private void OnDragStarted(InputAction.CallbackContext context)
     {
-        if(!titlePanel.gameObject.activeSelf)
-            isDragging = true;
-    }
-
-    private void OnDragCanceled(InputAction.CallbackContext context)
-    {
-        if (!titlePanel.gameObject.activeSelf)
+        if (!titlePanel.gameObject.activeSelf && !worldMapTutorial.stopDrag)
         {
+            if (context.control.device is Mouse)
+            {
+                initialMousePosition = Mouse.current.position.ReadValue();
+            }
+            else if (context.control.device is Touchscreen)
+            {
+                initialMousePosition = Touchscreen.current.primaryTouch.position.ReadValue();
+            }
             isDragging = false;
-            MoveToCurrentRotation();
         }
     }
 
     private void OnMouseMove(InputAction.CallbackContext context)
     {
+        if(worldMapTutorial != null)
+        {
+            if(worldMapTutorial.gameObject.activeSelf)
+            {
+                if (worldMapTutorial.stopDrag)
+                    return;
+            }
+        }
+        if (!isDragging)
+        {
+            Vector2 currentMousePosition = Vector2.zero;
+            if (context.control.device is Mouse)
+            {
+                currentMousePosition = Mouse.current.position.ReadValue();
+            }
+            else if (context.control.device is Touchscreen)
+            {
+                currentMousePosition = Touchscreen.current.primaryTouch.position.ReadValue();
+            }
+
+            float distance = Vector2.Distance(initialMousePosition, currentMousePosition);
+
+            if (distance > DragThreshold)
+            {
+                isDragging = true;
+            }
+        }
+
         if (isDragging)
         {
-            mouseDelta = context.ReadValue<Vector2>();
+            if (context.control.device is Mouse)
+            {
+                mouseDelta = Mouse.current.delta.ReadValue();
+            }
+            else if (context.control.device is Touchscreen)
+            {
+                mouseDelta = context.ReadValue<Vector2>();
+            }
+
             if (mouseDelta.sqrMagnitude < 0.1f)
                 return;
 
@@ -131,6 +185,21 @@ public class WorldMapManager : MonoBehaviour
                 transform.Rotate(Vector3.right, angleX, Space.World);
             }
         }
+    }
+
+    private void OnDragCanceled(InputAction.CallbackContext context)
+    {
+        if (isDragging && !titlePanel.gameObject.activeSelf && !worldMapTutorial.stopDrag)
+        {
+            isDragging = false;
+            MoveToCurrentRotation();
+        }
+    }
+
+    public void SetTutorialRotation()
+    {
+        isRotate = true;
+        RotateToTargetRotation(rotation);
     }
 
     private void MoveToCurrentRotation()
@@ -150,6 +219,13 @@ public class WorldMapManager : MonoBehaviour
         {
             PerformRaycast();
             isRotate = false;
+            if (worldMapTutorial != null && worldMapTutorial.gameObject.activeSelf)
+            {
+                if (worldMapTutorial.progress == WorldMapTutorialProgress.Drag)
+                {
+                    worldMapTutorial.SetTutorialProgress();
+                }
+            }
         });
     }
 
@@ -184,6 +260,13 @@ public class WorldMapManager : MonoBehaviour
     }
     public async void OpenWorld()
     {
+        if (worldMapTutorial != null && worldMapTutorial.gameObject.activeSelf)
+        {
+            if (worldMapTutorial.progress == WorldMapTutorialProgress.SelectWorld)
+            {
+                worldMapTutorial.SetTutorialProgress();
+            }
+        }
         await UtilityTime.Instance.CalculateElapsedTime();
         LoadingManager.Instance.ShowLoadingPanel();
         WorldMapSoundManager.Instance.SaveVolume();
@@ -225,6 +308,13 @@ public class WorldMapManager : MonoBehaviour
 
     public void OnClickQuitGame()
     {
+        Application.Quit();
+    }
+
+    public void TestTutorial()
+    {
+        PlayerPrefs.SetInt("WorldTutorialCheck", 0);
+        PlayerPrefs.SetInt("TutorialCheck", 0);
         Application.Quit();
     }
 }

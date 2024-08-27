@@ -38,6 +38,7 @@ public class Tutorial : MonoBehaviour
     public TestPanel testPanel;
     public GameObject focusImage;
     public bool activingUiPanel = false;
+    private bool settingTutorial = false;
 
     private async void Start()
     {
@@ -138,6 +139,7 @@ public class Tutorial : MonoBehaviour
         }
         SetTextFormation(tutorialTextFormations[count], tutorialStringFormat[count]);
         SetTargetRayCast(count);
+        settingTutorial = false;
     }
 
     private void SetTargetRayTrue()
@@ -256,6 +258,10 @@ public class Tutorial : MonoBehaviour
             return;
         if(isStop)
             return;
+        if (settingTutorial)
+            return;
+        settingTutorial = true;
+        await UniTask.WaitForSeconds(0.1f);
         if(activingUiPanel)
         {
             SetEmpty();
@@ -311,12 +317,13 @@ public class Tutorial : MonoBehaviour
         }
         if(count == (int)TutorialProgress.Move3F)
         {
+            CurrencyManager.product[(CurrencyProductType.CopperIngot)] = new BigNumber(450);
             progress = TutorialProgress.Move3F;
             moveSelectFloor = true;
         }
         if(count == (int)TutorialProgress.CreateItem)
         {
-            CurrencyManager.product[(CurrencyProductType.CopperIngot)] = new BigNumber(450);
+
             progress = TutorialProgress.CreateItem;
         }
         if(count == ( int)TutorialProgress.Accelerate)
