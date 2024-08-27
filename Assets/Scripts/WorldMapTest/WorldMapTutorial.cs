@@ -229,7 +229,7 @@ public class WorldMapTutorial : MonoBehaviour
 
     public void SkipConfirm()
     {
-        tutorialSkipButtons[(int)tutorialTextFormations[count]].gameObject.SetActive(false);
+        stopDrag = false;
         cursor.gameObject.SetActive(false);
         tutorialComplete = true;
         target.gameObject.SetActive(false);
@@ -241,7 +241,6 @@ public class WorldMapTutorial : MonoBehaviour
     public void SkipCancle()
     {
         isStop = false;
-        tutorialSkipButtons[(int)tutorialTextFormations[count]].gameObject.SetActive(false);
         SetTargetRayCast(count);
         SetTutorial(count);
     }
