@@ -121,10 +121,7 @@ public class AnimalManager : Subject
                 animalWork.Animal.SetAnimal();
                 floor.animals.Add(animalWork.Animal);
 
-                string serverTimeString = await UtilityTime.GetServerTimeAsync();
-                DateTime now = DateTime.Parse(serverTimeString);
-
-                animalWork.Animal.animalStat.AcquireTime = now.Hour * 3600 + now.Minute * 60 + now.Second;
+                animalWork.Animal.animalStat.AcquireTime = UtilityTime.GetCurrentTime();
 
                 if (isMerged)
                 {
@@ -180,9 +177,7 @@ public class AnimalManager : Subject
 
                 if(!isLoaded)
                 {
-                    string serverTimeString = await UtilityTime.GetServerTimeAsync();
-                    DateTime now = DateTime.Parse(serverTimeString);
-                    animalStat.AcquireTime = now.Day * 24 * 3600 + now.Hour * 3600 + now.Minute * 60 + now.Second;
+                    animalStat.AcquireTime = UtilityTime.GetCurrentTime();
                 }
                 else
                 {

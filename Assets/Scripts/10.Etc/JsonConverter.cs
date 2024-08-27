@@ -174,7 +174,7 @@ public class WorldConverter : JsonConverter<List<FloorSaveData>>
                 var animalStat = new AnimalStat((int)animal["Id"]);
                 animalStat.Animal_ID = (int)animal["Id"];
                 animalStat.Stamina = (float)animal["Stamina"];
-                animalStat.AcquireTime = (float)animal["AcquireTime"];
+                animalStat.AcquireTime = (DateTime)animal["AcquireTime"];
                 animalStat.CurrentFloor = $"B{floorData.floorStat.Floor_Num}";
                 animalSaveData = new AnimalSaveData(animalStat);
 

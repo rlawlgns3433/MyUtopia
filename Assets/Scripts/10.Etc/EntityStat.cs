@@ -45,7 +45,7 @@ public class AnimalStat
     public string Prefab { get; set; }
     public string Profile { get; set; }
     public string CurrentFloor { get; set; }
-    public float AcquireTime { get; set; }
+    public DateTime AcquireTime { get; set; }
 
     public AnimalStat() { }
     
