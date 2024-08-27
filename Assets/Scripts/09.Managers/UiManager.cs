@@ -27,6 +27,7 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
     public bool isAnimalList = false;
     public bool isAnimalMove = false;
     public GameObject panel;
+    public GameObject animalFocusPanel;
     public GameObject panelBlock;
     public GameObject missionImage;
     public GameObject catalougeImage;
@@ -182,6 +183,7 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
             FloorManager.Instance.multiTouchOff = false;
         }
         panel.gameObject.SetActive(false);
+        animalFocusPanel.gameObject.SetActive(false);
         OffAnimalList();
         if (FloorManager.Instance.touchManager.tutorial != null)
         {
@@ -233,7 +235,7 @@ public class UiManager : Singleton<UiManager>, ISingletonCreatable
         currencyProductInventoryUi.gameObject.SetActive(false);
         confirmPanelUi.gameObject.SetActive(false);
         warningPanelUi.gameObject.SetActive(false);
-        panel.gameObject.SetActive(true);
+        animalFocusPanel.gameObject.SetActive(true);
         //if (sellUi.gameObject.activeSelf)
         //{
         //    uiMission.gameObject.SetActive(true);
