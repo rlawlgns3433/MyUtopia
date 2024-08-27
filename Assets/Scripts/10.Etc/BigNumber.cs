@@ -803,4 +803,35 @@ public struct BigNumber
 
         return result;
     }
+
+    public int CompareTo(BigNumber other)
+    {
+        if (this.bigNumber == null || this.bigNumber.Count == 0)
+        {
+            if (other.bigNumber == null || other.bigNumber.Count == 0)
+                return 0;
+            return -1;
+        }
+
+        if (other.bigNumber == null || other.bigNumber.Count == 0)
+        {
+            return 1;
+        }
+
+        if (this.bigNumber.Count != other.bigNumber.Count)
+        {
+            return this.bigNumber.Count.CompareTo(other.bigNumber.Count);
+        }
+
+        for (int i = this.bigNumber.Count - 1; i >= 0; i--)
+        {
+            if (this.bigNumber[i] != other.bigNumber[i])
+            {
+                return this.bigNumber[i].CompareTo(other.bigNumber[i]);
+            }
+        }
+
+        return 0;
+    }
+
 }

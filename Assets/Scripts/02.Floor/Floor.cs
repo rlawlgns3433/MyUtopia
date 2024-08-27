@@ -21,7 +21,7 @@ public class Floor : Subject, IGrowable
         get
         {
             List<Animal> sorted = new List<Animal>(animals);
-            sorted.Sort((x, y) => y.animalStat.Workload.CompareTo(x.animalStat.Workload));
+            sorted.Sort((x, y) => new BigNumber(y.animalStat.Workload).CompareTo(new BigNumber(x.animalStat.Workload)));
             return sorted;
         }
     }

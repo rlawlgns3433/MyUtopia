@@ -109,7 +109,7 @@ public class AnimalManager : Subject
         var pos = position;
         //pos.z -= 3;
 
-        animalDictionary[animalId].InstantiateAsync(pos, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
+        animalDictionary[animalId].InstantiateAsync(pos, Quaternion.identity, floor.transform).Completed += async (AsyncOperationHandle<GameObject> handle) =>
         {
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
@@ -120,7 +120,10 @@ public class AnimalManager : Subject
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
                 floor.animals.Add(animalWork.Animal);
-                var now = DateTime.Now;
+
+                string serverTimeString = await UtilityTime.GetServerTimeAsync();
+                DateTime now = DateTime.Parse(serverTimeString);
+
                 animalWork.Animal.animalStat.AcquireTime = now.Hour * 3600 + now.Minute * 60 + now.Second;
 
                 if (isMerged)
@@ -160,7 +163,7 @@ public class AnimalManager : Subject
         var pos = position;
         pos.z -= 3;
 
-        animalDictionary[animalId].InstantiateAsync(pos, Quaternion.identity, floor.transform).Completed += (AsyncOperationHandle<GameObject> handle) =>
+        animalDictionary[animalId].InstantiateAsync(pos, Quaternion.identity, floor.transform).Completed += async (AsyncOperationHandle<GameObject> handle) =>
         {
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
@@ -177,7 +180,8 @@ public class AnimalManager : Subject
 
                 if(!isLoaded)
                 {
-                    var now = DateTime.Now;
+                    string serverTimeString = await UtilityTime.GetServerTimeAsync();
+                    DateTime now = DateTime.Parse(serverTimeString);
                     animalStat.AcquireTime = now.Day * 24 * 3600 + now.Hour * 3600 + now.Minute * 60 + now.Second;
                 }
                 else

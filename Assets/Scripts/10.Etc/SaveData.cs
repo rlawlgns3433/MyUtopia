@@ -192,7 +192,7 @@ public class SavePatronDataV1 : SaveData
     public SavePatronDataV1()
     {
         patronboardSaveData = new List<PatronBoardSaveData>();
-        dateTime = DateTime.UtcNow;
+        dateTime = UtilityTime.GetCurrentTime();
         Version = 1;
     }
     public override SaveData VersionUp()

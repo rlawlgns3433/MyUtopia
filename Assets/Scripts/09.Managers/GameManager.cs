@@ -250,7 +250,10 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         var patronBoard = floorB3.buildings[2] as PatronBoard;
         if (savePatronBoard != null)
         {
-            if (savePatronBoard.dateTime.Day != DateTime.UtcNow.Day)
+            string serverTimeString = UtilityTime.previousTimeData.EnterTime;
+            DateTime now = DateTime.Parse(serverTimeString);
+
+            if (savePatronBoard.dateTime.Day != now.Day)
             {
                 Debug.Log("Day Not Matched");
                 patronBoard.isSaveFileLoaded = false;

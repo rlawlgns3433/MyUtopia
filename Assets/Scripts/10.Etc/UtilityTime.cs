@@ -22,7 +22,7 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
     private static int seconds;
     public static int Seconds { get { return seconds; } private set { seconds = value; } }
 
-    private static TimeData previousTimeData;
+    public static TimeData previousTimeData;
 
     public static bool dailyMissionReset { get; private set; }
     public static bool weeklyMissionReset { get; private set; }
@@ -75,12 +75,12 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
         }
     }
 
-    private static DateTime GetCurrentTime()
+    public static DateTime GetCurrentTime()
     {
-        return DateTime.Now + serverTimeOffset;
+        return DateTime.UtcNow + serverTimeOffset;
     }
 
-    private static async UniTask<string> GetServerTimeAsync()
+    public static async UniTask<string> GetServerTimeAsync()
     {
         using (UnityWebRequest req = UnityWebRequest.Get("http://google.com"))
         {
