@@ -253,10 +253,6 @@ public class WorldMapManager : MonoBehaviour
                 Debug.Log("Hit Fail");
             }
         }
-        else
-        {
-            Debug.Log("No object hit.");
-        }
     }
     public async void OpenWorld()
     {

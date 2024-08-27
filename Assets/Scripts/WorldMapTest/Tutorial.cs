@@ -261,7 +261,6 @@ public class Tutorial : MonoBehaviour
         if (settingTutorial)
             return;
         settingTutorial = true;
-        await UniTask.WaitForSeconds(0.1f);
         if(activingUiPanel)
         {
             SetEmpty();
