@@ -77,6 +77,7 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
 
     public static DateTime GetCurrentTime()
     {
+        Debug.Log($"기기의 시간 : {DateTime.UtcNow} / 서버 시간 오프셋 : {serverTimeOffset}");
         return DateTime.UtcNow + serverTimeOffset;
     }
 

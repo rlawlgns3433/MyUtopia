@@ -48,4 +48,10 @@ public class PatronBoard : Building
 
         return requests;
     }
+
+    public void ResetTimer()
+    {
+        exchangeStats.Clear();
+        isSaveFileLoaded = false;
+    }
 }

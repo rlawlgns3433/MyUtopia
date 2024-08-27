@@ -32,6 +32,7 @@ public class DTUiPanel : MonoBehaviour
                     .OnStart(
                     () =>
                     {
+                        UiManager.Instance.panelBlock.SetActive(true);
                         SoundManager.Instance.OnClickButton(SoundType.PopUpOpen);
                     })
                     .OnPlay(

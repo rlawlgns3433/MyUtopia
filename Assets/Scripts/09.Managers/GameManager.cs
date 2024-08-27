@@ -35,18 +35,18 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
             return;
         }
         Application.targetFrameRate = 60;
-        Application.quitting += SetPlayerData; // ����� ���� X
+        //Application.quitting += SetPlayerData; // ����� ���� X
         CurrencyManager.Init();
         CurrentSceneId = SceneIds.WorldLandOfHope;
     }
 
-    //private void OnApplicationPause(bool pause) // ����� ���� 
-    //{
-    //    if (pause)
-    //    {
-    //        SetPlayerData();
-    //    }
-    //}
+    private void OnApplicationPause(bool pause) // ����� ���� 
+    {
+        if (pause)
+        {
+            SetPlayerData();
+        }
+    }
 
 
     private async void Start()

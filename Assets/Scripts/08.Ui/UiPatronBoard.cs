@@ -8,6 +8,7 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
     public List<UiRequestInfo> requests = new List<UiRequestInfo>();
     public UiRequestInfo requestPrefab;
     public TextMeshProUGUI textRefreshTimer;
+    public TextMeshProUGUI textMax;
     public Transform requestParent;
     public PatronBoard patronBoard;
     private StorageProduct storageProduct;
@@ -45,7 +46,22 @@ public class UiPatronBoard : MonoBehaviour, IUISetupable, IGrowable
 
     public void SetFinishUi()
     {
+        if(clockFormatTimer.remainingTime <= 0)
+        {
+            ResetTimer();
+            patronBoard.ResetTimer();
+        }
+
         SetRequests();
+
+        if(patronBoard.BuildingStat.Level >= patronBoard.BuildingStat.Level_Max)
+        {
+            textMax.gameObject.SetActive(true);
+        }
+        else
+        {
+            textMax.gameObject.SetActive(false);
+        }
     }
 
     public void SetRequests()
