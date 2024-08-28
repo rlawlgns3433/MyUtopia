@@ -11,7 +11,7 @@ public class UiRecipeList : MonoBehaviour
         var slot = Instantiate(slotPrefab, transform);
         slot.SetData(recipeStat);
         recipeSlots.Add(slot);
-
+        
         return slot;
     }
 

@@ -20,7 +20,6 @@ public class UiCraftTable : MonoBehaviour
             var recipeStat = new RecipeStat(recipe);
             uiRecipeList.Add(recipeStat);
         }
-
         uiCraftingSlot.SetData(craftingBuilding);
     }
 
@@ -29,7 +28,7 @@ public class UiCraftTable : MonoBehaviour
         var recipes = (from recipe in DataTableMgr.GetRecipeTable().GetKeyValuePairs.Values
                        where recipe.Unlock_Lv <= buildingLevel
                        select recipe.Recipe_ID).ToList();
-
+        recipes.Reverse(); //¸®¹ö½º
         return recipes;
     }
 }

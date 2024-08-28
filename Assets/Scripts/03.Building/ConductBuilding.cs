@@ -61,25 +61,12 @@ public class ConductBuilding : Building
                 {
                     CurrencyManager.product[buildingType] += 1;
                     CurrencyManager.product[(CurrencyProductType)BuildingStat.Materials_Type] -= BuildingStat.Conversion_rate;
-                    this.touchProduce = new BigNumber(1);
-                    if (CurrencyManager.product == null)
-                    {
-                        Debug.Log("Err TouchProduce");
-                    }
+                    this.touchProduce = new BigNumber(BuildingStat.Touch_Produce);
                     MissionManager.Instance.AddMissionCountTargetId(buildingId);
                 }
                 else
                 {
                     this.touchProduce = BigNumber.Zero;
-                    if (CurrencyManager.product == null)
-                    {
-                        Debug.Log("Err TouchProduce");
-                    }
-                }
-
-                if (FloorManager.Instance.touchManager == null)
-                {
-                    Debug.Log("Err touchManager");
                 }
 
                 if(FloorManager.Instance.touchManager.tutorial != null)

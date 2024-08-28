@@ -84,7 +84,7 @@ public class UiCraftingSlot : Observer
 
     public void OnClickAccelerate()
     {
-        craftingBuilding.accumWorkLoad += 5000;
+        craftingBuilding.accumWorkLoad += new BigNumber(craftingBuilding.BuildingStat.Touch_Produce);
         sliderProcess.value = craftingBuilding.craftingSlider.value;
 
         if(sliderProcess.value >= sliderProcess.maxValue)
