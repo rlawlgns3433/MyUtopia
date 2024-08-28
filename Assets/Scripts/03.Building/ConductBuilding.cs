@@ -25,7 +25,6 @@ public class ConductBuilding : Building
         if(BuildingStat.BuildingData == BuildingTable.defaultData)
         {
             BuildingStat = new BuildingStat(buildingId);
-            Debug.Log("Null Building Stat");
         }
 
         switch (buildingType)
@@ -35,17 +34,9 @@ public class ConductBuilding : Building
             case CurrencyProductType.GoldStone:
                 if (BuildingStat.IsLock)
                     return;
-                if (BuildingStat.Touch_Produce == null)
-                {
-                    Debug.Log("Err TouchProduce");
-                }
                 var touchProduce = new BigNumber(BuildingStat.Touch_Produce);
          
                 CurrencyManager.product[buildingType] += touchProduce;
-                if (CurrencyManager.product == null)
-                {
-                    Debug.Log("Err Currency product");
-                }
 
                 this.touchProduce = touchProduce; // 플로팅 텍스트용
                 MissionManager.Instance.AddMissionCountTargetId(buildingId);
@@ -56,7 +47,7 @@ public class ConductBuilding : Building
                         FloorManager.Instance.touchManager.tutorial.tutorialTouchCount++;
                         if (FloorManager.Instance.touchManager.tutorial.tutorialTouchCount >= 10)
                         {
-                            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                            FloorManager.Instance.touchManager.tutorial.SetTutorialProgress().Forget();
                         }
                     }
                 }

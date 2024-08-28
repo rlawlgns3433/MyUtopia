@@ -91,20 +91,16 @@ public class TestPanel : MonoBehaviour
 
         if (emptyWorld == null)
         {
-            Debug.Log("emptyWorld is null");
             return;
         }
         if (emptyCurrency == null)
         {
-            Debug.Log("emptyCurrency is null");
             return;
         }
         if (emptyCurrencyProduct == null)
         {
-            Debug.Log("emptyCurrencyProduct is null");
             return;
         }
-        Debug.Log("Not Null");
 
         // ���� ���忡 ����� �ý��� �ʱ�ȭ
         var floors = FloorManager.Instance.floors;

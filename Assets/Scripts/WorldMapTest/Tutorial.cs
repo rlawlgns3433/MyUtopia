@@ -74,8 +74,6 @@ public class Tutorial : MonoBehaviour
 
         if (count <= 0)
         {
-            Debug.Log($"under zero : {count}");
-
             targetObjects[(int)TutorialProgress.Swipe].gameObject.SetActive(false);
             progress = TutorialProgress.None;
         }
@@ -101,10 +99,6 @@ public class Tutorial : MonoBehaviour
             //{
             //    cursor.gameObject.SetActive(false);
             //}
-        }
-        if(targetObjects[count] == null)
-        {
-            Debug.Log($"target Objects count : {count}");
         }
 
         if (targetObjects[count].gameObject.layer == LayerMask.NameToLayer("UI"))

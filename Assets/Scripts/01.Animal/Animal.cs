@@ -61,9 +61,6 @@ public class Animal : IGrowable, IMovable
                     return;
                 }
             }
-
-            Debug.LogError("Merge Fail");
-
             return;
         }
 

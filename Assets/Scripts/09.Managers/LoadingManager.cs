@@ -13,6 +13,7 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
     public float worldSfxValue = 1;
     public bool worldBgmIsMute = false;
     public bool worldSfxIsMute = false;
+    public bool isLoading = false;
     private async void Awake()
     {
         await UniTask.WaitUntil(() => this != null);
@@ -37,6 +38,7 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
         if (loadingPanel != null)
         {
             loadingPanel.SetActive(true);
+            isLoading = true;
             LoadingImageRotate();
         }
     }
@@ -46,6 +48,7 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
         if (loadingPanel != null)
         {
             loadingPanel.SetActive(false);
+            isLoading = false;
         }
     }
 

@@ -62,12 +62,11 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
     }
     private void Awake()
     {
-        if (!ShouldBeCreatedInScene(SceneManager.GetActiveScene().name))
-        {
-            Destroy(gameObject);
-            return;
-        }
-        vc = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
+        //if (!ShouldBeCreatedInScene(SceneManager.GetActiveScene().name))
+        //{
+        //    Destroy(gameObject);
+        //    return;
+        //}
     }
     public override void OnDestroy()
     {
@@ -83,6 +82,7 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
     }
     private void Start()
     {
+        vc = GameObject.FindWithTag(Tags.VirtualCamera).GetComponent<CinemachineVirtualCamera>();
         if (touchManager == null)
         {
             touchManager = FindObjectOfType<MultiTouchManager>();
@@ -132,12 +132,10 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
                 }
                 else if(touchManager.Swipe == Dirs.Left)
                 {
-                    Debug.Log("SwipeLeft");
                     SwipeHorizontal(horizontalSwipeDistance / 2).Forget();
                 }
                 else if( touchManager.Swipe == Dirs.Right)
                 {
-                    Debug.Log("SwipeRight");
                     SwipeHorizontal(-horizontalSwipeDistance / 2).Forget();
                 }
                 touchManager.Swipe = Dirs.None;
@@ -146,6 +144,8 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
     }
     private async UniTask SwipeHorizontal(float distance)
     {
+        if (touchManager.tutorial.gameObject.activeSelf)
+            return;
         if (isMoving)
             return;
 
@@ -181,7 +181,6 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
         maxZoomOut = targetPosition.y;
         maxZoomIn = targetPosition.y - 5;
         await vc.transform.DOMove(targetPosition, moveDuration).SetEase(Ease.InOutQuad).AsyncWaitForCompletion();
-        Debug.Log($"CurrentFloor-MoveFloor{CurrentFloorIndex}/{targetPosition}");
         if(touchManager.tutorial != null)
         {
             if (touchManager.tutorial.progress == TutorialProgress.Swipe)
@@ -254,7 +253,6 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
             return;
         else if (CurrentFloorIndex < floorCount)
         {
-            Debug.Log($"Swipe Up:{CurrentFloorIndex}");
             isMoving = true;
             CurrentFloorIndex++;
             uiAnimalInventory.UpdateInventory(false);
@@ -270,7 +268,6 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
             return;
         else if (CurrentFloorIndex > 1)
         {
-            Debug.Log($"Swipe Down:/{CurrentFloorIndex}");
             isMoving = true;
             CurrentFloorIndex--;
             uiAnimalInventory.UpdateInventory(false);
@@ -284,7 +281,6 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
         if (vc.transform.position.y >= maxZoomIn || vc.transform.position.z >= zoomOutMaxValueZ)
         {
             isZoomIn = true;
-            Debug.Log($"ZoomIn{CurrentFloorIndex}-->/{maxZoomIn}//{maxZoomOut}");
             var forwardDirection = vc.transform.forward * zoomSpeed * Time.deltaTime;
             zoomPosition += forwardDirection;
             var zoomTargetPosition = new Vector3(zoomPosition.x, maxZoomIn, zoomOutMaxValueZ);
@@ -300,7 +296,6 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
     {
         if (vc.transform.position.y <= maxZoomOut || vc.transform.position.z >= defaultPosition.z)
         {
-            Debug.Log($"ZoomOut{CurrentFloorIndex}-->/{maxZoomIn}//{maxZoomOut}");
             var backwardDirection = -vc.transform.forward * zoomSpeed * Time.deltaTime;
             zoomPosition += backwardDirection;
             var zoomTargetPosition = targetPosition;
@@ -439,7 +434,7 @@ public class FloorManager : Singleton<FloorManager>, ISingletonCreatable
 
     public bool ShouldBeCreatedInScene(string sceneName)
     {
-        return sceneName == "SampleScene CBTJH";
+        return false;
     }
 
     //public void CheckFloorSynergy(Floor floor) ½Ã³ÊÁö

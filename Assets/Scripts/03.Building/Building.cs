@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System;
 using UnityEngine;
@@ -135,7 +136,7 @@ public class Building : MonoBehaviour, IClickable, IGrowable
         {
             if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.BuildingLevelUp)
             {
-                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                FloorManager.Instance.touchManager.tutorial.SetTutorialProgress().Forget();
             }
         }
     }

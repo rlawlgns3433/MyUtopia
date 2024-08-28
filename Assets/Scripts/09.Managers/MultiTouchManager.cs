@@ -83,6 +83,8 @@ public class MultiTouchManager : MonoBehaviour
     {
         if (tutorialOffMultiTouch)
             return;
+        if (LoadingManager.Instance.isLoading)
+            return;
         foreach (var touch in Touch.activeTouches)
         {
             if (IsTouchInsideScrollRect(touch) || IsTouchInsideButtonsRect(touch) || IsTouchInsideImageRect(touch))

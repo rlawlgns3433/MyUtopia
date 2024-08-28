@@ -93,6 +93,15 @@ public static class InputActions
     public static readonly string Position = "Position";
 }
 
+public static class Floors
+{
+    public static readonly string B1 = "B1";
+    public static readonly string B2 = "B2";
+    public static readonly string B3 = "B3";
+    public static readonly string B4 = "B4";
+    public static readonly string B5 = "B5";
+}
+
 public static class AnimationHash
 {
     public static readonly int Walk = Animator.StringToHash("Walk");
@@ -292,3 +301,4 @@ public enum WaringType
     CreatingAnimal, // 동물 생성 중입니다.
     FloorUpgrade, // 계층 업그레이드를 위해 모든 건물들의 레벨을 증가시켜야 합니다.
 }
+

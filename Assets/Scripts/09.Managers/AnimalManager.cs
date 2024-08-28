@@ -33,7 +33,6 @@ public class AnimalManager : Subject
 
         if (animalClick == null)
             return;
-        Debug.Log($"moveTest{animalClick.AnimalWork.Animal.animalStat.Animal_ID}");
         if(FloorManager.Instance.MoveAnimal(fromFloor, toFloor, animalClick.AnimalWork.Animal, isExchange))
         {
             animalClick.gameObject.SetActive(false);
@@ -53,7 +52,6 @@ public class AnimalManager : Subject
 
         if (animalClick == null)
             return;
-        Debug.Log($"moveTest{animalClick.AnimalWork.Animal.animalStat.Animal_ID}");
         if(FloorManager.Instance.MoveAnimal(animalClick.AnimalWork.Animal.animalStat.CurrentFloor, toFloor, animalClick.AnimalWork.Animal))
         {
             animalClick.gameObject.SetActive(false);
@@ -116,7 +114,6 @@ public class AnimalManager : Subject
                 var animalWork = handle.Result.GetComponent<AnimalWork>();
                 animalWork.Animal = new Animal(animalId);
                 animalWork.Animal.animalStat.CurrentFloor = floor.floorName;
-                Debug.Log($"{animalWork.Animal.animalStat.CurrentFloor}/{floor.floorName}");
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.SetAnimal();
                 floor.animals.Add(animalWork.Animal);
@@ -167,7 +164,6 @@ public class AnimalManager : Subject
                 var animalWork = handle.Result.GetComponent<AnimalWork>();
                 animalWork.Animal = new Animal(animalWork.animalId);
                 animalWork.Animal.animalStat.CurrentFloor = floor.floorName;
-                Debug.Log($"{animalWork.Animal.animalStat.CurrentFloor}/{floor.floorName}");
                 animalWork.Animal.animalWork = animalWork;
                 animalWork.Animal.animalStat = animalStat;
 

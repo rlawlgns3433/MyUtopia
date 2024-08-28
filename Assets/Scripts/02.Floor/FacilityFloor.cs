@@ -11,7 +11,6 @@ public class FacilityFloor : Floor
     }
     private async UniTaskVoid UniAutoHeal(CancellationToken cts)
     {
-        Debug.Log("facilityFloorInit");
         while (true)
         {
             autoWorkload = BigNumber.Zero;

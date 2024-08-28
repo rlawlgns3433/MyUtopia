@@ -113,7 +113,6 @@ public class AnimalClick : MonoBehaviour, IClickable
 
         if (animalClick == null)
             return;
-        Debug.Log($"moveTest{animalClick.AnimalWork.Animal.animalStat.CurrentFloor}");
 
         FloorManager.Instance.MoveToSelectFloor(animalClick.AnimalWork.Animal.animalStat.CurrentFloor);
         UniWaitForMoving().Forget();
@@ -150,7 +149,6 @@ public class AnimalClick : MonoBehaviour, IClickable
 
         if (animalClick == null)
             return;
-        Debug.Log("Move"+animalWork.Animal.animalStat.CurrentFloor);
         FloorManager.Instance.MoveAnimal(animalClick.AnimalWork.Animal.animalStat.CurrentFloor, toFloor, animalWork.Animal);
         gameObject.SetActive(false);
         gameObject.transform.position = FloorManager.Instance.GetFloor(toFloor).transform.position;

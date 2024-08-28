@@ -55,7 +55,6 @@ public class BuildingData
         }
         else
         {
-            Debug.LogError("Failed to load image.");
             return null;
         }
     }
@@ -71,7 +70,6 @@ public class BuildingData
         }
         else
         {
-            Debug.LogError("Failed to load image.");
             return null;
         }
     }

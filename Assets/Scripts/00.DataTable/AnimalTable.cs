@@ -46,7 +46,6 @@ public class AnimalData
         }
         else
         {
-            Debug.LogError("Failed to load image.");
             return null;
         }
     }
@@ -62,7 +61,6 @@ public class AnimalData
         }
         else
         {
-            Debug.LogError("Failed to load image.");
             return null;
         }
     }
@@ -100,7 +98,6 @@ public class AnimalTable : DataTable
         {
             if(handle.Result == null)
             {
-                Debug.LogError("Failed to load table");
                 return;
             }
 

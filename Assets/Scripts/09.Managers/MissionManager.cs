@@ -170,7 +170,6 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
             };
         }
         var missionSaveData = missionProgress[missionId];
-        Debug.Log($"AddMissionCountmissionId{missionId}=>{missionSaveData.count} /////{missionProgress[missionId].count}");
         missionSaveData.count += count;
 
         var missionData = GetMissionData(missionId);
@@ -214,13 +213,11 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
     public List<MissionSaveData> GetMissionsByType(MissionDayTypes missionType)
     {
         List<MissionSaveData> missions = new List<MissionSaveData>();
-        Debug.Log($"MissionManager missionProgressCount= {missionProgress.Count}");
         foreach (var missionData in missionProgress.Values)
         {
             if (GetMissionData(missionData.missionId).Mission_Type == (int)missionType)
             {
                 missions.Add(missionData);
-                Debug.Log($"GetMissionSaveData {missionData.count}");
             }
         }
         return missions;
@@ -242,22 +239,15 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
         gameData.completeDailyMission = dailyMissionCheck;
         foreach (var progress in missionProgress.Values)
         {
-            Debug.Log($"Mission : {progress.missionId}, Count : {progress.count}");
-
             var missionData = GetMissionData(progress.missionId);
             if (missionData.Mission_Type == (int)MissionDayTypes.Daily)
             {
-                Debug.Log($"Mission : {progress.missionId}, Count : {progress.count}");
                 gameData.dailyMissions.Add(progress);
             }
             else if (missionData.Mission_Type == (int)MissionDayTypes.Weekly)
                 gameData.weeklyMissions.Add(progress);
             else if (missionData.Mission_Type == (int)MissionDayTypes.Monthly)
                 gameData.monthlyMissions.Add(progress);
-            else
-            {
-                Debug.Log("ERR Mission");
-            }
         }
 
         foreach (var preMission in preMissionProgress.Values)
@@ -266,11 +256,6 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
         }
 
         SaveLoadSystem.Save(gameData);
-        foreach (var mission in gameData.dailyMissions)
-        {
-            Debug.Log($"SaveMission id: {mission.missionId} / count: {mission.count}");
-        }
-        Debug.Log("MissionDataSaveComplete");
     }
 
     public async UniTask LoadGameData()

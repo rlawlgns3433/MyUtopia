@@ -235,10 +235,6 @@ public class StorageConduct : MonoBehaviour
                 currentTotalSeconds = data.TotalOfflineTime;
             }
         }
-        else
-        {
-            Debug.Log("No existing data file found.");
-        }
     }
 
     public void OpenStorage(Vector2 pos)
@@ -253,9 +249,7 @@ public class StorageConduct : MonoBehaviour
                 {
                     if (CurrArray[i] > BigNumber.Zero)
                     {
-                        Debug.Log($"Emitting particle for currency index {i}, value {CurrArray[i]}");
                         ParticleSystemEmit(particleSystems[i], i, pos).Forget();
-                        Debug.Log($"{particleSystems[i].name}/{i}");
                     }
                 }
             }
@@ -291,7 +285,6 @@ public class StorageConduct : MonoBehaviour
             {
                 currentTotalSeconds = default;
             }
-            Debug.Log("Click");
             for (int i = 0; i < currencyTypes.Count; ++i)
             {
                 CurrencyManager.product[currencyTypes[i]] += CurrArray[i];
@@ -315,8 +308,6 @@ public class StorageConduct : MonoBehaviour
                 return;
             CurrWorkLoad = floor.autoWorkload;
         }
-
-        Debug.Log("Saving data...");
         if (CurrWorkLoad == 0 || CurrWorkLoad == default)
         {
             CurrWorkLoad = new BigNumber(0);
@@ -344,9 +335,7 @@ public class StorageConduct : MonoBehaviour
             TotalOfflineTime = currentTotalSeconds,
         };
         string json = JsonConvert.SerializeObject(storageData, Formatting.Indented, new WorkLoadConverter());
-        Debug.Log("Serialized JSON: " + json);
         File.WriteAllText(filePath, json);
-        Debug.Log("Data saved: " + json);
     }
 
     private void OnApplicationPause(bool pauseStatus)

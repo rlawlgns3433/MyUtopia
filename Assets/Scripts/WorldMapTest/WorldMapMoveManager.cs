@@ -32,6 +32,7 @@ public class WorldMapManager : MonoBehaviour
     private bool checkTutorial = false;
     private Vector2 initialMousePosition;
     private const float DragThreshold = 5f;
+    private bool loadScene = false;
     private async void Awake()
     {
         Application.targetFrameRate = 60;
@@ -53,7 +54,7 @@ public class WorldMapManager : MonoBehaviour
         {
             WorldMapSoundManager.Instance.SetVolume();
         }
-        
+        loadScene = false;
         await LoadingManager.Instance.FadeOut(1);
         LoadingManager.Instance.HideLoadingPanel();
         rotation = transform.rotation;
@@ -85,6 +86,8 @@ public class WorldMapManager : MonoBehaviour
 
     private void OnTouchTitlePanel(InputAction.CallbackContext context)
     {
+        if (LoadingManager.Instance.loadingPanel.gameObject.activeSelf)
+            return;
         if (!checkTutorial)
         {
             worldMapTutorial.gameObject.SetActive(true);
@@ -139,6 +142,10 @@ public class WorldMapManager : MonoBehaviour
                     return;
             }
         }
+        if (optionPanel.gameObject.activeSelf)
+            return;
+        if (LoadingManager.Instance.loadingPanel.gameObject.activeSelf)
+            return;
         if (!isDragging)
         {
             Vector2 currentMousePosition = Vector2.zero;
@@ -189,6 +196,8 @@ public class WorldMapManager : MonoBehaviour
 
     private void OnDragCanceled(InputAction.CallbackContext context)
     {
+        if (optionPanel.gameObject.activeSelf)
+            return;
         if (isDragging && !titlePanel.gameObject.activeSelf && !worldMapTutorial.stopDrag)
         {
             isDragging = false;
@@ -236,7 +245,6 @@ public class WorldMapManager : MonoBehaviour
         {
             if (hit.collider.CompareTag("Worlds"))
             {
-                Debug.Log("Worlds Name: " + hit.collider.gameObject.name);
                 if(hit.collider.gameObject.name == "1_Land of Hope")
                 {
                     worldName.text = "»Ò∏¡¿« ∂•";
@@ -248,14 +256,13 @@ public class WorldMapManager : MonoBehaviour
                     moveWorldButton.interactable = false;
                 }
             }
-            else
-            {
-                Debug.Log("Hit Fail");
-            }
         }
     }
     public async void OpenWorld()
     {
+        if (loadScene)
+            return;
+        loadScene = true;
         if (worldMapTutorial != null && worldMapTutorial.gameObject.activeSelf)
         {
             if (worldMapTutorial.progress == WorldMapTutorialProgress.SelectWorld)

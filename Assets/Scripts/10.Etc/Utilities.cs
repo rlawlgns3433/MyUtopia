@@ -17,7 +17,6 @@ public class Utilities : MonoBehaviour
         {
             string serverTime = op.GetResponseHeader("Date");
             var localizedTime = ToLocalize(serverTime);
-            Debug.Log($"Server Time: {localizedTime}");
         }
         return op.downloadHandler.text;
     }
@@ -28,7 +27,6 @@ public class Utilities : MonoBehaviour
         {
             var req = GetTextAsync(UnityWebRequest.Get("http://google.com"));
             string result = await req;
-            Debug.Log($"{result}");
         }
         catch (Exception e)
         {

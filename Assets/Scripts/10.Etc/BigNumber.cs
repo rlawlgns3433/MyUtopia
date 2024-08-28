@@ -39,7 +39,6 @@ public struct BigNumber
 
         if (string.IsNullOrEmpty(number) || number == "0")
         {
-            Debug.Log($"Err BigNumber if statement {number}");
             this = Zero;
             return;
         }

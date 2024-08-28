@@ -80,7 +80,7 @@ public class AnimalWork : Subject, IMergable
             {
                 if (FloorManager.Instance.touchManager.tutorial.progress == TutorialProgress.Murge)
                 {
-                    FloorManager.Instance.touchManager.tutorial.SetTutorialProgress();
+                    FloorManager.Instance.touchManager.tutorial.SetTutorialProgress().Forget();
                 }
             }
             MissionManager.Instance.AddMissionCountMurge();
@@ -102,14 +102,12 @@ public class AnimalWork : Subject, IMergable
     }
     private async UniTask UniConsumeStamina(CancellationToken cts)
     {
-        Debug.Log("B2?else?"+Animal.animalStat.CurrentFloor);
         switch (animal.animalStat.CurrentFloor)
         {
             case "B1":
                 NotifyObservers();
                 break;
             case "B2":
-                Debug.Log("B2Start");
                 while (Animal.animalStat.Stamina < Animal.animalStat.AnimalData.Stamina)
                 {
                     if (cts.IsCancellationRequested)
@@ -121,7 +119,6 @@ public class AnimalWork : Subject, IMergable
                 }
                 break;
             default:
-                Debug.Log("else");
                 while (Animal.animalStat.Stamina > 0)
                 {
                     if (cts.IsCancellationRequested)

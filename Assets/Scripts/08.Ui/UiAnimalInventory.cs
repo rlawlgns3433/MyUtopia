@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,12 +19,18 @@ public class UiAnimalInventory : MonoBehaviour
     //    uiAnimalSlots.Add(slot);
     //}
 
-    private void OnEnable()
+    private async void OnEnable()
+    {
+        await UniTask.WaitUntil(() => GameManager.Instance.isLoadedWorld);
+        await SetOnEnable();
+    }
+    
+    private async UniTask SetOnEnable()
     {
         currentIndex = 0;
         var animals = currentFloor.animals;
 
-        foreach(var slot in uiAnimalSlots)
+        foreach (var slot in uiAnimalSlots)
         {
             Destroy(slot.gameObject);
         }
@@ -40,6 +47,7 @@ public class UiAnimalInventory : MonoBehaviour
             animals[j].animalWork.SetUiAnimalSlot(slot);
         }
         UiManager.Instance.mainUi.Refresh();
+        await UniTask.Delay(100);
     }
 
     private void OnDisable()
@@ -81,11 +89,16 @@ public class UiAnimalInventory : MonoBehaviour
     //    }
     //}
 
-    public void UpdateInventory(bool isMerged = false)
+    public async void UpdateInventory(bool isMerged = false)
     {
-        //if (isMerged)
-        //    return;
-        if(FloorManager.Instance.CurrentFloorIndex <= maxSlot)
+        await UniTask.WaitUntil(() => GameManager.Instance.isLoadedWorld);
+        await UniTask.WaitUntil(() => FloorManager.Instance != null);
+        await InventorySetting();
+    }
+
+    private async UniTask InventorySetting()
+    {
+        if (FloorManager.Instance.CurrentFloorIndex <= maxSlot)
         {
             SetFloor(FloorManager.Instance.GetCurrentFloor());
             FloorManager.Instance.SetFloor(currentFloor.floorName);
@@ -124,5 +137,6 @@ public class UiAnimalInventory : MonoBehaviour
         }
 
         UiManager.Instance.mainUi.Refresh();
+        await UniTask.Delay(100);
     }
 }

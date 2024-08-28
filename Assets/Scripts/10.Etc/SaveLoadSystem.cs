@@ -165,7 +165,6 @@ public static class SaveLoadSystem
             serializer.Converters.Add(new MissionDataConverter());
             serializer.Serialize(writer, data);
         }
-        Debug.Log("Mission Save Succeed");
 
         return true;
     }

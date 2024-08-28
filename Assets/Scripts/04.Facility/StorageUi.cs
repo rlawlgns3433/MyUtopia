@@ -21,7 +21,7 @@ public class StorageUi : MonoBehaviour
     private async void Start()
     {
         await UniTask.WaitUntil(() => GameManager.Instance.isLoadedWorld);
-        openButton.interactable = false;
+        await UniTask.WaitUntil(() => openButton != null);
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B5") != null);
         await UniTask.WaitUntil(() => FloorManager.Instance.GetFloor("B4") != null);
         b5Floor = FloorManager.Instance.GetFloor("B5");
@@ -82,7 +82,9 @@ public class StorageUi : MonoBehaviour
     }
 
     public void OnClickAddCurrency()
-    {
+    {   
+        if (openButton == null)
+            return;
         b5FloorStorage.OpenStorage(openButton.transform.position);
         b4FloorStorage.OpenStorage(openButton.transform.position);
         SoundManager.Instance.OnClickButton(SoundType.GetAnimal);

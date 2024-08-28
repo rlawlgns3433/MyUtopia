@@ -71,8 +71,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
 
         if (saveWorldData != null)
         {
-            Debug.Log("Load Save World First Time");
-
             for (int i = 0; i < saveWorldData.floors.Count; ++i)
             {
                 var floorSaveData = saveWorldData.floors[i];
@@ -117,7 +115,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                     {
                         var currentSutamina = animal.animalStat.Stamina;
                         animal.animalStat.Stamina -= UtilityTime.Seconds;
-                        Debug.Log($"AnimalStatTest{animal.animalStat.Stamina}");
                         if (animal.animalStat.Stamina <= 0)
                         {
                             if (storageConduct != null)
@@ -206,7 +203,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
                     }
                 }
             }
-            Debug.Log("First Enter");
 
             //if (UiManager.Instance.testPanelUi == null)
             //{
@@ -255,18 +251,15 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
 
             if (savePatronBoard.dateTime.Day != now.Day)
             {
-                Debug.Log("Day Not Matched");
                 patronBoard.isSaveFileLoaded = false;
             }
             else
             {
                 hasPatronBoardDateTime = true;
                 patronBoard.isSaveFileLoaded = true;
-                Debug.Log($"Loaded SavePatronFile savePatronBoard.patronboardSaveData.Count {savePatronBoard.patronboardSaveData.Count}");
 
                 for (int i = 0; i < savePatronBoard.patronboardSaveData.Count; ++i)
                 {
-                    Debug.Log($"savePatronBoard.patronboardSaveData[i].isCompleted {savePatronBoard.patronboardSaveData[i].isCompleted}");
                     if (savePatronBoard.patronboardSaveData[i].isCompleted)
                     {
                         continue;
@@ -376,7 +369,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
     {
         if (this == null)
         {
-            Debug.Log("gameManager Null");
             return;
         }
         var saveData = new SaveDataV1();
@@ -455,13 +447,11 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
             saveProductData.productSaveData.Add(new ProductSaveData(storageProduct.Products.ElementAt(i).Key, storageProduct.Products.ElementAt(i).Value));
         }
         SaveLoadSystem.Save(saveProductData, SaveLoadSystem.SaveType.Product);
-        Debug.Log("GameManager SaveComplete");
         var patronboard = FloorManager.Instance.GetFloor("B3").buildings[2] as PatronBoard;
         if (!patronboard.BuildingStat.IsLock)
         {
             for (int i = 0; i < patronboard.requests.Count; ++i)
             {
-                Debug.Log($"patronboard.requests.Count : {patronboard.requests.Count}");
                 savePatronboardData.patronboardSaveData.Add(new PatronBoardSaveData(patronboard.requests[i], patronboard.exchangeStats[i].IsCompleted));
             }
             SaveLoadSystem.Save(savePatronboardData, SaveLoadSystem.SaveType.PatronBoard);
