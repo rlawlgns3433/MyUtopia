@@ -6,7 +6,7 @@ using DG.Tweening;
 using Cysharp.Threading.Tasks;
 public class UiInvitation : MonoBehaviour
 {
-    private static readonly string format = "{0}를 지불하고 동물을 초대할까요?";
+    private static readonly string format = "코인{0}를 지불하고\n동물을 초대할까요?";
 
     public TextMeshProUGUI textConfirm;
     public Button buttonConfirm;

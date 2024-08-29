@@ -14,18 +14,26 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
     public bool worldBgmIsMute = false;
     public bool worldSfxIsMute = false;
     public bool isLoading = false;
+    private bool firstSetting = false;
     private async void Awake()
     {
-        await UniTask.WaitUntil(() => this != null);
-        if (loadingPanel == null)
+        await UniTask.WaitUntil(() => UtilityTime.Instance != null);
+        if(!UtilityTime.Instance.isLoadingManagerSetting)
         {
-            loadingPanel = transform.Find("LoadingPanel").gameObject;
+            await UniTask.WaitUntil(() => this != null);
+            if (loadingPanel == null)
+            {
+                loadingPanel = transform.Find("LoadingPanel").gameObject;
+            }
+            if (loadingImage == null)
+            {
+                await UniTask.WaitUntil(() => loadingPanel != null);
+                loadingImage = loadingPanel.transform.Find("Loading").gameObject;
+            }
+            firstSetting = true;
         }
-        if(loadingImage == null)
-        {
-            await UniTask.WaitUntil(() => loadingPanel != null);
-            loadingImage = loadingPanel.transform.Find("Loading").gameObject;
-        }
+        SetValue();
+        UtilityTime.Instance.isLoadingManagerSetting = true;
         //Application.quitting += SaveSoundValue;
     }
 
@@ -88,7 +96,7 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
             .SetEase(Ease.Linear);
     }
 
-    private void SaveSoundValue()
+    public void SaveSoundValue()
     {
         PlayerPrefs.SetFloat("BgmValue", Instance.worldBgmValue);
         PlayerPrefs.SetFloat("SfxValue", Instance.worldSfxValue);
@@ -116,7 +124,6 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
             Instance.worldSfxValue = 1;
             PlayerPrefs.SetFloat("SfxValue", 1);
         }
-
         if (PlayerPrefs.HasKey("IsBgmMute"))
         {
             if (PlayerPrefs.GetInt("IsBgmMute") == 1)

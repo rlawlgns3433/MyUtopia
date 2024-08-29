@@ -32,6 +32,7 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
     public static bool isLoadComplete = false;
     public static bool isFirstLoginToday { get; private set; }
     private DateTime currentDate;
+    public bool isLoadingManagerSetting = false;
 
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]

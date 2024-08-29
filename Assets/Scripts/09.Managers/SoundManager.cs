@@ -79,6 +79,7 @@ public class SoundManager : Singleton<SoundManager>, ISingletonCreatable
         LoadingManager.Instance.worldSfxValue = Instance.sfxAudioSource.volume;
         LoadingManager.Instance.worldBgmIsMute = Instance.IsBgmMute;
         LoadingManager.Instance.worldSfxIsMute = Instance.IsSfxMute;
+        LoadingManager.Instance.SaveSoundValue();
     }
 
     public async UniTask SetVolume()

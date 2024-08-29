@@ -80,6 +80,7 @@ public class WorldMapSoundManager : Singleton<WorldMapSoundManager>, ISingletonC
         LoadingManager.Instance.worldSfxValue = Instance.sfxAudioSource.volume;
         LoadingManager.Instance.worldBgmIsMute = Instance.IsBgmMute;
         LoadingManager.Instance.worldSfxIsMute = Instance.IsSfxMute;
+        LoadingManager.Instance.SaveSoundValue();
     }
 
     public async UniTask SetVolume()
@@ -96,11 +97,17 @@ public class WorldMapSoundManager : Singleton<WorldMapSoundManager>, ISingletonC
         }
         else
         {
-            Instance.bgmAudioSource.volume = LoadingManager.Instance.worldBgmValue;
+            Instance.bgmAudioSource.volume = 1;
+            PlayerPrefs.SetFloat("BgmValue", 1);
         }
         if (PlayerPrefs.HasKey("SfxValue"))
         {
             Instance.sfxAudioSource.volume = PlayerPrefs.GetFloat("SfxValue");
+        }
+        else
+        {
+            Instance.sfxAudioSource.volume = 1;
+            PlayerPrefs.SetFloat("SfxValue", 1);
         }
         if (PlayerPrefs.HasKey("IsBgmMute"))
         {
@@ -115,7 +122,8 @@ public class WorldMapSoundManager : Singleton<WorldMapSoundManager>, ISingletonC
         }
         else
         {
-            Instance.IsBgmMute = LoadingManager.Instance.worldBgmIsMute;
+            Instance.IsBgmMute = false;
+            PlayerPrefs.SetInt("IsBgmMute", 0);
         }
         if (PlayerPrefs.HasKey("IsSfxMute"))
         {
@@ -130,8 +138,14 @@ public class WorldMapSoundManager : Singleton<WorldMapSoundManager>, ISingletonC
         }
         else
         {
-            Instance.IsSfxMute = LoadingManager.Instance.worldSfxIsMute;
+            Instance.IsSfxMute = false;
+            PlayerPrefs.SetInt("IsSfxMute", 0);
         }
+        //Instance.bgmAudioSource.volume = LoadingManager.Instance.worldBgmValue;
+        //Instance.sfxAudioSource.volume = LoadingManager.Instance.worldSfxValue;
+        //Instance.IsBgmMute = LoadingManager.Instance.worldBgmIsMute;
+        //Instance.IsSfxMute = LoadingManager.Instance.worldSfxIsMute;
+        //Debug.Log($"WorldSetB{bgmAudioSource.volume}");
 
     }
 }

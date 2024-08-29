@@ -55,6 +55,7 @@ public class WorldMapManager : MonoBehaviour
         //    WorldMapSoundManager.Instance.SetVolume();
         //}
         loadScene = false;
+        await UniTask.WaitUntil(() => LoadingManager.Instance != null);
         await LoadingManager.Instance.FadeOut(1);
         LoadingManager.Instance.HideLoadingPanel();
         rotation = transform.rotation;
@@ -312,6 +313,7 @@ public class WorldMapManager : MonoBehaviour
 
     public void OnClickQuitGame()
     {
+        WorldMapSoundManager.Instance.SaveVolume();
         Application.Quit();
     }
 
