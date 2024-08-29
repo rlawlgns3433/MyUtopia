@@ -57,6 +57,11 @@ public class UiAnimalList : Observer
 
     public void SetExchangeMode()
     {
+        foreach (var slot in slots)
+        {
+            slot.imagePortrait.color = Color.white;
+        }
+
         if (mode == AnimalListMode.Exchange)
         {
             SetAnimalListMode();
@@ -79,6 +84,11 @@ public class UiAnimalList : Observer
 
     public void SetEliminateMode()
     {
+        foreach (var slot in slots)
+        {
+            slot.imagePortrait.color = Color.white;
+        }
+
         if (mode == AnimalListMode.Eliminate)
         {
             SetAnimalListMode();

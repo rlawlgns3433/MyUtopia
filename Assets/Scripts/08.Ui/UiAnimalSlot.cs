@@ -1,7 +1,4 @@
-using Spine;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UiAnimalSlot : UiAnimalFloorSlot
 {
