@@ -12,6 +12,7 @@ public class UiMission : MonoBehaviour
     public Button button;
     public int count;
     public bool isComplete = false;
+    public bool successMission = false;
 
     public void SetData(MissionData data)
     {
@@ -24,6 +25,7 @@ public class UiMission : MonoBehaviour
     {
         count = saveData.count;
         isComplete = saveData.isComplete;
+        successMission = saveData.success;
         UpdateUI();
     }
 
@@ -55,6 +57,7 @@ public class UiMission : MonoBehaviour
         }
         else if (!isComplete && count >= missionData.Count)
         {
+            successMission = true;
             button.onClick.AddListener(MissionClear);
             button.GetComponent<Image>().color = Color.green;
             buttonText.text = StringTextFormatKr.Success;

@@ -50,10 +50,10 @@ public class WorldMapManager : MonoBehaviour
             GameObject loadingManagerInstance = Instantiate(loadingManager);
             DontDestroyOnLoad(loadingManagerInstance);
         }
-        else
-        {
-            WorldMapSoundManager.Instance.SetVolume();
-        }
+        //else
+        //{
+        //    WorldMapSoundManager.Instance.SetVolume();
+        //}
         loadScene = false;
         await LoadingManager.Instance.FadeOut(1);
         LoadingManager.Instance.HideLoadingPanel();
@@ -306,6 +306,7 @@ public class WorldMapManager : MonoBehaviour
 
     public void OnClickQuitOptionUi()
     {
+        WorldMapSoundManager.Instance.SaveVolume();
         optionPanel.gameObject.SetActive(false);
     }
 

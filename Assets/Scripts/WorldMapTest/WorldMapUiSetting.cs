@@ -18,6 +18,7 @@ public class WorldMapUiSetting : MonoBehaviour
             WorldMapSoundManager.Instance.IsBgmMute = false;
             imageBgmMute.gameObject.SetActive(false);
             WorldMapSoundManager.Instance.bgmAudioSource.volume = value;
+            LoadingManager.Instance.worldBgmValue = value;
         });
 
         sfxSlider.onValueChanged.AddListener((float value) =>
@@ -25,6 +26,7 @@ public class WorldMapUiSetting : MonoBehaviour
             WorldMapSoundManager.Instance.IsSfxMute = false;
             imageSfxMute.gameObject.SetActive(false);
             WorldMapSoundManager.Instance.sfxAudioSource.volume = value;
+            LoadingManager.Instance.worldSfxValue = value;
         });
     }
 
@@ -35,11 +37,13 @@ public class WorldMapUiSetting : MonoBehaviour
             WorldMapSoundManager.Instance.IsBgmMute = false;
             imageBgmMute.gameObject.SetActive(false);
             WorldMapSoundManager.Instance.bgmAudioSource.mute = WorldMapSoundManager.Instance.IsBgmMute;
+            LoadingManager.Instance.worldBgmIsMute = false;
             return;
         }
         WorldMapSoundManager.Instance.bgmAudioSource.mute = true;
         imageBgmMute.gameObject.SetActive(true);
         WorldMapSoundManager.Instance.IsBgmMute = true;
+        LoadingManager.Instance.worldBgmIsMute = true;
     }
 
     public void OnClickMuteSfx()
@@ -49,11 +53,13 @@ public class WorldMapUiSetting : MonoBehaviour
             WorldMapSoundManager.Instance.IsSfxMute = false;
             imageSfxMute.gameObject.SetActive(false);
             WorldMapSoundManager.Instance.sfxAudioSource.mute = WorldMapSoundManager.Instance.IsSfxMute;
+            LoadingManager.Instance.worldSfxIsMute = false;
             return;
         }
         WorldMapSoundManager.Instance.sfxAudioSource.mute = true;
         imageSfxMute.gameObject.SetActive(true);
         WorldMapSoundManager.Instance.IsSfxMute = true;
+        LoadingManager.Instance.worldSfxIsMute = true;
     }
 
     public void SetSlider()

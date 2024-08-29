@@ -205,6 +205,31 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
         
     }
 
+    public bool CheckMissionSuccess()
+    {
+        var value = false;
+        for(int i = 0; i < missionProgress.Count; i++)
+        {
+            var missionData = GetMissionData(missionProgress[i].missionId);
+            if (missionProgress[i].count >= missionData.Count)
+            {
+                if (!missionProgress[i].success)
+                {
+                    value = true;
+                }
+                else if (missionProgress[i].success && missionProgress[i].isComplete)
+                {
+                    value = false;
+                }
+            }
+            else if(missionProgress[i].count < missionData.Count)
+            {
+                value = false;
+            }
+        }
+        return value;
+    }
+
     public int GetMissionCount(int missionId)
     {
         return missionProgress.ContainsKey(missionId) ? missionProgress[missionId].count : 0;

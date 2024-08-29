@@ -241,7 +241,7 @@ public class UiMissionList : MonoBehaviour
         bool check = false;
         for(int i = 0; i < dailyMissionList.Count; i++)
         {
-            if (dailyMissionList[i].count >= dailyMissionList[i].missionData.Count && !dailyMissionList[i].isComplete)
+            if (dailyMissionList[i].count >= dailyMissionList[i].missionData.Count && !dailyMissionList[i].isComplete && dailyMissionList[i].successMission)
             {
                 check = true;
             }

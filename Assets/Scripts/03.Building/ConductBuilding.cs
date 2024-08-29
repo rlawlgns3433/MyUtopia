@@ -57,11 +57,11 @@ public class ConductBuilding : Building
             case CurrencyProductType.GoldIngot:
                 if (BuildingStat.IsLock)
                     return;
-                if (CurrencyManager.product[(CurrencyProductType)BuildingStat.Materials_Type] > BuildingStat.Conversion_rate)
+                if (CurrencyManager.product[(CurrencyProductType)BuildingStat.Materials_Type] > new BigNumber(BuildingStat.Touch_Produce) * BuildingStat.Conversion_rate )
                 {
-                    CurrencyManager.product[buildingType] += 1;
-                    CurrencyManager.product[(CurrencyProductType)BuildingStat.Materials_Type] -= BuildingStat.Conversion_rate;
                     this.touchProduce = new BigNumber(BuildingStat.Touch_Produce);
+                    CurrencyManager.product[buildingType] += new BigNumber(BuildingStat.Touch_Produce);
+                    CurrencyManager.product[(CurrencyProductType)BuildingStat.Materials_Type] -= this.touchProduce * BuildingStat.Conversion_rate;
                     MissionManager.Instance.AddMissionCountTargetId(buildingId);
                 }
                 else

@@ -26,6 +26,15 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
             await UniTask.WaitUntil(() => loadingPanel != null);
             loadingImage = loadingPanel.transform.Find("Loading").gameObject;
         }
+        //Application.quitting += SaveSoundValue;
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            SaveSoundValue();
+        }
     }
 
     public bool ShouldBeCreatedInScene(string sceneName)
@@ -77,5 +86,64 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
         image.rectTransform.DORotate(new Vector3(0, 0, -360), 2f, RotateMode.FastBeyond360)
             .SetLoops(-1, LoopType.Restart)
             .SetEase(Ease.Linear);
+    }
+
+    private void SaveSoundValue()
+    {
+        PlayerPrefs.SetFloat("BgmValue", Instance.worldBgmValue);
+        PlayerPrefs.SetFloat("SfxValue", Instance.worldSfxValue);
+        PlayerPrefs.SetInt("IsBgmMute", Instance.worldBgmIsMute ? 1 : 0);
+        PlayerPrefs.SetInt("IsSfxMute", Instance.worldSfxIsMute ? 1 : 0);
+    }
+
+    private void SetValue()
+    {
+        if (PlayerPrefs.HasKey("BgmValue"))
+        {
+            Instance.worldBgmValue = PlayerPrefs.GetFloat("BgmValue");
+        }
+        else
+        {
+            Instance.worldBgmValue = 1;
+        }
+        if (PlayerPrefs.HasKey("SfxValue"))
+        {
+            Instance.worldSfxValue = PlayerPrefs.GetFloat("SfxValue");
+        }
+        else
+        {
+            Instance.worldSfxValue = 1;
+        }
+        if (PlayerPrefs.HasKey("IsBgmMute"))
+        {
+            if (PlayerPrefs.GetInt("IsBgmMute") == 1)
+            {
+                Instance.worldBgmIsMute = true;
+            }
+            else if (PlayerPrefs.GetInt("IsBgmMute") == 0)
+            {
+                Instance.worldBgmIsMute = false;
+            }
+        }
+        else
+        {
+            Instance.worldBgmIsMute = false;
+        }
+        if (PlayerPrefs.HasKey("IsSfxMute"))
+        {
+            if (PlayerPrefs.GetInt("IsSfxMute") == 1)
+            {
+                Instance.worldSfxIsMute = true;
+            }
+            else if (PlayerPrefs.GetInt("IsSfxMute") == 0)
+            {
+                Instance.worldSfxIsMute = false;
+            }
+        }
+        else
+        {
+            Instance.worldSfxIsMute = false;
+        }
+
     }
 }

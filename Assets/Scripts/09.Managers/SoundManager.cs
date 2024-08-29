@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +32,13 @@ public class SoundManager : Singleton<SoundManager>, ISingletonCreatable
         }
     }
 
-    private void Start()
+    private async void Start()
+    {
+        await SetVolume();
+        Play();
+    }
+
+    private void Play()
     {
         bgmAudioSource.clip = bgmClips[0];
         bgmAudioSource.loop = true;
@@ -74,10 +81,15 @@ public class SoundManager : Singleton<SoundManager>, ISingletonCreatable
         LoadingManager.Instance.worldSfxIsMute = Instance.IsSfxMute;
     }
 
-    public void SetVolume()
+    public async UniTask SetVolume()
     {
-        if (LoadingManager.Instance == null)
-            return;
+        await UniTask.WaitUntil(() => LoadingManager.Instance != null);
+
+        Set();
+    }
+
+    public void Set()
+    {
         Instance.bgmAudioSource.volume = LoadingManager.Instance.worldBgmValue;
         Instance.sfxAudioSource.volume = LoadingManager.Instance.worldSfxValue;
         Instance.IsBgmMute = LoadingManager.Instance.worldBgmIsMute;
