@@ -93,7 +93,6 @@ public class SynergyTable : DataTable
         {
             if (handle.Result == null)
             {
-                Debug.LogError("Failed to load table");
                 return;
             }
 

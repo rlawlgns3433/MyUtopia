@@ -177,28 +177,14 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
         {
             var floors = FloorManager.Instance.floors;
 
-            if (floors == null)
-            {
-                Debug.Log("floors Null");
-            }
             foreach (var floor in floors.Values)
             {
                 foreach (var building in floor.buildings)
                 {
-                    if (building == null)
-                    {
-                        Debug.Log("building Null");
-                    }
-
                     if (building.BuildingStat.Building_ID == floor.FloorStat.Unlock_Facility)
                     {
                         building.BuildingStat = new BuildingStat(building.buildingId);
                         building.BuildingStat.IsLock = false;
-
-                        if (building.BuildingStat == null || building.BuildingStat.BuildingData == BuildingTable.defaultData)
-                        {
-                            Debug.Log("building Default");
-                        }
                         break;
                     }
                 }
@@ -497,7 +483,6 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
     {
         public virtual void Start()
         {
-            Debug.Log("Base SceneController Start");
         }
     }
 }

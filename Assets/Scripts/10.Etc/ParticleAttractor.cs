@@ -257,7 +257,7 @@ namespace Coffee.UIExtensions
                 if (Application.isPlaying)
 #endif
                 {
-                    Debug.LogError("No particle system attached to particle attractor script", this);
+                    //Debug.LogError("No particle system attached to particle attractor script", this);
                 }
             }
         }

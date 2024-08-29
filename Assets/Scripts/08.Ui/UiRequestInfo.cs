@@ -32,11 +32,9 @@ public class UiRequestInfo : MonoBehaviour
             switch (exchangeStat.requireInfos[i].Type)
             {
                 case 1:
-                    Debug.LogError("ResourceStat: " + exchangeStat.requireInfos[i].ID + " Value: " + exchangeStat.requireInfos[i].Value);
                     AddItem(new ResourceStat(exchangeStat.requireInfos[i].ID), exchangeStat.requireInfos[i].Value);
                     break;
                 case 2:
-                    Debug.LogError("ItemStat: " + exchangeStat.requireInfos[i].ID + " Value: " + exchangeStat.requireInfos[i].Value);
                     AddItem(new ItemStat(exchangeStat.requireInfos[i].ID), exchangeStat.requireInfos[i].Value);
                     break;
             }
@@ -83,7 +81,6 @@ public class UiRequestInfo : MonoBehaviour
         {
             if(exchange.Exchange_ID == exchangeStat.Exchange_ID)
             {
-                Debug.Log($"Stat true");
                 exchange.IsCompleted = true;
                 break;
             }

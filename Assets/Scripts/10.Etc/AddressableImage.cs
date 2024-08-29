@@ -24,9 +24,5 @@ public class AddressableImage : MonoBehaviour
             image.type = Image.Type.Sliced;
             image.sprite = handle.Result;
         }
-        else
-        {
-            Debug.LogError("Failed to load image.");
-        }
     }
 }

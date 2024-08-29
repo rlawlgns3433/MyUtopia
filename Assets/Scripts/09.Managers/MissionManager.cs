@@ -170,13 +170,23 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
             };
         }
         var missionSaveData = missionProgress[missionId];
+        var missionData = GetMissionData(missionId);
+        if (missionSaveData.count >= missionData.Count)
+        {
+            return;
+        }
+        if(!missionSaveData.openMission)
+        {
+            return;
+        }
         missionSaveData.count += count;
 
-        var missionData = GetMissionData(missionId);
 
         if (missionSaveData.count >= missionData.Count)
         {
-            if(!missionSaveData.success)
+            if (missionProgress[missionId].success)
+                return;
+            else if (!missionProgress[missionId].success)
             {
                 UiManager.Instance.SetMissionImage(true);
             }
@@ -203,6 +213,11 @@ public class MissionManager : Singleton<MissionManager>, ISingletonCreatable
             };
         }
         
+    }
+
+    private void SetSuccessMissionImage(int id)
+    {
+
     }
 
     public bool CheckMissionSuccess()

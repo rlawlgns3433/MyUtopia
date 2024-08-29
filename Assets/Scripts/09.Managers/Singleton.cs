@@ -44,9 +44,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour, ISingletonCre
                                 {
                                     _instance = tempInstance;
                                     DontDestroyOnLoad(_instance.gameObject);
-                                    Debug.Log("[Singleton] An instance of " + typeof(T) +
-                                        " is needed in the scene, so '" + _instance.gameObject.name +
-                                        "' was created with DontDestroyOnLoad.");
                                 }
                                 else
                                 {
@@ -67,7 +64,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour, ISingletonCre
         {
             Destroy(_instance.gameObject);
             _instance = null;
-            Debug.Log("[Singleton] Instance of " + typeof(T) + " destroyed.");
         }
     }
     public static bool applicationIsQuitting = false;

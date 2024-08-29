@@ -48,8 +48,6 @@ public class StorageValueUi : MonoBehaviour
                 currentWorkLoads[i] *= maxSeconds;
                 var clampValue = BigNumber.ToFloatClamped01(currentValue[i], currentWorkLoads[i]);
                 currencyValueSlider.value = clampValue;
-                Debug.Log("testStorageValue" + currentValue[i].ToSimpleString());
-                Debug.Log("testStorageValue" + currentWorkLoads[i].ToSimpleString());
             }
             else
             {

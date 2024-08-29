@@ -52,7 +52,6 @@ public class FloorData
         }
         else
         {
-            Debug.LogError("Failed to load image.");
             return null;
         }
     }

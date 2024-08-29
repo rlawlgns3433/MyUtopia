@@ -67,7 +67,6 @@ public class FloorSwipe : MonoBehaviour
             isTouching = true;
             primaryStartTime = Time.time;
             primaryStartPos = touchPositionAction.ReadValue<Vector2>();
-            Debug.Log($"Touch started at {primaryStartPos} at time {primaryStartTime}");
         }
     }
 
@@ -82,7 +81,6 @@ public class FloorSwipe : MonoBehaviour
 
             float normalizedDiff = diff.magnitude / Screen.dpi;
             bool isSwipe = duration < swipeTime && normalizedDiff > minSwipeDistanceInch;
-            Debug.Log($"nomalizedDiffTest{normalizedDiff},{isSwipe}");
             bool isTap = duration < timeTap && normalizedDiff < minSwipeDistanceInch;
 
             if (isSwipe)
@@ -90,19 +88,16 @@ public class FloorSwipe : MonoBehaviour
                 if (Mathf.Abs(diff.x) < Mathf.Abs(diff.y))
                 {
                     Swipe = diff.y > 0 ? Dirss.Up : Dirss.Down;
-                    Debug.Log($"Swipe detected: {Swipe}");
                 }
             }
             else if (isTap)
             {
                 Tap = true;
-                Debug.Log("Tap detected");
             }
 
             await UniTask.Delay(100);
             Tap = false;
             Swipe = Dirss.None;
-            Debug.Log("Reset Tap and Swipe");
         }
     }
 }

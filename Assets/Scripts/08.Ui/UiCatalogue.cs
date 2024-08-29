@@ -41,7 +41,6 @@ public class UiCatalogue : MonoBehaviour
                 {
                     animalSlot.AddAnimalData(animal);
                     catalogueSlots.Add(animalSlot);
-                    Debug.Log($"slot{i}data = {animal.Animal_ID} / {animal.Profile}");
 
                 }
             }

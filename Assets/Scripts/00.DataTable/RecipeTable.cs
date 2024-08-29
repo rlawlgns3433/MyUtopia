@@ -64,7 +64,6 @@ public class RecipeTable : DataTable
         {
             if (handle.Result == null)
             {
-                Debug.LogError("Failed to load table");
                 return;
             }
 

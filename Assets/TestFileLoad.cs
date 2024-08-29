@@ -39,10 +39,6 @@ public class TestFileLoad : MonoBehaviour
                 SaveTextAssetToFile(handle.Result, path);
                 assetReference.ReleaseAsset();
             }
-            else
-            {
-                Debug.LogError("Failed to load asset: " + assetReference.AssetGUID);
-            }
         }
     }
 

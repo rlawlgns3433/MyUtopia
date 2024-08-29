@@ -17,7 +17,6 @@ public class PatronBoard : Building
         {
             SetRequests();
         }
-        UnityEngine.Debug.Log("isSaveFileLoaded: " + isSaveFileLoaded);
         // 시간 조건
     }
 
@@ -42,8 +41,6 @@ public class PatronBoard : Building
         {
             var exchange = new ExchangeStat(request);
             exchangeStats.Add(exchange);
-
-            UnityEngine.Debug.Log("exchange: " + request);
         }
 
         return requests;

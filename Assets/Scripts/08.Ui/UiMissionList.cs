@@ -34,10 +34,6 @@ public class UiMissionList : MonoBehaviour
         {
             LoadAndDisplayMissions();
             checkPoints = MissionManager.Instance.dailyMissionCheck;
-            foreach (var m in checkPoints)
-            {
-                Debug.Log($"saveCheckPoints{m}");
-            }
             missionsGenerated = true;
         }
 
@@ -56,8 +52,6 @@ public class UiMissionList : MonoBehaviour
 
     public void UpdateSliderValue(float value)
     {
-        Debug.Log($"Adding {value} points to {missionType} missions.");
-
         if (missionType == MissionDayTypes.Daily)
         {
             MissionManager.Instance.dailyPoints += value;
@@ -119,7 +113,6 @@ public class UiMissionList : MonoBehaviour
             for(int i = 0; i < 3; ++i)
             {
                 checkPoints.Add(false);
-                Debug.Log($"checkPoints List Count {checkPoints.Count}");
             }
         }
         if (checkPoints[0] && checkPoints[1] && checkPoints[2])
@@ -155,7 +148,6 @@ public class UiMissionList : MonoBehaviour
         ParticleSystemEmit(ps, pos, index).Forget();
         var image = checkpoint.GetComponent<Image>();
         image.color = Color.black;
-        Debug.Log($"Slider value: {missionSlider.value}");
         checkpoint.interactable = false;
         checkpoint.onClick.RemoveListener(() => AddCurrencyValue(index));
 
@@ -179,12 +171,7 @@ public class UiMissionList : MonoBehaviour
     {
         ClearMissionList();
         List<MissionSaveData> missions = MissionManager.Instance.GetMissionsByType(missionType);
-        Debug.Log($"missionCount // {missions.Count}");
-        if (missions.Count > 0)
-        {
-            Debug.Log($"Loaded {missions.Count} missions of type {missionType}");
-        }
-        else
+        if (missions.Count <= 0)
         {
             CreateMissions();
             missions = MissionManager.Instance.GetMissionsByType(missionType);

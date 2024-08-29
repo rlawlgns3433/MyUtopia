@@ -105,6 +105,7 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
         else
         {
             Instance.worldBgmValue = 1;
+            PlayerPrefs.SetFloat("BgmValue", 1);
         }
         if (PlayerPrefs.HasKey("SfxValue"))
         {
@@ -113,7 +114,9 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
         else
         {
             Instance.worldSfxValue = 1;
+            PlayerPrefs.SetFloat("SfxValue", 1);
         }
+
         if (PlayerPrefs.HasKey("IsBgmMute"))
         {
             if (PlayerPrefs.GetInt("IsBgmMute") == 1)
@@ -128,6 +131,7 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
         else
         {
             Instance.worldBgmIsMute = false;
+            PlayerPrefs.SetInt("IsBgmMute", 0);
         }
         if (PlayerPrefs.HasKey("IsSfxMute"))
         {
@@ -143,6 +147,7 @@ public class LoadingManager : Singleton<LoadingManager>, ISingletonCreatable
         else
         {
             Instance.worldSfxIsMute = false;
+            PlayerPrefs.SetInt("IsSfxMute", 0);
         }
 
     }

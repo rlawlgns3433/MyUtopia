@@ -34,7 +34,6 @@ public class ResourceData
         }
         else
         {
-            Debug.LogError("Failed to load image.");
             return null;
         }
     }

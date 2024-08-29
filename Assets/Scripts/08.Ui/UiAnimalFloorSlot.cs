@@ -21,7 +21,6 @@ public class UiAnimalFloorSlot : Observer
             return;
         animalClick = animClick;
         animalData = animClick.AnimalWork.Animal.animalStat.AnimalData;
-        Debug.Log($"UiAnimalFloorSlot : {animClick.GetInstanceID()}");
 
         if (imagePortrait == null)
             return;
@@ -50,6 +49,5 @@ public class UiAnimalFloorSlot : Observer
         if (animalClick == null)
             return;
         sliderStamina.value = animalClick.AnimalWork.Animal.animalStat.Stamina;
-        Debug.Log(sliderStamina.value);
     }
 }

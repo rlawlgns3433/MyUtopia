@@ -92,7 +92,6 @@ public class UiMission : MonoBehaviour
     private void MissionClear()
     {
         isComplete = true;
-        Debug.Log($"Mission {missionData.Mission_ID} cleared! Adding {missionData.Today_Mission_Point} points.");
         UiManager.Instance.uiMission.UpdateSliderValue(missionData.Today_Mission_Point);
 
         var missionSaveData = MissionManager.Instance.GetMissionSaveData(missionData.Mission_ID);

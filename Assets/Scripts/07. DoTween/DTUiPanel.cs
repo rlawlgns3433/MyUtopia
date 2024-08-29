@@ -21,7 +21,6 @@ public class DTUiPanel : MonoBehaviour
             {
                 if(FloorManager.Instance.touchManager.tutorial != null)
                     FloorManager.Instance.touchManager.tutorial.activingUiPanel = true;
-                Debug.Log($"FloorManagerinstancetutorial{FloorManager.Instance.touchManager.tutorial.activingUiPanel}");
                 if (isFinishing)
                     return;
 
@@ -45,8 +44,6 @@ public class DTUiPanel : MonoBehaviour
                         if (FloorManager.Instance.touchManager.tutorial != null)
                         {
                             FloorManager.Instance.touchManager.tutorial.activingUiPanel = false;
-
-                            Debug.Log($"FloorManagerinstancetutorial{FloorManager.Instance.touchManager.tutorial.activingUiPanel}");
                         }
                         UiManager.Instance.panelBlock.SetActive(false);
                     });

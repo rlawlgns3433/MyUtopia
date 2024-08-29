@@ -77,7 +77,6 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
 
     public static DateTime GetCurrentTime()
     {
-        Debug.Log($"기기의 시간 : {DateTime.UtcNow} / 서버 시간 오프셋 : {serverTimeOffset}");
         return DateTime.UtcNow + serverTimeOffset;
     }
 
@@ -113,7 +112,6 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
     {
         string enterTimeString = await GetServerTimeAsync();
         previousTimeData.EnterTime = enterTimeString;
-        Debug.Log($"SaveEnterTime = > {previousTimeData.EnterTime}");
         if(previousTimeData.LastDaily == null)
         {
             previousTimeData.LastDaily = enterTimeString;
@@ -141,7 +139,6 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
         var quitTime = GetCurrentTime();
         previousTimeData.QuitTime = quitTime.ToString("o");
         SaveTimeDataSync(previousTimeData);
-        Debug.Log("QuitTimeSaveComplete");
     }
 
     public async UniTask CalculateElapsedTime()
@@ -230,11 +227,6 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
         if (isFirstLoginToday)
         {
             previousTimeData.FirstLogInDaily = currentDate.ToString("o");
-            Debug.Log("First login today.");
-        }
-        else
-        {
-            Debug.Log("Not first login today.");
         }
 
         isLoadComplete = true;
@@ -247,7 +239,6 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
         {
             previousTimeData.LastDaily = currentDate.ToString("o");
             MissionManager.Instance.ResetMissions(MissionDayTypes.Daily);
-            Debug.Log("Daily mission reset.");
         }
         else
         {
@@ -258,18 +249,15 @@ public class UtilityTime : Singleton<UtilityTime>, ISingletonCreatable
         {
             previousTimeData.LastWeekly = currentDate.ToString("o");
             MissionManager.Instance.ResetMissions(MissionDayTypes.Weekly);
-            Debug.Log("Weekly mission reset.");
         }
 
         if (monthlyMissionReset)
         {
             previousTimeData.LastMonthly = currentDate.ToString("o");
             MissionManager.Instance.ResetMissions(MissionDayTypes.Monthly);
-            Debug.Log("Monthly mission reset.");
         }
         else
         {
-            Debug.Log("Monthly Not reset.");
         }
         //if (!dailyMissionReset && !weeklyMissionReset && !monthlyMissionReset)
         //{

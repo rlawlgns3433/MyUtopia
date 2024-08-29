@@ -61,7 +61,6 @@ public class InvitationTable : DataTable
         {
             if (handle.Result == null)
             {
-                Debug.LogError("Failed to load table");
                 return;
             }
 
