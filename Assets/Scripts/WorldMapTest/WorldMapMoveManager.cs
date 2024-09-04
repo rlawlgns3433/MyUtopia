@@ -107,15 +107,8 @@ public class WorldMapManager : MonoBehaviour
             var camera = Camera.main;
             defaultCameraPosition.y = offsetY;
             camera.transform.position = defaultCameraPosition;
-            //SetWorldInfo();
         }
     }
-
-    //private void SetWorldInfo()
-    //{
-    //    //worldName.text = DataTableMgr.GetWorldTable().Get(int.Parse("101")).GetWorldName();
-    //    //그외 정보들 출력
-    //}
 
     private void OnDragStarted(InputAction.CallbackContext context)
     {
@@ -135,18 +128,21 @@ public class WorldMapManager : MonoBehaviour
 
     private void OnMouseMove(InputAction.CallbackContext context)
     {
-        if(worldMapTutorial != null)
+        if (worldMapTutorial != null && worldMapTutorial.gameObject.activeSelf)
         {
-            if(worldMapTutorial.gameObject.activeSelf)
-            {
-                if (worldMapTutorial.stopDrag)
-                    return;
-            }
+            if (worldMapTutorial.stopDrag)
+                return;
         }
-        if (optionPanel.gameObject.activeSelf)
+
+        if (optionPanel.gameObject.activeSelf || LoadingManager.Instance.loadingPanel.gameObject.activeSelf)
             return;
-        if (LoadingManager.Instance.loadingPanel.gameObject.activeSelf)
-            return;
+
+        if (isRotate)
+        {
+            DOTween.Kill(transform);
+            isRotate = false;
+        }
+
         if (!isDragging)
         {
             Vector2 currentMousePosition = Vector2.zero;
