@@ -52,7 +52,11 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
     private async void Start()
     {
         await UniWaitTables();
-        await UniTask.WaitForSeconds(0.5f);
+        await UniLoadWorldData();
+    }
+
+    public async UniTask UniLoadWorldData()
+    {
         int count = 0;
         await UniTask.WaitUntil(
             () =>
@@ -62,11 +66,7 @@ public class GameManager : Singleton<GameManager>, ISingletonCreatable
 
                 return UtilityTime.Seconds > 0;
             });
-        await UniLoadWorldData();
-    }
 
-    public async UniTask UniLoadWorldData()
-    {
         SaveDataV1 saveWorldData = SaveLoadSystem.Load() as SaveDataV1;
 
         if (saveWorldData != null)
